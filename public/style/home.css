@@ -1,0 +1,740 @@
+*{
+    font-family: "DM Sans", serif;
+    margin: 0;
+    padding: 0;
+    /* overflow-x: hidden; */
+}
+
+html{
+    scroll-behavior: smooth;
+    width: 100%;
+
+}
+
+body{
+    overflow-x: hidden;
+}
+
+
+
+
+.mainContainer{
+    background-size: cover;
+    height: 100vh;
+}
+
+.purpleLine{
+    display: flex;
+    justify-content: center;
+    color:#56408C;
+    background-color:#56408C;
+    border: none;
+    width: 100px;
+    height: 4px;
+    border-radius: 100px;
+}
+
+.containerHome{
+    background-image: url(../img/bkgDataCenter.svg);
+    background-repeat: no-repeat;
+    background-size: 110%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    flex-wrap: wrap;
+    
+}
+
+.containerHome::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1;
+}
+
+.containerHome .purpleLine{
+    background-color:#957DCF;
+}
+
+
+h1{
+    color: white;
+    font-size: 90px;
+    text-align: center;
+
+}
+
+.mainText{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    font-size: 23px;
+    text-align: center;
+    width: 55%;
+    z-index: 1;
+    gap: 10px;
+}
+
+.subtitulo{
+    font-style: italic;
+    font-weight: 300
+}
+
+
+.containerSolucao{
+    height: 110vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.containerSolucao .purpleLine{
+    border: solid #56408C;
+    background-color: #56408C;
+    color: #56408C;
+}
+
+.solucaoHead{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+    height: fit-content;
+    width: 100vw;
+    
+
+}
+
+.solucaoHead p{
+    margin-top: 5px;
+    width: 50%;
+    font-weight: 300;
+}
+
+
+
+.solucaoText{
+    margin-top: 7%;
+    width: 100%;
+    text-align: center;
+}
+
+.solucaoText h2{
+    color: #000;
+    font-size: 50px;
+    font-family: "Poppins", serif;
+
+}
+
+
+.solucaoText p{
+    color: #000;
+    font-size: 20px;
+    margin-bottom: 5%;
+}
+
+.cardsSolucao{
+    display: flex;
+    justify-content: center; 
+    gap: 2rem; 
+    max-width: 85vw;
+    width: 100vw;
+    margin: auto;
+    align-items: stretch;
+}
+
+
+
+.card{
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 300px; 
+    max-width: 700px;
+    padding: 4% 5% 2% 5%;
+    border-radius: 5px;
+    border-bottom: 5px solid #56408C;
+    width: fit-content;
+    height: 55vh;
+    text-align: center;
+    box-shadow: 2px 1px 15px -5px rgba(176, 174, 174, 0.75);
+    transition: 0.2s;
+}
+
+.card h3{
+    margin-bottom: 5%;
+    font-size: 25px;
+    font-family: "Poppins",serif
+}
+
+.card p{
+    font-weight: 300;
+    color: #000;
+    font-size: 17px;
+    width: 300px;
+}
+
+.card img{
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    align-self: center;
+    margin-bottom: 5%;
+}
+
+.card:hover{
+    scale: 1.1;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.containerSobre{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    background-color: #F9F9F9;
+    height: 100vh;
+    width: 100vw;
+}
+
+.containerSobre h2{
+    color: #000;
+    font-size: 50px;
+    font-family: "Poppins", serif;
+}
+
+.containerSobre img{
+    width:500px;
+    height: 80%;
+    box-shadow: -20px 20px #3A2E5D;  
+    border-radius: 10px;
+    
+}
+.elementsSobre{
+    display: flex;
+    margin-top: 10vh;
+    margin-left: 10vw;
+    height: 65vh;
+    width: 85vw;
+    gap: 4vw;
+    
+}
+.sobreText{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 50vh;
+    width: 60vw;
+}
+
+.sobreText a{
+    align-self: center;
+}
+
+.sobreText h3{
+    font-size: 25px;
+    font-family: "Poppins",serif;
+}
+
+.btnPurple{
+    align-self: center;
+    font-weight: bold;
+    background-color: #3A2E5D;
+    margin-top: 2vh;
+    color: #F9F9F9;
+    width: 12vw;
+    height: 5vh;
+    border: none;
+    border-radius: 10px;
+    transition: 0.3s;
+
+}
+
+.btnPurple:hover{
+    cursor: pointer;
+    background-color: #7560a4;
+    transform: scale(1.1);
+    transition: 0.3s;
+}
+
+.containerContato{
+    display: flex;
+    align-items: center;
+    height: 80vh;
+    width: 100vw;
+    gap: 20%;
+
+}
+
+
+
+.ContatoText{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    margin-left: 10vw;
+    gap: 20px;
+}
+
+.ContatoText h2{
+    font-size: 40px;
+    font-family: "Poppins",serif;
+}
+
+.ContatoText p{
+    font-size: 25px;
+    text-align: justify;
+    /* font-weight: 300; */
+    color: #000;
+}
+
+.ContatoText .btnPurple{
+    display: flex;
+    align-self: flex-start;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    height: 6vh;
+    gap: 30px;
+}
+
+.contatos{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-right: 5%;
+
+}
+
+.contato{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.adress{
+    font-size: 15px;
+    font-weight: 300;
+    color: #767676;
+}
+
+.footer{
+    display: flex;
+    color: white;
+    gap: 30%;
+    width: 100vw;
+    height: 20vh;
+    background-image: url(../img/tst.png);
+    
+}
+
+.footer .purple{
+    color: #B39AFC;
+}
+
+.txtFooter{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 4vh 5vw;
+}
+
+
+.titleFooter{
+    font-size: 25px;
+    font-family: "Konkhmer Sleokchher", serif;
+}
+
+.footer p{
+    font-size: 12px;
+
+} 
+
+.logos{
+    display: flex;
+    justify-self: flex-end;
+    gap: 4vw;
+    margin-top: 10vh;
+
+}
+
+.logoContato{
+    transition: 0.3s;
+}
+
+.logoContato:hover{
+    cursor: pointer;
+    transform: scale(1.2);
+    transition: 0.3s;
+}
+
+/* Responsividade */
+
+
+
+@media (min-width: 1028px) and (max-width: 1420px){
+
+    body{
+        overflow-x: hidden;
+    }
+
+
+    .cardsSolucao{
+        overflow-x: scroll;
+        padding: 20px;
+        justify-content: start;
+    }
+
+    .card{
+        height: 65vh;
+    }
+
+    .card h3{
+        font-size: 30px;
+    }
+    
+    .card p{
+        font-weight: 300;
+        color: #000;
+        font-size: 20px;
+        width: 300px;
+    }
+
+    .containerHome{
+        height: 100vh;
+        width: 100%;
+        max-width: 100%;
+        background-size: 180%;
+        background-position: center;
+    }
+/* 
+    .containerHome::before {
+        height: 60vh;
+    } */
+
+
+    .sobreText{
+        align-self: flex-start;
+    }
+
+    .containerSobre{
+        flex-direction: column;
+    }
+
+    .elementsSobre{
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .sobreText{
+        align-self: center;
+    }
+
+    .divImg{
+        margin-top: 20%;
+    }
+
+    .divImg img{
+        margin: 50px;
+    }
+
+    .ContatoText{
+        margin: 2%;
+    }
+
+    .ContatoText p{
+        font-size: 20px;
+    }
+
+    .footer{
+        gap: 50%;
+    }
+}
+
+@media (min-width: 870px) and (max-width: 1027px){
+
+    body{
+        overflow-x: hidden;
+    }
+
+    .cardsSolucao{
+        overflow-x: scroll;
+        padding: 20px;
+        justify-content: start;
+    }
+
+    .card{
+        height: 55vh;
+    }
+
+    .containerHome{
+        height: 100vh;
+        width: 100%;
+        max-width: 100%;
+        background-size: 200%;
+        background-position: center;
+    }
+
+    .containerHome::before {
+        height: inherit;
+    }
+
+    h1{
+        font-size: 40px;
+    }
+
+    .containerHome p{
+        font-size: 20px;
+    }
+
+    .card h3{
+        font-size: 25px;
+    }
+    
+    .card p{
+        font-weight: 300;
+        color: #000;
+        font-size: 20px;
+        width: 300px;
+    }
+    .containerSobre{
+        flex-direction: column;
+    }
+
+    .elementsSobre{
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .sobreText{
+        align-self: center;
+    }
+
+    .divImg{
+        margin-top: 20%;
+    }
+
+    .divImg img{
+        margin: 50px;
+    }
+
+    .ContatoText{
+        margin: 2%;
+    }
+
+    .ContatoText p{
+        font-size: 20px;
+    }
+
+    .footer{
+        gap: 50%;
+    }
+
+}
+
+@media (min-width: 300px) and (max-width: 869px){
+
+    body{
+        overflow-x: hidden;
+    }
+
+
+
+    .containerHome{
+        height: 100vh;
+        width: 100%;
+        max-width: 100%;
+        background-size: 220%;
+        background-position: center;
+    }
+
+    .containerSolucao{
+        height: fit-content;
+        margin-bottom: 5%;
+    }
+
+    .cardsSolucao{
+        flex-wrap: wrap;
+        /* text-align: center; */
+    }
+
+    #cardContent{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #cardContent p{
+        font-size: 20px;
+    }
+
+    .card{
+        text-align: center;
+    }
+
+    .containerSobre{
+        flex-direction: column;
+        width: 100vw;
+        height: 120vh;
+
+    }
+
+    .containerSobre button{
+        width: 100%;
+        padding: 5%;
+    }
+
+    .elementsSobre{
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: fit-content;
+        margin: 5% 0 0 15%;
+    }
+
+    .containerContato{
+        gap: 2%;
+    }
+
+    .contatos{
+        margin-right: 2%;
+    }
+
+    .sobreText{
+        align-self: center;
+    }
+
+  
+
+    .divImg img{
+        margin: 50px;
+    }
+
+    .ContatoText{
+        padding: 1%;
+        margin: 0;
+    }
+
+    .contatos{
+        padding: 5px;
+    }
+
+    .ContatoText p{
+        font-size: 20px;
+    }
+
+    .footer{
+        gap: 40%;
+        width: 100vw;
+    }
+
+    .btnPurple{
+        width: 50%;
+    }
+}
+
+@media (min-width: 300px) and (max-width: 729px){
+    .containerHome{
+        height: 100vh;
+        width: 100%;
+        max-width: 100%;
+        background-size: 280%;
+        background-position: center;
+    }
+
+    .mainText h1{
+        font-size: 50px;
+    }
+
+    .card img{
+        /* width: 50px;
+        height: 50px; */
+        border-radius: 10px;
+        align-self: left;
+        margin-bottom: 5%;
+    }
+
+    .divImg{
+        align-self: flex-start;
+    }
+
+    .divImg img{
+        margin: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+
+    .elementsSobre{
+        margin-left: 5%;
+        height: fit-content;
+    }
+    .containerContato{
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+
+    .contatoText{
+        width: 90%;
+    }
+
+
+}
+
+
+
+@media(min-width: 400px) and (max-width: 500px){
+
+    h1{
+        font-size: 50px;
+    }
+
+    .containerHome{
+
+        background-size: 400%;
+    }
+    
+    .footer{
+        gap: 20%;
+    }
+
+
+}
+
+@media(min-width: 500px) and (max-width: 600px){
+    .containerHome{
+        background-size: 330%;
+    }
+
+    .footer{
+        width: 100vw;
+        gap: 20%;
+    }
+}
+
+@media (min-width: 300px) and (max-width: 400px){
+
+    .mainText p{
+        font-size: 18px;
+    }
+
+    .containerHome{
+        background-size: 500%;
+    }
+
+    .footer{
+        width: 100vw;
+        gap: 8%;
+    }
+}

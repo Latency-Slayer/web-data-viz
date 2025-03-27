@@ -1,0 +1,279 @@
+*{
+    font-family: "DM Sans", serif;
+    margin: 0;
+    padding: 0;
+}
+
+.titulo{
+    font-family: "Poppins", serif;
+}
+
+.marca{
+    font-family: "Konkhmer Sleokchher", serif;
+}
+
+.red{
+    color: red;
+}
+
+
+.green{
+    color: green;
+}
+.mainPage{
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    background-color: #EAEAEA;
+    gap: 2vw;
+}
+
+/* NAVBAR LATERAL */
+.navbarEsq{
+    display: flex;
+    flex-direction: column;
+    width: 20vw;
+    height: 100vh;
+    gap: 4vh;
+    background-color: #44395F;
+    color: #EFEFEF;
+    align-items: center;
+    border-top-right-radius: 1rem; 
+    border-bottom-right-radius: 1rem;
+}
+
+.profile{
+    margin-top: 4vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    font-size: 20px;
+    gap: 10px;
+}
+
+.profile .titulo{
+    font-weight: bolder;
+    font-size: 25px;
+}
+
+.profile #email{
+    font-size: 20px;
+    font-weight: 300;
+}
+
+.btnsNav{
+    margin-top: 3vh;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.buttonNav{
+    all: unset;
+    display: flex;
+    gap: 10px;
+    width: 15vw;
+    font-family: "Konkhmer Sleokchher", serif;
+    justify-content: center;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.buttonNav:hover{
+    cursor: pointer;
+    background-color: rgb(105, 85, 157);
+    transform: scale(1.05);
+    transition: 0.3s;
+
+}
+
+.logout{
+    all: unset;
+    display: flex;
+    margin-top: 20vh;
+    background-color: #817E88;
+    width: 10vw;
+    height: 4vh;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.logout:hover{
+    cursor: pointer;
+    transform: scale(1.05);
+    background-color: #816fa7;
+    transition: 0.3s;
+}
+
+/* CONTAINER DIREITA */
+.containerDir{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80vw;
+    gap: 3vh;
+}
+
+/* HEADER */
+.header{
+    margin-top: 3vh;
+    display: flex;
+    align-items: center;
+    gap: 3vw;
+    height: 5vh;
+    width: 75vw;
+}
+
+.header .titulo{
+    font-size: 20px;
+    font-weight: bolder;
+}
+
+.cjtInput{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.inputPesq{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #EFEFEF;
+    border-radius: 5px;
+}
+
+.inputsDados{
+    all:unset;
+    text-align: center;
+    width: 25vw;
+    border-radius: 5px;
+    height: 5vh;
+}
+
+.inputsDados:focus{
+    border: solid 1px black;
+}
+
+.btnHead{
+    all: unset;
+    display: flex;
+    background-color: #44395F;
+    color: white;
+    width: 7vw;
+    height: 4vh;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.btnHead:hover{
+    cursor: pointer;
+    transform: scale(1.05);
+    background-color: #816fa7;
+  
+}
+
+.cjtSelect{
+    display: flex;
+}
+
+#sltDatacenter{
+    width: 10vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #EFEFEF;
+    border-radius: 5px;
+}
+
+#labelSelect{
+    font-size: 12px;
+    width: 6vw;
+}
+
+/* KPIS */
+
+
+.kpisSuperior{
+    margin-top: 3vh;
+    display: flex;
+    gap: 5vw;
+}
+
+.kpi{
+    display: flex;
+    padding: 10px 0px 0px 0px;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    background-color: #F9F9F9;
+    border-radius: 10px;
+    width: 20vw;
+    height: 15vh;
+    font-size: 15px;
+    font-weight: 500;
+    box-shadow: -10px 10px #b0b0b07f;  
+    text-align: center;
+}
+
+
+.kpiData{
+    font-size: 40px;
+    font-weight: bolder;
+    color: #44395F;
+}
+
+.kpisInferior{
+    margin-top: 3vh;
+    justify-content: center;
+    display: flex;
+    gap: 5vw;
+}
+
+
+.graficos{
+    display: flex;
+    gap: 4vw;
+    height: 40vh;
+}
+
+.graficoIdv{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 3vh;
+    height: 40vh;
+    font-size: 20px;
+}
+
+
+.graficoIdv .titulo{
+    font-size: 15px;
+    font-weight: 500;
+    background-color: rgb(255, 255, 255);
+    width: 35vw;
+    height: 5vh;
+    text-align: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    
+}
+
+.chartIdv{
+    width: 35vw;
+    height: 20vh;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+

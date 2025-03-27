@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro/Login</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="./style/cadastro.css">
+    <link rel="stylesheet" href="./style/header.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body onload="listarEmpresas()">
+
+    <!-- Header -->
+    <div id="navBar">
+        <img src="./img/latencySlayers-removebg-preview 2.png" alt="" class="logo">
+
+        <div class="menu">
+            <i id="btnMenu" class="fa-solid fa-bars"></i>
+        </div>
+
+        <div id="containerBtn">
+            <div class="menu2">
+                <i id="btnMenu2" class="fa-solid fa-bars"></i>
+            </div>
+
+            <div class="home">
+                <i class="fa-solid fa-house sideBarBtn"></i>
+                <span><a href="./home.html#secaoHome">Home</a></span>
+            </div>
+
+            <div class="home">
+                <i class="fa-solid fa-circle-info sideBarBtn"></i></i>
+                <a href="./home.html#secaoSolucao">Solução</a>
+            </div>
+
+            <div class="home">
+                <i class="fa-solid fa-users-rectangle sideBarBtn"></i>
+                <a href="./home.html#secaoSobre">Sobre nós</a>
+            </div>
+            <div class="home">
+                <i class="fa-solid fa-address-book sideBarBtn"></i>
+                <a href="./home.html#secaoContato">Contato</a>
+            </div>
+
+        </div>
+        <!-- Home, sobre nós, serviços -->
+        <div class="containerBotoes">
+            <a href="./home.html#secaoHome">Home</a>
+            <a href="./home.html#secaoSolucao">Serviços</a>
+            <a href="./home.html#secaoSobre">Sobre nós</a>
+            <a href="./home.html#secaoContato">Contato</a>
+        </div>
+        <!-- Login e cadastro -->
+        <div class="botoesHeader">
+        </div>
+    </div>
+
+    <div class="page">
+
+
+
+        <div class="container">
+            <div class="formulario login">
+                <form action="">
+                    <h1>Login</h1>
+                    <div class="input">
+                        <input type="text" id="email_ipt" placeholder="Seu email" required>
+                        <i class='bx bxs-user'></i>
+                    </div>
+                    <div class="input">
+                        <input type="password" id="senha_ipt" placeholder="Senha" required>
+                        <i class='bx bx-lock'></i>
+                    </div>
+                    <div class="esqueci_senha">
+                        <a href="#">Esqueceu a senha?</a>
+                    </div>
+                    <button onclick="entrar()" type="button" class="btn">Login</button>
+                </form>
+            </div>
+
+
+            <div class="formulario cadastrar">
+                <form action="">
+                    <h1>Cadastrar</h1>
+                    <div class="input">
+                        <input id="nome_ipt" type="text" placeholder="Nome" required>
+                        <i class='bx bx-info-circle'></i>
+                    </div>
+                    <div class="input">
+                        <input id="email_ipt2" type="email" placeholder="E-mail" required>
+                        <i class='bx bxl-gmail'></i>
+                    </div>
+                    <div class="input">
+                        <input id="cpf_ipt" type="co" placeholder="CPF" required>
+                        <i class='bx bx-info-circle'></i>
+                    </div>
+                    <div class="input">
+                        <input id="codigo_ipt" type="text" placeholder="Codigo Empresa" required>
+                        <i class='bx bx-lock'></i>
+                    </div>
+                    <div class="input">
+                        <input id="senha_ipt2" type="password" placeholder="Senha" required>
+                        <i class='bx bx-lock'></i>
+                    </div>
+                    <div class="input">
+                        <input  id="confirmeSenha_ipt" type="password" placeholder="Confirme a sua senha" required>
+                        <i class='bx bx-lock' ></i>
+                    </div>
+
+                    <button onclick="cadastrar()" type="button" class="btn">Cadastrar</button>
+                </form>
+            </div>
+
+
+            <div class="alternar_formulario">
+                <div class="alternar_informacao alternar_esquerda">
+                    <p>Não possui uma conta ainda?</p>
+                    <button class="btn btn_cadastro">Cadastre-se</button>
+                </div>
+            </div>
+
+            <div class="alternar_formulario">
+                <div class="alternar_informacao alternar_direita">
+                    <h1>Ola novamente!</h1>
+                    <p>Já possui uma conta ainda?</p>
+                    <button class="btn btn_login">Login</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="./script/cadastro.js"></script>
+</body>
+
+</html>

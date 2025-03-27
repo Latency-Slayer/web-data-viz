@@ -1,0 +1,318 @@
+@import url('https://fonts.googleapis.com/css2?family=Asap:ital,wght@0,100..900;1,100..900&family=Edu+AU+VIC+WA+NT+Guides:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+*{
+    margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+    font-family: 'Poppins', "DM Sans", serif, sans-serif;
+}
+
+:root{
+    --purple: #56408C;
+    --purple-blur: #483285d6;
+}
+
+.purple{
+    color: #56408C;
+}
+
+
+.menu{
+    display: none;
+    width: 100vw;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+#btnMenu2{
+    font-size: 50px;
+}
+
+
+#containerBtn{
+    display: none;
+    flex-direction: column;
+    width: 20vw;
+    padding-right: 20px;
+    backdrop-filter: blur(5px);
+    background-color: var(--purple-blur);
+    gap: 1ch;
+    border-radius: 5px;
+    padding: 2% 1% 2% 1%;
+    height: 100vh;
+    right: 0;
+    z-index: 9999;
+}
+
+#containerBtn.animation1{
+    animation: menuSanduicheAppear 0.5s normal;
+}
+
+#containerBtn.animation2{
+    animation: menuSanduicheDis 0.5s normal;
+}
+
+
+#containerBtn a{
+    color: white;
+    margin-left: 1rem;
+    width: inherit;
+}
+
+@keyframes menuSanduicheAppear {
+    from{
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to{
+        transform: translateX(0%);
+        opacity: 1;
+    }
+}
+
+@keyframes menuSanduicheDis {
+    from{
+        transform: translate(0%);
+        opacity: 1;
+    }
+    to{
+        transform: translate(100%);
+        opacity: 0;
+    }
+    
+}
+
+.sideBarBtn{
+    color: #fff;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+.home{
+    display: flex;
+    /* width: inherit; */
+    align-items: center;
+}
+
+#navBar{
+    color: white;    
+    display: flex;
+    width: 100vw;
+    height: 13vh;
+    justify-content: space-between;
+    position: fixed;
+    z-index: 2;
+    font-family: "Poppins", serif;
+    transition: 0.3s;
+}
+
+#navBar a{
+    text-decoration: none;
+    color: #fff;
+    font-size: 20px;
+    align-self: center;
+    transition: 0.3;
+}
+
+#navBar a:hover{
+    border-bottom: 4px solid #56408C;
+    transition : 0.3s;
+}
+
+
+
+.logo{
+    width: 200px;
+    height: 200px;
+    align-self: center;
+    cursor: pointer;
+}
+
+.containerBotoes{
+    display: flex;
+    width: 400px;
+    justify-content: space-between;
+    align-self: center;
+}
+
+.botoesHeader{
+    align-self: center;
+    padding-right: 5%;
+}
+
+.botoesHeader button{
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 100px;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 15px;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+
+.botoesHeader button:nth-of-type(1){
+    background-color: #817E88;
+}
+
+.botoesHeader button:nth-of-type(2){
+    background-color: #56408C;
+}
+
+.botoesHeader button:nth-of-type(1):hover{
+    transition: 0.3s;
+    background-color: #bdb9c6;
+}
+
+.botoesHeader button:nth-of-type(2):hover{
+    transition: 0.3s;
+    background-color: #7b5dc8;
+}
+
+/* #navBar button{
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 100px;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 15px;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+
+#navBar button:nth-of-type(1){
+    background-color: #817E88;
+}
+
+#navBar button:nth-of-type(2){
+    background-color: #56408C;
+}
+
+#navBar button:nth-of-type(1):hover{
+    transition: 0.3s;
+    background-color: #bdb9c6;
+}
+
+#navBar button:nth-of-type(2):hover{
+    transition: 0.3s;
+    background-color: #7b5dc8;
+} */
+
+#navBar.scrolled{
+    transition: 0.3s;
+    background-color: #483285;
+
+    width: 100vw;
+     
+}
+
+@media (min-width: 1421px){
+    .menu{
+        display: none;
+    }
+}
+
+@media (min-width: 870px) and (max-width: 1027px){
+
+ 
+
+
+    .botoesHeader{
+        padding: 0;
+        margin-right: 5%;
+    }
+
+    .botoesHeader button{
+        padding: 5px;
+        width: 75px;
+    }
+
+    .containerBotoes a{
+        font-size: 10px;
+    }
+
+
+    .containerBotoes{
+        margin-right: 4%;
+    }
+
+
+    #containerBtn{
+        padding: 5% 5% 5% 5%;
+        width: 40vw;
+        display: none;
+    }
+    
+}
+
+@media  (max-width: 869px){
+    .menu{
+        display: block;
+        width: 50px;
+        text-align: center;
+        font-size: 50px;
+        margin: 5% 5% 0 0;
+    }
+
+
+
+    .containerBotoes{
+        display: none;
+
+    }
+
+    .botoesHeader{
+        display: none;
+    }
+
+    #btnMenu{
+        z-index: 999;
+        position: absolute;
+        color: white;
+        /* display: block; */
+        font-size: 50px;
+    }
+
+
+  
+
+    #containerBtn{
+        padding: 5% 5% 5% 5%;
+        width: 40vw;
+    }
+}
+
+/* @media (min-width: 400px) and (max-width: 729px){
+    .menu{
+        display: block;
+        width: 50px;
+        text-align: center;
+        font-size: 20px;
+        margin: 5% 5% 0 0;
+    }
+
+    .containerBotoes{
+        display: none;
+    }
+
+    .botoesHeader{
+        display: none;
+    }
+
+    #btnMenu{
+        font-size: 50px;
+    }
+
+    #containerBtn{
+        background-color: #483285;
+
+    }
+
+} */

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro Cargo</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="./style/cadastroCargo.css">
+</head>
+<body onload="usuarios()">
+    <main>
+        <div class="navbar"></div>
+        <div class="container">
+            <div class="titulo">
+                <h1>Usuários</h1>
+            </div>
+            <hr>
+            <div class="segundaCamada">
+                <div class="barraPesquisa">
+                    Pesquisar por nome: <input oninput="pesquisa()" type="text" id="ipt_pesquisa"> <i class='bx bx-search-alt-2' ></i>
+                </div>
+            </div>
+            <hr>
+            <div class="quadroMaquinas">
+                <div class="tituloMaquina">
+                    <h1>Usuários Cadastradas</h1>
+                </div>
+                <div class="usuarios">
+                    <div class="telaDados">
+                        <div class="tituloDados">
+                            <h3>Qual o cargo desse usuário?</h3>      <i class='bx bx-x-circle'></i>
+                        </div>
+                        <label>
+                            <select id="slt_cargo">
+                                <option value="suporte">Suporte de Sistema</option>
+                                <option value="analista">Analista de Sistema</option>
+                            </select>
+                        </label>
+
+                        <button onclick="mudarCargo(event)" id="btn_cargo">Selecionar</button>
+                   </div>
+                   <div class="telaExcluir"></div>
+                    <table>
+                        <tr>
+                        <th>Nome usuário</th>
+                        <th>Nome empresa</th>
+                        <th>Data Cadastro</th>
+                        <th>Cargo</th>
+                        </tr>
+                    </table>
+                   
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="./script/cadastroCargo.js"></script>
+</body>
+</html>

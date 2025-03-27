@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DashBoard | Tempo real </title>
+    <link rel="stylesheet" href="../dashs.style/dashSuporte.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="navegacao">
+            <div class="topo">
+                <div class="user">
+                    <img class="ph" src="../img/user.svg" alt="">
+                    <div class="info-user">
+                        <h2 class="nome-user">User</h2>
+                        <span class="email-user">exemploemail@gmail.com</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-bar">
+                <ul>
+                    <li>
+                        <a href="">
+                            <span class="icons"><img src="../img/dashboard.svg" alt=""></span>
+                            <span class="titulo">DASHBOARD</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <span class="icons"><img src="../img/alertas.svg" alt=""></span>
+                            <span class="titulo">ALERTAS</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <span class="icons"><img src="../img/database-fill-add.svg" alt=""></span>
+                            <span class="titulo">MÁQUINAS</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="nav-footer">
+                <button id="alerta" class="botao-sair">Sair</button>
+            </div>
+        </div>
+
+        <div class="main">
+            <div class="top">
+                <div class="titulo-dashboard">
+                    <h1 class="pagina">ANÁLISE | TEMPO REAL</h1>
+                </div>
+                <div class="pesquisa">
+                    <label>
+                        <select id="slt_maquinas">
+                            <option value="#" disabled selected>Selecione uma Máquina</option>
+                            <option value="">Máquina 01 (M01)</option>
+                            <option value="">Máquina 02 (M02)</option>
+                            <option value="">Máquina 03 (M03)</option>
+                            <option value="">Máquina 04 (M04)</option>
+                        </select>
+                        <span class="icons"><img src="/img/buscar.svg" alt=""></span>
+                    </label>
+                </div>
+            </div>
+            <div class="dashboard">
+                <div class="containerCards">
+
+                    <div class="kpi-card">
+                        <div class="kpi-titulo">
+                            <h3>UTILIZAÇÃO CPU (%)</h3>
+                        </div>
+                        <div class="kpi-valor">
+                            <h3>95%</h3>
+                        </div>
+
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-titulo">
+                            <h3>MEMÓRIA EM USO (%)</h3>
+                        </div>
+                        <div class="kpi-valor2">
+                            <h3>30%</h3>
+                        </div>
+
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-titulo">
+                            <h3>DISCO EM USO(%)</h3>
+                        </div>
+                        <div class="kpi-valor2">
+                            <h3>30%</h3>
+                        </div>
+
+                    </div>
+
+                    <div class="kpi-card">
+                        <div class="kpi-titulo">
+                            <h3>REDE ENVIADA (%)</h3>
+                        </div>
+                        <div class="kpi-valor3">
+                            <h3>60%</h3>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="containerGraficos">
+                    <div class="grafico-card">
+                        <div class="titulo-grafico">CPU ao longo do Tempo</div>
+                        <div class="div-chart">
+                            <canvas id="myChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="grafico-card">
+                        <div class="titulo-grafico">CPU Por Núcleo </div>
+                        <div class="div-chart">
+                            <canvas id="myChart3"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="containerGraficos">
+                    <div class="grafico-card2">
+                        <div class="titulo-grafico">Memória ao Longo Do Tempo</div>
+                        <div class="div-chart2">
+                            <canvas id="myChart4"></canvas>
+                        </div>
+                    </div>
+                    <div class="grafico-card2">
+                        <div class="titulo-grafico">Disco ao Longo do Tempo</div>
+                        <div class="div-chart2">
+                            <canvas id="myChart2"></canvas>
+                        </div>
+                    </div>
+                    <div class="grafico-card2">
+                        <div class="titulo-grafico">Tráfego de Rede</div>
+                        <div class="div-chart2">
+                            <canvas id="myChart5"></canvas>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+</body>
+
+</html>
+<script>
+
+    const ctx = document.getElementById('myChart');
+
+    const data = {
+        labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+        datasets: [
+            {
+                label: "Uso da CPU (%)",
+                data: [75, 30, 65, 60, 55, 90, 72, 75, 55, 20, 45, 95],
+                borderColor: "#6b5b95",
+                backgroundColor: "rgba(107, 91, 149, 0.7)",
+                borderWidth: 2,
+                fill: true,
+                tension: 0.4
+            }
+        ]
+    };
+
+    const config = {
+        type: "line",
+        data: data,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+
+                    labels: {
+                        font: {
+                            size: 12
+                        }
+                    }
+                }
+            },
+        }
+    };
+
+    new Chart(ctx, config);
+
+
+    const ctx2 = document.getElementById('myChart2');
+
+    const data2 = {
+        labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+        datasets: [
+            {
+                label: "Disco C",
+                data: [12, 15, 10, 9, 22, 18, 17, 20, 19, 21, 16, 14],
+                borderColor: "#44395F",
+                backgroundColor: "#44395F",
+                borderWidth: 2,
+                fill: false
+            },
+            {
+                label: "Disco D",
+                data: [30, 40, 50, 33, 25, 66, 66, 33, 54, 45, 45, 66],
+                borderColor: "#A396C3",
+                backgroundColor: "#A396C3",
+                borderWidth: 2,
+                fill: false
+            }
+        ]
+    };
+
+    const config2 = {
+        type: "line",
+        data: data2,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                    labels: {
+                        font: {
+                            size: 12
+                        }
+                    }
+                }
+            },
+        }
+    };
+
+    new Chart(ctx2, config2);
+
+    const ctx3 = document.getElementById('myChart3');
+
+    const data3 = {
+        labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+        datasets: [
+            {
+                label: "Nucleo 1",
+                data: [65, 72, 59, 68, 80, 74, 62, 70, 58, 77, 63, 69],
+                borderColor: '#44395F',
+                backgroundColor: '#44395F',
+                borderWidth: 2,
+                fill: false,
+                tension: 0.4,
+                pointRadius: 3
+            },
+            {
+                label: "Nucleo 2",
+                data: [78, 67, 82, 73, 63, 71, 84, 69, 75, 66, 80, 72],
+                borderColor: '#35978F',
+                backgroundColor: '#35978F',
+                borderWidth: 2,
+                fill: false,
+                tension: 0.4,
+                pointRadius: 3
+            },
+            {
+                label: "Nucleo 3",
+                data: [54, 65, 48, 58, 70, 62, 49, 67, 51, 63, 47, 56],
+                borderColor: '#5E4FA2',
+                backgroundColor: '#5E4FA2',
+                borderWidth: 2,
+                fill: false,
+                tension: 0.4,
+                pointRadius: 3
+            },
+            {
+                label: "Nucleo 4",
+                data: [42, 53, 38, 47, 60, 51, 40, 57, 43, 55, 39, 48],
+                borderColor: '#3288BD',
+                backgroundColor: '#3288BD',
+                borderWidth: 2,
+                fill: false,
+                tension: 0.4,
+                pointRadius: 3
+            },
+            {
+                label: "Nucleo 5",
+                data: [85, 77, 88, 81, 72, 79, 90, 74, 83, 76, 86, 80],
+                borderColor: '#66C2A5',
+                backgroundColor: '#66C2A5',
+                borderWidth: 2,
+                fill: false,
+                tension: 0.4,
+                pointRadius: 3
+            },
+            {
+                label: "Nucleo 6",
+                data: [35, 45, 30, 40, 50, 43, 33, 48, 37, 46, 32, 41],
+                borderColor: '#FDAE61',
+                backgroundColor: '#FDAE61',
+                borderWidth: 2,
+                fill: false,
+                tension: 0.4,
+                pointRadius: 3
+            },
+            {
+                label: "Nucleo 7",
+                data: [92, 83, 95, 86, 78, 84, 97, 81, 89, 85, 93, 87],
+                borderColor: '#D53E4F',
+                backgroundColor: '#D53E4F',
+                borderWidth: 2,
+                fill: false,
+                tension: 0.4,
+                pointRadius: 3
+            },
+            {
+                label: "Nucleo 8",
+                data: [60, 50, 63, 55, 45, 52, 65, 48, 57, 53, 61, 56],
+                borderColor: '#9E0142',
+                backgroundColor: '#9E0142',
+                borderWidth: 2,
+                fill: false,
+                tension: 0.4,
+                pointRadius: 3
+            }
+        ]
+    };
+
+    const config3 = {
+        type: "line",
+        data: data3,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                    labels: {
+                        font: {
+                            size: 12
+                        }
+                    }
+                }
+            },
+        }
+    };
+
+    new Chart(ctx3, config3);
+
+    const ctx4 = document.getElementById('myChart4');
+
+    const data4 = {
+        labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+        datasets: [
+            {
+                label: "Uso da Mémoria (%)",
+                data: [92, 23, 95, 46, 58, 84, 97, 71, 59, 15],
+                borderColor: "#966FB8",
+                backgroundColor: "#966FB8",
+                borderWidth: 2,
+                fill: true,
+                tension: 0.4
+            }
+        ]
+    };
+
+    const config4 = {
+        type: "line",
+        data: data4,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                    labels: {
+                        font: {
+                            size: 12
+                        }
+                    }
+                }
+            },
+        }
+    };
+
+    new Chart(ctx4, config4);
+
+    const ctx5 = document.getElementById('myChart5');
+
+    const data5 = {
+        labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+        datasets: [
+            {
+                label: "Uso de Rede (%)",
+                data: [92, 23, 95, 46, 58, 84, 97, 71, 59, 15],
+                borderColor: "#521B57",
+                backgroundColor: "#521B57",
+                borderWidth: 2,
+                fill: true,
+                tension: 0.4
+            }
+        ]
+    };
+
+    const config5 = {
+        type: "line",
+        data: data5,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                    labels: {
+                        font: {
+                            size: 12
+                        }
+                    }
+                }
+            },
+        }
+    };
+
+    new Chart(ctx5, config5);
+
+    const button = document.getElementById("alerta")
+    button.addEventListener("click", () =>{
+        Swal.fire({
+        title:'Componente Memoria RAM está sobrecarregado',
+        text: "RAM do Servidor M02 está utilizando: 90%",
+        icon: 'warning',
+        showConfirmButton: false,
+        timer: 3000
+        })
+    })
+
+
+</script>
