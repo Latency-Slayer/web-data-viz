@@ -84,7 +84,8 @@ form {
 
 .input input {
     width: 100%;
-    padding: 13px 50px 5px 5px;
+    /* padding: 13px 50px 5px 5px; */
+    padding: 13px;
     background: #eee;
     border-radius: 8px;
     border: none;
