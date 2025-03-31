@@ -3,6 +3,13 @@ lista_usuarios = [];
 const fechar = document.querySelector('.bx-x-circle')
 const telaDados = document.querySelector('.telaDados')
 
+document.querySelector('jsuites-modal').addEventListener('onopen', function() {
+    console.log('Modal is open');
+});
+document.querySelector('jsuites-modal').addEventListener('onclose', function() {
+    console.log('Modal is closed');
+});
+
 fechar.addEventListener('click', () => {
     telaDados.classList.remove('ativadoDados')
 })

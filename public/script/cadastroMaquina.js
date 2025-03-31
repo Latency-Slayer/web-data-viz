@@ -7,6 +7,13 @@ const telaDados = document.querySelector('.telaDados')
 fechar.addEventListener('click', () => {
     telaDados.classList.remove('ativadoDados')
 })
+
+document.querySelector('jsuites-modal').addEventListener('onopen', function() {
+    console.log('Modal is open');
+});
+document.querySelector('jsuites-modal').addEventListener('onclose', function() {
+    console.log('Modal is closed');
+});
     
 // const telaExcluir = document.querySelector('.telaExcluir');
 // const alocarDados = document.querySelector('ativarDados');

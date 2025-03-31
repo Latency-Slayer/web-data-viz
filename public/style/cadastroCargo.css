@@ -231,6 +231,20 @@ table, th, td {
     visibility: visible;
 }
 
+.modal-usuario{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 50%;
+    margin: auto;
+}
+.modal-usuario input{
+    border: 1px solid black;
+}
+.modal-usuario select {
+    border: 1px solid black;
+}
+
 button {
     border: none;
     outline: none;
