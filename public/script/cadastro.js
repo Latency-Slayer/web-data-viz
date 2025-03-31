@@ -1,14 +1,36 @@
-// const { text } = require("express");
-
 const container = document.querySelector('.container');
 const botaoCadastro = document.querySelector('.btn_cadastro');
 const botaoLogin = document.querySelector('.btn_login');
+const url = new URL(location)
+
+window.onload = () => {
+    const cadastroValue = url.searchParams.get("cadastro");
+
+    if (cadastroValue == "true") {
+        container.classList.add('ativado');
+    }
+
+    const transicao = document.querySelectorAll(".transicao");
+
+    console.log(transicao)
+
+    transicao.forEach(el => {
+        el.classList.add("ativar_transicao");
+        el.offsetWidth
+    })
+}
 
 botaoCadastro.addEventListener('click', () => {
+    url.searchParams.set("cadastro", "true");
+    history.pushState({}, "", url);
+
     container.classList.add('ativado');
 });
 
 botaoLogin.addEventListener('click', () => {
+    url.searchParams.set("cadastro", "false");
+    history.pushState({}, "", url);
+
     container.classList.remove('ativado');
 });
 
@@ -27,24 +49,24 @@ let clicked = false
 let clicked2 = false
 
 window.addEventListener('resize', () => {
-if (window.innerWidth > 870) { 
-    containerBtn.style.display = "none"
-    botao.style.display = "block";
-    console.log('teste')
-}
+    if (window.innerWidth > 870) {
+        containerBtn.style.display = "none"
+        botao.style.display = "block";
+        console.log('teste')
+    }
 });
 
 
-botao.addEventListener('click', ()=> {
-        containerBtn.style.display = "flex"
-        botao.style.display = "none"
-        containerBtn.classList.add('animation1')
-        containerBtn.classList.remove('animation2')
-        clicked = true
+botao.addEventListener('click', () => {
+    containerBtn.style.display = "flex"
+    botao.style.display = "none"
+    containerBtn.classList.add('animation1')
+    containerBtn.classList.remove('animation2')
+    clicked = true
 })
 
 let botao2 = document.getElementById('btnMenu2')
-botao2.addEventListener('click', ()=> {
+botao2.addEventListener('click', () => {
     containerBtn.classList.remove('animation1')
     containerBtn.classList.add('animation2')
     setTimeout(() => {
@@ -121,7 +143,7 @@ function cadastrar() {
         senhaIgual = true;
     }
 
-     
+
     console.log("aaaaa")
 
     console.log(email_ok)
@@ -132,7 +154,7 @@ function cadastrar() {
     console.log(number_ok)
     console.log(letraMinuscula_ok)
     console.log(letraMaiuscula_ok)
-    
+
 
     if ((senhaVar != "" || confirmacaoSenha != '')) {
         if (senhaVar.length < 8) {
@@ -192,7 +214,7 @@ function cadastrar() {
         console.log(letraMinuscula_ok)
         console.log(letraMaiuscula_ok)
 
-        if (!email_ok ||    
+        if (!email_ok ||
             !senhaIgual ||
             !caractereEspecial ||
             !cpf_ok ||
@@ -200,16 +222,16 @@ function cadastrar() {
             !number_ok ||
             !letraMinuscula_ok ||
             !letraMaiuscula_ok) {
-            
-                Swal.fire({
-                    title: "erro ao realizar cadastro",
-                    text: mensagemErro,
-                    icon: 'error',
-                    timer: 2500
-                })
 
-                return;
-    
+            Swal.fire({
+                title: "erro ao realizar cadastro",
+                text: mensagemErro,
+                icon: 'error',
+                timer: 2500
+            })
+
+            return;
+
         }
 
         for (let i = 0; i < arrayEmpresas.length; i++) {
