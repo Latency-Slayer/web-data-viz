@@ -87,33 +87,97 @@
 
             <div class="formulario cadastrar transicao">
                 <form action="">
-                    <h1>Cadastrar</h1>
-                    <div class="input">
-                        <input id="nome_ipt" type="text" placeholder="Nome" required>
-                        <i class='bx bx-info-circle'></i>
-                    </div>
-                    <div class="input">
-                        <input id="email_ipt2" type="email" placeholder="E-mail" required>
-                        <i class='bx bxl-gmail'></i>
-                    </div>
-                    <div class="input">
-                        <input id="cpf_ipt" type="co" placeholder="CPF" required>
-                        <i class='bx bx-info-circle'></i>
-                    </div>
-                    <div class="input">
-                        <input id="codigo_ipt" type="text" placeholder="Codigo Empresa" required>
-                        <i class='bx bx-lock'></i>
-                    </div>
-                    <div class="input">
-                        <input id="senha_ipt2" type="password" placeholder="Senha" required>
-                        <i class='bx bx-lock'></i>
-                    </div>
-                    <div class="input">
-                        <input  id="confirmeSenha_ipt" type="password" placeholder="Confirme a sua senha" required>
-                        <i class='bx bx-lock' ></i>
+                    <h1 id="register_company_user">Cadastrar Empresa</h1>
+                    <div id="step1" style="display: block;">
+                        <div class="input">
+                            <input id="ipt_commercial_name" type="text" placeholder="Nome Comercial" required>
+                            <i class='bx bx-info-circle'></i>
+                        </div>
+                        <div class="input">
+                            <input id="ipt_legal_name" type="text" placeholder="Razão Social" required>
+                            <i class='bx bx-info-circle'></i>
+                        </div>
+                        <div class="input">
+                            <input id="ipt_number_fiscal" type="number" placeholder="Número de Registro Fiscal" required>
+                            <i class='bx bx-info-circle'></i>
+                        </div>
                     </div>
 
-                    <button onclick="cadastrar()" type="button" class="btn">Cadastrar</button>
+                    <div id="step2" style="display: none;">
+                        <div class="input">
+                            <input id="ipt_zip_code" type="text" placeholder="Código Zip" required>
+                            <i class='bx bx-info-circle'></i>
+                        </div>
+                        <div class="input">
+                            <input id="ipt_street" type="text" placeholder="Rua" required>
+                            <i class='bx bx-buildings'></i>
+                        </div>
+                        <div class="input">
+                            <input id="ipt_number" type="number" placeholder="Número" required>
+                            <i class='bx bx-info-circle'></i>
+                        </div>
+                        <div class="input">
+                            <input id="ipt_complement" type="text" placeholder="Complemento" required>
+                            <i class='bx bx-buildings'></i>
+                        </div>
+                        <div class="input">
+                            <input id="ipt_district" type="text" placeholder="Distrito" required>
+                            <i class='bx bx-info-circle'></i>
+                        </div>
+                    </div>
+
+                    <div id="step3" style="display: none;">
+                        <div class="input">
+                            <input id="ipt_name" type="text" placeholder="Nome Completo" required>
+                            <i class='bx bx-info-circle'></i>
+                        </div>
+                        <div class="select">
+                            <select name="" id="slt_gender">
+                                <option value="#" disabled selected>Selecione uma opção</option>
+                                <option value="M">Masculino</option>
+                                <option value="W">Feiminino</option>
+                                <option value="O">Outro</option>
+                            </select>
+                        </div>
+                        <div class="input">
+                            <input id="ipt_password" type="password" placeholder="Senha" required>
+                            <i class='bx bx-info-circle'></i>
+                        </div>
+                        <div class="input">
+                            <input id="ipt_confirm_password" type="password" placeholder="Confirme sua Senha" required>
+                            <i class='bx bx-info-circle'></i>
+                        </div>
+                    </div>
+
+                    <div id="step4" style="display: none;">
+                        <div class="select">
+                            <select name="" id="slt_country">
+                                <option value="#" disabled selected>Selecione uma opção</option>
+                                <option value="US">Estados Unidos</option>
+                                <option value="CH">China</option>
+                                <option value="FR">França</option>
+                                <option value="JP">Jpão</option>
+                            </select>
+                        </div>
+                        <div class="input">
+                            <input id="ipt_email" type="text" placeholder="Email" required>
+                            <i class='bx bx-info-circle'></i>
+                        </div>
+                        <div class="input">
+                            <input id="ipt_phone" type="password" placeholder="Telefone" required>
+                            <i class='bx bx-info-circle'></i>
+                        </div>
+                        <div class="select">
+                            <select name="" id="slt_role">
+                                <option value="#" disabled selected>Selecione uma opção</option>
+                                <option value="admin">Administrador</option>
+                                <option value="managment">Gestor</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button onclick="voltarCadastro()" type="button" class="btn" id="btn_back">Voltar</button>
+                    <button onclick="cadastrarStep1()" type="button" class="btn" id="btn_next">Próximo</button>
                 </form>
             </div>
 
@@ -127,8 +191,8 @@
 
             <div class="alternar_formulario transicao">
                 <div class="alternar_informacao alternar_direita transicao">
-                    <h1>Ola novamente!</h1>
-                    <p>Já possui uma conta ainda?</p>
+                    <h1>Olá novamente!</h1>
+                    <p>Já possui uma conta?</p>
                     <button class="btn btn_login">Login</button>
                 </div>
             </div>

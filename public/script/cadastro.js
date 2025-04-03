@@ -81,14 +81,79 @@ botao2.addEventListener('click', () => {
 
 let arrayEmpresas = [];
 
+// 
+document.addEventListener("DOMContentLoaded", function () {
+    let steps = ["step1", "step2", "step3", "step4"];
+    let currentStep = 0;
+
+    let btnNext = document.getElementById("btn_next");
+    let btnBack = document.getElementById("btn_back");
+    let register_company_user = document.getElementById("register_company_user");
+
+    function updateSteps() {
+        document.getElementById(steps[0]).style.display = "none";
+        document.getElementById(steps[1]).style.display = "none";
+        document.getElementById(steps[2]).style.display = "none";
+        document.getElementById(steps[3]).style.display = "none";
+
+        document.getElementById(steps[currentStep]).style.display = "block";
+
+        if (currentStep > 0) {
+            btnBack.style.display = "block";
+        } else {
+            btnBack.style.display = "none";
+        }
+        if (currentStep >= 2) {
+            register_company_user.textContent = "Cadastrar Usuário"    
+        } else {
+            register_company_user.textContent = "Cadastrar Empresa"    
+        }
+
+        if (currentStep == 3) {
+            btnNext.textContent = "Finalizar"
+        } else {
+            btnNext.textContent = "Próximo"
+        }
+        
+    }
+
+    btnNext.addEventListener("click", function () {
+        if (currentStep < steps.length - 1) {
+            currentStep++;
+            updateSteps();
+        }
+    });
+    btnBack.addEventListener("click", function () {
+        if (currentStep > 0) {
+            currentStep--;
+            updateSteps();
+        }
+    });
+
+    updateSteps();
+});
+
 function cadastrar() {
-    var nomeVar = nome_ipt.value;
-    var emailVar = email_ipt2.value;
-    var cpfVar = cpf_ipt.value;
-    var codigoVar = codigo_ipt.value;
-    var senhaVar = senha_ipt2.value;
-    var confirmacaoSenha = confirmeSenha_ipt.value;
-    var idEmpresaVincular;
+    var comercialNameVar = ipt_commercial_name.value;
+    var legalNameVar = ipt_legal_name.value;
+    var numberFiscalVar = ipt_number_fiscal.value;
+
+    var zipCodeVar = ipt_zip_code.value;
+    var streetVar = ipt_street.value;
+    var numberVar = ipt_number.value;
+    var complementVar = ipt_complement.value;
+    var districtVar = ipt_district.value;
+
+    var nameVar = ipt_name.value;
+    var genderVar = slt_gender.value;
+    var passwordVar = ipt_password.value;
+    var confirmPasswordVar = ipt_confirm_password.value
+
+    var countryVar = slt_country.value
+    var emailVar = ipt_email.value
+    var phoneVar = ipt_phone.value
+    var roleVar = slt_role.value
+    // var idEmpresaVincular;
 
     var mensagemErro = "";
 
