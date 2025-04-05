@@ -14,7 +14,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
-<body onload="listarEmpresas()">
+<body onload="getCountrys(),getRole()">
 
     <!-- Header -->
     <div id="navBar">
@@ -102,45 +102,42 @@
                             <i class='bx bx-info-circle'></i>
                         </div>
                     </div>
-
                     <div id="step2" style="display: none;">
+                        <div class="select">
+                            <select name="" id="slt_country_company">
+                                <option value="#" disabled selected>Selecione uma opção</option>
+                                <option value="3">Estados Unidos</option>
+                                <option value="4">China</option>
+                                <option value="5">França</option>
+                                <option value="2">Japão</option>
+                                <option value="1">Brasil</option>
+                            </select>
+                        </div>
                         <div class="input">
-                            <input id="ipt_zip_code" type="text" placeholder="Código Zip" required>
+                            <input id="ipt_email_company" type="text" placeholder="Email" required>
                             <i class='bx bx-info-circle'></i>
                         </div>
                         <div class="input">
-                            <input id="ipt_street" type="text" placeholder="Rua" required>
-                            <i class='bx bx-buildings'></i>
-                        </div>
-                        <div class="input">
-                            <input id="ipt_number" type="number" placeholder="Número" required>
-                            <i class='bx bx-info-circle'></i>
-                        </div>
-                        <div class="input">
-                            <input id="ipt_complement" type="text" placeholder="Complemento" required>
-                            <i class='bx bx-buildings'></i>
-                        </div>
-                        <div class="input">
-                            <input id="ipt_district" type="text" placeholder="Distrito" required>
+                            <input id="ipt_phone_company" type="tel" placeholder="Telefone" required>
                             <i class='bx bx-info-circle'></i>
                         </div>
                     </div>
 
                     <div id="step3" style="display: none;">
                         <div class="input">
-                            <input id="ipt_name" type="text" placeholder="Nome Completo" required>
+                            <input id="ipt_name_user" type="text" placeholder="Nome Completo" required>
                             <i class='bx bx-info-circle'></i>
                         </div>
                         <div class="select">
                             <select name="" id="slt_gender">
                                 <option value="#" disabled selected>Selecione uma opção</option>
-                                <option value="M">Masculino</option>
-                                <option value="W">Feiminino</option>
-                                <option value="O">Outro</option>
+                                <option value="male">Masculino</option>
+                                <option value="female">Feminino</option>
+                                <option value="other">Outro</option>
                             </select>
                         </div>
                         <div class="input">
-                            <input id="ipt_password" type="password" placeholder="Senha" required>
+                            <input id="ipt_password_user" type="password" placeholder="Senha" required>
                             <i class='bx bx-info-circle'></i>
                         </div>
                         <div class="input">
@@ -150,34 +147,19 @@
                     </div>
 
                     <div id="step4" style="display: none;">
-                        <div class="select">
-                            <select name="" id="slt_country">
-                                <option value="#" disabled selected>Selecione uma opção</option>
-                                <option value="US">Estados Unidos</option>
-                                <option value="CH">China</option>
-                                <option value="FR">França</option>
-                                <option value="JP">Jpão</option>
-                            </select>
-                        </div>
                         <div class="input">
-                            <input id="ipt_email" type="text" placeholder="Email" required>
+                            <input id="ipt_email_user" type="text" placeholder="Email" required>
                             <i class='bx bx-info-circle'></i>
                         </div>
                         <div class="input">
-                            <input id="ipt_phone" type="password" placeholder="Telefone" required>
+                            <input id="ipt_phone_user" type="tel" placeholder="Telefone" required>
                             <i class='bx bx-info-circle'></i>
-                        </div>
-                        <div class="select">
-                            <select name="" id="slt_role">
-                                <option value="#" disabled selected>Selecione uma opção</option>
-                                <option value="admin">Administrador</option>
-                                <option value="managment">Gestor</option>
-                            </select>
                         </div>
                     </div>
 
-                    <button onclick="voltarCadastro()" type="button" class="btn" id="btn_back">Voltar</button>
-                    <button onclick="cadastrarStep1()" type="button" class="btn" id="btn_next">Próximo</button>
+                    <button type="button" class="btn" id="btn_back">Voltar</button>
+                    <button type="button" class="btn" id="btn_next">Próximo</button>
+                    <button onclick="register()" type="button" class="btn" id="btn_register">Cadastrar</button>
                 </form>
             </div>
 

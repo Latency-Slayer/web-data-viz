@@ -79,7 +79,8 @@ botao2.addEventListener('click', () => {
 })
 // --------------- Sessão Cadastro -----------------
 
-let arrayEmpresas = [];
+let arrayCountrys = [];
+let arraysRoles = [];
 
 // 
 document.addEventListener("DOMContentLoaded", function () {
@@ -88,6 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let btnNext = document.getElementById("btn_next");
     let btnBack = document.getElementById("btn_back");
+    let btnRegister = document.getElementById("btn_register");
     let register_company_user = document.getElementById("register_company_user");
 
     function updateSteps() {
@@ -96,9 +98,10 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById(steps[2]).style.display = "none";
         document.getElementById(steps[3]).style.display = "none";
 
+        btnRegister.style.display = "none"
         document.getElementById(steps[currentStep]).style.display = "block";
 
-        if (currentStep > 0) {
+        if (currentStep >= 1    ) {
             btnBack.style.display = "block";
         } else {
             btnBack.style.display = "none";
@@ -110,9 +113,11 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         if (currentStep == 3) {
-            btnNext.textContent = "Finalizar"
+            btnNext.style.display = "none";
+            btnRegister.style.display = "block"
         } else {
             btnNext.textContent = "Próximo"
+            btnNext.style.display = "block"
         }
         
     }
@@ -133,253 +138,249 @@ document.addEventListener("DOMContentLoaded", function () {
     updateSteps();
 });
 
-function cadastrar() {
-    var comercialNameVar = ipt_commercial_name.value;
-    var legalNameVar = ipt_legal_name.value;
-    var numberFiscalVar = ipt_number_fiscal.value;
+function register() {
+    var commercialNameCompanyVar = ipt_commercial_name.value;
+    var legalNameCompanyVar = ipt_legal_name.value;
+    var numberFiscalCompanyVar = ipt_number_fiscal.value;
+    
+    var countryCompanyVar = slt_country_company.value;
+    var emailCompanyVar = ipt_email_company.value;
+    var phoneCompanyVar = ipt_phone_company.value;
 
-    var zipCodeVar = ipt_zip_code.value;
-    var streetVar = ipt_street.value;
-    var numberVar = ipt_number.value;
-    var complementVar = ipt_complement.value;
-    var districtVar = ipt_district.value;
+    var nameUserVar = ipt_name_user.value;
+    var genderUserVar = slt_gender.value;
+    var passwordUserVar = ipt_password_user.value;
+    var confirmPasswordUserVar = ipt_confirm_password.value
 
-    var nameVar = ipt_name.value;
-    var genderVar = slt_gender.value;
-    var passwordVar = ipt_password.value;
-    var confirmPasswordVar = ipt_confirm_password.value
-
-    var countryVar = slt_country.value
-    var emailVar = ipt_email.value
-    var phoneVar = ipt_phone.value
-    var roleVar = slt_role.value
+    var emailUserVar = ipt_email_user.value
+    var phoneUserVar = ipt_phone_user.value
     // var idEmpresaVincular;
 
     var mensagemErro = "";
 
 
-    console.log("TO PARTE 0 CADASTRO")
+    // console.log("TO PARTE 0 CADASTRO")
 
-    if (nomeVar == "" ||
-        emailVar == "" ||
-        cpfVar == "" ||
-        codigoVar == "" ||
-        senhaVar == "" ||
-        confirmacaoSenha == ""
-    ) {
-        Swal.fire({
-            title: "erro ao realizar cadastro",
-            text: "Algum campo vazio",
-            icon: 'error',
-            timer: 2500
-        })
-        // Não passar enquanto tive algum campo vazio
-        return;
-    }
+    // // Caracteres Esp. = !@#$%
+    // var email_ok = false;
+    // var senhaIgual = false;
+    // var caractereEspecial = false;
+    // var cpf_ok = false;
+    // var senha_ok = false;
+    // var number_ok = false;
+    // var letraMinuscula_ok = false;
+    // var letraMaiuscula_ok = false;
 
+    // console.log("TO PARTE 1 CADASTRO")
 
-    // Caracteres Esp. = !@#$%
-    var email_ok = false;
-    var senhaIgual = false;
-    var caractereEspecial = false;
-    var cpf_ok = false;
-    var senha_ok = false;
-    var number_ok = false;
-    var letraMinuscula_ok = false;
-    var letraMaiuscula_ok = false;
+    // console.log("TO PARTE x CADASTRO")
 
-    console.log("TO PARTE 1 CADASTRO")
+    // if (emailVar.includes('@') && emailVar.includes('.')) {
+    //     email_ok = true;
+    // } else {
+    //     mensagemErro += "Email invalido,"
+    // }
 
-    console.log("TO PARTE x CADASTRO")
+    // if (cpfVar.length != 11 || isNaN(cpfVar)) {
+    //     mensagemErro += 'CPF invalido,'
+    // } else {
+    //     cpf_ok = true;
+    // }
 
-    if (emailVar.includes('@') && emailVar.includes('.')) {
-        email_ok = true;
-    } else {
-        mensagemErro += "Email invalido,"
-    }
-
-    if (cpfVar.length != 11 || isNaN(cpfVar)) {
-        mensagemErro += 'CPF invalido,'
-    } else {
-        cpf_ok = true;
-    }
-
-    if (senhaVar == confirmacaoSenha) {
-        senhaIgual = true;
-    }
+    // if (senhaVar == confirmacaoSenha) {
+    //     senhaIgual = true;
+    // }
 
 
-    console.log("aaaaa")
+    // console.log("aaaaa")
 
-    console.log(email_ok)
-    console.log(senhaIgual)
-    console.log(caractereEspecial)
-    console.log(cpf_ok)
-    console.log(senha_ok)
-    console.log(number_ok)
-    console.log(letraMinuscula_ok)
-    console.log(letraMaiuscula_ok)
+    // console.log(email_ok)
+    // console.log(senhaIgual)
+    // console.log(caractereEspecial)
+    // console.log(cpf_ok)
+    // console.log(senha_ok)
+    // console.log(number_ok)
+    // console.log(letraMinuscula_ok)
+    // console.log(letraMaiuscula_ok)
 
 
-    if ((senhaVar != "" || confirmacaoSenha != '')) {
-        if (senhaVar.length < 8) {
-            mensagemErro += "Senha sem quantidade necessaria de caracteres, "
-        } else {
-            senha_ok = true;
-            for (let i = 0; i < senhaVar.length; i++) {
-                const letraAtual = senhaVar[i];
-                var letraMaius = letraAtual.toUpperCase();
-                var letraMinus = letraAtual.toLowerCase();
+    // if ((senhaVar != "" || confirmacaoSenha != '')) {
+    //     if (senhaVar.length < 8) {
+    //         mensagemErro += "Senha sem quantidade necessaria de caracteres, "
+    //     } else {
+    //         senha_ok = true;
+    //         for (let i = 0; i < senhaVar.length; i++) {
+    //             const letraAtual = senhaVar[i];
+    //             var letraMaius = letraAtual.toUpperCase();
+    //             var letraMinus = letraAtual.toLowerCase();
 
-                if (letraAtual.includes('@') ||
-                    letraAtual.includes('!') ||
-                    letraAtual.includes('#') ||
-                    letraAtual.includes('$') ||
-                    letraAtual.includes('%')
-                ) {
-                    caractereEspecial = true;
-                } else if (isNaN(letraAtual)) {
-                    if (letraAtual == letraMaius) {
-                        letraMaiuscula_ok = true;
-                    }
-                    if (letraAtual == letraMinus) {
-                        letraMinuscula_ok = true;
-                    }
-                }
-                if (!isNaN(letraAtual)) {
-                    number_ok = true;
-                }
-            }
-        }
+    //             if (letraAtual.includes('@') ||
+    //                 letraAtual.includes('!') ||
+    //                 letraAtual.includes('#') ||
+    //                 letraAtual.includes('$') ||
+    //                 letraAtual.includes('%')
+    //             ) {
+    //                 caractereEspecial = true;
+    //             } else if (isNaN(letraAtual)) {
+    //                 if (letraAtual == letraMaius) {
+    //                     letraMaiuscula_ok = true;
+    //                 }
+    //                 if (letraAtual == letraMinus) {
+    //                     letraMinuscula_ok = true;
+    //                 }
+    //             }
+    //             if (!isNaN(letraAtual)) {
+    //                 number_ok = true;
+    //             }
+    //         }
+    //     }
 
-        if (caractereEspecial == false) {
-            mensagemErro += "\n Adicione caracter especial (!@#$%), "
-        }
-        if (number_ok == false) {
-            mensagemErro += "\n Adicione numeros a sua senha (1235), "
-        }
-        if (letraMinuscula_ok == false) {
-            mensagemErro += "\n Adicione letra minuscula a sua senha, "
-        }
-        if (letraMaiuscula_ok == false) {
-            mensagemErro += "\n Adicione letra maiscula a sua senha, "
-        }
-        else if (!senhaIgual) {
-            mensagemErro += ", Senha não está igual a confirmação"
-        }
+    //     if (caractereEspecial == false) {
+    //         mensagemErro += "\n Adicione caracter especial (!@#$%), "
+    //     }
+    //     if (number_ok == false) {
+    //         mensagemErro += "\n Adicione numeros a sua senha (1235), "
+    //     }
+    //     if (letraMinuscula_ok == false) {
+    //         mensagemErro += "\n Adicione letra minuscula a sua senha, "
+    //     }
+    //     if (letraMaiuscula_ok == false) {
+    //         mensagemErro += "\n Adicione letra maiscula a sua senha, "
+    //     }
+    //     else if (!senhaIgual) {
+    //         mensagemErro += ", Senha não está igual a confirmação"
+    //     }
 
-        console.log("TO PARTE 2 CADASTRO")
+    //     console.log("TO PARTE 2 CADASTRO")
 
-        console.log(email_ok)
-        console.log(senhaIgual)
-        console.log(caractereEspecial)
-        console.log(cpf_ok)
-        console.log(senha_ok)
-        console.log(number_ok)
-        console.log(letraMinuscula_ok)
-        console.log(letraMaiuscula_ok)
+    //     console.log(email_ok)
+    //     console.log(senhaIgual)
+    //     console.log(caractereEspecial)
+    //     console.log(cpf_ok)
+    //     console.log(senha_ok)
+    //     console.log(number_ok)
+    //     console.log(letraMinuscula_ok)
+    //     console.log(letraMaiuscula_ok)
 
-        if (!email_ok ||
-            !senhaIgual ||
-            !caractereEspecial ||
-            !cpf_ok ||
-            !senha_ok ||
-            !number_ok ||
-            !letraMinuscula_ok ||
-            !letraMaiuscula_ok) {
+    //     if (!email_ok ||
+    //         !senhaIgual ||
+    //         !caractereEspecial ||
+    //         !cpf_ok ||
+    //         !senha_ok ||
+    //         !number_ok ||
+    //         !letraMinuscula_ok ||
+    //         !letraMaiuscula_ok) {
 
-            Swal.fire({
-                title: "erro ao realizar cadastro",
-                text: mensagemErro,
-                icon: 'error',
-                timer: 2500
-            })
+    //         Swal.fire({
+    //             title: "erro ao realizar cadastro",
+    //             text: mensagemErro,
+    //             icon: 'error',
+    //             timer: 2500
+    //         })
 
-            return;
+    //         return;
 
-        }
+    //     }
 
-        for (let i = 0; i < arrayEmpresas.length; i++) {
-            if (arrayEmpresas[i].codigo == codigoVar) {
-                idEmpresaVincular = arrayEmpresas[i].idEmpresa
-                console.log("Codigo valido")
-            }
+    //     for (let i = 0; i < arrayEmpresas.length; i++) {
+    //         if (arrayEmpresas[i].codigo == codigoVar) {
+    //             idEmpresaVincular = arrayEmpresas[i].idEmpresa
+    //             console.log("Codigo valido")
+    //         }
 
-            else {
-                console.log("Codigo Invalido")
-            }
+    //         else {
+    //             console.log("Codigo Invalido")
+    //         }
 
-        }
+    //     }
 
-        fetch('/usuarios/cadastrar', {
+        // Região de pegar os dados para o Controller
+        fetch('/empresas/registerCompanyAndUser', {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                nomeServer: nomeVar,
-                emailServer: emailVar,
-                cpfServer: cpfVar,
-                senhaServer: senhaVar,
-                idEmpresaVincularServer: idEmpresaVincular
+                commercialNameCompanyServer: commercialNameCompanyVar,
+                legalNameCompanyServer: legalNameCompanyVar,
+                numberFiscalCompanyServer: numberFiscalCompanyVar,
+
+                countryCompanyServer: countryCompanyVar,
+                emailCompanyServer: emailCompanyVar,
+                phoneCompanyServer: phoneCompanyVar,
+
+                nameUserServer: nameUserVar,
+                genderUserServer: genderUserVar,
+                passwordUserServer: passwordUserVar,
+                
+                emailUserServer: emailUserVar,
+                phoneUserServer: phoneUserVar
             })
-        }).then(function (resposta) {
-            console.log("resposta: ", resposta);
-
-            if (resposta.ok) {
-                console.log("Dados Cadastrados")
-                const button = document.getElementById("alerta")
-
+        }).then( async res => {
+            if (res.ok) {
                 Swal.fire({
-                    title: "Cadastro Realizado com sucesso!",
+                    title: "Cadastro realizado com sucesso!",
                     icon: "success",
                     timer: 2500
                 });
-
-                var container = document.querySelector('.container');
-                container.classList.remove('ativado');
+                document.querySelector('.container').classList.remove('ativado');
             } else {
-                Swal.fire({
-                    title: "erro ao realizar cadastro",
-                    text: mensagemErro,
-                    icon: 'error',
-                    timer: 2500
-                })
-
-                throw "erro ao tentar realizar o cadastro!";
+                throw new Error("Erro ao cadastrar usuário");
             }
-
-        }).catch(function (resposta) {
-            console.log("ERRO;", resposta)
-        })
-
-
-    }
-
-
+        }).catch(err => {
+            console.error(err);
+            Swal.fire({
+                title: "Erro",
+                text: err.message,
+                icon: 'error',
+                timer: 2500
+            });
+        });
 }
 
-function listarEmpresas() {
 
-    fetch("/empresas/listar", {
+function getCountrys() {
+    console.log("CADE")
+    fetch("/empresas/getCountry", {
         method: 'GET',
     })
         .then(function (resposta) {
             resposta.json().then(function (json) {
                 console.log(json)
-                arrayEmpresas = json
+                arrayCountrys = json
 
-
-                // json.forEach((empresa) => {
-                //     arrayEmpresas.push(empresa)
-                //     console.log(resposta.ok)
-                //     console.log(arrayEmpresas[0].codigo)
-                // });
+                json.forEach((country) => {
+                    arrayCountrys.push(country)
+                    console.log(resposta.ok)
+                    console.log(arrayCountrys[0].codigo)
+                });
             })
 
         }).catch(function (resposta) {
             console.log(resposta)
-        })
+    })
+}
+
+function getRole() {
+    console.log("CADE")
+    fetch("/usuarios/getRole", {
+        method: 'GET',
+    })
+        .then(function (resposta) {
+            resposta.json().then(function (json) {
+                console.log(json)
+                arrayRoles = json
+
+                json.forEach((Role) => {
+                    arrayRoles.push(Role)
+                    console.log(resposta.ok)
+                    console.log(arrayRoles[0].codigo)
+                });
+            })
+
+        }).catch(function (resposta) {
+            console.log(resposta)
+    })
 }
 
 
