@@ -1,12 +1,10 @@
 var serverModel = require("../models/serverModel");
 
 async function registerServer(req, res) {
-    // console.log(req.body)
-
     try {
-        const serverRegister = await serverModel.registerServer(req.body)
+        await serverModel.registerServer(req.body)
 
-        res.send()
+        res.status(201).json({ message: "Server and components successfully register." })
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
