@@ -366,7 +366,7 @@ function register() {
 
 
 
-function getCountrys() {
+function getCountries() {
     fetch("/empresas/getCountry", {
         method: 'GET',
     })
