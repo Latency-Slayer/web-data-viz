@@ -81,6 +81,7 @@ botao2.addEventListener('click', () => {
 
 let arrayCountrys = [];
 let arraysRoles = [];
+let registerMask, phoneMask, phoneUserMask;
 
 // 
 document.addEventListener("DOMContentLoaded", function () {
@@ -92,6 +93,63 @@ document.addEventListener("DOMContentLoaded", function () {
     let btnRegister = document.getElementById("btn_register");
     let register_company_user = document.getElementById("register_company_user");
 
+    // This part explains the dinamic select on country, using fetch on database 
+    const countryCompany = document.getElementById("slt_country_company");
+    const manterPrimeiraOpcao = countryCompany.options[0];
+
+    let countrysMasks = [];
+
+    fetch("/empresas/getCountry")
+        .then(response => response.json())
+        .then(data => {
+            countryCompany.innerHTML = "";
+            countryCompany.appendChild(manterPrimeiraOpcao);
+
+            data.forEach(pais => {
+                const option = document.createElement("option");
+                option.value = pais.id_country;
+                option.textContent = pais.name;
+                countryCompany.appendChild(option);
+
+                // This part take the maskRegister and maskPhone from database, and store on vector
+                countrysMasks[pais.id_country] = {
+                    maskRegister: pais.mask_company_registration_number,
+                    maskPhone: pais.mask_phone,
+                    maskPhoneUser: pais.mask_phone
+                };
+
+            });
+        })
+        .catch(error => {
+            console.error("Erro ao carregar os países:", error);
+        });
+
+    const registrationNumberMaskCompany = document.getElementById("ipt_number_fiscal");
+    const phoneMaskCompany = document.getElementById("ipt_phone_company");
+    const phoneMaskUser = document.getElementById("ipt_phone_user");
+
+    // Event on change, when he select the country, this function change the input register and phone agreed the country sele
+    countryCompany.addEventListener("change", function () {
+        const idCountrySelected = this.value;
+        const countrySelected = countrysMasks[idCountrySelected];
+
+        if (countrySelected) {
+
+            registerMask = IMask(registrationNumberMaskCompany, {
+                mask: countrySelected.maskRegister
+            });
+
+            phoneMask = IMask(phoneMaskCompany, {
+                mask: countrySelected.maskPhone
+            });
+
+            phoneUserMask = IMask(phoneMaskUser, {
+                mask: countrySelected.maskPhoneUser
+            });
+        }
+    });
+
+
     function updateSteps() {
         document.getElementById(steps[0]).style.display = "none";
         document.getElementById(steps[1]).style.display = "none";
@@ -101,15 +159,15 @@ document.addEventListener("DOMContentLoaded", function () {
         btnRegister.style.display = "none"
         document.getElementById(steps[currentStep]).style.display = "block";
 
-        if (currentStep >= 1    ) {
+        if (currentStep >= 1) {
             btnBack.style.display = "block";
         } else {
             btnBack.style.display = "none";
         }
         if (currentStep >= 2) {
-            register_company_user.textContent = "Cadastrar Usuário"    
+            register_company_user.textContent = "Cadastrar Usuário"
         } else {
-            register_company_user.textContent = "Cadastrar Empresa"    
+            register_company_user.textContent = "Cadastrar Empresa"
         }
 
         if (currentStep == 3) {
@@ -119,13 +177,115 @@ document.addEventListener("DOMContentLoaded", function () {
             btnNext.textContent = "Próximo"
             btnNext.style.display = "block"
         }
-        
+
     }
 
+    function validateFields(step) {
+        let mensagemErro = "";
+    
+        const specialChars = /[!@#$%^&*(),.?":{}|<>]/;
+        const hasUpperCase = /[A-Z]/;
+        const hasLowerCase = /[a-z]/;
+        const hasNumber = /[0-9]/;
+    
+        const commercialNameCompanyVar = ipt_commercial_name.value;
+        const legalNameCompanyVar = ipt_legal_name.value;
+        const numberFiscalCompanyVar = ipt_number_fiscal.value;
+    
+        const countryCompanyVar = slt_country_company.value;
+        const emailCompanyVar = ipt_email_company.value;
+        const phoneCompanyVar = ipt_phone_company.value;
+    
+        const nameUserVar = ipt_name_user.value;
+        const genderUserVar = slt_gender.value;
+        const passwordUserVar = ipt_password_user.value;
+        const confirmPasswordUserVar = ipt_confirm_password.value;
+    
+        const emailUserVar = ipt_email_user.value;
+        const phoneUserVar = ipt_phone_user.value;
+    
+        switch (step) {
+            case 0: //Company: Commercial Name, Legal Name, Country
+                if (!commercialNameCompanyVar || !legalNameCompanyVar || countryCompanyVar === "#") {
+                    mensagemErro += "Preencha o Nome Fantasia, Razão Social e Selecione um País.\n";
+                } else if(specialChars.test(commercialNameCompanyVar)){
+                    mensagemErro += "O Nome Fantasia não pode conter caractéres especiais.\n"
+                } else if(hasNumber.test(commercialNameCompanyVar)){
+                    mensagemErro += "O Nome Fantasia não pode conter números.\n"
+                } else if(specialChars.test(legalNameCompanyVar)){
+                    mensagemErro += "A Razão Social não pode conter caractéres especiais.\n"
+                } else if(hasNumber.test(legalNameCompanyVar)){
+                    mensagemErro += "A Razão Social não pode conter números.\n"
+                }
+                break;
+    
+            case 1: //Company: register number, email, phone
+                if (!numberFiscalCompanyVar) {
+                    mensagemErro += "Informe o Número Fiscal da Empresa.\n";
+                }
+                if (!emailCompanyVar || !emailCompanyVar.includes('@') || !emailCompanyVar.includes('.')) {
+                    mensagemErro += "Informe um E-mail válido da Empresa.\n";
+                }
+                if (!phoneCompanyVar) {
+                    mensagemErro += "Informe o telefone da empresa.\n";
+                }
+                break;
+    
+            case 2: //User: name, gender, password, confirm password
+                if (!nameUserVar || genderUserVar === "#") {
+                    mensagemErro += "Preencha o Nome e Selecione o Gênero.\n";
+                } else if(specialChars.test(nameUserVar)){
+                    mensagemErro += "O Nome não pode conter caractéres especiais.\n"
+                } else if(hasNumber.test(nameUserVar)){
+                    mensagemErro += "O Nome não pode conter números.\n"
+                }
+    
+                if (!passwordUserVar || !confirmPasswordUserVar) {
+                    mensagemErro += "Preencha a senha e a confirmação de senha.\n";
+                } else if (passwordUserVar !== confirmPasswordUserVar) {
+                    mensagemErro += "Senhas não coincidem.\n";
+                } else {
+                    if (passwordUserVar.length < 8) {
+                        mensagemErro += "A senha deve ter pelo menos 8 caracteres.\n";
+                    }
+                    if (!specialChars.test(passwordUserVar)) {
+                        mensagemErro += "A senha deve conter pelo menos um caractere especial (!@#$%).\n";
+                    }
+                    if (!hasUpperCase.test(passwordUserVar)) {
+                        mensagemErro += "A senha deve conter pelo menos uma letra maiúscula.\n";
+                    }
+                    if (!hasLowerCase.test(passwordUserVar)) {
+                        mensagemErro += "A senha deve conter pelo menos uma letra minúscula.\n";
+                    }
+                    if (!hasNumber.test(passwordUserVar)) {
+                        mensagemErro += "A senha deve conter pelo menos um número.\n";
+                    }
+                }
+                break;
+            case 3: //User: email, phone
+                if (!emailUserVar || !emailUserVar.includes('@') || !emailUserVar.includes('.')) {
+                    mensagemErro += "Informe um E-mail válido.\n";
+                }
+                if (!phoneUserVar) {
+                    mensagemErro += "Informe o telefone.\n";
+                }
+                break;
+        }
+    
+        if (mensagemErro !== "") {
+            Swal.fire("Atenção", mensagemErro, "warning");
+            return false;
+        }
+    
+        return true;
+    }    
+
     btnNext.addEventListener("click", function () {
-        if (currentStep < steps.length - 1) {
-            currentStep++;
-            updateSteps();
+        if(validateFields(currentStep)){
+            if (currentStep < steps.length - 1) {
+                currentStep++;
+                updateSteps();
+            }
         }
     });
     btnBack.addEventListener("click", function () {
@@ -134,6 +294,11 @@ document.addEventListener("DOMContentLoaded", function () {
             updateSteps();
         }
     });
+    btnRegister.addEventListener("click", function(){
+        if (validateFields(3)) {
+            register();
+        }
+    })
 
     updateSteps();
 });
@@ -141,158 +306,19 @@ document.addEventListener("DOMContentLoaded", function () {
 function register() {
     var commercialNameCompanyVar = ipt_commercial_name.value;
     var legalNameCompanyVar = ipt_legal_name.value;
-    var numberFiscalCompanyVar = ipt_number_fiscal.value;
-    
+    var numberFiscalCompanyVar = registerMask.unmaskedValue;
+
     var countryCompanyVar = slt_country_company.value;
     var emailCompanyVar = ipt_email_company.value;
-    var phoneCompanyVar = ipt_phone_company.value;
+    var phoneCompanyVar = phoneMask.unmaskedValue;
 
     var nameUserVar = ipt_name_user.value;
     var genderUserVar = slt_gender.value;
     var passwordUserVar = ipt_password_user.value;
-    var confirmPasswordUserVar = ipt_confirm_password.value
+    var confirmPasswordUserVar = ipt_confirm_password.value;
 
-    var emailUserVar = ipt_email_user.value
-    var phoneUserVar = ipt_phone_user.value
-    // var idEmpresaVincular;
-
-    var mensagemErro = "";
-
-
-    // console.log("TO PARTE 0 CADASTRO")
-
-    // // Caracteres Esp. = !@#$%
-    // var email_ok = false;
-    // var senhaIgual = false;
-    // var caractereEspecial = false;
-    // var cpf_ok = false;
-    // var senha_ok = false;
-    // var number_ok = false;
-    // var letraMinuscula_ok = false;
-    // var letraMaiuscula_ok = false;
-
-    // console.log("TO PARTE 1 CADASTRO")
-
-    // console.log("TO PARTE x CADASTRO")
-
-    // if (emailVar.includes('@') && emailVar.includes('.')) {
-    //     email_ok = true;
-    // } else {
-    //     mensagemErro += "Email invalido,"
-    // }
-
-    // if (cpfVar.length != 11 || isNaN(cpfVar)) {
-    //     mensagemErro += 'CPF invalido,'
-    // } else {
-    //     cpf_ok = true;
-    // }
-
-    // if (senhaVar == confirmacaoSenha) {
-    //     senhaIgual = true;
-    // }
-
-
-    // console.log("aaaaa")
-
-    // console.log(email_ok)
-    // console.log(senhaIgual)
-    // console.log(caractereEspecial)
-    // console.log(cpf_ok)
-    // console.log(senha_ok)
-    // console.log(number_ok)
-    // console.log(letraMinuscula_ok)
-    // console.log(letraMaiuscula_ok)
-
-
-    // if ((senhaVar != "" || confirmacaoSenha != '')) {
-    //     if (senhaVar.length < 8) {
-    //         mensagemErro += "Senha sem quantidade necessaria de caracteres, "
-    //     } else {
-    //         senha_ok = true;
-    //         for (let i = 0; i < senhaVar.length; i++) {
-    //             const letraAtual = senhaVar[i];
-    //             var letraMaius = letraAtual.toUpperCase();
-    //             var letraMinus = letraAtual.toLowerCase();
-
-    //             if (letraAtual.includes('@') ||
-    //                 letraAtual.includes('!') ||
-    //                 letraAtual.includes('#') ||
-    //                 letraAtual.includes('$') ||
-    //                 letraAtual.includes('%')
-    //             ) {
-    //                 caractereEspecial = true;
-    //             } else if (isNaN(letraAtual)) {
-    //                 if (letraAtual == letraMaius) {
-    //                     letraMaiuscula_ok = true;
-    //                 }
-    //                 if (letraAtual == letraMinus) {
-    //                     letraMinuscula_ok = true;
-    //                 }
-    //             }
-    //             if (!isNaN(letraAtual)) {
-    //                 number_ok = true;
-    //             }
-    //         }
-    //     }
-
-    //     if (caractereEspecial == false) {
-    //         mensagemErro += "\n Adicione caracter especial (!@#$%), "
-    //     }
-    //     if (number_ok == false) {
-    //         mensagemErro += "\n Adicione numeros a sua senha (1235), "
-    //     }
-    //     if (letraMinuscula_ok == false) {
-    //         mensagemErro += "\n Adicione letra minuscula a sua senha, "
-    //     }
-    //     if (letraMaiuscula_ok == false) {
-    //         mensagemErro += "\n Adicione letra maiscula a sua senha, "
-    //     }
-    //     else if (!senhaIgual) {
-    //         mensagemErro += ", Senha não está igual a confirmação"
-    //     }
-
-    //     console.log("TO PARTE 2 CADASTRO")
-
-    //     console.log(email_ok)
-    //     console.log(senhaIgual)
-    //     console.log(caractereEspecial)
-    //     console.log(cpf_ok)
-    //     console.log(senha_ok)
-    //     console.log(number_ok)
-    //     console.log(letraMinuscula_ok)
-    //     console.log(letraMaiuscula_ok)
-
-    //     if (!email_ok ||
-    //         !senhaIgual ||
-    //         !caractereEspecial ||
-    //         !cpf_ok ||
-    //         !senha_ok ||
-    //         !number_ok ||
-    //         !letraMinuscula_ok ||
-    //         !letraMaiuscula_ok) {
-
-    //         Swal.fire({
-    //             title: "erro ao realizar cadastro",
-    //             text: mensagemErro,
-    //             icon: 'error',
-    //             timer: 2500
-    //         })
-
-    //         return;
-
-    //     }
-
-    //     for (let i = 0; i < arrayEmpresas.length; i++) {
-    //         if (arrayEmpresas[i].codigo == codigoVar) {
-    //             idEmpresaVincular = arrayEmpresas[i].idEmpresa
-    //             console.log("Codigo valido")
-    //         }
-
-    //         else {
-    //             console.log("Codigo Invalido")
-    //         }
-
-    //     }
+    var emailUserVar = ipt_email_user.value;
+    var phoneUserVar = phoneUserMask.unmaskedValue;
 
         // Região de pegar os dados para o Controller
         fetch('/empresas/registerCompanyAndUser', {
@@ -312,11 +338,11 @@ function register() {
                 nameUserServer: nameUserVar,
                 genderUserServer: genderUserVar,
                 passwordUserServer: passwordUserVar,
-                
+
                 emailUserServer: emailUserVar,
                 phoneUserServer: phoneUserVar
             })
-        }).then( async res => {
+        }).then(async res => {
             if (res.ok) {
                 Swal.fire({
                     title: "Cadastro realizado com sucesso!",
@@ -336,11 +362,11 @@ function register() {
                 timer: 2500
             });
         });
-}
+    }
+
 
 
 function getCountrys() {
-    console.log("CADE")
     fetch("/empresas/getCountry", {
         method: 'GET',
     })
@@ -358,7 +384,7 @@ function getCountrys() {
 
         }).catch(function (resposta) {
             console.log(resposta)
-    })
+        })
 }
 
 function getRole() {
@@ -380,7 +406,7 @@ function getRole() {
 
         }).catch(function (resposta) {
             console.log(resposta)
-    })
+        })
 }
 
 

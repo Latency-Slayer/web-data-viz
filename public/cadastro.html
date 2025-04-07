@@ -12,6 +12,10 @@
     <link rel="stylesheet" href="./style/cadastro.css">
     <link rel="stylesheet" href="./style/header.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Biblioteca iMask -->
+    <script src="https://unpkg.com/imask"></script>
+
 </head>
 
 <body onload="getCountrys(),getRole()">
@@ -97,21 +101,16 @@
                             <input id="ipt_legal_name" type="text" placeholder="Razão Social" required>
                             <i class='bx bx-info-circle'></i>
                         </div>
-                        <div class="input">
-                            <input id="ipt_number_fiscal" type="number" placeholder="Número de Registro Fiscal" required>
-                            <i class='bx bx-info-circle'></i>
-                        </div>
-                    </div>
-                    <div id="step2" style="display: none;">
                         <div class="select">
                             <select name="" id="slt_country_company">
                                 <option value="#" disabled selected>Selecione uma opção</option>
-                                <option value="3">Estados Unidos</option>
-                                <option value="4">China</option>
-                                <option value="5">França</option>
-                                <option value="2">Japão</option>
-                                <option value="1">Brasil</option>
                             </select>
+                        </div>
+                    </div>
+                    <div id="step2" style="display: none;">
+                        <div class="input">
+                            <input id="ipt_number_fiscal" type="text" placeholder="Número de Registro Fiscal" required>
+                            <i class='bx bx-info-circle'></i>
                         </div>
                         <div class="input">
                             <input id="ipt_email_company" type="text" placeholder="Email" required>
@@ -145,7 +144,6 @@
                             <i class='bx bx-info-circle'></i>
                         </div>
                     </div>
-
                     <div id="step4" style="display: none;">
                         <div class="input">
                             <input id="ipt_email_user" type="text" placeholder="Email" required>
@@ -159,7 +157,7 @@
 
                     <button type="button" class="btn" id="btn_back">Voltar</button>
                     <button type="button" class="btn" id="btn_next">Próximo</button>
-                    <button onclick="register()" type="button" class="btn" id="btn_register">Cadastrar</button>
+                    <button type="button" class="btn" id="btn_register">Cadastrar</button>
                 </form>
             </div>
 

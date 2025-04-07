@@ -6,7 +6,7 @@ function listar(){
     return database.executar(instrucaoSql);
 }
 function getCountry(){
-    var instrucaoSql = 'SELECT id_country, name, country_code FROM country;'
+    var instrucaoSql = 'SELECT id_country, name, country_code, mask_company_registration_number, mask_phone FROM country;'
     
     return database.executar(instrucaoSql);
 }
