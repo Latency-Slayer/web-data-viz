@@ -6,20 +6,20 @@ function getRole(req,res){
         })
 }
 
-function autenticar(req, res) {
-    var email = req.body.emailServer;
-    var senha = req.body.senhaServer;
-    console.log('SSSSSSSSSSSSSS')
+function login(req, res) {
+    var email = req.body.loginEmailServer;
+    var password = req.body.loginPasswordServer;
+
     console.log(email)
-    console.log(senha)
+    console.log(password)
 
     if (email == undefined) {
         res.status(400).send("Seu email está undefined!");
-    } else if (senha == undefined) {
-        res.status(400).send("Sua senha está indefinida!");
+    } else if (password == undefined) {
+        res.status(400).send("Sua password está indefinida!");
     } else {
 
-        usuarioModel.autenticar(email, senha)
+        usuarioModel.login(email, password)
             .then(
                 function (resultadoAutenticar) {
                     console.log(`\nResultados encontrados: ${resultadoAutenticar.length}`);
@@ -27,13 +27,8 @@ function autenticar(req, res) {
 
                     if (resultadoAutenticar.length == 1) {
                         console.log(resultadoAutenticar);
-                                    res.json({
-                                        email: resultadoAutenticar[0].email,
-                                        nome: resultadoAutenticar[0].nome,
-                                        cargo: resultadoAutenticar[0].cargo,
-                                        fkempresa: resultadoAutenticar[0].fkempresa,
-                                        senha: resultadoAutenticar[0].senha
-                                    });
+                        const usuario = resultadoAutenticar[0];
+                        res.status(200).json(usuario);
                                 
                     } else if (resultadoAutenticar.length == 0) {
                         res.status(403).send("Email e/ou senha inválido(s)");
@@ -90,7 +85,7 @@ function cadastrarFuncionario(req, res) {
     }
 }
 module.exports = {
-    autenticar,
+    login,
     cadastrarFuncionario,
     getRole
 }

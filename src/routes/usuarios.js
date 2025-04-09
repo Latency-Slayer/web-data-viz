@@ -11,8 +11,8 @@ router.post("/registerUser", function (req, res) {
     usuarioController.registerUser(req, res);
 })
 
-router.post("/autenticar", function (req, res) {
-    usuarioController.autenticar(req, res);
+router.post("/login", function (req, res) {
+    usuarioController.login(req, res);
 });
 
 router.post("/cadastrarFuncionario", function (req, res) {

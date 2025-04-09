@@ -315,7 +315,6 @@ function register() {
     var nameUserVar = ipt_name_user.value;
     var genderUserVar = slt_gender.value;
     var passwordUserVar = ipt_password_user.value;
-    var confirmPasswordUserVar = ipt_confirm_password.value;
 
     var emailUserVar = ipt_email_user.value;
     var phoneUserVar = phoneUserMask.unmaskedValue;
@@ -388,7 +387,6 @@ function getCountries() {
 }
 
 function getRole() {
-    console.log("CADE")
     fetch("/usuarios/getRole", {
         method: 'GET',
     })
@@ -413,37 +411,56 @@ function getRole() {
 
 // --------------- Sessão Login -----------------
 function entrar() {
-    var emailVar = email_ipt.value;
-    var senhaVar = senha_ipt.value;
+    var loginEmailVar = ipt_login_email.value;
+    var loginPasswordVar = ipt_login_password.value;
 
-    fetch("/usuarios/autenticar", {
+    let mensagemErro = "";
+
+    fetch("/usuarios/login", {
         method: 'POST',
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            emailServer: emailVar,
-            senhaServer: senhaVar
+            loginEmailServer: loginEmailVar,
+            loginPasswordServer: loginPasswordVar
         })
     }).then(function (resposta) {
         console.log("entrei no then do entrar()!!")
-        resposta.json().then(function (json) {
-            console.log(json)
 
-            sessionStorage.NOME_USUARIO = json.nome;
-            sessionStorage.EMAIL_USUARIO = json.email;
-            sessionStorage.CARGO_USUARIO = json.cargo;
-            sessionStorage.ID_EMPRESA = json.fkempresa;
+        if(resposta.ok){
+            console.log(resposta);
+            mensagemErro += "Login realizado com sucesso!"
+            
+            resposta.json().then(function (json) {
+                console.log(json)
+                sessionStorage.NAME_USER = json.name;
+                sessionStorage.EMAIL_USER = json.email;
+                sessionStorage.ROLE_USER = json.id_opt_role;
+                sessionStorage.ID_COMPANY = json.id_company;
+                sessionStorage.COMMERCIAL_NAME = json.commercial_name;
+    
+                if (json.id_opt_role == 1) {
+                    window.location = "./dashs/gestor.html"
+                } else if(json.id_opt_role == 2){
+                    // window.location = "./index.html" Levar para a tela da role 2
+                } else if(json.id_opt_role == 3){
+                    // window.location = "./index.html" Levar para a tela da role 3
+                }
 
-            if (json.cargo == "analista") {
-                window.location = "./dashs/analiticoGeral.html"
-            } else if (json.cargo == "suporte") {
-                window.location = "./dashs/suporte.html"
-            } else if (json.cargo == "gestor") {
-                window.location = "./dashs/gestor.html"
-            }
-
-        })
+                // if (json.id_opt_role == 1) {
+                // } else if(json.id_opt_role == 2){
+                //     window.location = "./dashs/gestor.html"
+                // } else if(json.id_opt_role == 3){
+                //     window.location = "./dashs/gestor.html"
+                // }
+            })
+        } else {
+            mensagemErro += "Email ou Senha inválido";
+            resposta.text().then(texto => {
+                console.error(texto);
+            });
+        }
 
     }).catch(function (resposta) {
         console.log(resposta)
