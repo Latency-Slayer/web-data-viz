@@ -79,237 +79,329 @@ botao2.addEventListener('click', () => {
 })
 // --------------- Sessão Cadastro -----------------
 
-let arrayEmpresas = [];
+let arrayCountrys = [];
+let arraysRoles = [];
+let registerMask, phoneMask, phoneUserMask;
 
-function cadastrar() {
-    var nomeVar = nome_ipt.value;
-    var emailVar = email_ipt2.value;
-    var cpfVar = cpf_ipt.value;
-    var codigoVar = codigo_ipt.value;
-    var senhaVar = senha_ipt2.value;
-    var confirmacaoSenha = confirmeSenha_ipt.value;
-    var idEmpresaVincular;
+// 
+document.addEventListener("DOMContentLoaded", function () {
+    let steps = ["step1", "step2", "step3", "step4"];
+    let currentStep = 0;
 
-    var mensagemErro = "";
+    let btnNext = document.getElementById("btn_next");
+    let btnBack = document.getElementById("btn_back");
+    let btnRegister = document.getElementById("btn_register");
+    let register_company_user = document.getElementById("register_company_user");
 
+    // This part explains the dinamic select on country, using fetch on database 
+    const countryCompany = document.getElementById("slt_country_company");
+    const manterPrimeiraOpcao = countryCompany.options[0];
 
-    console.log("TO PARTE 0 CADASTRO")
+    let countrysMasks = [];
 
-    if (nomeVar == "" ||
-        emailVar == "" ||
-        cpfVar == "" ||
-        codigoVar == "" ||
-        senhaVar == "" ||
-        confirmacaoSenha == ""
-    ) {
-        Swal.fire({
-            title: "erro ao realizar cadastro",
-            text: "Algum campo vazio",
-            icon: 'error',
-            timer: 2500
+    fetch("/empresas/getCountry")
+        .then(response => response.json())
+        .then(data => {
+            countryCompany.innerHTML = "";
+            countryCompany.appendChild(manterPrimeiraOpcao);
+
+            data.forEach(pais => {
+                const option = document.createElement("option");
+                option.value = pais.id_country;
+                option.textContent = pais.name;
+                countryCompany.appendChild(option);
+
+                // This part take the maskRegister and maskPhone from database, and store on vector
+                countrysMasks[pais.id_country] = {
+                    maskRegister: pais.mask_company_registration_number,
+                    maskPhone: pais.mask_phone,
+                    maskPhoneUser: pais.mask_phone
+                };
+
+            });
         })
-        // Não passar enquanto tive algum campo vazio
-        return;
-    }
+        .catch(error => {
+            console.error("Erro ao carregar os países:", error);
+        });
+
+    const registrationNumberMaskCompany = document.getElementById("ipt_number_fiscal");
+    const phoneMaskCompany = document.getElementById("ipt_phone_company");
+    const phoneMaskUser = document.getElementById("ipt_phone_user");
+
+    // Event on change, when he select the country, this function change the input register and phone agreed the country sele
+    countryCompany.addEventListener("change", function () {
+        const idCountrySelected = this.value;
+        const countrySelected = countrysMasks[idCountrySelected];
+
+        if (countrySelected) {
+
+            registerMask = IMask(registrationNumberMaskCompany, {
+                mask: countrySelected.maskRegister
+            });
+
+            phoneMask = IMask(phoneMaskCompany, {
+                mask: countrySelected.maskPhone
+            });
+
+            phoneUserMask = IMask(phoneMaskUser, {
+                mask: countrySelected.maskPhoneUser
+            });
+        }
+    });
 
 
-    // Caracteres Esp. = !@#$%
-    var email_ok = false;
-    var senhaIgual = false;
-    var caractereEspecial = false;
-    var cpf_ok = false;
-    var senha_ok = false;
-    var number_ok = false;
-    var letraMinuscula_ok = false;
-    var letraMaiuscula_ok = false;
+    function updateSteps() {
+        document.getElementById(steps[0]).style.display = "none";
+        document.getElementById(steps[1]).style.display = "none";
+        document.getElementById(steps[2]).style.display = "none";
+        document.getElementById(steps[3]).style.display = "none";
 
-    console.log("TO PARTE 1 CADASTRO")
+        btnRegister.style.display = "none"
+        document.getElementById(steps[currentStep]).style.display = "block";
 
-    console.log("TO PARTE x CADASTRO")
-
-    if (emailVar.includes('@') && emailVar.includes('.')) {
-        email_ok = true;
-    } else {
-        mensagemErro += "Email invalido,"
-    }
-
-    if (cpfVar.length != 11 || isNaN(cpfVar)) {
-        mensagemErro += 'CPF invalido,'
-    } else {
-        cpf_ok = true;
-    }
-
-    if (senhaVar == confirmacaoSenha) {
-        senhaIgual = true;
-    }
-
-
-    console.log("aaaaa")
-
-    console.log(email_ok)
-    console.log(senhaIgual)
-    console.log(caractereEspecial)
-    console.log(cpf_ok)
-    console.log(senha_ok)
-    console.log(number_ok)
-    console.log(letraMinuscula_ok)
-    console.log(letraMaiuscula_ok)
-
-
-    if ((senhaVar != "" || confirmacaoSenha != '')) {
-        if (senhaVar.length < 8) {
-            mensagemErro += "Senha sem quantidade necessaria de caracteres, "
+        if (currentStep >= 1) {
+            btnBack.style.display = "block";
         } else {
-            senha_ok = true;
-            for (let i = 0; i < senhaVar.length; i++) {
-                const letraAtual = senhaVar[i];
-                var letraMaius = letraAtual.toUpperCase();
-                var letraMinus = letraAtual.toLowerCase();
+            btnBack.style.display = "none";
+        }
+        if (currentStep >= 2) {
+            register_company_user.textContent = "Cadastrar Usuário"
+        } else {
+            register_company_user.textContent = "Cadastrar Empresa"
+        }
 
-                if (letraAtual.includes('@') ||
-                    letraAtual.includes('!') ||
-                    letraAtual.includes('#') ||
-                    letraAtual.includes('$') ||
-                    letraAtual.includes('%')
-                ) {
-                    caractereEspecial = true;
-                } else if (isNaN(letraAtual)) {
-                    if (letraAtual == letraMaius) {
-                        letraMaiuscula_ok = true;
+        if (currentStep == 3) {
+            btnNext.style.display = "none";
+            btnRegister.style.display = "block"
+        } else {
+            btnNext.textContent = "Próximo"
+            btnNext.style.display = "block"
+        }
+
+    }
+
+    function validateFields(step) {
+        let mensagemErro = "";
+    
+        const specialChars = /[!@#$%^&*(),.?":{}|<>]/;
+        const hasUpperCase = /[A-Z]/;
+        const hasLowerCase = /[a-z]/;
+        const hasNumber = /[0-9]/;
+    
+        const commercialNameCompanyVar = ipt_commercial_name.value;
+        const legalNameCompanyVar = ipt_legal_name.value;
+        const numberFiscalCompanyVar = ipt_number_fiscal.value;
+    
+        const countryCompanyVar = slt_country_company.value;
+        const emailCompanyVar = ipt_email_company.value;
+        const phoneCompanyVar = ipt_phone_company.value;
+    
+        const nameUserVar = ipt_name_user.value;
+        const genderUserVar = slt_gender.value;
+        const passwordUserVar = ipt_password_user.value;
+        const confirmPasswordUserVar = ipt_confirm_password.value;
+    
+        const emailUserVar = ipt_email_user.value;
+        const phoneUserVar = ipt_phone_user.value;
+    
+        switch (step) {
+            case 0: //Company: Commercial Name, Legal Name, Country
+                if (!commercialNameCompanyVar || !legalNameCompanyVar || countryCompanyVar === "#") {
+                    mensagemErro += "Preencha o Nome Fantasia, Razão Social e Selecione um País.\n";
+                } else if(specialChars.test(commercialNameCompanyVar)){
+                    mensagemErro += "O Nome Fantasia não pode conter caractéres especiais.\n"
+                } else if(hasNumber.test(commercialNameCompanyVar)){
+                    mensagemErro += "O Nome Fantasia não pode conter números.\n"
+                } else if(specialChars.test(legalNameCompanyVar)){
+                    mensagemErro += "A Razão Social não pode conter caractéres especiais.\n"
+                } else if(hasNumber.test(legalNameCompanyVar)){
+                    mensagemErro += "A Razão Social não pode conter números.\n"
+                }
+                break;
+    
+            case 1: //Company: register number, email, phone
+                if (!numberFiscalCompanyVar) {
+                    mensagemErro += "Informe o Número Fiscal da Empresa.\n";
+                }
+                if (!emailCompanyVar || !emailCompanyVar.includes('@') || !emailCompanyVar.includes('.')) {
+                    mensagemErro += "Informe um E-mail válido da Empresa.\n";
+                }
+                if (!phoneCompanyVar) {
+                    mensagemErro += "Informe o telefone da empresa.\n";
+                }
+                break;
+    
+            case 2: //User: name, gender, password, confirm password
+                if (!nameUserVar || genderUserVar === "#") {
+                    mensagemErro += "Preencha o Nome e Selecione o Gênero.\n";
+                } else if(specialChars.test(nameUserVar)){
+                    mensagemErro += "O Nome não pode conter caractéres especiais.\n"
+                } else if(hasNumber.test(nameUserVar)){
+                    mensagemErro += "O Nome não pode conter números.\n"
+                }
+    
+                if (!passwordUserVar || !confirmPasswordUserVar) {
+                    mensagemErro += "Preencha a senha e a confirmação de senha.\n";
+                } else if (passwordUserVar !== confirmPasswordUserVar) {
+                    mensagemErro += "Senhas não coincidem.\n";
+                } else {
+                    if (passwordUserVar.length < 8) {
+                        mensagemErro += "A senha deve ter pelo menos 8 caracteres.\n";
                     }
-                    if (letraAtual == letraMinus) {
-                        letraMinuscula_ok = true;
+                    if (!specialChars.test(passwordUserVar)) {
+                        mensagemErro += "A senha deve conter pelo menos um caractere especial (!@#$%).\n";
+                    }
+                    if (!hasUpperCase.test(passwordUserVar)) {
+                        mensagemErro += "A senha deve conter pelo menos uma letra maiúscula.\n";
+                    }
+                    if (!hasLowerCase.test(passwordUserVar)) {
+                        mensagemErro += "A senha deve conter pelo menos uma letra minúscula.\n";
+                    }
+                    if (!hasNumber.test(passwordUserVar)) {
+                        mensagemErro += "A senha deve conter pelo menos um número.\n";
                     }
                 }
-                if (!isNaN(letraAtual)) {
-                    number_ok = true;
+                break;
+            case 3: //User: email, phone
+                if (!emailUserVar || !emailUserVar.includes('@') || !emailUserVar.includes('.')) {
+                    mensagemErro += "Informe um E-mail válido.\n";
                 }
+                if (!phoneUserVar) {
+                    mensagemErro += "Informe o telefone.\n";
+                }
+                break;
+        }
+    
+        if (mensagemErro !== "") {
+            Swal.fire("Atenção", mensagemErro, "warning");
+            return false;
+        }
+    
+        return true;
+    }    
+
+    btnNext.addEventListener("click", function () {
+        if(validateFields(currentStep)){
+            if (currentStep < steps.length - 1) {
+                currentStep++;
+                updateSteps();
             }
         }
-
-        if (caractereEspecial == false) {
-            mensagemErro += "\n Adicione caracter especial (!@#$%), "
+    });
+    btnBack.addEventListener("click", function () {
+        if (currentStep > 0) {
+            currentStep--;
+            updateSteps();
         }
-        if (number_ok == false) {
-            mensagemErro += "\n Adicione numeros a sua senha (1235), "
+    });
+    btnRegister.addEventListener("click", function(){
+        if (validateFields(3)) {
+            register();
         }
-        if (letraMinuscula_ok == false) {
-            mensagemErro += "\n Adicione letra minuscula a sua senha, "
-        }
-        if (letraMaiuscula_ok == false) {
-            mensagemErro += "\n Adicione letra maiscula a sua senha, "
-        }
-        else if (!senhaIgual) {
-            mensagemErro += ", Senha não está igual a confirmação"
-        }
+    })
 
-        console.log("TO PARTE 2 CADASTRO")
+    updateSteps();
+});
 
-        console.log(email_ok)
-        console.log(senhaIgual)
-        console.log(caractereEspecial)
-        console.log(cpf_ok)
-        console.log(senha_ok)
-        console.log(number_ok)
-        console.log(letraMinuscula_ok)
-        console.log(letraMaiuscula_ok)
+function register() {
+    var commercialNameCompanyVar = ipt_commercial_name.value;
+    var legalNameCompanyVar = ipt_legal_name.value;
+    var numberFiscalCompanyVar = registerMask.unmaskedValue;
 
-        if (!email_ok ||
-            !senhaIgual ||
-            !caractereEspecial ||
-            !cpf_ok ||
-            !senha_ok ||
-            !number_ok ||
-            !letraMinuscula_ok ||
-            !letraMaiuscula_ok) {
+    var countryCompanyVar = slt_country_company.value;
+    var emailCompanyVar = ipt_email_company.value;
+    var phoneCompanyVar = phoneMask.unmaskedValue;
 
-            Swal.fire({
-                title: "erro ao realizar cadastro",
-                text: mensagemErro,
-                icon: 'error',
-                timer: 2500
-            })
+    var nameUserVar = ipt_name_user.value;
+    var genderUserVar = slt_gender.value;
+    var passwordUserVar = ipt_password_user.value;
+    var confirmPasswordUserVar = ipt_confirm_password.value;
 
-            return;
+    var emailUserVar = ipt_email_user.value;
+    var phoneUserVar = phoneUserMask.unmaskedValue;
 
-        }
-
-        for (let i = 0; i < arrayEmpresas.length; i++) {
-            if (arrayEmpresas[i].codigo == codigoVar) {
-                idEmpresaVincular = arrayEmpresas[i].idEmpresa
-                console.log("Codigo valido")
-            }
-
-            else {
-                console.log("Codigo Invalido")
-            }
-
-        }
-
-        fetch('/usuarios/cadastrar', {
+        // Região de pegar os dados para o Controller
+        fetch('/empresas/registerCompanyAndUser', {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                nomeServer: nomeVar,
-                emailServer: emailVar,
-                cpfServer: cpfVar,
-                senhaServer: senhaVar,
-                idEmpresaVincularServer: idEmpresaVincular
+                commercialNameCompanyServer: commercialNameCompanyVar,
+                legalNameCompanyServer: legalNameCompanyVar,
+                numberFiscalCompanyServer: numberFiscalCompanyVar,
+
+                countryCompanyServer: countryCompanyVar,
+                emailCompanyServer: emailCompanyVar,
+                phoneCompanyServer: phoneCompanyVar,
+
+                nameUserServer: nameUserVar,
+                genderUserServer: genderUserVar,
+                passwordUserServer: passwordUserVar,
+
+                emailUserServer: emailUserVar,
+                phoneUserServer: phoneUserVar
             })
-        }).then(function (resposta) {
-            console.log("resposta: ", resposta);
-
-            if (resposta.ok) {
-                console.log("Dados Cadastrados")
-                const button = document.getElementById("alerta")
-
+        }).then(async res => {
+            if (res.ok) {
                 Swal.fire({
-                    title: "Cadastro Realizado com sucesso!",
+                    title: "Cadastro realizado com sucesso!",
                     icon: "success",
                     timer: 2500
                 });
-
-                var container = document.querySelector('.container');
-                container.classList.remove('ativado');
+                document.querySelector('.container').classList.remove('ativado');
             } else {
-                Swal.fire({
-                    title: "erro ao realizar cadastro",
-                    text: mensagemErro,
-                    icon: 'error',
-                    timer: 2500
-                })
-
-                throw "erro ao tentar realizar o cadastro!";
+                throw new Error("Erro ao cadastrar usuário");
             }
-
-        }).catch(function (resposta) {
-            console.log("ERRO;", resposta)
-        })
-
-
+        }).catch(err => {
+            console.error(err);
+            Swal.fire({
+                title: "Erro",
+                text: err.message,
+                icon: 'error',
+                timer: 2500
+            });
+        });
     }
 
 
-}
 
-function listarEmpresas() {
-
-    fetch("/empresas/listar", {
+function getCountries() {
+    fetch("/empresas/getCountry", {
         method: 'GET',
     })
         .then(function (resposta) {
             resposta.json().then(function (json) {
                 console.log(json)
-                arrayEmpresas = json
+                arrayCountrys = json
 
+                json.forEach((country) => {
+                    arrayCountrys.push(country)
+                    console.log(resposta.ok)
+                    console.log(arrayCountrys[0].codigo)
+                });
+            })
 
-                // json.forEach((empresa) => {
-                //     arrayEmpresas.push(empresa)
-                //     console.log(resposta.ok)
-                //     console.log(arrayEmpresas[0].codigo)
-                // });
+        }).catch(function (resposta) {
+            console.log(resposta)
+        })
+}
+
+function getRole() {
+    console.log("CADE")
+    fetch("/usuarios/getRole", {
+        method: 'GET',
+    })
+        .then(function (resposta) {
+            resposta.json().then(function (json) {
+                console.log(json)
+                arrayRoles = json
+
+                json.forEach((Role) => {
+                    arrayRoles.push(Role)
+                    console.log(resposta.ok)
+                    console.log(arrayRoles[0].codigo)
+                });
             })
 
         }).catch(function (resposta) {

@@ -12,9 +12,13 @@
     <link rel="stylesheet" href="./style/cadastro.css">
     <link rel="stylesheet" href="./style/header.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Biblioteca iMask -->
+    <script src="https://unpkg.com/imask"></script>
+
 </head>
 
-<body onload="listarEmpresas()">
+<body onload="getCountries(),getRole()">
 
     <!-- Header -->
     <div id="navBar">
@@ -87,33 +91,73 @@
 
             <div class="formulario cadastrar transicao">
                 <form action="">
-                    <h1>Cadastrar</h1>
-                    <div class="input">
-                        <input id="nome_ipt" type="text" placeholder="Nome" required>
-                        <i class='bx bx-info-circle'></i>
+                    <h1 id="register_company_user">Cadastrar Empresa</h1>
+                    <div id="step1" style="display: block;">
+                        <div class="input">
+                            <input id="ipt_commercial_name" type="text" placeholder="Nome Comercial" required>
+                            <i class='bx bx-info-circle'></i>
+                        </div>
+                        <div class="input">
+                            <input id="ipt_legal_name" type="text" placeholder="Razão Social" required>
+                            <i class='bx bx-info-circle'></i>
+                        </div>
+                        <div class="select">
+                            <select name="" id="slt_country_company">
+                                <option value="#" disabled selected>Selecione uma opção</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="input">
-                        <input id="email_ipt2" type="email" placeholder="E-mail" required>
-                        <i class='bx bxl-gmail'></i>
-                    </div>
-                    <div class="input">
-                        <input id="cpf_ipt" type="co" placeholder="CPF" required>
-                        <i class='bx bx-info-circle'></i>
-                    </div>
-                    <div class="input">
-                        <input id="codigo_ipt" type="text" placeholder="Codigo Empresa" required>
-                        <i class='bx bx-lock'></i>
-                    </div>
-                    <div class="input">
-                        <input id="senha_ipt2" type="password" placeholder="Senha" required>
-                        <i class='bx bx-lock'></i>
-                    </div>
-                    <div class="input">
-                        <input  id="confirmeSenha_ipt" type="password" placeholder="Confirme a sua senha" required>
-                        <i class='bx bx-lock' ></i>
+                    <div id="step2" style="display: none;">
+                        <div class="input">
+                            <input id="ipt_number_fiscal" type="text" placeholder="Número de Registro Fiscal" required>
+                            <i class='bx bx-info-circle'></i>
+                        </div>
+                        <div class="input">
+                            <input id="ipt_email_company" type="text" placeholder="Email" required>
+                            <i class='bx bx-info-circle'></i>
+                        </div>
+                        <div class="input">
+                            <input id="ipt_phone_company" type="tel" placeholder="Telefone" required>
+                            <i class='bx bx-info-circle'></i>
+                        </div>
                     </div>
 
-                    <button onclick="cadastrar()" type="button" class="btn">Cadastrar</button>
+                    <div id="step3" style="display: none;">
+                        <div class="input">
+                            <input id="ipt_name_user" type="text" placeholder="Nome Completo" required>
+                            <i class='bx bx-info-circle'></i>
+                        </div>
+                        <div class="select">
+                            <select name="" id="slt_gender">
+                                <option value="#" disabled selected>Selecione uma opção</option>
+                                <option value="male">Masculino</option>
+                                <option value="female">Feminino</option>
+                                <option value="other">Outro</option>
+                            </select>
+                        </div>
+                        <div class="input">
+                            <input id="ipt_password_user" type="password" placeholder="Senha" required>
+                            <i class='bx bx-info-circle'></i>
+                        </div>
+                        <div class="input">
+                            <input id="ipt_confirm_password" type="password" placeholder="Confirme sua Senha" required>
+                            <i class='bx bx-info-circle'></i>
+                        </div>
+                    </div>
+                    <div id="step4" style="display: none;">
+                        <div class="input">
+                            <input id="ipt_email_user" type="text" placeholder="Email" required>
+                            <i class='bx bx-info-circle'></i>
+                        </div>
+                        <div class="input">
+                            <input id="ipt_phone_user" type="tel" placeholder="Telefone" required>
+                            <i class='bx bx-info-circle'></i>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn" id="btn_back">Voltar</button>
+                    <button type="button" class="btn" id="btn_next">Próximo</button>
+                    <button type="button" class="btn" id="btn_register">Cadastrar</button>
                 </form>
             </div>
 
@@ -127,8 +171,8 @@
 
             <div class="alternar_formulario transicao">
                 <div class="alternar_informacao alternar_direita transicao">
-                    <h1>Ola novamente!</h1>
-                    <p>Já possui uma conta ainda?</p>
+                    <h1>Olá novamente!</h1>
+                    <p>Já possui uma conta?</p>
                     <button class="btn btn_login">Login</button>
                 </div>
             </div>

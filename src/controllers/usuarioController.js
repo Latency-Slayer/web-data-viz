@@ -1,5 +1,11 @@
 var usuarioModel = require("../models/usuarioModel");
 
+function getRole(req,res){
+     usuarioModel.getRole().then((resultado) => {
+            res.status(200).json(resultado);
+        })
+}
+
 function autenticar(req, res) {
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
@@ -47,28 +53,26 @@ function autenticar(req, res) {
     }
 
 }
-
-function cadastrar(req, res) {
+function cadastrarFuncionario(req, res) {
     var nome = req.body.nomeServer;
-    var email = req.body.emailServer;
-    var cpf = req.body.cpfServer;
+    var gender = req.body.genderServer;
     var senha = req.body.senhaServer;
-    var fkEmpresa = req.body.idEmpresaVincularServer;
+    var fkCargo = req.body.fkCargoServer;
 
     if (nome == undefined) {
         res.status(400).send("Seu nome está undefined!");
-    } else if (email == undefined) {
-        res.status(400).send("Seu email está undefined!");
+    } else if (gender == undefined) {
+        res.status(400).send("Seu gênero está undefined!");
     } else if (senha == undefined) {
         res.status(400).send("Sua senha está undefined!");
-    } else if (fkEmpresa == undefined) {
-        res.status(400).send("Sua empresa a vincular está undefined!");
+    } else if (fkCargo == undefined) {
+        res.status(400).send("Seu cargo está undefined!");
     } else {
         
         // Select de validação de email
         /* Passou? entao cadastra /// Não passou? então retorna pro front o erro  */
 
-        usuarioModel.cadastrar(nome, email, cpf, senha, fkEmpresa)
+        usuarioModel.cadastrarFuncionario(nome, gender, senha, fkCargo)
             .then(
                 function (resultado) {
                     res.json(resultado);
@@ -85,8 +89,8 @@ function cadastrar(req, res) {
             );
     }
 }
-
 module.exports = {
     autenticar,
-    cadastrar
+    cadastrarFuncionario,
+    getRole
 }
