@@ -53,13 +53,13 @@ async function registerServer(serverData) {
         [motherboard_id, tag_name, type, instance_id, so, city, userData.fk_company, country.id_country]
     );
 
-    await registerComponent(components, serverInsert.insertId);
+    registerComponent(components, serverInsert.insertId);
 
     return serverInsert;
 }
 
 
-async function registerComponent(componentData, serverId) {
+function registerComponent(componentData, serverId) {
     componentData.forEach(async (component) => {
         const { tag_name, type, metrics } = component;
 
@@ -68,7 +68,7 @@ async function registerComponent(componentData, serverId) {
         metrics.forEach(async (sentMetric) => {
             const { metric, max_limit, min_limit, total } = sentMetric;
 
-            await database.executar("INSERT INTO metric (metric, max_limit, min_limit, total, fk_component) VALUE (?, ?, ?, ?, ?)",
+            database.executar("INSERT INTO metric (metric, max_limit, min_limit, total, fk_component) VALUE (?, ?, ?, ?, ?)",
                 [metric, max_limit, min_limit, total, componentInsert.insertId]);
         });
     });
