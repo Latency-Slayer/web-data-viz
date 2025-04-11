@@ -182,43 +182,43 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function validateFields(step) {
         let mensagemErro = "";
-    
+
         const specialChars = /[!@#$%^&*(),.?":{}|<>]/;
         const hasUpperCase = /[A-Z]/;
         const hasLowerCase = /[a-z]/;
         const hasNumber = /[0-9]/;
-    
+
         const commercialNameCompanyVar = ipt_commercial_name.value;
         const legalNameCompanyVar = ipt_legal_name.value;
         const numberFiscalCompanyVar = ipt_number_fiscal.value;
-    
+
         const countryCompanyVar = slt_country_company.value;
         const emailCompanyVar = ipt_email_company.value;
         const phoneCompanyVar = ipt_phone_company.value;
-    
+
         const nameUserVar = ipt_name_user.value;
         const genderUserVar = slt_gender.value;
         const passwordUserVar = ipt_password_user.value;
         const confirmPasswordUserVar = ipt_confirm_password.value;
-    
+
         const emailUserVar = ipt_email_user.value;
         const phoneUserVar = ipt_phone_user.value;
-    
+
         switch (step) {
             case 0: //Company: Commercial Name, Legal Name, Country
                 if (!commercialNameCompanyVar || !legalNameCompanyVar || countryCompanyVar === "#") {
                     mensagemErro += "Preencha o Nome Fantasia, Razão Social e Selecione um País.\n";
-                } else if(specialChars.test(commercialNameCompanyVar)){
+                } else if (specialChars.test(commercialNameCompanyVar)) {
                     mensagemErro += "O Nome Fantasia não pode conter caractéres especiais.\n"
-                } else if(hasNumber.test(commercialNameCompanyVar)){
+                } else if (hasNumber.test(commercialNameCompanyVar)) {
                     mensagemErro += "O Nome Fantasia não pode conter números.\n"
-                } else if(specialChars.test(legalNameCompanyVar)){
+                } else if (specialChars.test(legalNameCompanyVar)) {
                     mensagemErro += "A Razão Social não pode conter caractéres especiais.\n"
-                } else if(hasNumber.test(legalNameCompanyVar)){
+                } else if (hasNumber.test(legalNameCompanyVar)) {
                     mensagemErro += "A Razão Social não pode conter números.\n"
                 }
                 break;
-    
+
             case 1: //Company: register number, email, phone
                 if (!numberFiscalCompanyVar) {
                     mensagemErro += "Informe o Número Fiscal da Empresa.\n";
@@ -230,16 +230,16 @@ document.addEventListener("DOMContentLoaded", function () {
                     mensagemErro += "Informe o telefone da empresa.\n";
                 }
                 break;
-    
+
             case 2: //User: name, gender, password, confirm password
                 if (!nameUserVar || genderUserVar === "#") {
                     mensagemErro += "Preencha o Nome e Selecione o Gênero.\n";
-                } else if(specialChars.test(nameUserVar)){
+                } else if (specialChars.test(nameUserVar)) {
                     mensagemErro += "O Nome não pode conter caractéres especiais.\n"
-                } else if(hasNumber.test(nameUserVar)){
+                } else if (hasNumber.test(nameUserVar)) {
                     mensagemErro += "O Nome não pode conter números.\n"
                 }
-    
+
                 if (!passwordUserVar || !confirmPasswordUserVar) {
                     mensagemErro += "Preencha a senha e a confirmação de senha.\n";
                 } else if (passwordUserVar !== confirmPasswordUserVar) {
@@ -271,17 +271,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
                 break;
         }
-    
+
         if (mensagemErro !== "") {
             Swal.fire("Atenção", mensagemErro, "warning");
             return false;
         }
-    
+
         return true;
-    }    
+    }
 
     btnNext.addEventListener("click", function () {
-        if(validateFields(currentStep)){
+        if (validateFields(currentStep)) {
             if (currentStep < steps.length - 1) {
                 currentStep++;
                 updateSteps();
@@ -294,7 +294,7 @@ document.addEventListener("DOMContentLoaded", function () {
             updateSteps();
         }
     });
-    btnRegister.addEventListener("click", function(){
+    btnRegister.addEventListener("click", function () {
         if (validateFields(3)) {
             register();
         }
@@ -319,49 +319,49 @@ function register() {
     var emailUserVar = ipt_email_user.value;
     var phoneUserVar = phoneUserMask.unmaskedValue;
 
-        // Região de pegar os dados para o Controller
-        fetch('/empresas/registerCompanyAndUser', {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                commercialNameCompanyServer: commercialNameCompanyVar,
-                legalNameCompanyServer: legalNameCompanyVar,
-                numberFiscalCompanyServer: numberFiscalCompanyVar,
+    // Região de pegar os dados para o Controller
+    fetch('/empresas/registerCompanyAndUser', {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            commercialNameCompanyServer: commercialNameCompanyVar,
+            legalNameCompanyServer: legalNameCompanyVar,
+            numberFiscalCompanyServer: numberFiscalCompanyVar,
 
-                countryCompanyServer: countryCompanyVar,
-                emailCompanyServer: emailCompanyVar,
-                phoneCompanyServer: phoneCompanyVar,
+            countryCompanyServer: countryCompanyVar,
+            emailCompanyServer: emailCompanyVar,
+            phoneCompanyServer: phoneCompanyVar,
 
-                nameUserServer: nameUserVar,
-                genderUserServer: genderUserVar,
-                passwordUserServer: passwordUserVar,
+            nameUserServer: nameUserVar,
+            genderUserServer: genderUserVar,
+            passwordUserServer: passwordUserVar,
 
-                emailUserServer: emailUserVar,
-                phoneUserServer: phoneUserVar
-            })
-        }).then(async res => {
-            if (res.ok) {
-                Swal.fire({
-                    title: "Cadastro realizado com sucesso!",
-                    icon: "success",
-                    timer: 2500
-                });
-                document.querySelector('.container').classList.remove('ativado');
-            } else {
-                throw new Error("Erro ao cadastrar usuário");
-            }
-        }).catch(err => {
-            console.error(err);
+            emailUserServer: emailUserVar,
+            phoneUserServer: phoneUserVar
+        })
+    }).then(async res => {
+        if (res.ok) {
             Swal.fire({
-                title: "Erro",
-                text: err.message,
-                icon: 'error',
+                title: "Cadastro realizado com sucesso!",
+                icon: "success",
                 timer: 2500
             });
+            document.querySelector('.container').classList.remove('ativado');
+        } else {
+            throw new Error("Erro ao cadastrar usuário");
+        }
+    }).catch(err => {
+        console.error(err);
+        Swal.fire({
+            title: "Erro",
+            text: err.message,
+            icon: 'error',
+            timer: 2500
         });
-    }
+    });
+}
 
 
 
@@ -428,10 +428,10 @@ function entrar() {
     }).then(function (resposta) {
         console.log("entrei no then do entrar()!!")
 
-        if(resposta.ok){
+        if (resposta.ok) {
             console.log(resposta);
             mensagemErro += "Login realizado com sucesso!"
-            
+
             resposta.json().then(function (json) {
                 console.log(json)
                 sessionStorage.NAME_USER = json.name;
@@ -439,12 +439,19 @@ function entrar() {
                 sessionStorage.ROLE_USER = json.id_opt_role;
                 sessionStorage.ID_COMPANY = json.id_company;
                 sessionStorage.COMMERCIAL_NAME = json.commercial_name;
-    
+
+                Swal.fire({
+                    title: "Sucesso",
+                    text: "Login realizado com sucesso",
+                    icon: "success",
+                    timer: 2000
+                });
+
                 if (json.id_opt_role == 1) {
                     window.location = "./dashs/gestor.html"
-                } else if(json.id_opt_role == 2){
+                } else if (json.id_opt_role == 2) {
                     // window.location = "./index.html" Levar para a tela da role 2
-                } else if(json.id_opt_role == 3){
+                } else if (json.id_opt_role == 3) {
                     // window.location = "./index.html" Levar para a tela da role 3
                 }
 
@@ -459,10 +466,22 @@ function entrar() {
             mensagemErro += "Email ou Senha inválido";
             resposta.text().then(texto => {
                 console.error(texto);
+                Swal.fire({
+                    title: "Erro",
+                    text: "Email ou Senha inválido",
+                    icon: "error",
+                    timer: 2500
+                });
             });
         }
 
     }).catch(function (resposta) {
         console.log(resposta)
+        Swal.fire({
+            title: "Erro",
+            text: "Ocorreu um erro ao tentar fazer login. Tente novamente mais tarde.",
+            icon: "error",
+            timer: 2500
+        });
     })
 }
