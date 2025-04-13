@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="./style/gerenciarServidor.css">
-    <title>Latency Slayer - Gerenciar Servidor</title>
+    <title>Latency Slayer - Servidores</title>
 </head>
 <body>
     <main>
@@ -28,7 +28,7 @@
             <div class="container">
                 <div class="header-titulo">
                     <div class="titulo">
-                        <h1>Gerenciar Servidores</h1>
+                        <h1>Servidores</h1>
                         <div class="alerta-popup">
                             <i class='bx bxs-bell-ring'></i>
                             <span>2</span>
@@ -42,56 +42,55 @@
                     <hr>
                 </div>
                 <div class="lista-maquina">
-                    <h2>Lista de Máquinas</h2>
-                    <div class="tabela-maquina">
-                        <div class="tabela-colunas">
-                            <span>UUID da Máquina</span>
-                            <span>Tagname</span>
-                            <span>Data de Cadastro</span>
-                            <span>Execução</span>
-                            <span>Localização</span>
-                            <span>Dashboard</span>
+                    <div class="tabela-colunas">
+                        <table>
+                            <thead>
+                                <tr>
+                                  <th>UUID da Máquina</th>
+                                  <th>Tagname</th>
+                                  <th>Data de Cadastro</th>
+                                  <th>Execução</th>
+                                  <th>Localização</th>
+                                  <th>Dashboard</th>
+                                </tr>
+                            </thead>
+                                <tbody>
+                                    <tr>
+                                      <td>ext-04202501</td>
+                                      <td>ubs-far-cry-west-us</td>
+                                      <td>01/04/2025</td>
+                                      <td>Far Cry 5 Online</td>
+                                      <td>San Diego</td>
+                                      <td><a href="#">Clique para ver</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>ext-04202501</td>
+                                        <td>ubs-far-cry-west-us</td>
+                                        <td>01/04/2025</td>
+                                        <td>Far Cry 5 Online</td>
+                                        <td>San Diego</td>
+                                        <td><a href="#">Clique para ver</a></td>
+                                      </tr>
+                                      <tr>
+                                        <td>ext-04202501</td>
+                                        <td>ubs-far-cry-west-us</td>
+                                        <td>01/04/2025</td>
+                                        <td>Far Cry 5 Online</td>
+                                        <td>San Diego</td>
+                                        <td><a href="#">Clique para ver</a></td>
+                                      </tr>
+                                      <tr>
+                                        <td>ext-04202501</td>
+                                        <td>ubs-far-cry-west-us</td>
+                                        <td>01/04/2025</td>
+                                        <td>Far Cry 5 Online</td>
+                                        <td>San Diego</td>
+                                        <td><a href="#">Clique para ver</a></td>
+                                      </tr>
+                                </tbody>
+                            </table>
                         </div>
-
-                        <div class="maquinas">
-                            <div class="listar-maquina">
-                                <span>ext-04202501</span>
-                                <span>ubs-far-cry-west-us</span>
-                                <span>01/04/2025</span>
-                                <span>Far Cry 5 Online</span>
-                                <span>San Diego</span>
-                                <a href="#">Clique para ver</a>
-                            </div>
-                            <hr>
-                            <div class="listar-maquina">
-                                <span>ext-04202502</span>
-                                <span>ubs-far-cry-east</span>
-                                <span>02/04/2025</span>
-                                <span>Far Cry 5 Online</span>
-                                <span>Orlando</span>
-                                <a href="#">Clique para ver</a>
-                            </div>
-                            <hr>
-                            <div class="listar-maquina">
-                                <span>ext-04202503</span>
-                                <span>ubs-far-cry-soul</span>
-                                <span>03/04/2025</span>
-                                <span>Far Cry 5 Online</span>
-                                <span>Atlantic City</span>
-                                <a href="#">Clique para ver</a>
-                            </div>
-                            <hr>    
-                            <div class="listar-maquina">
-                                <span>ext-04202504</span>
-                                <span>ubs-far-cry-north</span>
-                                <span>04/04/2025</span>
-                                <span>Far Cry 5 Online</span>
-                                <span>Detroit</span>
-                                <a href="#">Clique para ver</a>
-                            </div>
-                            <hr>
-                        </div>
-
+                    </div>
                         <div class="paginacao">
                             <span class="disabled">← Anterior</span>
                             <span class="page active">1</span>
