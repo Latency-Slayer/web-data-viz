@@ -1,8 +1,11 @@
 var database = require("../database/config")
 
-function autenticar(email, senha) {
+function login(email, password) {
     console.log("EERO NO MODEL AUTENTICAR")
-    var instrucaoSql = `SELECT nome, email, cargo, senha, fkempresa from usuarios where email = '${email}' AND senha = '${senha}'`;
+    var instrucaoSql = 
+    `SELECT c.email, e.password, o.id_opt_role, comp.id_company, comp.commercial_name from employee as e JOIN contact as c ON e.fk_contact = c.id_contact 
+     JOIN opt_role as o ON e.fk_role = o.id_opt_role JOIN company as comp ON e.fk_company = comp.id_company where c.email = '${email}' AND e.password = '${password}'
+    `;
     return database.executar(instrucaoSql);
 }
 
@@ -34,7 +37,7 @@ function registerContactUser(email, phone) {
 
 
 module.exports = {
-    autenticar,
+    login,
     registerUser,
     registerContactUser,
     getRole
