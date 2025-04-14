@@ -10,12 +10,12 @@
     font-size: larger;
 }
 
-main {
+.page {
     display: flex;
-    width: 100vw;
-    position: relative;
-    justify-content: space-between;
-    align-items: center;
+}
+
+main {
+    width: 80vw;
 }
 
 .navbar {
@@ -80,44 +80,18 @@ main {
 
 }
 
-hr {
-    width: 97%;
-}
-
 .div-central h1 {
     font-family: "Poppins", serif;
     color: #44395F;
-    align-items: flex-start;
-    text-align: left;
 }
 .div-central h3 {
     font-family: "Poppins", serif;
     color: #44395F;
-    align-items: flex-start;
-    text-align: left;
 }
-
-.div-central {
-    background-color: #EFEFEF;
-    height: 100vh;
-    width: 80vw;
-    display: flex;
-    justify-content: start; 
-    align-items: center;
-    flex-direction: column;
-    margin-left: 0.05875rem;
-    margin-top: 0.000625rem;
-    text-align: center;
-}
-
-.div-central .titulo2 {
-    margin-left: -40%;
-    font-family: "Poppins", serif;
-    font-size: 15px;
-}
-
-/* os CSS a seguir servem como placeholders de onde os graficos ficaram quando o back end ficar pronto */
 
 .linha1 {
-    flex-direction: row;
+    display: flex;
+    justify-content: space-between;
+    padding: 30px; 
+    background-color: #EFEFEF;  
 }
