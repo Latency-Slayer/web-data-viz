@@ -24,88 +24,6 @@ a:hover{
     text-decoration: underline;
 }
 
-.navbar {
-    display: flex;
-    flex-direction: column;
-    width: 20vw;
-    height: 100vh;
-    gap: 4vh;
-    background-color: #44395F;
-    color: #EFEFEF;
-    align-items: center;
-}
-.profile{
-    margin-top: 4vh;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    text-align: center;
-    font-size: 20px;
-    gap: 10px;
-}
-
-.profile .titulo{
-    font-weight: bolder;
-    font-size: 25px;
-}
-
-.profile #email{
-    font-size: 20px;
-    font-weight: 300;
-}
-
-.btnsNav{
-    margin-top: 3vh;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.buttonNav{
-    all: unset;
-    display: flex;
-    gap: 10px;
-    width: 15vw;
-    font-family: "Konkhmer Sleokchher", serif;
-    justify-content: center;
-    border-radius: 5px;
-    transition: 0.3s;
-}
-
-.buttonNav a {
-    color: white;
-    text-decoration: none;
-}
-
-.buttonNav:hover{
-    cursor: pointer;
-    background-color: rgb(105, 85, 157);
-    transform: scale(1.05);
-    transition: 0.3s;
-
-}
-
-.logout{
-    all: unset;
-    display: flex;
-    margin-top: 20vh;
-    background-color: #817E88;
-    width: 10vw;
-    height: 4vh;
-    justify-content: center;
-    align-items: center;
-    border-radius: 5px;
-    font-weight: bold;
-    transition: 0.3s;
-}
-
-.logout:hover{
-    cursor: pointer;
-    transform: scale(1.05);
-    background-color: #816fa7;
-    transition: 0.3s;
-}
-
 
 .container {
     width: 85%;
@@ -175,11 +93,16 @@ a:hover{
     font-size: 16px;
 }
 .lista-maquina{
-    margin-left: 50px;
+    display: flex;
+    /* margin-left: 50px;   */
+    justify-self: center;
+    align-self: center;
+    justify-content: center;
+    align-items: center;
     background-color: rgba(254, 253, 255, 1);
     border: 3px solid rgb(232, 230, 234);
     width: 92%;
-    height: 60vh;
+    height: 100%;
     border-radius: 12px;    
 }
 .lista-maquina h2{
@@ -194,8 +117,9 @@ a:hover{
     border: 3px solid rgb(232, 230, 234);
 }
 .tabela-colunas{
-    margin-left: 30px;
-    margin-top: 30px;
+    padding: 1rem;
+    /* margin-left: 30px; */
+    /* margin-top: 30px; */
     width: 100%;
     display: flex;
     color: rgba(58, 46, 93, 1);
@@ -203,9 +127,7 @@ a:hover{
 
 thead th,
 tbody td {
-  padding-right:20px;
-  padding-bottom: 50px;
-  padding-left: 20px; 
+  padding: 1rem;
   border-bottom: 1px solid #ddd;
   vertical-align: middle;
   text-align: center;
