@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latency Slayer | Dashboard Gestor</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="../style/dashTempoReal.css">
+    <link rel="stylesheet" href="https://jsuites.net/v5/jsuites.css" type="text/css" />
+</head>
+<body>
+    <main>
+        <div class="navbar">
+            <div class="profile">
+                <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" viewBox="0 0 24 24" style="fill: white;"><path d="M12 2C6.579 2 2 6.579 2 12s4.579 10 10 10 10-4.579 10-10S17.421 2 12 2zm0 5c1.727 0 3 1.272 3 3s-1.273 3-3 3c-1.726 0-3-1.272-3-3s1.274-3 3-3zm-5.106 9.772c.897-1.32 2.393-2.2 4.106-2.2h2c1.714 0 3.209.88 4.106 2.2C15.828 18.14 14.015 19 12 19s-3.828-.86-5.106-2.228z"></path></svg>
+                <span class="titulo" id="user">User</span>
+                <span class="titulo" id="email">email@gmail.com</span>
+            </div>
+            <div class="btnsNav">
+                <!-- <button class="buttonNav"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill:white"><path d="M3 5v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2H5c-1.103 0-2 .897-2 2zm16.001 14H5V5h14l.001 14z"></path><path d="M11 7h2v10h-2zm4 3h2v7h-2zm-8 2h2v5H7z"></path></svg><a href="./dashTempoReal.html">Servidores</a></button> 
+                <button class="buttonNav"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: white;"><path d="M20 3H4c-1.103 0-2 .897-2 2v11c0 1.103.897 2 2 2h7v2H8v2h8v-2h-3v-2h7c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zM4 14V5h16l.002 9H4z"></path><path d="M11.412 8.586c.379.38.588.882.588 1.414h2a3.977 3.977 0 0 0-1.174-2.828c-1.514-1.512-4.139-1.512-5.652 0l1.412 1.416c.76-.758 2.07-.756 2.826-.002z"></path></svg><a href="../cadastroMaquina.html">Registrar Servidor</a></button>
+                <button class="buttonNav"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: white;"><path d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z"></path><path d="M11.412 8.586c.379.38.588.882.588 1.414h2a3.977 3.977 0 0 0-1.174-2.828c-1.514-1.512-4.139-1.512-5.652 0l1.412 1.416c.76-.758 2.07-.756 2.826-.002z"></path></svg><a href="#">Abrir Chamado</a></button>
+                <button class="buttonNav"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill:white"><path d="M3 5v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2H5c-1.103 0-2 .897-2 2zm16.001 14H5V5h14l.001 14z"></path><path d="M11 7h2v10h-2zm4 3h2v7h-2zm-8 2h2v5H7z"></path></svg><a href="../alertas.html">Alertas</a></button>
+                <button class="buttonNav"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill:white"><path d="M3 5v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2H5c-1.103 0-2 .897-2 2zm16.001 14H5V5h14l.001 14z"></path><path d="M11 7h2v10h-2zm4 3h2v7h-2zm-8 2h2v5H7z"></path></svg><a href="../cadastroCargo.html">Gerenciar Usuarios</a></button>
+                <button class="buttonNav"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill:white"><path d="M3 5v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2H5c-1.103 0-2 .897-2 2zm16.001 14H5V5h14l.001 14z"></path><path d="M11 7h2v10h-2zm4 3h2v7h-2zm-8 2h2v5H7z"></path></svg><a href="../index.html">Encerrar Sessão</a></button>
+                -->
+                <div class="buttonNav">
+                    <img src="../img/icon-server.png">
+                    <a href="./dashTempoReal.html">Servidores</a>
+                </div>
+                <div class="buttonNav">
+                    <img src="../img/opt-register-server.png">
+                    <a href="../cadastroMaquina.html">Registrar Servidor</a>
+                </div>
+                <div class="buttonNav">
+                    <img src="../img/icon-open-call.png">
+                    <a href="#">Abrir Chamado</a>
+                </div>
+                <div class="buttonNav">
+                    <img src="../img/icon-alerts.png">
+                    <a href="../alertas.html">Alertas</a>
+                </div>
+                <div class="buttonNav">
+                    <img src="../img/icon-manage-users.png">
+                    <a href="../cadastroCargo.html">Gerenciar Usuarios</a>
+                </div>
+                <div class="buttonNav">
+                    <img src="../img/icon-edit-profile.png">
+                    <a href="#">Editar Perfil</a>
+                </div>
+                <div class="buttonNav">
+                    <img src="../img/icon-logout.png">
+                    <a href="../index.html">Encerrar Sessão</a>
+                </div>
+            </div>
+        </div>
+        <div class="div-central">
+            <div class="linha1">
+                <div class="titulo2">
+                    <h1>Máquina ext-04202501</h1>
+                    <h3>tagname: ubs-far-cry-west-us</h3>
+                </div>
+                <div>
+                    <img src="../img/alert-icon.png">
+                </div>
+            </div>
+        </div>    
+    </main>   
+</body>
+</html>
