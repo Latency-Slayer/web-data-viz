@@ -73,6 +73,14 @@ parentElement.insertAdjacentHTML("afterbegin",`
     transition: 0.3s;
 
 }
+.buttonNav.active {
+background-color: white;
+color: #563f8c;
+}
+
+.buttonNav.active a {
+    color: #563f8c;
+}
 .encerrar{
     display: flex;
     flex-direction: row;
@@ -109,11 +117,11 @@ parentElement.insertAdjacentHTML("afterbegin",`
                 <hr class="profile-line">
             </div>
             <div class="btnsNav">
-                <button class="buttonNav"> <i class='bx bx-server' ></i><a href="./dashs/analiticoIndiv.html" ${page == "servidores"}>Servidores</a></button>
-                <button class="buttonNav"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: white;"><path d="M20 3H4c-1.103 0-2 .897-2 2v11c0 1.103.897 2 2 2h7v2H8v2h8v-2h-3v-2h7c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zM4 14V5h16l.002 9H4z"></path><path d="M11.412 8.586c.379.38.588.882.588 1.414h2a3.977 3.977 0 0 0-1.174-2.828c-1.514-1.512-4.139-1.512-5.652 0l1.412 1.416c.76-.758 2.07-.756 2.826-.002z"></path></svg><a href="./cadastroMaquina.html">Registrar Servidor</a></button>
-                <button class="buttonNav"> <i class='bx bxs-bell-minus' ></i><a href="./cadastroCargo.html">Alertas</a></button>
-                <button class="buttonNav"> <i class='bx bxs-user-badge' ></i><a href="./dashs/analiticoIndiv.html">Gerenciar Usuários</a></button>
-                <button class="buttonNav"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill:white"><path d="M3 5v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2H5c-1.103 0-2 .897-2 2zm16.001 14H5V5h14l.001 14z"></path><path d="M11 7h2v10h-2zm4 3h2v7h-2zm-8 2h2v5H7z"></path></svg><a href="./dashs/analiticoIndiv.html">Editar Perfil</a></button>
+                <button class="buttonNav ${page === 'servidores' ? 'active' : ''}"> <i class='bx bx-server' ></i><a href="./dashs/analiticoIndiv.html">Servidores</a></button>
+                <button class="buttonNav ${page === 'registrarServidor' ? 'active' : ''}"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: white;"><path d="M20 3H4c-1.103 0-2 .897-2 2v11c0 1.103.897 2 2 2h7v2H8v2h8v-2h-3v-2h7c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zM4 14V5h16l.002 9H4z"></path><path d="M11.412 8.586c.379.38.588.882.588 1.414h2a3.977 3.977 0 0 0-1.174-2.828c-1.514-1.512-4.139-1.512-5.652 0l1.412 1.416c.76-.758 2.07-.756 2.826-.002z"></path></svg><a href="./cadastroMaquina.html">Registrar Servidor</a></button>
+                <button class="buttonNav ${page === 'alertas' ? 'active' : ''}"> <i class='bx bxs-bell-minus' ></i><a href="./cadastroCargo.html">Alertas</a></button>
+                <button class="buttonNav ${page === 'gerenciarUsuarios' ? 'active' : ''}"> <i class='bx bxs-user-badge' ></i><a href="./dashs/analiticoIndiv.html">Gerenciar Usuários</a></button>
+                <button class="buttonNav ${page === 'editarPerfil' ? 'active' : ''}"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill:white"><path d="M3 5v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2H5c-1.103 0-2 .897-2 2zm16.001 14H5V5h14l.001 14z"></path><path d="M11 7h2v10h-2zm4 3h2v7h-2zm-8 2h2v5H7z"></path></svg><a href="./dashs/analiticoIndiv.html">Editar Perfil</a></button>
                 <hr class="profile-line">
                 <div class="encerrar">
                     <i class='bx bx-log-out button-logout'></i>
