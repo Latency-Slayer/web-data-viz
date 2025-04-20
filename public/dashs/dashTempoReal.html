@@ -79,9 +79,7 @@
                 </div>
                 <div class="linha2">
                     <div class="grafico2">
-                        <div>
-                            <canvas id="chart4"></canvas>
-                        </div>
+                        <div id="chart4"></div>
                     </div>
                     <div class="grafico2"></div>
                 </div>
@@ -98,6 +96,8 @@
     </div>
 </body>
 <script>
+
+                                            // grafico 1
 var options = {
   chart: {
     type: 'line',
@@ -116,7 +116,7 @@ var options = {
     show: false
   },
   title: {
-    text: 'uso de CPU atual: 50%',
+    text: 'uso de CPU: 50%',
     align: 'center',
     style: {
         fontSize:  '20px',
@@ -132,6 +132,8 @@ var chart = new ApexCharts(document.querySelector("#chart"), options);
 
 chart.render();
 
+                                                // grafico 2
+
 var options = {
   chart: {
     type: 'line',
@@ -141,21 +143,17 @@ var options = {
   },
   series: [
     {
-    name: 'uso de CPU (%)',
-    data: [20, 25, 40, 35, 40, 50],
+        name: 'download (Mbps)',
+        data: [200, 250, 400, 350, 400, 500]
+    },
+    {
+        name: 'upload (Mbps)',
+        data: [150,200,300,500,250,400]
     }
   ],
-  colors: ['rgb(42, 0, 61)'],
+  colors: ['rgb(42, 0, 61)','rgb(45, 180, 40)'],
   grid: {
     show: false
-  },
-  title: {
-    text: 'uso de CPU atual: 50%',
-    align: 'center',
-    style: {
-        fontSize:  '20px',
-        color: 'rgb(42, 0, 61)'
-    }
   },
   xaxis: {
     categories: ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00']
@@ -166,6 +164,8 @@ var chart2 = new ApexCharts(document.querySelector("#chart2"), options);
 
 chart2.render();
 
+                                            // grafico 3
+
 var options = {
   chart: {
     type: 'line',
@@ -175,7 +175,7 @@ var options = {
   },
   series: [
     {
-    name: 'uso de CPU (%)',
+    name: 'jogadores conectados',
     data: [20, 25, 40, 35, 40, 50],
     }
   ],
@@ -184,7 +184,7 @@ var options = {
     show: false
   },
   title: {
-    text: 'uso de CPU atual: 50%',
+    text: 'jogadores conectados: 50',
     align: 'center',
     style: {
         fontSize:  '20px',
@@ -200,5 +200,67 @@ var chart3 = new ApexCharts(document.querySelector("#chart3"), options);
 
 chart3.render();
 
+                                            // grafico 4
+
+var options = {
+  chart: {
+    type: 'bar',
+    toolbar: {
+        show: false
+    }
+  },
+  plotOptions: {
+    bar: {
+      horizontal: true
+    }
+  },
+  series: [{
+    name: 'armazenamento atual',
+    data: [{
+        x: 'disco 1',
+        y: 36,
+        fillColor: 'rgb(42, 0, 61)',
+        strokeColor: 'rgb(42, 0, 61)',
+        goals: [
+            {
+            name: '100%',
+            value: 100,
+            strokeColor: 'rgb(255, 0, 0)'
+            }
+        ]
+    }, {
+        x: 'disco 2',
+        y: 90,
+        fillColor: 'rgb(201, 49, 150)',
+        strokeColor: 'rgb(201, 49, 150)',
+        goals: [
+            {
+            name: '100%',
+            value: 100,
+            strokeColor: 'rgb(255, 0, 0)'
+            }
+        ]
+    }]
+  }],
+  colors: ['rgb(42, 0, 61)','rgb(255, 0, 0)'],
+  grid: {
+    show: false
+  },
+  title: {
+    text: 'monitoramento de armazenamento',
+    align: 'center',
+    style: {
+        fontSize:  '20px',
+        color: 'rgb(42, 0, 61)'
+    }
+  },
+  xaxis: {
+    categories: ['disco 1', 'disco 2']
+  }
+}
+
+var chart4 = new ApexCharts(document.querySelector("#chart4"), options);
+
+chart4.render();
 </script>
 </html>
