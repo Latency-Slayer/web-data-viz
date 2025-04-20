@@ -24,14 +24,15 @@ a:hover{
     text-decoration: underline;
 }
 
-
 .container {
-    width: 85%;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    background-color: #F9FAFB;
-    gap: 5%;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #F9FAFB;
+  gap: 5%;
 }
 
 .header-titulo{
@@ -48,17 +49,20 @@ a:hover{
     color: #3A2E5D;
     font-size: 60px;
 }
-.alerta-popup{
-    margin-top: 20px;
-    background-color: red;
-    margin-left: 650px;
-    width: 7%;
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    border-radius: 12px;
-    height: 36px;
+.alerta-popup {
+  position: fixed; 
+  top: 20px; 
+  right: 30px; 
+  background-color: red;
+  width: auto;
+  padding: 0 20px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  border-radius: 12px;
+  height: 36px;
 }
+
 .alerta-popup i {
     font-size: 30px;
     color: white;
@@ -72,14 +76,11 @@ a:hover{
 .lista-maquina{
     display: flex;
     flex-direction: column;
-    justify-self: center;
     align-self: center;
-    justify-content: center;
     align-items: center;
     background-color: rgba(254, 253, 255, 1);
     border: 3px solid rgb(232, 230, 234);
     width: 90%;
-    height: 80%;
     border-radius: 12px;    
 }
 .lista-maquina h2{
@@ -87,17 +88,15 @@ a:hover{
     color: rgba(58, 46, 93, 1);
 }
 .tabela-maquina{
-    width: 100%;
-    height: 55vh;
     border-radius: 12px;
     background-color: rgba(254, 253, 255, 1);
     border: 3px solid rgb(232, 230, 234);
 }
 .tabela-colunas{
-    padding: 1rem;
     /* margin-left: 30px; */
     /* margin-top: 30px; */
     width: 100%;
+    height: auto;
     display: flex;
     color: rgba(58, 46, 93, 1);
 }
@@ -113,9 +112,7 @@ a:hover{
 }
 thead th,
 tbody td {
-  padding: 1.5rem;
-  padding-right: 55px;
-  padding-top: 25px;
+  padding: 1.5rem 2.3rem;
   border-bottom: 1px solid #ddd;
   vertical-align: middle;
   text-align: center;
@@ -152,4 +149,31 @@ thead th {
 }
 .paginacao .dots {
   padding: 6px 8px;
+}
+
+@media screen and (min-width: 1440px) {
+    .container {
+      max-width: 1600px;
+    }
+  
+    .titulo h1 {
+      font-size: 70px;
+    }
+  
+    .alerta-popup {
+      margin-left: 50px;
+      width: auto;
+      padding: 0 20px;
+    }
+  
+    .tabela-colunas {
+      justify-content: center;
+    }
+}
+@media screen and (max-width: 1440px) {
+
+  thead th,
+  tbody td {
+    padding: 1.5rem;
+  }
 }
