@@ -12,7 +12,7 @@ async function registerServer(req, res) {
 
 async function getServerComponentsData(req, res) {
     try {
-        const server = await serverModel.getServerComponentsData(req.params.motherboardID);
+        const server = await serverModel.getServerComponentsData(req.query.motherboardID);
         return res.status(200).json(server);
     } catch (err) {
         return res.status(400).json({ message: err.message });

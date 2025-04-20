@@ -7,7 +7,7 @@ router.post("/register", function (req, res) {
     serverController.registerServer(req, res);
 })
 
-router.get("/get/components/:motherboardID", (req, res) => {
+router.get("/get/components", (req, res) => {
     serverController.getServerComponentsData(req, res);
 })
 
