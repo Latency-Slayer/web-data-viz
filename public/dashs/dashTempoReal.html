@@ -18,13 +18,6 @@
                 <span class="titulo" id="email">email@gmail.com</span>
             </div>
             <div class="btnsNav">
-                <!-- <button class="buttonNav"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill:white"><path d="M3 5v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2H5c-1.103 0-2 .897-2 2zm16.001 14H5V5h14l.001 14z"></path><path d="M11 7h2v10h-2zm4 3h2v7h-2zm-8 2h2v5H7z"></path></svg><a href="./dashTempoReal.html">Servidores</a></button> 
-                <button class="buttonNav"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: white;"><path d="M20 3H4c-1.103 0-2 .897-2 2v11c0 1.103.897 2 2 2h7v2H8v2h8v-2h-3v-2h7c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zM4 14V5h16l.002 9H4z"></path><path d="M11.412 8.586c.379.38.588.882.588 1.414h2a3.977 3.977 0 0 0-1.174-2.828c-1.514-1.512-4.139-1.512-5.652 0l1.412 1.416c.76-.758 2.07-.756 2.826-.002z"></path></svg><a href="../cadastroMaquina.html">Registrar Servidor</a></button>
-                <button class="buttonNav"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: white;"><path d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z"></path><path d="M11.412 8.586c.379.38.588.882.588 1.414h2a3.977 3.977 0 0 0-1.174-2.828c-1.514-1.512-4.139-1.512-5.652 0l1.412 1.416c.76-.758 2.07-.756 2.826-.002z"></path></svg><a href="#">Abrir Chamado</a></button>
-                <button class="buttonNav"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill:white"><path d="M3 5v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2H5c-1.103 0-2 .897-2 2zm16.001 14H5V5h14l.001 14z"></path><path d="M11 7h2v10h-2zm4 3h2v7h-2zm-8 2h2v5H7z"></path></svg><a href="../alertas.html">Alertas</a></button>
-                <button class="buttonNav"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill:white"><path d="M3 5v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2H5c-1.103 0-2 .897-2 2zm16.001 14H5V5h14l.001 14z"></path><path d="M11 7h2v10h-2zm4 3h2v7h-2zm-8 2h2v5H7z"></path></svg><a href="../cadastroCargo.html">Gerenciar Usuarios</a></button>
-                <button class="buttonNav"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill:white"><path d="M3 5v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2H5c-1.103 0-2 .897-2 2zm16.001 14H5V5h14l.001 14z"></path><path d="M11 7h2v10h-2zm4 3h2v7h-2zm-8 2h2v5H7z"></path></svg><a href="../index.html">Encerrar Sessão</a></button>
-                -->
                 <div class="buttonNav">
                     <img src="../img/icon-server.png">
                     <a href="./dashTempoReal.html">Servidores</a>
@@ -68,28 +61,54 @@
                 </div>
                 <div class="kpis">
                     <div class="grafico">
+                        <span>uso de CPU: 50%</span>
                         <div id="chart"></div>
                     </div>
                     <div class="grafico">
+                        <span>velocidade Download e Upload (Mbps)</span>
                         <div id="chart2"></div>
                     </div>
                     <div class="grafico">
+                        <span>jogadores conectados: 50</span>
                         <div id="chart3"></div>
                     </div>
                 </div>
                 <div class="linha2">
                     <div class="grafico2">
+                        <span>monitoramento de armazenamento</span>
                         <div id="chart4"></div>
                     </div>
-                    <div class="grafico2"></div>
+                    <div class="grafico3">
+                    <span>monitoramento de memoria</span>
+                        <div class="donut">
+                            <div>
+                                <div id="chart5"></div>
+                            </div>
+                            <div>
+                                <div id="chart6"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="linha2">
-                    <div class="grafico3"></div>
-                    <div class="grafico3"></div>
+                <div class="linha3">
+                    <div class="grafico4">
+                        <span>uso da CPU nos ultimos 60 segundos</span>
+                        <div id="chart7"></div>
+                    </div>
+                    <div class="grafico4">
+                        <span>uso de memoria (GB) nos ultimos 60 segundos</span>
+                        <div id="chart8"></div>
+                    </div>
                 </div>
-                <div class="linha2">
-                    <div class="grafico3"></div>
-                    <div class="grafico3"></div>
+                <div class="linha3">
+                    <div class="grafico4">
+                        <span>temperatura de CPU (°c) nos ultimos 60 segundos</span>
+                        <div id="chart9"></div>
+                    </div>
+                    <div class="grafico4">
+                        <span>uso da rede (Mbps) nos ultimos 60 segundos</span>
+                        <div id="chart10"></div>
+                    </div>
                 </div>
             </div>    
         </main>   
@@ -105,8 +124,16 @@ var options = {
         show: false
     }
   },
+  stroke: {
+    curve: 'smooth'
+  },
+  fill: {
+    type:'solid',
+    opacity: [0.15],
+  },
   series: [
     {
+    type: 'area',
     name: 'uso de CPU (%)',
     data: [20, 25, 40, 35, 40, 50],
     }
@@ -114,14 +141,6 @@ var options = {
   colors: ['rgb(42, 0, 61)'],
   grid: {
     show: false
-  },
-  title: {
-    text: 'uso de CPU: 50%',
-    align: 'center',
-    style: {
-        fontSize:  '20px',
-        color: 'rgb(42, 0, 61)'
-    }
   },
   xaxis: {
     categories: ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00']
@@ -141,12 +160,21 @@ var options = {
         show: false
     }
   },
+  stroke: {
+    curve: 'smooth'
+  },
+  fill: {
+    type:'solid',
+    opacity: [0.15,0.25],
+  },
   series: [
     {
+        type: 'area',
         name: 'download (Mbps)',
         data: [200, 250, 400, 350, 400, 500]
     },
     {
+        type: 'area',
         name: 'upload (Mbps)',
         data: [150,200,300,500,250,400]
     }
@@ -173,8 +201,16 @@ var options = {
         show: false
     }
   },
+  stroke: {
+    curve: 'smooth'
+  },
+  fill: {
+    type:'solid',
+    opacity: [0.15],
+  },
   series: [
     {
+    type: 'area',
     name: 'jogadores conectados',
     data: [20, 25, 40, 35, 40, 50],
     }
@@ -182,14 +218,6 @@ var options = {
   colors: ['rgb(42, 0, 61)'],
   grid: {
     show: false
-  },
-  title: {
-    text: 'jogadores conectados: 50',
-    align: 'center',
-    style: {
-        fontSize:  '20px',
-        color: 'rgb(42, 0, 61)'
-    }
   },
   xaxis: {
     categories: ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00']
@@ -211,7 +239,9 @@ var options = {
   },
   plotOptions: {
     bar: {
-      horizontal: true
+      horizontal: true,
+      borderRadius: 15,
+      barHeight: '30%'
     }
   },
   series: [{
@@ -246,14 +276,6 @@ var options = {
   grid: {
     show: false
   },
-  title: {
-    text: 'monitoramento de armazenamento',
-    align: 'center',
-    style: {
-        fontSize:  '20px',
-        color: 'rgb(42, 0, 61)'
-    }
-  },
   xaxis: {
     categories: ['disco 1', 'disco 2']
   }
@@ -262,5 +284,222 @@ var options = {
 var chart4 = new ApexCharts(document.querySelector("#chart4"), options);
 
 chart4.render();
+
+                                    //grafico 5
+
+var options = {
+    chart: {
+    type: 'donut',
+    toolbar: {
+        show: false
+    }
+  },
+  plotOptions: {
+      pie: {
+        donut: {
+            labels: {
+                show: false,
+                name: {
+                    show: false
+                }
+            },
+          size: '45%'  
+        },
+        customScale: 0.8
+      }
+    },
+  series: [75, 25,],
+  labels: ['RAM em uso', 'RAM livre'],
+  colors: ['rgb(42, 0, 61)','rgb(214, 214, 214)'],
+  grid: {
+    show: false
+  },
+  legend: {
+    position: 'bottom',
+    horizontalAlign: 'center',
+    fontSize: '14px'
+  }
+}
+
+var chart5 = new ApexCharts(document.querySelector("#chart5"), options);
+
+chart5.render();
+
+                                    //grafico 6
+
+var options = {
+    chart: {
+    type: 'donut',
+    toolbar: {
+        show: false
+    }
+  },
+  plotOptions: {
+      pie: {
+        donut: {
+          size: '45%'  
+        },
+        customScale: 0.8
+      }
+    },
+  series: [0, 100,],
+  labels: ['SWAP em uso', 'SWAP livre'],
+  colors: ['rgb(42, 0, 61)','rgb(214, 214, 214)'],
+  grid: {
+    show: false
+  },
+  legend: {
+    position: 'bottom',
+    horizontalAlign: 'center',
+    fontSize: '14px'
+  }
+}
+
+var chart6 = new ApexCharts(document.querySelector("#chart6"), options);
+
+chart6.render();
+
+                                        //grafico 7
+var options = {
+  chart: {
+    type: 'line',
+    toolbar: {
+        show: false
+    }
+  },
+  stroke: {
+    curve: 'smooth'
+  },
+  fill: {
+    type:'solid',
+    opacity: [0.15],
+  },
+  series: [
+    {
+    type: 'area',
+    name: 'uso da CPU (%)',
+    data: [20, 25, 40, 35, 40, 50],
+    }
+  ],
+  colors: ['rgb(42, 0, 61)'],
+  grid: {
+    show: false
+  },
+  xaxis: {
+    categories: ['10','20','30','40','50','60']
+  }
+}
+
+var chart7 = new ApexCharts(document.querySelector("#chart7"), options);
+
+chart7.render();
+
+                                        //grafico 8
+                                        
+var options = {
+  chart: {
+    type: 'line',
+    toolbar: {
+        show: false
+    }
+  },
+  stroke: {
+    curve: 'smooth'
+  },
+  fill: {
+    type:'solid',
+    opacity: [0.15],
+  },
+  series: [
+    {
+    type: 'area',
+    name: 'jogadores conectados',
+    data: [20, 25, 40, 35, 40, 50],
+    }
+  ],
+  colors: ['rgb(42, 0, 61)'],
+  grid: {
+    show: false
+  },
+  xaxis: {
+    categories: ['10','20','30','40','50','60']
+  }
+}
+
+var chart8 = new ApexCharts(document.querySelector("#chart8"), options);
+
+chart8.render();
+                                        
+                                        //grafico 9
+                                        
+var options = {
+  chart: {
+    type: 'line',
+    toolbar: {
+        show: false
+    }
+  },
+  stroke: {
+    curve: 'smooth'
+  },
+  fill: {
+    type:'solid',
+    opacity: [0.15],
+  },
+  series: [
+    {
+    type: 'area',
+    name: 'jogadores conectados',
+    data: [20, 25, 40, 35, 40, 50],
+    }
+  ],
+  colors: ['rgb(42, 0, 61)'],
+  grid: {
+    show: false
+  },
+  xaxis: {
+    categories: ['10','20','30','40','50','60']
+  }
+}
+
+var chart9 = new ApexCharts(document.querySelector("#chart9"), options);
+
+chart9.render();
+
+                                        //grafico 10
+                                        
+var options = {
+  chart: {
+    type: 'line',
+    toolbar: {
+        show: false
+    }
+  },
+  stroke: {
+    curve: 'smooth'
+  },
+  fill: {
+    type:'solid',
+    opacity: [0.15],
+  },
+  series: [
+    {
+    type: 'area',
+    name: 'jogadores conectados',
+    data: [20, 25, 40, 35, 40, 50],
+    }
+  ],
+  colors: ['rgb(42, 0, 61)'],
+  grid: {
+    show: false
+  },
+  xaxis: {
+    categories: ['10','20','30','40','50','60']
+  }
+}
+
+var chart10 = new ApexCharts(document.querySelector("#chart10"), options);
+
+chart10.render();
 </script>
 </html>
