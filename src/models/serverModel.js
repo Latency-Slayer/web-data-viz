@@ -2,13 +2,13 @@ var database = require("../database/config")
 
 
 async function registerServer(serverData) {
-    const { motherboard_id, tag_name, type, instance_id, so, city, auth: { email, password }, country_code, components } = serverData;
+    const { motherboard_id, tag_name, type, instance_id, so, game, port, city, auth: { email, password }, country_code, components } = serverData;
 
-    if (!motherboard_id || !tag_name || !type || !so || !city || !email || !password || !country_code) {
-        throw new Error("Missing required fields: motherboard_id, tag_name, type, so, city, auth, country_code");
+    if (!motherboard_id || !tag_name || !type || !so || !game || !port || !city || !email || !password || !country_code) {
+        throw new Error("Missing required fields: motherboard_id, tag_name, type, so, game, port city, auth, country_code");
     }
 
-    if (typeof motherboard_id !== 'string' || typeof tag_name !== 'string' || typeof type !== 'string' || typeof so !== 'string' || typeof city !== 'string' || typeof email !== 'string' || typeof password !== "string" || typeof country_code !== 'string') {
+    if (typeof motherboard_id !== 'string' || typeof tag_name !== 'string' || typeof type !== 'string' || typeof so !== 'string' || typeof game !== "string" || typeof port !== "number"|| typeof city !== 'string' || typeof email !== 'string' || typeof password !== "string" || typeof country_code !== 'string') {
         throw new Error("Invalid data types: motherboard_id, tag_name, type, so, city, country_code must be strings; fk_company must be a number");
     }
 
@@ -49,8 +49,8 @@ async function registerServer(serverData) {
         throw new Error("Duplicate entry. This server already exists")
     }
 
-    const serverInsert = await database.executar("INSERT INTO server (motherboard_id, tag_name, type, instance_id, so, city, fk_company, fk_country) VALUES (?, ?, ?, ?, ?, ?, ?, ?);",
-        [motherboard_id, tag_name, type, instance_id, so, city, userData.fk_company, country.id_country]
+    const serverInsert = await database.executar("INSERT INTO server (motherboard_id, tag_name, type, instance_id, so, game, port,  city, fk_company, fk_country) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
+        [motherboard_id, tag_name, type, instance_id, so, game, port, city, userData.fk_company, country.id_country]
     );
 
     registerComponent(components, serverInsert.insertId);
@@ -65,14 +65,14 @@ function registerComponent(componentData, serverId) {
 
         const componentInsert = await database.executar("INSERT INTO component (tag_name, type, fk_server) VALUE (?, ?, ?)", [tag_name, type, serverId]);
 
-        metrics.forEach(async (sentMetric) => {
+        for (const sentMetric of metrics) {
             const { metric, max_limit, min_limit, total } = sentMetric;
 
             database.executar("INSERT INTO metric (metric, max_limit, min_limit, total, fk_component) VALUE (?, ?, ?, ?, ?)",
                 [metric, max_limit, min_limit, total, componentInsert.insertId]);
-        });
+        }
     });
-}
+ }
 
 module.exports = {
     registerServer
