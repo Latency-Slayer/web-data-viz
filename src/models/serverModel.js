@@ -77,7 +77,7 @@ function registerComponent(componentData, serverId) {
 
 async function getServerComponentsData(motherBoardId) {
         const [server] = await database.executar(
-            `SELECT server.motherboard_id, tag_name, type 
+            `SELECT server.motherboard_id, tag_name, type, game, port
                        FROM server WHERE motherboard_id = ?`, [motherBoardId]);
 
         const component = await database.executar(
