@@ -1,505 +1,632 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Latency Slayer | Dashboard Gestor</title>
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="../style/dashTempoReal.css">
-    <link rel="stylesheet" href="https://jsuites.net/v5/jsuites.css" type="text/css" />
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Latency Slayer | Dashboard Gestor</title>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="../style/dashTempoReal.css">
+  <link rel="stylesheet" href="https://jsuites.net/v5/jsuites.css" type="text/css" />
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
+
 <body>
-    <div class="page">
-        <div class="navbar">
-            <div class="profile">
-                <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" viewBox="0 0 24 24" style="fill: white;"><path d="M12 2C6.579 2 2 6.579 2 12s4.579 10 10 10 10-4.579 10-10S17.421 2 12 2zm0 5c1.727 0 3 1.272 3 3s-1.273 3-3 3c-1.726 0-3-1.272-3-3s1.274-3 3-3zm-5.106 9.772c.897-1.32 2.393-2.2 4.106-2.2h2c1.714 0 3.209.88 4.106 2.2C15.828 18.14 14.015 19 12 19s-3.828-.86-5.106-2.228z"></path></svg>
-                <span class="titulo" id="user">User</span>
-                <span class="titulo" id="email">email@gmail.com</span>
-            </div>
-            <div class="btnsNav">
-                <div class="buttonNav">
-                    <img src="../img/icon-server.png">
-                    <a href="./dashTempoReal.html">Servidores</a>
-                </div>
-                <div class="buttonNav">
-                    <img src="../img/opt-register-server.png">
-                    <a href="../cadastroMaquina.html">Registrar Servidor</a>
-                </div>
-                <div class="buttonNav">
-                    <img src="../img/icon-open-call.png">
-                    <a href="#">Abrir Chamado</a>
-                </div>
-                <div class="buttonNav">
-                    <img src="../img/icon-alerts.png">
-                    <a href="../alertas.html">Alertas</a>
-                </div>
-                <div class="buttonNav">
-                    <img src="../img/icon-manage-users.png">
-                    <a href="../cadastroCargo.html">Gerenciar Usuarios</a>
-                </div>
-                <div class="buttonNav">
-                    <img src="../img/icon-edit-profile.png">
-                    <a href="#">Editar Perfil</a>
-                </div>
-                <div class="buttonNav">
-                    <img src="../img/icon-logout.png">
-                    <a href="../index.html">Encerrar Sessão</a>
-                </div>
-            </div>
+  <div class="page">
+    <div class="navbar">
+      <div class="profile">
+        <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" viewBox="0 0 24 24" style="fill: white;">
+          <path
+            d="M12 2C6.579 2 2 6.579 2 12s4.579 10 10 10 10-4.579 10-10S17.421 2 12 2zm0 5c1.727 0 3 1.272 3 3s-1.273 3-3 3c-1.726 0-3-1.272-3-3s1.274-3 3-3zm-5.106 9.772c.897-1.32 2.393-2.2 4.106-2.2h2c1.714 0 3.209.88 4.106 2.2C15.828 18.14 14.015 19 12 19s-3.828-.86-5.106-2.228z">
+          </path>
+        </svg>
+        <span class="titulo" id="user">User</span>
+        <span class="titulo" id="email">email@gmail.com</span>
+      </div>
+      <div class="btnsNav">
+        <div class="buttonNav">
+          <img src="../img/icon-server.png">
+          <a href="./dashTempoReal.html">Servidores</a>
         </div>
-        <main>
-            <div class="div-central">
-                <div class="linha1">
-                    <div>
-                        <h1>Máquina ext-04202501</h1>
-                        <h3>tagname: ubs-far-cry-west-us</h3>
-                    </div>
-                    <div>
-                        <img src="../img/alert-icon.png">
-                    </div>
-                </div>
-                <div class="kpis">
-                    <div class="grafico">
-                        <span>uso de CPU: 50%</span>
-                        <div id="chart"></div>
-                    </div>
-                    <div class="grafico">
-                        <span>velocidade Download e Upload (Mbps)</span>
-                        <div id="chart2"></div>
-                    </div>
-                    <div class="grafico">
-                        <span>jogadores conectados: 50</span>
-                        <div id="chart3"></div>
-                    </div>
-                </div>
-                <div class="linha2">
-                    <div class="grafico2">
-                        <span>monitoramento de armazenamento</span>
-                        <div id="chart4"></div>
-                    </div>
-                    <div class="grafico3">
-                    <span>monitoramento de memoria</span>
-                        <div class="donut">
-                            <div>
-                                <div id="chart5"></div>
-                            </div>
-                            <div>
-                                <div id="chart6"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="linha3">
-                    <div class="grafico4">
-                        <span>uso da CPU nos ultimos 60 segundos</span>
-                        <div id="chart7"></div>
-                    </div>
-                    <div class="grafico4">
-                        <span>uso de memoria (GB) nos ultimos 60 segundos</span>
-                        <div id="chart8"></div>
-                    </div>
-                </div>
-                <div class="linha3">
-                    <div class="grafico4">
-                        <span>temperatura de CPU (°c) nos ultimos 60 segundos</span>
-                        <div id="chart9"></div>
-                    </div>
-                    <div class="grafico4">
-                        <span>uso da rede (Mbps) nos ultimos 60 segundos</span>
-                        <div id="chart10"></div>
-                    </div>
-                </div>
-            </div>    
-        </main>   
+        <div class="buttonNav">
+          <img src="../img/opt-register-server.png">
+          <a href="../cadastroMaquina.html">Registrar Servidor</a>
+        </div>
+        <div class="buttonNav">
+          <img src="../img/icon-open-call.png">
+          <a href="#">Abrir Chamado</a>
+        </div>
+        <div class="buttonNav">
+          <img src="../img/icon-alerts.png">
+          <a href="../alertas.html">Alertas</a>
+        </div>
+        <div class="buttonNav">
+          <img src="../img/icon-manage-users.png">
+          <a href="../cadastroCargo.html">Gerenciar Usuarios</a>
+        </div>
+        <div class="buttonNav">
+          <img src="../img/icon-edit-profile.png">
+          <a href="#">Editar Perfil</a>
+        </div>
+        <div class="buttonNav">
+          <img src="../img/icon-logout.png">
+          <a href="../index.html">Encerrar Sessão</a>
+        </div>
+      </div>
     </div>
+    <main>
+      <div class="div-central">
+        <div class="linha1">
+          <div>
+            <h1>Máquina ext-04202501</h1>
+            <h3>tagname: ubs-far-cry-west-us</h3>
+          </div>
+          <div>
+            <img src="../img/alert-icon.png">
+          </div>
+        </div>
+        <hr>
+        <div class="kpis">
+          <div class="grafico">
+            <span style="margin-left: 20px; margin-top: 10px; font-size: 15px;">Uso CPU (%):</span>
+            <span style="margin-left: 30px; font-size: 30px;">50%</span>
+            <div id="chart"></div>
+          </div>
+          <div class="grafico">
+            <span style="margin-left: 20px; margin-top: 10px; font-size: 15px;">Uso Placa de Rede (Mbps)</span>
+            <span style="margin-left: 20px; fon">55 Mbps <i class='bx bx-down-arrow-alt' style="color: blue;"></i></span> 
+            <span style="margin-left: 20px;">100 Mbps <i class='bx bx-up-arrow-alt' style="color: green;"></i></span>
+            <div id="chart2"></div>
+          </div>
+          <div class="grafico">
+            <span style="margin-left: 20px; margin-top: 10px; font-size: 15px;">Jogadores Conectados:</span>
+            <span style="margin-left: 30px;">80</span>
+            <div id="chart3"></div>
+          </div>
+        </div>
+        <div class="linha2">
+          <div class="grafico2">
+            <span style="margin: 20px;">Monitoramento de armazenamento</span>
+            <div id="chart4"></div>
+          </div>
+          <div class="grafico3">
+            <span style="margin: 20px;">Monitoramento de memória</span>
+            <div class="donut">
+              <div class="ram">
+                <span>RAM</span>
+                <span>Uso: 75%</span>
+                <span>Livre: 25%</span>
+              </div>
+              <div id="chart5"></div>
+              <div class="swap">
+                <span>SWAP</span>
+                <span>Uso: 0%</span>
+                <span>Livre: 100%</span>
+              </div>
+              <div id="chart6"></div>
+            </div>
+          </div>
+        </div>
+        <div class="linha3">
+          <div class="grafico4">
+            <span>Uso da CPU (%)</span>
+            <div id="chart7"></div>
+          </div>
+          <div class="grafico4">
+            <span>Uso da memória (GB)</span>
+            <div id="chart8"></div>
+          </div>
+        </div>
+        <div class="linha3">
+          <div class="grafico4">
+            <span>Temperatura da CPU (C°)</span>
+            <div id="chart9"></div>
+          </div>
+          <div class="grafico4">
+            <span>Uso da rede (Mbps)</span>
+            <div id="chart10"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
 </body>
 <script>
 
-                                            // grafico 1
-var options = {
-  chart: {
-    type: 'line',
-    toolbar: {
+  // grafico 1
+  var options = {
+    chart: {
+      type: 'line',
+      toolbar: {
         show: false
-    }
-  },
-  stroke: {
-    curve: 'smooth'
-  },
-  fill: {
-    type:'solid',
-    opacity: [0.15],
-  },
-  series: [
-    {
-    type: 'area',
-    name: 'uso de CPU (%)',
-    data: [20, 25, 40, 35, 40, 50],
-    }
-  ],
-  colors: ['rgb(42, 0, 61)'],
-  grid: {
-    show: false
-  },
-  xaxis: {
-    categories: ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00']
-  }
-}
-
-var chart = new ApexCharts(document.querySelector("#chart"), options);
-
-chart.render();
-
-                                                // grafico 2
-
-var options = {
-  chart: {
-    type: 'line',
-    toolbar: {
-        show: false
-    }
-  },
-  stroke: {
-    curve: 'smooth'
-  },
-  fill: {
-    type:'solid',
-    opacity: [0.15,0.25],
-  },
-  series: [
-    {
-        type: 'area',
-        name: 'download (Mbps)',
-        data: [200, 250, 400, 350, 400, 500]
+      },
     },
-    {
+    stroke: {
+      curve: 'smooth',
+    },
+    fill: {
+      type: 'solid',
+      opacity: [0.15],
+    },
+    series: [
+      {
         type: 'area',
-        name: 'upload (Mbps)',
-        data: [150,200,300,500,250,400]
-    }
-  ],
-  colors: ['rgb(42, 0, 61)','rgb(45, 180, 40)'],
-  grid: {
-    show: false
-  },
-  xaxis: {
-    categories: ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00']
-  }
-}
-
-var chart2 = new ApexCharts(document.querySelector("#chart2"), options);
-
-chart2.render();
-
-                                            // grafico 3
-
-var options = {
-  chart: {
-    type: 'line',
-    toolbar: {
+        name: 'uso de CPU (%)',
+        data: [20, 25, 40, 35, 40, 50],
+      }
+    ],
+    colors: ['rgb(42, 0, 61)'],
+    grid: {
+      show: false
+    },
+    xaxis: {
+      show: false,
+      labels: {
         show: false
-    }
-  },
-  stroke: {
-    curve: 'smooth'
-  },
-  fill: {
-    type:'solid',
-    opacity: [0.15],
-  },
-  series: [
-    {
-    type: 'area',
-    name: 'jogadores conectados',
-    data: [20, 25, 40, 35, 40, 50],
-    }
-  ],
-  colors: ['rgb(42, 0, 61)'],
-  grid: {
-    show: false
-  },
-  xaxis: {
-    categories: ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00']
-  }
-}
-
-var chart3 = new ApexCharts(document.querySelector("#chart3"), options);
-
-chart3.render();
-
-                                            // grafico 4
-
-var options = {
-  chart: {
-    type: 'bar',
-    toolbar: {
+      },
+      axisBorder: {
         show: false
-    }
-  },
-  plotOptions: {
-    bar: {
-      horizontal: true,
-      borderRadius: 15,
-      barHeight: '30%'
-    }
-  },
-  series: [{
-    name: 'armazenamento atual',
-    data: [{
-        x: 'disco 1',
+      },
+      axisTicks: {
+        show: false
+      }
+    },
+    yaxis: {
+      show: false,
+      labels: {
+        show: false
+      },
+      yxisBorder: {
+        show: false
+      },
+      yxisTicks: {
+        show: false
+      }
+    },
+  }
+
+  var chart = new ApexCharts(document.querySelector("#chart"), options);
+
+  chart.render();
+
+  // grafico 2
+
+  var options = {
+    chart: {
+      type: 'line',
+      toolbar: {
+        show: false
+      },
+      width: '300px',
+    },
+    dataLabels: {
+      enabled: false
+    },
+    legend: {
+      show: false
+    },
+    stroke: {
+      curve: 'smooth'
+    },
+    fill: {
+      type: 'solid',
+      opacity: [0.15, 0.25],
+    },
+    series: [
+      {
+        type: 'area',
+        data: [200, 250, 400, 350, 400, 500],
+      },
+      {
+        type: 'area',
+        data: [150, 200, 300, 500, 250, 400],
+      }
+    ],
+    colors: ['rgb(42, 0, 61)', 'rgb(45, 180, 40)'],
+    grid: {
+      show: false
+    },
+    xaxis: {
+      show: false,
+      labels: {
+        show: false
+      },
+      axisBorder: {
+        show: false
+      },
+      axisTicks: {
+        show: false
+      }
+    },
+    yaxis: {
+      show: false,
+      labels: {
+        show: false
+      },
+      yxisBorder: {
+        show: false
+      },
+      yxisTicks: {
+        show: false
+      }
+    },
+  }
+
+  var chart2 = new ApexCharts(document.querySelector("#chart2"), options);
+
+  chart2.render();
+
+  // grafico 3
+
+  var options = {
+    chart: {
+      type: 'line',
+      toolbar: {
+        show: false
+      },
+    },
+    stroke: {
+      curve: 'smooth'
+    },
+    fill: {
+      type: 'solid',
+      opacity: [0.15],
+    },
+    series: [
+      {
+        type: 'area',
+        name: 'jogadores conectados',
+        data: [20, 25, 40, 35, 40, 50],
+      }
+    ],
+    colors: ['rgb(42, 0, 61)'],
+    grid: {
+      show: false
+    },
+    xaxis: {
+      show: false,
+      labels: {
+        show: false
+      },
+      axisBorder: {
+        show: false
+      },
+      axisTicks: {
+        show: false
+      }
+    },
+    yaxis: {
+      show: false,
+      labels: {
+        show: false
+      },
+      yxisBorder: {
+        show: false
+      },
+      yxisTicks: {
+        show: false
+      }
+    },
+  }
+
+  var chart3 = new ApexCharts(document.querySelector("#chart3"), options);
+
+  chart3.render();
+
+  // grafico 4
+
+  var options = {
+    chart: {
+      type: 'bar',
+      toolbar: {
+        show: false
+      }
+    },
+    plotOptions: {
+      bar: {
+        horizontal: true,
+        borderRadius: 15,
+        barHeight: '30%'
+      }
+    },
+    series: [{
+      name: 'armazenamento atual',
+      data: [{
+        x: 'Disco 1',
         y: 36,
         fillColor: 'rgb(42, 0, 61)',
         strokeColor: 'rgb(42, 0, 61)',
         goals: [
-            {
+          {
             name: '100%',
             value: 100,
             strokeColor: 'rgb(255, 0, 0)'
-            }
+          }
         ]
-    }, {
-        x: 'disco 2',
+      }, {
+        x: 'Disco 2',
         y: 90,
-        fillColor: 'rgb(201, 49, 150)',
-        strokeColor: 'rgb(201, 49, 150)',
+        fillColor: 'red',
+        strokeColor: 'red',
         goals: [
-            {
+          {
             name: '100%',
             value: 100,
             strokeColor: 'rgb(255, 0, 0)'
-            }
+          }
         ]
-    }]
-  }],
-  colors: ['rgb(42, 0, 61)','rgb(255, 0, 0)'],
-  grid: {
-    show: false
-  },
-  xaxis: {
-    categories: ['disco 1', 'disco 2']
-  }
-}
-
-var chart4 = new ApexCharts(document.querySelector("#chart4"), options);
-
-chart4.render();
-
-                                    //grafico 5
-
-var options = {
-    chart: {
-    type: 'donut',
-    toolbar: {
+      }]
+    }],
+    colors: ['rgb(42, 0, 61)', 'rgb(255, 0, 0)'],
+    grid: {
+      show: false
+    },
+    xaxis: {
+      show: false,
+      labels: {
         show: false
-    }
-  },
-  plotOptions: {
+      },
+      axisBorder: {
+        show: false
+      },
+      axisTicks: {
+        show: false
+      }
+    },
+  }
+
+  var chart4 = new ApexCharts(document.querySelector("#chart4"), options);
+
+  chart4.render();
+
+  //grafico 5
+
+  var options = {
+    chart: {
+      type: 'donut',
+      toolbar: {
+        show: false
+      }
+    },
+    plotOptions: {
       pie: {
         donut: {
-            labels: {
-                show: false,
-                name: {
-                    show: false
-                }
-            },
-          size: '45%'  
+          labels: {
+            show: false,
+            name: {
+              show: false
+            }
+          },
+          size: '45%'
         },
         customScale: 0.8
       }
     },
-  series: [75, 25,],
-  labels: ['RAM em uso', 'RAM livre'],
-  colors: ['rgb(42, 0, 61)','rgb(214, 214, 214)'],
-  grid: {
-    show: false
-  },
-  legend: {
-    position: 'bottom',
-    horizontalAlign: 'center',
-    fontSize: '14px'
-  }
-}
-
-var chart5 = new ApexCharts(document.querySelector("#chart5"), options);
-
-chart5.render();
-
-                                    //grafico 6
-
-var options = {
-    chart: {
-    type: 'donut',
-    toolbar: {
-        show: false
+    series: [75, 25,],
+    labels: ['RAM em uso', 'RAM livre'],
+    colors: ['rgb(42, 0, 61)', 'rgb(214, 214, 214)'],
+    grid: {
+      show: false
+    },
+    legend: {
+      show: false
     }
-  },
-  plotOptions: {
+  }
+
+  var chart5 = new ApexCharts(document.querySelector("#chart5"), options);
+
+  chart5.render();
+
+  //grafico 6
+
+  var options = {
+    chart: {
+      type: 'donut',
+      toolbar: {
+        show: false
+      }
+    },
+    plotOptions: {
       pie: {
         donut: {
-          size: '45%'  
+          size: '45%'
         },
         customScale: 0.8
       }
     },
-  series: [0, 100,],
-  labels: ['SWAP em uso', 'SWAP livre'],
-  colors: ['rgb(42, 0, 61)','rgb(214, 214, 214)'],
-  grid: {
-    show: false
-  },
-  legend: {
-    position: 'bottom',
-    horizontalAlign: 'center',
-    fontSize: '14px'
+    series: [0, 100,],
+    labels: ['SWAP em uso', 'SWAP livre'],
+    colors: ['rgb(42, 0, 61)', 'rgb(214, 214, 214)'],
+    grid: {
+      show: false
+    },
+    legend: {
+      show: false
+    }
   }
-}
 
-var chart6 = new ApexCharts(document.querySelector("#chart6"), options);
+  var chart6 = new ApexCharts(document.querySelector("#chart6"), options);
 
-chart6.render();
+  chart6.render();
 
-                                        //grafico 7
-var options = {
-  chart: {
-    type: 'line',
-    toolbar: {
+  //grafico 7
+  var options = {
+    chart: {
+      type: 'line',
+      toolbar: {
         show: false
-    }
-  },
-  stroke: {
-    curve: 'smooth'
-  },
-  fill: {
-    type:'solid',
-    opacity: [0.15],
-  },
-  series: [
-    {
-    type: 'area',
-    name: 'uso da CPU (%)',
-    data: [20, 25, 40, 35, 40, 50],
-    }
-  ],
-  colors: ['rgb(42, 0, 61)'],
-  grid: {
-    show: false
-  },
-  xaxis: {
-    categories: ['10','20','30','40','50','60']
-  }
-}
-
-var chart7 = new ApexCharts(document.querySelector("#chart7"), options);
-
-chart7.render();
-
-                                        //grafico 8
-                                        
-var options = {
-  chart: {
-    type: 'line',
-    toolbar: {
+      }
+    },
+    stroke: {
+      curve: 'smooth'
+    },
+    fill: {
+      type: 'solid',
+      opacity: [0.15],
+    },
+    series: [
+      {
+        type: 'area',
+        name: 'uso da CPU (%)',
+        data: [100, 50,90, 55, 65, 49,88,80,90,70,90,84,82,69,90],
+      }
+    ],
+    colors: ['rgb(42, 0, 61)'],
+    grid: {
+      show: false
+    },
+    xaxis: {
+      show: false,
+      labels: {
         show: false
-    }
-  },
-  stroke: {
-    curve: 'smooth'
-  },
-  fill: {
-    type:'solid',
-    opacity: [0.15],
-  },
-  series: [
-    {
-    type: 'area',
-    name: 'jogadores conectados',
-    data: [20, 25, 40, 35, 40, 50],
-    }
-  ],
-  colors: ['rgb(42, 0, 61)'],
-  grid: {
-    show: false
-  },
-  xaxis: {
-    categories: ['10','20','30','40','50','60']
-  }
-}
-
-var chart8 = new ApexCharts(document.querySelector("#chart8"), options);
-
-chart8.render();
-                                        
-                                        //grafico 9
-                                        
-var options = {
-  chart: {
-    type: 'line',
-    toolbar: {
+      },
+      axisBorder: {
         show: false
-    }
-  },
-  stroke: {
-    curve: 'smooth'
-  },
-  fill: {
-    type:'solid',
-    opacity: [0.15],
-  },
-  series: [
-    {
-    type: 'area',
-    name: 'jogadores conectados',
-    data: [20, 25, 40, 35, 40, 50],
-    }
-  ],
-  colors: ['rgb(42, 0, 61)'],
-  grid: {
-    show: false
-  },
-  xaxis: {
-    categories: ['10','20','30','40','50','60']
-  }
-}
-
-var chart9 = new ApexCharts(document.querySelector("#chart9"), options);
-
-chart9.render();
-
-                                        //grafico 10
-                                        
-var options = {
-  chart: {
-    type: 'line',
-    toolbar: {
+      },
+      axisTicks: {
         show: false
-    }
-  },
-  stroke: {
-    curve: 'smooth'
-  },
-  fill: {
-    type:'solid',
-    opacity: [0.15],
-  },
-  series: [
-    {
-    type: 'area',
-    name: 'jogadores conectados',
-    data: [20, 25, 40, 35, 40, 50],
-    }
-  ],
-  colors: ['rgb(42, 0, 61)'],
-  grid: {
-    show: false
-  },
-  xaxis: {
-    categories: ['10','20','30','40','50','60']
+      }
+    },
   }
-}
 
-var chart10 = new ApexCharts(document.querySelector("#chart10"), options);
+  var chart7 = new ApexCharts(document.querySelector("#chart7"), options);
 
-chart10.render();
+  chart7.render();
+
+  //grafico 8
+
+  var options = {
+    chart: {
+      type: 'line',
+      toolbar: {
+        show: false
+      }
+    },
+    stroke: {
+      curve: 'smooth'
+    },
+    fill: {
+      type: 'solid',
+      opacity: [0.15],
+    },
+    series: [
+      {
+        type: 'area',
+        name: 'jogadores conectados',
+        data: [64,28,58,30,38,26,54,49,56,40,56,49,47,41,56],
+      }
+    ],
+    colors: ['rgb(42, 0, 61)'],
+    grid: {
+      show: false
+    },
+    xaxis: {
+      show: false,
+      labels: {
+        show: false
+      },
+      axisBorder: {
+        show: false
+      },
+      axisTicks: {
+        show: false
+      }
+    },
+  }
+
+  var chart8 = new ApexCharts(document.querySelector("#chart8"), options);
+
+  chart8.render();
+
+  //grafico 9
+
+  var options = {
+    chart: {
+      type: 'line',
+      toolbar: {
+        show: false
+      }
+    },
+    stroke: {
+      curve: 'smooth'
+    },
+    fill: {
+      type: 'solid',
+      opacity: [0.15],
+    },
+    series: [
+      {
+        type: 'area',
+        name: 'jogadores conectados',
+        data: [100, 55, 95, 55, 90, 85,92,75,90,80,75,70,90],
+      }
+    ],
+    colors: ['rgb(42, 0, 61)'],
+    grid: {
+      show: false
+    },
+    xaxis: {
+      show: false,
+      labels: {
+        show: false
+      },
+      axisBorder: {
+        show: false
+      },
+      axisTicks: {
+        show: false
+      }
+    },
+  }
+
+  var chart9 = new ApexCharts(document.querySelector("#chart9"), options);
+
+  chart9.render();
+
+  //grafico 10
+
+  var options = {
+    chart: {
+      type: 'line',
+      toolbar: {
+        show: false
+      }
+    },
+    stroke: {
+      curve: 'smooth'
+    },
+    fill: {
+      type: 'solid',
+      opacity: [0.15],
+    },
+    series: [
+      {
+        type: 'area',
+        name: 'jogadores conectados',
+        data: [100, 55, 95, 50, 65, 50,85,83,90,70,90,80,75,80,90]
+      }
+    ],
+    colors: ['rgb(42, 0, 61)'],
+    grid: {
+      show: false
+    },
+    xaxis: {
+      show: false,
+      labels: {
+        show: false
+      },
+      axisBorder: {
+        show: false
+      },
+      axisTicks: {
+        show: false
+      }
+    },
+  }
+
+  var chart10 = new ApexCharts(document.querySelector("#chart10"), options);
+
+  chart10.render();
 </script>
+
 </html>

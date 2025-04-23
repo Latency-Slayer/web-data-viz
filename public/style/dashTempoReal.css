@@ -8,12 +8,9 @@
 }
 
 #chart {
-    max-width: 640px;
-    margin: 35px auto;
+    min-width: 350px;
+    width: 100px;
 }
-
-
-
 .titulo {
     font-size: larger;
 }
@@ -26,7 +23,7 @@ main {
     width: 80vw;
     overflow: auto;
     height: 100vh;
-}
+}   
 
 .navbar {
     display: flex;
@@ -92,8 +89,6 @@ main {
 
 }
 
-
-
 .div-central h1 {
     font-family: "Poppins", serif;
     color: #44395F;
@@ -107,9 +102,13 @@ main {
     display: flex;
     justify-content: space-between;
     padding: 30px; 
-    background-color: #efefef;  
+    background-color: white;  
 }
-
+hr{
+    width: 93%;
+    margin-left: 30px;
+    border: 1px solid rgba(238, 238, 238, 1);
+}
 .linha1 img {
     height: 45px;
     width: 80px;
@@ -117,60 +116,89 @@ main {
 
 .kpis {
     display: flex;
-
-    height: 250px;
-
-    justify-content: center;
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
     align-items: center;
 }
 
 .linha2 {
     display: flex;
-    flex-direction: row;
-    width: 89%;
-    padding-bottom: 70px;
+    width: 100%;
+    height: 100%;
+    padding-top: 30px;
+    padding-bottom: 30px;
 }
 
 .linha3 {
     display: flex;
     flex-direction: row;
-    padding-bottom: 70px;
+    padding-bottom: 30px;
+    text-align: left;
 }
 
 /* placeholders a serem alterados */
 
 .grafico {
-    height: 250px;
-    width: 30%;
+    height: 285px;
+    width: 100%;
     border-radius: 10px;
     display: flex;
+    position: relative;
+    box-sizing: border-box;
+    text-align: left;
     flex-direction: column;
-    text-align: center;
+    flex-grow: 1;
+    margin-right: 0;
     color: rgb(42, 0, 61);
+    background-color: rgba(238, 238, 238, 1);
     font-size: 20px;
+    margin: 20px 20px 0px 20px;
+}
+
+.grafico span {
+    color: black;
+    font-weight: bold;
 }
 .grafico2 {
-    height: 280px;
-    width: 49.5%;
+    height: 350px;
+    width: 40%;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
-    text-align: center;
+    text-align: left;
+    margin-left: 20px;
+    background-color: #EFEFEF;
     color: rgb(42, 0, 61);
     font-size: 20px;
 }
 .grafico3 {
-    height: 280px;
+    height: 350px;
+    width: 60%;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     text-align: center;
+    margin-left: 20px;
     color: rgb(42, 0, 61);
     font-size: 20px;
+    background-color: #EFEFEF;
+}
+.grafico3 span{
+    padding-right: 20px;
 }
 .donut {
-    width: 40%;
     display: flex;
+}
+.ram{
+    display: flex;
+    width: 150px;
+    flex-direction: column;
+}
+.swap{
+    display: flex;
+    width: 150px;
+    flex-direction: column;
 }
 .grafico4 {
     height: 350px;
@@ -178,7 +206,10 @@ main {
     border-radius: 10px;
     display: flex;
     flex-direction: column;
-    text-align: center;
+    text-align: left;
+    margin-left: 20px;
+    background-color: #EFEFEF;
+    padding: 20px;
     color: rgb(42, 0, 61);
     font-size: 20px;
 }
