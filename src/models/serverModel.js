@@ -74,6 +74,35 @@ function registerComponent(componentData, serverId) {
     });
  }
 
+
+async function getServerComponentsData(motherBoardId) {
+        const [server] = await database.executar(
+            `SELECT server.motherboard_id, tag_name, type, game, port
+                       FROM server WHERE motherboard_id = ?`, [motherBoardId]);
+
+        const component = await database.executar(
+            `SELECT c.id_component, c.tag_name, c.type, c.active, m.metric, m.max_limit, m.min_limit, m.total
+                    FROM server AS s JOIN component c on s.id_server = c.fk_server
+                    JOIN metric m on c.id_component = m.fk_component
+                    WHERE s.motherboard_id = ?`,
+            [motherBoardId]
+        );
+
+        if(!server) {
+            throw new Error("No server found for motherboard");
+        }
+
+        if(component.length === 0) {
+            throw new Error("Server Components not found");
+        }
+
+        return {
+            server,
+            components: component,
+        };
+}
+
 module.exports = {
-    registerServer
+    registerServer,
+    getServerComponentsData
 };
