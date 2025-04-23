@@ -10,27 +10,33 @@ parentElement.insertAdjacentHTML("afterbegin",`
     flex-direction: column;
     width: 20vw;
     height: 100vh;
-    gap: 4vh;
+    /*gap: 4vh;*/
     background-color: rgba(86, 64, 140, 1);
     color: rgba(255, 255, 255, 1);
     align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    /*border: solid red 3px;*/
 }
 .profile{
+    /*border: solid green 3px;*/
     margin-top: 4vh;
     display: flex;
     flex-direction: column;
     text-align: left;
-    margin-left: 30px;
     font-size: 20px;
     gap: 10px;
+    width: 100%;
 }
+
 .profile-line {
-    width: 200px;
-    margin-right: 50px;
+    width: 100%;
+    /*border: solid red 3px;*/
+    /*margin-right: 50px;*/
 }
 
 #company{
-    font-size: 20px;
+    font-size: 42px;
     margin-bottom: 10px;
 }
 #user{
@@ -108,7 +114,8 @@ color: #563f8c;
 }
 
     </style>
-    <div class="navbar">
+    
+        <div class="navbar">
             <div class="profile">
                 <span class="titulo" id="company">Ubisoft</span>
                 <hr class="profile-line">
@@ -116,6 +123,7 @@ color: #563f8c;
                 <span class="titulo" id="cargo">Gestor de Infraestrutura</span>
                 <hr class="profile-line">
             </div>
+            
             <div class="btnsNav">
                 <button class="buttonNav ${page === 'servidores' ? 'active' : ''}"> <i class='bx bx-server' ></i><a href="./gerenciarServidor.html">Servidores</a></button>
                 <button class="buttonNav ${page === 'registrarServidor' ? 'active' : ''}"> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: white;"><path d="M20 3H4c-1.103 0-2 .897-2 2v11c0 1.103.897 2 2 2h7v2H8v2h8v-2h-3v-2h7c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zM4 14V5h16l.002 9H4z"></path><path d="M11.412 8.586c.379.38.588.882.588 1.414h2a3.977 3.977 0 0 0-1.174-2.828c-1.514-1.512-4.139-1.512-5.652 0l1.412 1.416c.76-.758 2.07-.756 2.826-.002z"></path></svg><a href="./cadastroMaquina.html">Registrar Servidor</a></button>
@@ -128,6 +136,5 @@ color: #563f8c;
                     <button class="logout" onclick="window.location.href='index.html'">Encerrar Sessão</button>
                 </div>
             </div>
-    
         </div>    
 `);
