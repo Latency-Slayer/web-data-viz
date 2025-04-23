@@ -20,6 +20,12 @@ a{
     text-decoration: none;
     color: rgba(58, 46, 93, 1);
 }
+.container hr{
+    width: 90%;
+    border: 1px solid rgba(238, 238, 238, 1);
+    align-self: center;
+    align-items: center;
+}
 a:hover{
     text-decoration: underline;
 }
@@ -40,7 +46,7 @@ a:hover{
 }
 .header-titulo hr {
     width: 97%;
-    border:1px solid rgba(238, 238, 238, 1);
+    color: rgba(238, 238, 238, 1);
 }
 .titulo{
     display: flex;
@@ -73,16 +79,46 @@ a:hover{
     color: white;
     font-weight: bold;
 }
-
-.container-download{
-    width: 90%;
-    margin-left: 50px;
+.container-editar{
+    display: flex;
+    width: 100%;
+    justify-content: center;
 }
-.btn-download{
+.coluna-1{
+    display: flex;
+    flex-direction: column;
+    margin-right: 30px;
+}
+.coluna-1 span{
     margin-top: 20px;
-    padding: 10px;
-    border-radius: 10px;
-    color: #F9FAFB;
+}
+.coluna-2 span{
+    margin-top: 20px;
+}
+input{
+    width: 250px;
+    padding: 0.75rem 2.5rem 0.75rem 1rem;
     border: none;
-    background-color: #3A2E5D;
+    border-radius: 0.5rem;
+    background-color: #f4f4f4;
+    color: #333;
+    font-size: 1rem;
+}
+.coluna-2{
+    display: flex;
+    flex-direction: column;
+}
+.btn_update{
+    margin-top: 1rem;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 50%;
+    align-items: center;
+    align-self: center;
+    background-color: #3f3366;
+    color: white;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
 }

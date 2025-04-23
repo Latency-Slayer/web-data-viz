@@ -6,103 +6,30 @@
     <title>Latency Slayer | Cadastro de Máquinas</title>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="./style/cadastroMaquina.css">
-    <link rel="stylesheet" href="https://jsuites.net/v5/jsuites.css" type="text/css" />
-    
-    <script src="https://jsuites.net/v5/jsuites.js"></script>
-    <script src="https://jsuites.net/v5/jsuites.webcomponents.js"></script>
-
 </head>
 <body onload="maquinas()">
     <main>
         <script src="./script/components/navBar.js" page="registrarServidor"></script>
         <div class="container">
-            <div class="titulo">
-                <h1>Máquinas</h1>
-            </div>
-            <hr>
-            <div class="segundaCamada">
-                <div class="cadastrarMaquina">
-
-                    <jsuites-modal title="Cadastrar Máquina" closed="true">
-                        <span>Código da Máquina: </span>
-                        <input type="text">
-                    </jsuites-modal>
-                    
-                    <button onclick="document.querySelector('jsuites-modal').modal.open()"><i class='bx bx-plus-circle'></i>Cadastrar Maquina</button>
-                    
-                    <div class="telaCadastro">
-                        <div class="campos">
-                            <label for="codMaq">Código Máquina: </label>
-                            <input type="number" id="codMaq" />
-                        </div>
-    
-                        <div class="campos">
-                            <label for="mRam">Modelo da sua memória Ram: </label>
-                            <input type="text" id="mRam" />
-                        </div>
-    
-                        <div class="campos">
-                            <label for="mDisk">Modelo do seu disco(HD/SSD): </label>
-                            <input type="text" id="mDisk" />
-                        </div>
-    
-                        <div class="campos">
-                            <label for="mCpu">Modelo da sua CPU: </label>
-                            <input type="password" id="mCpu" />
-                        </div>
-    
-                        <div class="btn_cadastro">
-                            <button id="cadastroBtn" class="btn_tela_cadastro" onclick="cadastrar()">Cadastrar</button>
-                        </div>
-
-                        
-    
-                        <div id="aviso"></div>
+            <div class="header-titulo">
+                <div class="titulo">
+                    <h1>Registrar Servidor</h1>
+                    <div class="alerta-popup">
+                        <i class='bx bxs-bell-ring'></i>
+                        <span>2</span>
                     </div>
                 </div>
-                
-                <div class="barraPesquisa">
-                    Pesquisar por código: <input oninput="pesquisa()" type="text" id="ipt_pesquisa"> <i class='bx bx-search-alt-2' ></i>
-                </div>
+                <hr>
             </div>
-            <hr>
-            <div class="quadroMaquinas">
-                <div class="tituloMaquina">
-                    <h1>Máquinas Cadastradas</h1>
-                </div>
-                <div class="maquinas">
-                    <div class="telaDados">
-                        <div class="tituloDados">
-                            <h3>Quais dados você deseja capturar?</h3> <i class='bx bx-x-circle'></i>
-                        </div>
-                        <label>
-                            <input type="checkbox" value="cpu"> CPU
-                        </label>
-                        <label>
-                            <input type="checkbox" value="ram"> RAM
-                        </label>
-                        <label>
-                            <input type="checkbox" value="disco"> DISCO
-                        </label>
-
-                        <button onclick="metricasDados()" id="btn_dados">Selecionar</button>
-                   </div>
-                   <div class="telaExcluir"></div>
-                    <table>
-                        <tr>
-                        <th>Codigo Máquina</th>
-                        <th>Nome Servidor</th>
-                        <th>Data Cadastro</th>
-                        <th>Editar</th>
-                        <th>Excluir</th>
-                        </tr>
-                    </table>
-                   
-                </div>
+            <div class="container-download">
+                <h1>Clique nos botões de <strong>Download</strong> para realizar o
+                    cadastro do servidor</h1>
+                <button class="btn-download">Download do Script</button>
+                <button class="btn-download">Download do Manual</button>
             </div>
         </div>
+            
     </main>
-    <script src="./script/cadastroMaquina.js"></script>
 </body>
 </html>
 
