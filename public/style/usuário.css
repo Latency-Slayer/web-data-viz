@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Asap:ital,wght@0,100..900;1,100..900&family=Edu+AU+VIC+WA+NT+Guides:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+.corpo {
+    margin-left: 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    /* border: solid blue; */
+}
+
+.hr-main{
+    border: solid gainsboro thin;
+    border-radius: 50%;
+    width: 100%;
+    opacity: 1;
+}
+
+.header h1 {
+    /* border: solid red; */
+    color: #3A2E5D;
+    font-size: 60px;
+    font-weight: 500;
+    margin-top: 15px;
+    margin-bottom: 6px;
+}
+
+.cadastro-pesquisa {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.cadastrar, .buscar {
+    font-family: "Poppins";
+    background-color: #3A2E5D;
+    color: white;
+    border: none;
+    width: fit-content;
+    padding: 0 1rem;
+    height: 2.5rem;
+    font-size: 18px;
+    border-radius: 10px;
+}
+
+.pesquisa {
+    margin-left: 26rem;
+    margin-right: 10px;
+    color: #3A2E5D;
+    font-size: 20px;
+}
+
+.campo-pesquisa {
+    border: solid red;
+    margin-right: 10px;
+    font-family: "Poppins";
+    padding: 0 1rem;
+    width: 16rem;
+    height: 2.5rem;
+    border: none;
+    border-radius: 10px;
+    background-color: rgb(220, 212, 212);
+    font-size: 18px;
+}
+
+table {
+    border: solid red;
+    width: 100%;
+}
+
+th {
+    font-weight: 800;
+    text-align: center;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+    color: #3A2E5D;
+    font-family: "Poppins";
+}
+
+.tabela-usuario h3 {
+    color: #3A2E5D;
+    font-family: "Poppins";
+    font-size: 30px;
+    font-weight: 500;
+}
+
+.paginacao {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    justify-content: space-around;
+    list-style-type: none;
+    padding: 0.5rem;
+    max-width: 30rem; 
+}
+
+.page-link {
+    text-decoration: none;
+    margin: 0;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.page-link ::hover {
+    background-color: #3A2E5D;
+    color: white;
+}
+
+.paginacao .seta-e{
+    display: inline-block;
+    transform: rotate(180deg);
+}
