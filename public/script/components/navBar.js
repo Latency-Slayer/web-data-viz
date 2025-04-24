@@ -4,7 +4,7 @@ const page = document.currentScript.getAttribute("page");
 
 parentElement.insertAdjacentHTML("afterbegin",`
     <style>
-        
+ 
 .navbar {
     display: flex;
     flex-direction: column;
@@ -119,7 +119,7 @@ color: #563f8c;
             <div class="profile">
                 <span class="titulo" id="company">Ubisoft</span>
                 <hr class="profile-line">
-                <span class="titulo" id="user">Ralph</span>
+                <span class="titulo" id="user">Juninho</span>
                 <span class="titulo" id="cargo">Gestor de Infraestrutura</span>
                 <hr class="profile-line">
             </div>
