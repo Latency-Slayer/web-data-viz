@@ -117,9 +117,9 @@ color: #563f8c;
     
         <div class="navbar">
             <div class="profile">
-                <span class="titulo" id="company">Teste1</span>
+                <span class="titulo" id="company">Ubisoft</span>
                 <hr class="profile-line">
-                <span class="titulo" id="user">Juninho</span>
+                <span class="titulo" id="user">Ralph</span>
                 <span class="titulo" id="cargo">Gestor de Infraestrutura</span>
                 <hr class="profile-line">
             </div>
