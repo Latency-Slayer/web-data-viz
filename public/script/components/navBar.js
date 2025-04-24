@@ -120,7 +120,7 @@ hr {
                 <a class="buttonNav ${page === 'servidores' ? 'active' : ''}" href="./listaServidores.html"><button><i class='bx bxs-server nav-icon'></i>Servidores</button></a>
                 <a class="buttonNav ${page === 'registrarServidor' ? 'active' : ''}" href="./cadastroMaquina.html"><button><i class='bx bx-desktop nav-icon'></i>Registrar Servidor</button></a>
                 <a class="buttonNav ${page === 'alertas' ? 'active' : ''}" href="./alertas.html"><button><i class='bx bxs-bell nav-icon'></i>Alertas</button></a>
-                <a class="buttonNav ${page === 'gerenciarUsuarios' ? 'active' : ''}" href="./usuarios.html"><button> <i class='bx bxs-user-account nav-icon'></i>Gerenciar Usuários</button></a>
+                <a class="buttonNav ${page === 'gerenciarUsuarios' ? 'active' : ''}" href="./gerenciar-usuario.html"><button> <i class='bx bxs-user-account nav-icon'></i>Gerenciar Usuários</button></a>
                 <a class="buttonNav ${page === 'editarPerfil' ? 'active' : ''}" href="./editarPerfil.html"><button><i class='bx bxs-user-circle nav-icon'></i>Editar Perfil</button></a>
                 <hr>
                 <div class="encerrar">

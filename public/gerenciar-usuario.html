@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style/gerenciarUsuario.css"/>
+    <title>LatencySlayer | Gestão de Usuário</title>
+  </head>
+  <body>
+    <main>
+      <script src="./script/components/navBar.js" page="gerenciarUsuarios"></script>
+      <div class="container">
+        <div class="header-titulo">
+            <div class="titulo">
+                <h1>Gerenciar usuários</h1>
+                <div class="alerta-popup">
+                    <i class='bx bxs-bell-ring'></i>
+                    <span>2</span>
+                </div>
+            </div>
+            <div class="barraPesquisa">
+                <button>Cadastrar Usuário</button>
+                <div class="barraPesquisa-direita">
+                  <span>Pesquisar por Identificador:</span>
+                  <input oninput="pesquisa()" type="text" id="ipt_pesquisa" placeholder="Ex: 1005">
+                  <button class="btn_busca">Buscar</button>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <span>Lista de Funcionários</span>
+        <div class="lista-maquina">
+            <div class="tabela-colunas">
+                <table>
+                    <thead>
+                        <tr>
+                          <th>Identificador</th>
+                          <th>Nome</th>
+                          <th>Cargo</th>
+                          <th>Data de Cadastro</th>
+                          <th>Email</th>
+                          <th>Mais informações</th>
+                        </tr>
+                    </thead>
+                        <tbody>
+                            <tr>
+                              <td>ext-04202501</td>
+                              <td>ubs-far-cry-west-us</td>
+                              <td>01/04/2025</td>
+                              <td>Far Cry 5 Online</td>
+                              <td>San Diego</td>
+                              <td>Clique para editar</td>
+                            </tr>
+                            <tr>
+                                <td>ext-04202501</td>
+                                <td>ubs-far-cry-west-us</td>
+                                <td>01/04/2025</td>
+                                <td>Far Cry 5 Online</td>
+                                <td>San Diego</td>
+                                <td>Clique para ver</td>
+                              </tr>
+                              <tr>
+                                <td>ext-04202501</td>
+                                <td>ubs-far-cry-west-us</td>
+                                <td>01/04/2025</td>
+                                <td>Far Cry 5 Online</td>
+                                <td>San Diego</td>
+                                <td>Clique para ver</td>
+                            </tr>
+                              <tr>
+                                <td>ext-04202501</td>
+                                <td>ubs-far-cry-west-us</td>
+                                <td>01/04/2025</td>
+                                <td>Far Cry 5 Online</td>
+                                <td>San Diego</td>
+                                <td>Clique para ver</td>
+                              </tr>
+                              <tr>
+                                <td>ext-04202501</td>
+                                <td>ubs-far-cry-west-us</td>
+                                <td>01/04/2025</td>
+                                <td>Far Cry 5 Online</td>
+                                <td>San Diego</td>
+                                <td>Clique para ver</td>
+                              </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+                <div class="paginacao">
+                    <span class="disabled">← Anterior</span>
+                    <span class="page active">1</span>
+                    <span class="page">2</span>
+                    <span class="page">3</span>
+                    <span class="dots">...</span>
+                    <span class="page">67</span>
+                    <span class="page">68</span>
+                    <span class="next">Próximo →</span>
+                  </div>
+            </div>
+        </div>
+    </div>
+    </main>    
+  </body>
+</html>
+<script></script>
