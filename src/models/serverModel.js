@@ -77,8 +77,9 @@ function registerComponent(componentData, serverId) {
 
 async function getServerComponentsData(motherBoardId) {
         const [server] = await database.executar(
-            `SELECT server.motherboard_id, tag_name, type, game, port
-                       FROM server WHERE motherboard_id = ?`, [motherBoardId]);
+            `SELECT server.motherboard_id, tag_name, type, game, port, legal_name, registration_number
+                       FROM server JOIN latency_slayer.company c on c.id_company = server.fk_company 
+                       WHERE motherboard_id = ?`, [motherBoardId]);
 
         const component = await database.executar(
             `SELECT c.id_component, c.tag_name, c.type, c.active, m.metric, m.max_limit, m.min_limit, m.total
