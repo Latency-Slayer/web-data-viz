@@ -10,7 +10,7 @@ body {
     min-height: 100vh;
 }
 
-main {
+main { 
     display: flex;
     position: relative;
     justify-content: center;
@@ -32,6 +32,7 @@ a:hover{
     height: 100vh;
     background-color: #F9FAFB;
     gap: 5%;
+    overflow: auto;
 }
 
 .header-titulo{
@@ -93,7 +94,7 @@ a:hover{
 }
 .barraPesquisa button{
     padding: 8px;
-    width: 15%;
+    width: 20%;
     background-color: rgba(58, 46, 93, 1);
     color: white;
     border-radius: 12px;
