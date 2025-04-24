@@ -1,99 +1,106 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cadastro Maquina</title>
+  <title>Latency Slayer | Alertas</title>
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-  <link rel="stylesheet" href="./style/cadastroMaquina.css">
   <link rel="stylesheet" href="./style/alertas.css">
 </head>
 
 <body onload="maquinas()">
   <main>
-    <div class="navbar"></div>
+    <script src="./script/components/navBar.js" page="alertas"></script>
+
     <div class="container">
-      <div class="titulo">
-        <h1>Alertas</h1>
-      </div>
-      <hr>
-      <div class="segundaCamada">
-
-        <!-- <div class="cadastrarMaquina">
-            <button><i class='bx bx-plus-circle'></i>Cadastrar Maquina</button>
-
-
-            <div class="telaCadastro">
-              <div class="campos">
-                <label for="codMaq">Código Máquina: </label>
-                <input type="number" id="codMaq" />
+      <div class="header-titulo">
+          <div class="titulo">
+              <h1>Alertas</h1>
+              <div class="alerta-popup">
+                  <i class='bx bxs-bell-ring'></i>
+                  <span>2</span>
               </div>
-
-              <div class="campos">
-                <label for="mRam">Modelo da sua memória Ram: </label>
-                <input type="text" id="mRam" />
-              </div>
-
-              <div class="campos">
-                <label for="mDisk">Modelo do seu disco(HD/SSD): </label>
-                <input type="text" id="mDisk" />
-              </div>
-
-              <div class="campos">
-                <label for="mCpu">Modelo da sua CPU: </label>
-                <input type="password" id="mCpu" />
-              </div>
-
-              <div class="btn_cadastro">
-                <button id="cadastroBtn" class="btn_tela_cadastro" onclick="cadastrar()">Cadastrar</button>
-              </div>
-
-
-
-              <div id="aviso"></div>
-            </div>
-          </div> -->
-
-        <div class="barraPesquisa">
-          Pesquisar por código: <input oninput="pesquisa()" type="text" id="ipt_pesquisa"> <i
-            class='bx bx-search-alt-2'></i>
-        </div>
-      </div>
-      <hr>
-      <div class="quadroMaquinas">
-        <div class="tituloMaquina">
-          <h1>Alertas gerados</h1>
-        </div>
-        <div class="maquinas">
-          <div class="telaDados">
-            <div class="tituloDados">
-              <h3>Quais dados você deseja capturar?</h3> <i class='bx bx-x-circle'></i>
-            </div>
-            <label>
-              <input type="checkbox" value="cpu"> CPU
-            </label>
-            <label>
-              <input type="checkbox" value="ram"> RAM
-            </label>
-            <label>
-              <input type="checkbox" value="disco"> DISCO
-            </label>
-
-            <button onclick="metricasDados()" id="btn_dados">Selecionar</button>
           </div>
-          <div class="telaExcluir"></div>
-          <table>
-            <tr>
-              <th>Nome</th>
-              <th>Servidor</th>
-              <th>Data</th>
-              <th>Editar</th>
-              <th>Excluir</th>
-            </tr>
-          </table>
+          <hr>
+      </div>
 
-        </div>
+    <div class="lista-maquina">
+      <div class="tabela-colunas">
+          <table>
+              <thead>
+                  <tr>
+                    <th>Status</th>
+                    <th>Nome</th>
+                    <th>Tagname</th>
+                    <th>Alerta</th>
+                    <th>Data do Alerta</th>
+                    <th>Mais informações</th>
+                  </tr>
+              </thead>
+                  <tbody>
+                      <tr>
+                        <td><i class='bx bx-radio-circle circle-yellow'></i></td>
+                        <td>ext-04202501</td>
+                        <td>Craftlandia</td>
+                        <td>Instável</td>
+                        <td>01/04/2025</td>
+                        <td><a href="#">Clique para ver</a></td>
+                      </tr>
+                      <tr>
+                          <td><i class='bx bx-radio-circle circle-red'></i></td>
+                          <td>ext-04202501</td>
+                          <td>Armaggedon</td>
+                          <td>Crítico</td>
+                          <td>01/04/2025</td>
+                          <td><a href="#">Clique para ver</a></td>
+                        </tr>
+                        <tr>
+                          <td><i class='bx bx-radio-circle circle-red'></i></td>
+                          <td>ext-04202501</td>
+                          <td>BrasilCraft</td>
+                          <td>Crítico</td>
+                          <td>01/04/2025</td>
+                          <td><a href="#">Clique para ver</a></td>
+                      </tr>
+                        <tr>
+                          <td><i class='bx bx-radio-circle circle-yellow'></i></td>
+                          <td>ext-04202501</td>
+                          <td>Netherite</td>
+                          <td>Instável</td>
+                          <td>01/04/2025</td>
+                          <td><a href="#">Clique para ver</a></td>
+                        </tr>
+                        <tr>
+                          <td><i class='bx bx-radio-circle circle-yellow'></i></td>
+                          <td>ext-04202501</td>
+                          <td>PixelmonBR</td>
+                          <td>Instável</td>
+                          <td>01/04/2025</td>
+                          <td><a href="#">Clique para ver</a></td>
+                        </tr>
+                        <tr>
+                          <td><i class='bx bx-radio-circle circle-yellow'></i></td>
+                          <td>ext-04202501</td>
+                          <td>PixelmonBR</td>
+                          <td>Instável</td>
+                          <td>01/04/2025</td>
+                          <td><a href="#">Clique para ver</a></td>
+                        </tr>
+                        
+                  </tbody>
+              </table>
+          </div>
+          <div class="paginacao">
+            <span class="disabled">← Anterior</span>
+            <span class="page active">1</span>
+            <span class="page">2</span>
+            <span class="page">3</span>
+            <span class="dots">...</span>
+            <span class="page">67</span>
+            <span class="page">68</span>
+            <span class="next">Próximo →</span>
+          </div>
       </div>
     </div>
   </main>
@@ -101,9 +108,3 @@
 </body>
 
 </html>
-
-
-
-<!-- <div class="headerMaquinas">
-    <div></div>
-</div> -->
