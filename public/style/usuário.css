@@ -67,8 +67,12 @@
 }
 
 table {
-    border: solid red;
     width: 100%;
+    padding: 15px;
+}
+
+tbody tr {
+    background:linear-gradient(rgba(21, 19, 31, 0.05), rgba(90, 82, 133, 0));
 }
 
 th {
@@ -77,13 +81,17 @@ th {
 }
 
 th, td {
-    padding: 10px;
+    padding: 20px 25px;
     text-align: center;
     color: #3A2E5D;
     font-family: "Poppins";
 }
 
-.tabela-usuario h3 {
+a {
+    text-decoration: none;
+} 
+
+h3 {
     color: #3A2E5D;
     font-family: "Poppins";
     font-size: 30px;
@@ -92,29 +100,32 @@ th, td {
 
 .paginacao {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    justify-content: space-around;
     list-style-type: none;
-    padding: 0.5rem;
-    max-width: 30rem; 
+    justify-content: center;
+    padding: 0;
 }
 
-.page-link {
+.page-item , .page-link {
     text-decoration: none;
     margin: 0;
     border: none;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
+    padding: 3px 5px;
 }
 
-.page-link ::hover {
+.page-item:hover, .page-link:hover{
     background-color: #3A2E5D;
+    border-radius: 8px;
     color: white;
 }
 
 .paginacao .seta-e{
     display: inline-block;
     transform: rotate(180deg);
+}
+
+.tabela-usuario {
+    border-radius: 10px;
+    box-shadow:  0px 0px 15px rgb(197, 192, 192);
 }
