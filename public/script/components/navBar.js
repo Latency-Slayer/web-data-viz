@@ -117,7 +117,7 @@ color: #563f8c;
     
         <div class="navbar">
             <div class="profile">
-                <span class="titulo" id="company">Teste</span>
+                <span class="titulo" id="company">Teste1</span>
                 <hr class="profile-line">
                 <span class="titulo" id="user">Juninho</span>
                 <span class="titulo" id="cargo">Gestor de Infraestrutura</span>
