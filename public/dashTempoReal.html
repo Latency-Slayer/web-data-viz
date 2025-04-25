@@ -46,11 +46,42 @@
               <div id="grafico-kpi-03"></div>
             </div>
           </div>
+
+          <div class="graficos">
+
+            <div class="first-line-graphs">
+              <div class="graphs-storange">
+                <div class="text-kpi">Uso da CPU (%)</div>
+                <div id="grafico-cpu-pctg"></div>
+              </div>
+
+              <div class="graphs-ram">
+                <div class="text-kpi">Uso da Memória (GB)</div>
+                <div id="grafico-uso-memoria"></div>
+              </div>
+
+            </div>
+
+            <div class="espaco"></div>
+
+            <div class="second-line-graphs">
+              <div class="graphs-temperature-cpu">
+                <div class="text-kpi">Temperatura da CPU (Cº)</div>
+                <div id="grafico-cpu-temperatura"></div>
+              </div>
+
+              <div class="graphs-network">
+                <div class="text-kpi">Uso da Rede (Mbps)</div>
+                <div id="grafico-uso-rede"></div>
+              </div>
+
+            </div>
+          </div>
         </div>
       </div>
     </main>
 
-    
+
   <script>
 
 // KPI 01
@@ -236,6 +267,181 @@ var options = {
 };
 
 var chart = new ApexCharts(document.querySelector("#grafico-kpi-03"), options);
+chart.render();
+
+// Gráfico CPU (%)
+var options = {
+  series: [
+    {
+      name: 'Porcentagem da CPU',
+      data: [31, 40, 28, 51, 42, 109, 100],
+    },
+  ],
+  chart: {
+    height: 350,
+    type: 'area',
+    toolbar: {
+      show: false, // Remove a barra de ferramentas (toolbar)
+    },
+  },
+  dataLabels: {
+    enabled: false,
+  },
+  stroke: {
+    curve: 'smooth',
+  },
+  xaxis: {
+    type: 'datetime',
+    categories: [
+      "2018-09-19T00:00:00.000Z",
+      "2018-09-19T01:30:00.000Z",
+      "2018-09-19T02:30:00.000Z",
+      "2018-09-19T03:30:00.000Z",
+      "2018-09-19T04:30:00.000Z",
+      "2018-09-19T05:30:00.000Z",
+      "2018-09-19T06:30:00.000Z",
+    ],
+  },
+  tooltip: {
+    x: {
+      format: 'dd/MM/yy HH:mm',
+    },
+  },
+};
+
+var chart = new ApexCharts(document.querySelector("#grafico-cpu-pctg"), options);
+chart.render();
+
+// Gráfico uso da memória (GB)
+
+var options = {
+  series: [
+    {
+      name: 'Porcentagem da CPU',
+      data: [31, 40, 28, 51, 42, 109, 100],
+    },
+  ],
+  chart: {
+    height: 350,
+    type: 'area',
+    toolbar: {
+      show: false, // Remove a barra de ferramentas (toolbar)
+    },
+  },
+  dataLabels: {
+    enabled: false,
+  },
+  stroke: {
+    curve: 'smooth',
+  },
+  xaxis: {
+    type: 'datetime',
+    categories: [
+      "2018-09-19T00:00:00.000Z",
+      "2018-09-19T01:30:00.000Z",
+      "2018-09-19T02:30:00.000Z",
+      "2018-09-19T03:30:00.000Z",
+      "2018-09-19T04:30:00.000Z",
+      "2018-09-19T05:30:00.000Z",
+      "2018-09-19T06:30:00.000Z",
+    ],
+  },
+  tooltip: {
+    x: {
+      format: 'dd/MM/yy HH:mm',
+    },
+  },
+};
+
+var chart = new ApexCharts(document.querySelector("#grafico-uso-memoria"), options);
+chart.render();
+
+// Gráfico CPU temperatura (Cº)
+
+var options = {
+  series: [
+    {
+      name: 'Porcentagem da CPU',
+      data: [31, 40, 28, 51, 42, 109, 100],
+    },
+  ],
+  chart: {
+    height: 350,
+    type: 'area',
+    toolbar: {
+      show: false, // Remove a barra de ferramentas (toolbar)
+    },
+  },
+  dataLabels: {
+    enabled: false,
+  },
+  stroke: {
+    curve: 'smooth',
+  },
+  xaxis: {
+    type: 'datetime',
+    categories: [
+      "2018-09-19T00:00:00.000Z",
+      "2018-09-19T01:30:00.000Z",
+      "2018-09-19T02:30:00.000Z",
+      "2018-09-19T03:30:00.000Z",
+      "2018-09-19T04:30:00.000Z",
+      "2018-09-19T05:30:00.000Z",
+      "2018-09-19T06:30:00.000Z",
+    ],
+  },
+  tooltip: {
+    x: {
+      format: 'dd/MM/yy HH:mm',
+    },
+  },
+};
+
+var chart = new ApexCharts(document.querySelector("#grafico-cpu-temperatura"), options);
+chart.render();
+
+// Gráfico Uso de Rede (Mbps)
+
+var options = {
+  series: [
+    {
+      name: 'Porcentagem da CPU',
+      data: [31, 40, 28, 51, 42, 109, 100],
+    },
+  ],
+  chart: {
+    height: 350,
+    type: 'area',
+    toolbar: {
+      show: false, // Remove a barra de ferramentas (toolbar)
+    },
+  },
+  dataLabels: {
+    enabled: false,
+  },
+  stroke: {
+    curve: 'smooth',
+  },
+  xaxis: {
+    type: 'datetime',
+    categories: [
+      "2018-09-19T00:00:00.000Z",
+      "2018-09-19T01:30:00.000Z",
+      "2018-09-19T02:30:00.000Z",
+      "2018-09-19T03:30:00.000Z",
+      "2018-09-19T04:30:00.000Z",
+      "2018-09-19T05:30:00.000Z",
+      "2018-09-19T06:30:00.000Z",
+    ],
+  },
+  tooltip: {
+    x: {
+      format: 'dd/MM/yy HH:mm',
+    },
+  },
+};
+
+var chart = new ApexCharts(document.querySelector("#grafico-uso-rede"), options);
 chart.render();
 
 

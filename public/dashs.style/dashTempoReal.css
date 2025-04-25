@@ -77,6 +77,32 @@ main {
     /* border: solid red 3px; */
 }
 
+.graficos {
+    display: flex;
+    flex-direction: column;
+    /* border: solid red 3px; */
+    margin-top: 4vh;
+}
+
+.first-line-graphs, .second-line-graphs {
+    display: flex;
+    width: 100%;
+    /* height: 30vh; */
+    /* border: solid green 3px; */
+    justify-content: space-between;
+}   
+
+.graphs-storange, .graphs-ram, .graphs-network, .graphs-temperature-cpu {
+    width: 70vh;
+    /* border: solid blue 3px; */
+    /* height: auto; */
+    border-radius: 1vh;
+    box-shadow: 0 0 0.9vh rgba(0, 0, 0, 0.2);
+    padding: 2vh 2vh 0 2vh;
+
+}
+
+
 /* Firefox (uncomment to work in Firefox, although other properties will not work!)  */
 /** {
   scrollbar-width: thin;
