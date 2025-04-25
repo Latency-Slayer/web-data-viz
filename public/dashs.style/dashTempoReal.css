@@ -37,24 +37,44 @@ main {
     display: flex;
     justify-content: space-between;
     /* border: solid red 3px; */
-    height: 20vh;
+    /* height: 25vh; */
 }
 
 .kpi {
     display: flex;
-    width: 32%;
+    flex-direction: column;
+    padding: 2vh 2vh 0 2vh;
+    width: 29%;
     /* border: solid red; */
     border-radius: 1vh;
     box-shadow: 0 0 0.9vh rgba(0, 0, 0, 0.2);
+}
+
+.text-kpi {
+    /* border: solid red 3px; */
+    font-size: 2.8vh;
+    font-weight: 500;
+    color: #3A2E5D;
+}
+
+.kpi h1 {
+    font-size: 4vh;
+    /* border: solid red; */
+}
+
+.kpi h2 {
+    font-size: 2vh;
+    font-weight: 600;
+    color: #3A2E5D;
 }
 
 .espaco {
     height: 2vh;
 }
 
-#chart {
-    max-width: 650px;
-    margin: 35px auto;
+#grafico-kpi-01, #grafico-kpi-02 {
+    margin: 0;
+    /* border: solid red 3px; */
 }
 
 /* Firefox (uncomment to work in Firefox, although other properties will not work!)  */

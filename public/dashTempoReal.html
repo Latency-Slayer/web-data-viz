@@ -25,59 +25,220 @@
           <div class="espaco"></div>
 
           <div class="kpis">
+
+
             <div class="kpi first">
-              <div id="chart"></div>
+              <span class="text-kpi">Uso CPU (%)  : Crítico</span>
+              <h1>70%</h1>
+              <div id="grafico-kpi-01"></div>
             </div>
-            <div class="kpi second"></div>
-            <div class="kpi third"></div>
+
+            <div class="kpi second">
+              <span class="text-kpi">Uso da placa de rede (Mbps)</span>
+              <h2>Download - 94 Mbps - Acima do ideal</h2>
+              <h2>Upload - 68 Mbps - Regular</h2>
+              <div id="grafico-kpi-02"></div>
+            </div>
+            
+            <div class="kpi third">
+              <span class="text-kpi">Jogadores conectados</span>
+              <h1>80 - Regular</h1>
+              <div id="grafico-kpi-03"></div>
+            </div>
           </div>
         </div>
       </div>
     </main>
+
+    
   <script>
 
-    var options = {
-      series: [
-        {
-          name: "series1",
-          data: [31, 40, 28, 51, 42, 109, 100],
-        },
-        {
-          name: "series2",
-          data: [11, 32, 45, 32, 34, 52, 41],
-        },
-      ],
-      chart: {
-        height: 350,
-        type: "area",
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      stroke: {
-        curve: "smooth",
-      },
-      xaxis: {
-        type: "datetime",
-        categories: [
-          "2018-09-19T00:00:00.000Z",
-          "2018-09-19T01:30:00.000Z",
-          "2018-09-19T02:30:00.000Z",
-          "2018-09-19T03:30:00.000Z",
-          "2018-09-19T04:30:00.000Z",
-          "2018-09-19T05:30:00.000Z",
-          "2018-09-19T06:30:00.000Z",
-        ],
-      },
-      tooltip: {
-        x: {
-          format: "dd/MM/yy HH:mm",
-        },
-      },
-    };
-  
-    var chart = new ApexCharts(document.querySelector("#chart"), options);
-    chart.render();
+// KPI 01
+
+var options = {
+  series: [
+    {
+      name: "series1",
+      data: [31, 40, 28, 51, 42, 109, 100],
+    },
+  ],
+  chart: {
+    height: 100,
+    type: "area",
+    toolbar: {
+      show: false,
+    },
+  },
+  dataLabels: {
+    enabled: false,
+  },
+  stroke: {
+    curve: "smooth",
+    width: 2,
+  },
+  grid: {
+    show: false,
+  },
+  xaxis: {
+    type: "datetime",
+    categories: [
+      "2018-09-19T00:00:00.000Z",
+      "2018-09-19T01:30:00.000Z",
+      "2018-09-19T02:30:00.000Z",
+      "2018-09-19T03:30:00.000Z",
+      "2018-09-19T04:30:00.000Z",
+      "2018-09-19T05:30:00.000Z",
+      "2018-09-19T06:30:00.000Z",
+    ],
+    axisBorder: {
+      show: false,
+    },
+    axisTicks: {
+      show: false,
+    },
+    labels: {
+      show: false,
+    },
+  },
+  yaxis: {
+    show: false,
+  },
+  legend: {
+    show: false,
+  },
+  tooltip: {
+    enabled: false,
+  },
+};
+
+var chart = new ApexCharts(document.querySelector("#grafico-kpi-01"), options);
+chart.render();
+
+
+// KPI 02
+
+var options = {
+  series: [
+    {
+      name: "Download",
+      data: [100, 80, 68, 81, 92, 79, 94],
+    },
+    {
+      name: "Upload",
+      data: [47, 51, 67, 64, 59, 72, 68],
+    },
+  ],
+  chart: {
+    height: 100,
+    type: "area",
+    toolbar: {
+      show: false,
+    },
+  },
+  dataLabels: {
+    enabled: false,
+  },
+  stroke: {
+    curve: "smooth",
+    width: 2,
+  },
+  grid: {
+    show: false,
+  },
+  xaxis: {
+    type: "datetime",
+    categories: [
+      "2018-09-19T00:00:00.000Z",
+      "2018-09-19T01:30:00.000Z",
+      "2018-09-19T02:30:00.000Z",
+      "2018-09-19T03:30:00.000Z",
+      "2018-09-19T04:30:00.000Z",
+      "2018-09-19T05:30:00.000Z",
+      "2018-09-19T06:30:00.000Z",
+    ],
+    axisBorder: {
+      show: false,
+    },
+    axisTicks: {
+      show: false,
+    },
+    labels: {
+      show: false,
+    },
+  },
+  yaxis: {
+    show: false,
+  },
+  legend: {
+    show: false,
+  },
+};
+
+var chart = new ApexCharts(document.querySelector("#grafico-kpi-02"), options);
+chart.render();
+
+// KPI 03
+
+var options = {
+  series: [
+    {
+      name: "Jogadores Conectados",
+      data: [76, 78, 82, 83, 79, 78, 80],
+    },
+  ],
+  chart: {
+    height: 100,
+    type: "area",
+    toolbar: {
+      show: false,
+    },
+  },
+  dataLabels: {
+    enabled: false,
+  },
+  stroke: {
+    curve: "smooth",
+    width: 2,
+  },
+  grid: {
+    show: false,
+  },
+  xaxis: {
+    type: "datetime",
+    categories: [
+      "2018-09-19T00:00:00.000Z",
+      "2018-09-19T01:30:00.000Z",
+      "2018-09-19T02:30:00.000Z",
+      "2018-09-19T03:30:00.000Z",
+      "2018-09-19T04:30:00.000Z",
+      "2018-09-19T05:30:00.000Z",
+      "2018-09-19T06:30:00.000Z",
+    ],
+    axisBorder: {
+      show: false,
+    },
+    axisTicks: {
+      show: false,
+    },
+    labels: {
+      show: false,
+    },
+  },
+  yaxis: {
+    show: false,
+  },
+  legend: {
+    show: false,
+  },
+  tooltip: {
+    enabled: false,
+  },
+};
+
+var chart = new ApexCharts(document.querySelector("#grafico-kpi-03"), options);
+chart.render();
+
+
   </script>
   </body>
 </html>
