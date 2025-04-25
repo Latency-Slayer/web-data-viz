@@ -1,9 +1,9 @@
-const parentElement = document.currentScript.parentElement;
+    const parentElement = document.currentScript.parentElement;
 
 const page = document.currentScript.getAttribute("page");
 
 parentElement.insertAdjacentHTML("afterbegin",`
-    <style>
+<style>
         
 .navbar {
     display: flex;
@@ -43,7 +43,6 @@ hr {
 .btnsNav{
     display: flex;
     flex-direction: column;
-    /*border: solid red 3px;*/
     height: 100%;
 }
 
@@ -73,7 +72,6 @@ svg {
 .buttonNav:hover, .encerrar:hover{
     cursor: pointer;
     background-color: rgb(105, 85, 157);
-    /*transform: scale(1.05);*/
 }
 
 .buttonNav.active {
