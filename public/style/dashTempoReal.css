@@ -15,61 +15,82 @@ main {
 }
 
 .container {
-    display: flex;
-    justify-content: center;
     height: 100vh;
     width: 100%;
-    /*border: 7px solid blue;*/
-    padding: 3.6vh 0;
+    overflow: auto;
+    border: 1px solid blue;
 }
 
 .box-container {
     overflow: auto;
-    padding: 0 5vh;
     display: flex;
     flex-direction: column;
-    height: 90vh;
+    height: 100vh;
     width: 100%;
     /* border: solid red 3px; */
 }
 
 .kpis {
     display: flex;
-    justify-content: space-between;
-    /* border: solid red 3px; */
-    /* height: 25vh; */
+    justify-content: space-evenly;
+    width: 100%;
+    /*border: 1px solid blue;*/
+    max-height: 200px;
+    margin: 0 auto;
 }
 
 .kpi {
     display: flex;
     flex-direction: column;
-    padding: 2vh 2vh 0 2vh;
-    width: 29%;
-    /* border: solid red; */
+    width: calc(95% / 3);
     border-radius: 1vh;
     box-shadow: 0 0 0.9vh rgba(0, 0, 0, 0.2);
+
+    align-items: center;
+    justify-content: center;
+
+}
+
+.kpi-content {
+    width: 95%;
+    height: 90%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between !important;
+    /*border: 1px solid blue;*/
+}
+
+.kpi-chart {
+    height: 98px;
+}
+
+.kpi-chart-net {
+    height: 84px;
 }
 
 .text-kpi {
     /* border: solid red 3px; */
-    font-size: 2.8vh;
-    font-weight: 500;
+    font-size: 1.2rem;
+    font-weight: bold;
     color: #3A2E5D;
 }
 
 .kpi h1 {
-    font-size: 4vh;
+    font-size: 2.7rem;
+    font-weight: bolder;
     /* border: solid red; */
 }
 
 .kpi h2 {
-    font-size: 2vh;
+    font-size: 1.8rem;
     font-weight: 600;
     color: #3A2E5D;
-}
-
-.espaco {
-    height: 2vh;
+    width: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
 }
 
 #grafico-kpi-01, #grafico-kpi-02 {
@@ -78,10 +99,11 @@ main {
 }
 
 .graficos {
+    height: fit-content;
     display: flex;
     flex-direction: column;
-    /* border: solid red 3px; */
-    margin-top: 4vh;
+    gap: 1rem;
+    margin-top: 2rem;
 }
 
 .first-line-graphs, .second-line-graphs, .third-line-graphs {
@@ -89,37 +111,68 @@ main {
     width: 100%;
     /* height: 30vh; */
     /* border: solid green 3px; */
-    justify-content: space-between;
+    justify-content: space-around;
 }   
 
-.graphs-storange, .graphs-ram, .graphs-network, .graphs-temperature-cpu, .graphs-monitoring-storange {
-    width: 70vh;
-    /* border: solid blue 3px; */
-    /* height: auto; */
+.graphs-storange, .graphs-monitoring-ram, .graphs-ram, .graphs-network, .graphs-temperature-cpu, .graphs-monitoring-storage {
+    width: calc(95% / 2);
     border-radius: 1vh;
     box-shadow: 0 0 0.9vh rgba(0, 0, 0, 0.2);
-    padding: 2vh 2vh 0 2vh;
-
 }
 
-.graphs-monitoring-storange {
-    padding: 2vh;
+.storage-chart-container {
+    height: 250px;
+    overflow-y: scroll;
 }
 
-.graphs-monitoring-storange h2{
-    margin-left: 3vh;
+.disk {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+
+    padding: 3vh;
 }
 
-.graphs-monitoring-storange span {
-    margin-left: 3vh;
+.flex-percent {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.disk-chart-background {
+    width: 100%;
+    height: 40px;
+    background-color: #dad9d9;
+    border-radius: 55px;
+}
+
+.disk-chart-bar {
+    border-radius: 55px;
+    height: 100%;
+    width: 36%;
+    background-color: #765D8C;
+}
+
+.use-percent {
+    font-weight: bold;
+    font-size: 1.4rem;
+}
+
+.graphs-monitoring-storage span {
     font-size: 2vh;
     color: #3A2E5D;
     font-weight: 500;
 }
 
-.graphs-monitoring-storange .text-kpi {
+.graphs-monitoring-storage .text-kpi {
     font-size: 3vh;
+    font-weight: bold;
+
+    text-indent: 20px;
 }
+
+
 
 /* Firefox (uncomment to work in Firefox, although other properties will not work!)  */
 /** {
