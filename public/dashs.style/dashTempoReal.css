@@ -84,7 +84,7 @@ main {
     margin-top: 4vh;
 }
 
-.first-line-graphs, .second-line-graphs {
+.first-line-graphs, .second-line-graphs, .third-line-graphs {
     display: flex;
     width: 100%;
     /* height: 30vh; */
@@ -92,7 +92,7 @@ main {
     justify-content: space-between;
 }   
 
-.graphs-storange, .graphs-ram, .graphs-network, .graphs-temperature-cpu {
+.graphs-storange, .graphs-ram, .graphs-network, .graphs-temperature-cpu, .graphs-monitoring-storange {
     width: 70vh;
     /* border: solid blue 3px; */
     /* height: auto; */
@@ -102,6 +102,24 @@ main {
 
 }
 
+.graphs-monitoring-storange {
+    padding: 2vh;
+}
+
+.graphs-monitoring-storange h2{
+    margin-left: 3vh;
+}
+
+.graphs-monitoring-storange span {
+    margin-left: 3vh;
+    font-size: 2vh;
+    color: #3A2E5D;
+    font-weight: 500;
+}
+
+.graphs-monitoring-storange .text-kpi {
+    font-size: 3vh;
+}
 
 /* Firefox (uncomment to work in Firefox, although other properties will not work!)  */
 /** {
