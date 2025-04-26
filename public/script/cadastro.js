@@ -448,11 +448,11 @@ function entrar() {
                 });
 
                 if (json.id_opt_role == 1) {
-                    window.location = "./dashs/gestor.html"
+                    window.location = "./listaServidores.html"
                 } else if (json.id_opt_role == 2) {
-                    // window.location = "./index.html" Levar para a tela da role 2
+                    window.location = "./index.html"
                 } else if (json.id_opt_role == 3) {
-                    // window.location = "./index.html" Levar para a tela da role 3
+                    window.location = "./index.html"
                 }
 
                 // if (json.id_opt_role == 1) {

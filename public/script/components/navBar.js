@@ -1,6 +1,11 @@
 const parentElement = document.currentScript.parentElement;
-
 const page = document.currentScript.getAttribute("page");
+
+// const showGerenciarUsuarios = roleUser === 1;
+// const showRegistrarServidor = roleUser === 1 || roleUser === 2;
+// const showServidores = true;
+// const showAlertas = true;
+// const showEditarPerfil = true;
 
 parentElement.insertAdjacentHTML("afterbegin",`
     <style>
