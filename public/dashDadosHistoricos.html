@@ -8,7 +8,6 @@
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <link rel="stylesheet" href="./style/dashDadosHistoricos.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-trendline"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
 </head>
 
@@ -22,7 +21,7 @@
           <h1>Máquina ext-04202501</h1>
           <hr style="height: 0.2vh; background-color: gainsboro; opacity: 0.5" />
         </header>
-        <h1>Dados Históricos da última semana</h1>
+        <h1>Relatório da última semana</h1>
         <div class="container-kpi">
           <div class="kpi-1">
               <span>Alguma coisa</span>
@@ -38,22 +37,10 @@
           <div class="grafico1">
             <canvas id="grafico" height="300"></canvas>
           </div>
-          <div class="grafico1">
-            <canvas id="grafico2" height="300"></canvas>
-          </div>
-          <div class="grafico1">
-            <canvas id="grafico3" height="300"></canvas>
-          </div>
         </div>
         <div class="container-grafico2">
           <div class="grafico1">
             <canvas id="grafico4" height="300"></canvas>
-          </div>
-          <div class="grafico1">
-            <canvas id="grafico5" height="300"></canvas>
-          </div>
-          <div class="grafico1">
-            <canvas id="grafico6" height="300"></canvas>
           </div>
         </div>
       </div>
@@ -61,11 +48,7 @@
   </main>
   <script>
     const ctx = document.getElementById('grafico').getContext('2d');
-    const ctx2 = document.getElementById('grafico2').getContext('2d');
-    const ctx3 = document.getElementById('grafico3').getContext('2d');
     const ctx4 = document.getElementById('grafico4').getContext('2d');
-    const ctx5 = document.getElementById('grafico5').getContext('2d');
-    const ctx6 = document.getElementById('grafico6').getContext('2d');
 
     const dados = {
       labels: ["Média de Uso dos Componentes"],
@@ -129,90 +112,6 @@
 
     new Chart(ctx, config);
 
-    const dados2 = {
-      labels: ["Comparação entre Download e Upload"],
-      datasets: [
-        {
-          label: 'Quantidade Upload (Mbps)',
-          data: [14533],
-          backgroundColor: 'rgba(75, 192, 192, 0.6)'
-        },
-        {
-          label: 'Quantidade Download (Mbps)',
-          data: [50310],
-          backgroundColor: 'rgba(192, 75, 192, 0.6)'
-        }
-      ]
-    };
-
-    const config2 = {
-      type: 'bar',
-      data: dados2,
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          dataLabels: {
-            anchor: 'center',
-            align: 'center',
-            color: 'white',
-            font: {
-              weight: 'bold',
-              size: 14
-            },
-          }
-        },
-        scales: {
-          x: {
-            stacked: false
-          },
-          y: {
-            beginAtZero: true
-          }
-        }
-      },
-      plugins: [ChartDataLabels]
-    };
-
-    new Chart(ctx2, config2);
-
-    const dados3 = {
-      datasets: [{
-        label: 'Aumento de Jogadores durante o dia',
-        data: [
-        [8, 64], [9, 81], [10, 100], [11, 121], 
-        [12, 144], [13, 169], [14, 196], [15, 225],
-        [16, 256], [17, 289], [18, 324]
-        ],
-        backgroundColor: 'rgba(54, 162, 235, 0.6)' ,
-        showLine: true,
-        borderColor: 'rgba(54, 162, 235, 0.6)',
-        trendlineLinear: {
-          color: 'red',
-          lineStyle: 'solid',
-          width: 2
-        }
-      }]
-    };
-
-    const config3 = {
-      type: 'scatter',
-      data: dados3,
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          x: {
-            type: 'linear',
-            position: 'bottom'
-          },
-        }
-      }
-    };
-
-
-    new Chart(ctx3, config3);
-
     const dados4 = {
       labels: ["Média de Jogadores"],
       datasets: [
@@ -269,6 +168,36 @@
               weight: 'bold',
               size: 14
             },
+          },
+          annotation: {
+            annotations: [
+              {
+                // Linha de CPU
+                type: 'line',
+                yMin: 400, // Posição Y para a linha de CPU
+                yMax: 400, // Posição Y para a linha de CPU
+                borderColor: 'red', // Cor da linha
+                borderWidth: 2,
+                label: {
+                  enabled: true,
+                  content: 'Uso de CPU',
+                  position: 'end'
+                }
+              },
+              {
+                // Linha de RAM
+                type: 'line',
+                yMin: 1000, // Posição Y para a linha de RAM
+                yMax: 1000, // Posição Y para a linha de RAM
+                borderColor: 'blue', // Cor da linha
+                borderWidth: 2,
+                label: {
+                  enabled: true,
+                  content: 'Uso de RAM',
+                  position: 'end'
+                }
+              }
+            ]
           }
         },
         scales: {
@@ -280,124 +209,10 @@
           }
         }
       },
-      plugins: [ChartDataLabels]
+      plugins: [ChartDataLabels, ChartAnnotation]
     };
 
     new Chart(ctx4, config4);
-
-    const dados5 = {
-      datasets: [{
-        label: 'Aumento de Jogadores durante o dia',
-        data: [
-        [8, 64], [9, 81], [10, 100], [11, 121], 
-        [12, 144], [13, 169], [14, 196], [15, 225],
-        [16, 256], [17, 289], [18, 324]
-        ],
-        backgroundColor: 'rgba(54, 162, 235, 0.6)' ,
-        showLine: true,
-        borderColor: 'rgba(54, 162, 235, 0.6)',
-        trendlineLinear: {
-          color: 'red',
-          lineStyle: 'solid',
-          width: 2
-        }
-      }]
-    };
-
-    const config5 = {
-      type: 'scatter',
-      data: dados3,
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          x: {
-            type: 'linear',
-            position: 'bottom'
-          },
-        }
-      }
-    };
-
-    new Chart(ctx5, config5);
-
-    const dados6 = {
-      datasets: [{
-        label: 'Picos do uso da RAN ao longo do tempo',
-        data: [
-          { x: 0, y: 10 },
-          { x: 1, y: 12 },
-          { x: 2, y: 15 },
-          { x: 3, y: 18 },
-          { x: 4, y: 20 },
-          { x: 5, y: 25 },
-          { x: 6, y: 30 },
-          { x: 7, y: 28 },
-          { x: 8, y: 26 },
-          { x: 9, y: 32 },
-          { x: 10, y: 40 },
-          { x: 11, y: 45 },
-          { x: 12, y: 42 },
-          { x: 13, y: 48 },
-          { x: 14, y: 55 },
-          { x: 15, y: 50 },
-          { x: 16, y: 45 },
-          { x: 17, y: 40 },
-          { x: 18, y: 38 },
-          { x: 19, y: 35 },
-          { x: 20, y: 30 },
-          { x: 21, y: 25 },
-          { x: 22, y: 20 },
-          { x: 23, y: 18 },
-          { x: 24, y: 22 },
-          { x: 25, y: 24 },
-          { x: 26, y: 25 },
-          { x: 27, y: 26 },
-          { x: 28, y: 20 },
-          { x: 29, y: 28 },
-          { x: 30, y: 29 },
-          { x: 31, y: 30 },
-          { x: 32, y: 35 },
-          { x: 33, y: 38 },
-          { x: 34, y: 40 },
-          { x: 35, y: 45 },
-          { x: 36, y: 40 },
-          { x: 37, y: 35 },
-          { x: 38, y: 34 },
-          { x: 39, y: 33 },
-          { x: 40, y: 32 },
-          { x: 41, y: 30 },
-          { x: 42, y: 30 },
-          { x: 43, y: 40 },
-          { x: 44, y: 50 },
-          { x: 45, y: 54 },
-          { x: 46, y: 60 },
-          { x: 47, y: 70 },
-          { x: 48, y: 60 },
-          { x: 49, y: 55 },
-          { x: 50, y: 50 },
-        ],
-        backgroundColor: 'orange',
-        showLine: true,
-        fill: false,
-      }]
-    };
-
-    const config6 = {
-      type: 'line',
-      data: dados6,
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          x: {
-            type: 'linear',
-            position: 'bottom'
-          },
-        }
-      }
-    };
-    new Chart(ctx6, config6);
 
   </script>
 </body>
