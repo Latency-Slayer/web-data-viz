@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Latency Slayer | Dados Históricos</title>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="./style/dashDadosHistoricos.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+  <main>
+    <script src="./script/components/navBar.js" page="dadosHistoricos"></script>
+
+    <div class="container">
+      <div class="box-container">
+        <header>
+          <h1>Máquina ext-04202501</h1>
+          <hr style="height: 0.2vh; background-color: gainsboro; opacity: 0.5" />
+        </header>
+        <div class="container-grafico1">
+          <div class="grafico1">
+            <canvas id="grafico" height="250"></canvas>
+          </div>
+          <div class="grafico1">
+            <canvas id="grafico2" height="250"></canvas>
+          </div>
+          <div class="grafico1">
+            <canvas id="grafico3" height="250"></canvas>
+          </div>
+        </div>
+        <div class="container-grafico2">
+          <div class="grafico1">
+            <canvas id="grafico4" height="250"></canvas>
+          </div>
+          <div class="grafico1">
+            <canvas id="grafico5" height="250"></canvas>
+          </div>
+          <div class="grafico1">
+            <canvas id="grafico6" height="250"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script>
+    const ctx = document.getElementById('grafico').getContext('2d');
+    const ctx2 = document.getElementById('grafico2').getContext('2d');
+    const ctx3 = document.getElementById('grafico3').getContext('2d');
+    const ctx4 = document.getElementById('grafico4').getContext('2d');
+    const ctx5 = document.getElementById('grafico5').getContext('2d');
+    const ctx6 = document.getElementById('grafico6').getContext('2d');
+
+    const dados = {
+      datasets: [{
+        label: 'Meu Conjunto de Dados',
+        data: [
+          { x: 10, y: 20 },
+          { x: 15, y: 10 },
+          { x: 20, y: 30 },
+          { x: 25, y: 25 },
+          { x: 30, y: 40 }
+        ],
+        backgroundColor: 'rgba(75, 192, 192, 0.6)'
+      }]
+    };
+
+    const config = {
+      type: 'scatter',
+      data: dados,
+      options: {
+        responsive: true,
+        maintainAspectRadio: false,
+        scales: {
+          x: {
+            type: 'linear',
+            position: 'bottom'
+          },
+          y: {
+            type: 'linear'
+          }
+        }
+      }
+    };
+
+    new Chart(ctx, config);
+    new Chart(ctx2, config);
+    new Chart(ctx3, config);
+    new Chart(ctx4, config);
+    new Chart(ctx5, config);
+    new Chart(ctx6, config);
+
+  </script>
+</body>
+
+</html>
