@@ -434,9 +434,9 @@ function entrar() {
 
             resposta.json().then(function (json) {
                 console.log(json)
-                sessionStorage.NAME_USER = json.name;
+                sessionStorage.NAME_USER = json.nameUser;
                 sessionStorage.EMAIL_USER = json.email;
-                sessionStorage.ROLE_USER = json.id_opt_role;
+                sessionStorage.ROLE_USER = json.nameRole;
                 sessionStorage.ID_COMPANY = json.id_company;
                 sessionStorage.COMMERCIAL_NAME = json.commercial_name;
 
