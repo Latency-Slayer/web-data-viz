@@ -19,6 +19,8 @@ main {
     width: 100%;
     overflow: auto;
     border: 1px solid blue;
+    overflow-x: hidden;
+    
 }
 
 .box-container {
@@ -34,7 +36,7 @@ main {
     display: flex;
     justify-content: space-evenly;
     width: 100%;
-    /*border: 1px solid blue;*/
+
     max-height: 200px;
     margin: 0 auto;
 }
@@ -71,19 +73,19 @@ main {
 
 .text-kpi {
     /* border: solid red 3px; */
-    font-size: 1.2rem;
+    font-size: 1.5vw;
     font-weight: bold;
-    color: #3A2E5D;
+    color: #56408C;
 }
 
 .kpi h1 {
-    font-size: 2.7rem;
+    font-size: 2vw;
     font-weight: bolder;
     /* border: solid red; */
 }
 
 .kpi h2 {
-    font-size: 1.8rem;
+    font-size: 1.3vw;
     font-weight: 600;
     color: #3A2E5D;
     width: fit-content;
@@ -114,7 +116,7 @@ main {
     justify-content: space-around;
 }   
 
-.graphs-storange, .graphs-monitoring-ram, .graphs-ram, .graphs-network, .graphs-temperature-cpu, .graphs-monitoring-storage {
+.chart-use-cpu, .graphs-monitoring-ram, .graphs-ram, .graphs-network, .graphs-temperature-cpu, .graphs-monitoring-storage {
     width: calc(95% / 2);
     border-radius: 1vh;
     box-shadow: 0 0 0.9vh rgba(0, 0, 0, 0.2);
@@ -165,13 +167,43 @@ main {
     font-weight: 500;
 }
 
-.graphs-monitoring-storage .text-kpi {
-    font-size: 3vh;
+.graphs-monitoring-storage .text-kpi, .graphs-monitoring-ram .text-kpi {
+    font-size: 1.8rem;
     font-weight: bold;
 
     text-indent: 20px;
 }
 
+.ram-chart-container {
+    display: flex;
+    height: 80%;
+    width: 95%;
+    margin: 0 auto;
+}
+
+.donut-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: calc(100% / 2);
+    height: 100%;
+    margin: 0 auto;
+}
+
+.kpi-title {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.ram-kpi p {
+    font-size: 1.2rem;
+}
+
+.line-chart-title {
+    font-size: 1.4vw;
+    text-indent: 1vw;
+}
 
 
 /* Firefox (uncomment to work in Firefox, although other properties will not work!)  */
@@ -204,4 +236,99 @@ h1 {
     font-size: 5vh;
     font-weight: 500;
     color: #3A2E5D;
+}
+
+
+@media (max-width: 800px) {
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    .kpis {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        min-height: fit-content;
+    }
+
+    .kpi {
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    .text-kpi {
+        font-size: 1rem;
+        font-weight: bold;
+        color: #56408C;
+    }
+
+    .kpi h1 {
+        font-size: 1.4rem;
+        font-weight: bolder;
+        /* border: solid red; */
+    }
+
+    .kpi h2 {
+        font-size: 1.3rem;
+    }
+
+    .first-line-graphs {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.2rem;
+    }
+
+    .chart-use-cpu, .graphs-monitoring-ram, .graphs-ram, .graphs-network, .graphs-temperature-cpu, .graphs-monitoring-storage {
+        width: 90%;
+        border-radius: 1vh;
+        box-shadow: 0 0 0.9vh rgba(0, 0, 0, 0.2);
+    }
+
+    .graphs-monitoring-storage .text-kpi, .graphs-monitoring-ram .text-kpi {
+        font-size: 1.4rem;
+        font-weight: bold;
+        text-align: center;
+
+        text-indent: 20px;
+    }
+
+
+    .storage-chart-container {
+        overflow-x: hidden;
+    }
+
+    .ram-chart-container {
+        flex-direction: column;
+    }
+
+    .donut-box {
+        width: 100%;
+        flex-direction: column-reverse;
+    }
+
+    .ram-kpi {
+        text-align: center;
+    }
+
+    .second-line-graphs {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.2rem;
+    }
+
+
+    .line-chart-title {
+        font-size: 1.2rem;
+    }
+
+
+    .third-line-graphs {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: .1rem;
+        gap: 1.2rem;
+    }
 }

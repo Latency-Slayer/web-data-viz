@@ -16,7 +16,7 @@
 
     <div class="container">
         <header>
-            <h1>Máquina ext-04202501</h1>
+            <h1>Servidor ext-04202501</h1>
             <hr
                     style="height: 0.2vh; background-color: gainsboro; opacity: 0.5"
             />
@@ -48,7 +48,7 @@
             <div class="kpi third">
                 <div class="kpi-content">
                     <span class="text-kpi">Jogadores conectados</span>
-                    <h1>80 - Regular</h1>
+                    <h1>80 Conexões</h1>
                     <div class="kpi-chart">
                         <div id="grafico-kpi-03"></div>
                     </div>
@@ -109,32 +109,55 @@
                     </div>
                 </div>
 
-                <div class="graphs-monitoring-ram"></div>
+                <div class="graphs-monitoring-ram">
+                    <p class="text-kpi">Monitoramento de memória</p>
+
+                    <div class="ram-chart-container">
+                        <div class="ram-donut donut-box">
+                            <div class="ram-kpi">
+                                <p class="kpi-title">RAM</p>
+                                <p class="ram-use">Uso: <span>75%</span></p>
+                                <p class="ram-free">Livre: <span>25%</span></p>
+                            </div>
+                            <div class="ram-chart">
+                                <div id="ramChart"></div>
+                            </div>
+                        </div>
+
+                        <div class="swap-donut donut-box">
+                            <div class="ram-kpi">
+                                <p class="kpi-title">SWAP</p>
+                                <p class="ram-use">Uso: <span>75%</span></p>
+                                <p class="ram-free">Livre: <span>25%</span></p>
+                            </div>
+                            <div class="ram-chart">
+                                <div id="swapChart"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="second-line-graphs">
-                <div class="graphs-storange">
-                    <div class="text-kpi">Uso da CPU (%)</div>
+                <div class="chart-use-cpu">
+                    <div class="line-chart-title text-kpi">Uso da CPU (%)</div>
                     <div id="grafico-cpu-pctg"></div>
                 </div>
 
                 <div class="graphs-ram">
-                    <div class="text-kpi">Uso da Memória (GB)</div>
+                    <div class="line-chart-title text-kpi">Uso da Memória (GB)</div>
                     <div id="grafico-uso-memoria"></div>
                 </div>
             </div>
 
-            <div class="espaco"></div>
-            <div class="espaco"></div>
-
             <div class="third-line-graphs">
-                <div class="graphs-temperature-cpu">
-                    <div class="text-kpi">Temperatura da CPU (Cº)</div>
+                <div class="graphs-temperature-cpu text-kpi">
+                    <div class="line-chart-title">Temperatura da CPU (Cº)</div>
                     <div id="grafico-cpu-temperatura"></div>
                 </div>
 
                 <div class="graphs-network">
-                    <div class="text-kpi">Uso da Rede (Mbps)</div>
+                    <div class="line-chart-title text-kpi">Uso da Rede (Mbps)</div>
                     <div id="grafico-uso-rede"></div>
                 </div>
             </div>
@@ -145,581 +168,549 @@
 <script>
     // KPI 01
 
-    var options = {
-        series: [
-            {
-                name: "series1",
-                data: [31, 40, 28, 51, 42, 109, 100],
-            },
-        ],
-        chart: {
-            height: "100%",
-            width: "100%",
-            type: "area",
-            toolbar: {
-                show: false,
-            },
-        },
-        dataLabels: {
-            enabled: false,
-        },
-        stroke: {
-            curve: "smooth",
-            width: 2,
-        },
-        grid: {
-            show: false,
-        },
-        xaxis: {
-            type: "datetime",
-            categories: [
-                "2018-09-19T00:00:00.000Z",
-                "2018-09-19T01:30:00.000Z",
-                "2018-09-19T02:30:00.000Z",
-                "2018-09-19T03:30:00.000Z",
-                "2018-09-19T04:30:00.000Z",
-                "2018-09-19T05:30:00.000Z",
-                "2018-09-19T06:30:00.000Z",
-            ],
-            axisBorder: {
-                show: false,
-            },
-            axisTicks: {
-                show: false,
-            },
-            labels: {
-                show: false,
-            },
-        },
-        yaxis: {
-            show: false,
-        },
-        legend: {
-            show: false,
-        },
-        tooltip: {
-            enabled: false,
-        },
-    };
-
-    var chart = new ApexCharts(
+    new ApexCharts(
         document.querySelector("#grafico-kpi-01"),
-        options
-    );
-    chart.render();
+        {
+            series: [
+                {
+                    name: "series1",
+                    data: [31, 40, 28, 51, 42, 109, 100],
+                    color: "#44395F"
+                },
+            ],
+            chart: {
+                height: "100%",
+                width: "100%",
+                type: "area",
+                toolbar: {
+                    show: false,
+                },
+            },
+            dataLabels: {
+                enabled: false,
+            },
+            stroke: {
+                curve: "smooth",
+                width: 2,
+            },
+            grid: {
+                show: false,
+            },
+            xaxis: {
+                type: "datetime",
+                categories: [
+                    "2018-09-19T00:00:00.000Z",
+                    "2018-09-19T01:30:00.000Z",
+                    "2018-09-19T02:30:00.000Z",
+                    "2018-09-19T03:30:00.000Z",
+                    "2018-09-19T04:30:00.000Z",
+                    "2018-09-19T05:30:00.000Z",
+                    "2018-09-19T06:30:00.000Z",
+                ],
+                axisBorder: {
+                    show: false,
+                },
+                axisTicks: {
+                    show: false,
+                },
+                labels: {
+                    show: false,
+                },
+            },
+            yaxis: {
+                show: false,
+            },
+            legend: {
+                show: false,
+            },
+            tooltip: {
+                enabled: false,
+            },
+        }
+    ).render();
 
     // KPI 02
-
-    var options = {
-        series: [
-            {
-                name: "Download",
-                data: [100, 80, 68, 81, 92, 79, 94],
-            },
-            {
-                name: "Upload",
-                data: [47, 51, 67, 64, 59, 72, 68],
-            },
-        ],
-        chart: {
-            height: "100%",
-            width: "100%",
-            type: "area",
-            toolbar: {
-                show: false,
-            },
-        },
-        dataLabels: {
-            enabled: false,
-        },
-        stroke: {
-            curve: "smooth",
-            width: 2,
-        },
-        grid: {
-            show: false,
-        },
-        xaxis: {
-            type: "datetime",
-            categories: [
-                "2018-09-19T00:00:00.000Z",
-                "2018-09-19T01:30:00.000Z",
-                "2018-09-19T02:30:00.000Z",
-                "2018-09-19T03:30:00.000Z",
-                "2018-09-19T04:30:00.000Z",
-                "2018-09-19T05:30:00.000Z",
-                "2018-09-19T06:30:00.000Z",
-            ],
-            axisBorder: {
-                show: false,
-            },
-            axisTicks: {
-                show: false,
-            },
-            labels: {
-                show: false,
-            },
-        },
-        yaxis: {
-            show: false,
-        },
-        legend: {
-            show: false,
-        },
-        tooltip: {
-            enabled: false,
-        },
-    };
-
-    var chart = new ApexCharts(
+    new ApexCharts(
         document.querySelector("#grafico-kpi-02"),
-        options
-    );
-    chart.render();
+        {
+            series: [
+                {
+                    name: "Download",
+                    data: [850, 900, 910, 870, 920, 880, 940, 910, 930, 890, 920, 950, 970, 960, 940, 910, 950, 930, 960, 980],
+                    color: "#44395F"
+                },
+                {
+                    name: "Upload",
+                    data: [850, 880, 920, 900, 940, 960, 910, 950, 930, 970, 980, 1000, 970, 960, 940, 950, 920, 930, 910, 980, 990],
+                    color: "#03680A"
+                },
+            ],
+            chart: {
+                height: "100%",
+                width: "100%",
+                type: "area",
+                toolbar: {
+                    show: false,
+                },
+            },
+            dataLabels: {
+                enabled: false,
+            },
+            stroke: {
+                curve: "smooth",
+                width: 2,
+            },
+            grid: {
+                show: false,
+            },
+            xaxis: {
+                type: "datetime",
+                categories: dateTimeCategories(),
+                axisBorder: {
+                    show: false,
+                },
+                axisTicks: {
+                    show: false,
+                },
+                labels: {
+                    show: false,
+                },
+            },
+            yaxis: {
+                show: false,
+            },
+            legend: {
+                show: false,
+            },
+            tooltip: {
+                enabled: false,
+            },
+        }
+    ).render();
 
     // KPI 03
 
-    var options = {
-        series: [
-            {
-                name: "Jogadores Conectados",
-                data: [76, 78, 82, 83, 79, 78, 80],
-            },
-        ],
-        chart: {
-            height: "100%",
-            width: "100%",
-            type: "area",
-            toolbar: {
-                show: false,
-            },
-        },
-        dataLabels: {
-            enabled: false,
-        },
-        stroke: {
-            curve: "smooth",
-            width: 2,
-        },
-        grid: {
-            show: false,
-        },
-        xaxis: {
-            type: "datetime",
-            categories: [
-                "2018-09-19T00:00:00.000Z",
-                "2018-09-19T01:30:00.000Z",
-                "2018-09-19T02:30:00.000Z",
-                "2018-09-19T03:30:00.000Z",
-                "2018-09-19T04:30:00.000Z",
-                "2018-09-19T05:30:00.000Z",
-                "2018-09-19T06:30:00.000Z",
-            ],
-            axisBorder: {
-                show: false,
-            },
-            axisTicks: {
-                show: false,
-            },
-            labels: {
-                show: false,
-            },
-        },
-        yaxis: {
-            show: false,
-        },
-        legend: {
-            show: false,
-        },
-        tooltip: {
-            enabled: false,
-        },
-    };
-
-    var chart = new ApexCharts(
+    new ApexCharts(
         document.querySelector("#grafico-kpi-03"),
-        options
-    );
-    chart.render();
+        {
+            series: [
+                {
+                    name: "Jogadores Conectados",
+                    data: [76, 78, 82, 83, 79, 78, 80],
+                    color: "#44395F"
+                },
+            ],
+            chart: {
+                height: "100%",
+                width: "100%",
+                type: "area",
+                toolbar: {
+                    show: false,
+                },
+            },
+            dataLabels: {
+                enabled: false,
+            },
+            stroke: {
+                curve: "smooth",
+                width: 2,
+            },
+            grid: {
+                show: false,
+            },
+            xaxis: {
+                type: "datetime",
+                categories: [
+                    "2018-09-19T00:00:00.000Z",
+                    "2018-09-19T01:30:00.000Z",
+                    "2018-09-19T02:30:00.000Z",
+                    "2018-09-19T03:30:00.000Z",
+                    "2018-09-19T04:30:00.000Z",
+                    "2018-09-19T05:30:00.000Z",
+                    "2018-09-19T06:30:00.000Z",
+                ],
+                axisBorder: {
+                    show: false,
+                },
+                axisTicks: {
+                    show: false,
+                },
+                labels: {
+                    show: false,
+                },
+            },
+            yaxis: {
+                show: false,
+            },
+            legend: {
+                show: false,
+            },
+            tooltip: {
+                enabled: false,
+            },
+        }
+    ).render();
 
-    // Gráfico monitoramento de armazenamento
 
-    // // Gráfico Disco 01 - FUNDO (100%)
-    // var optionsDisco01Background = {
-    //   series: [
-    //     {
-    //       data: [100],
-    //     },
-    //   ],
-    //   chart: {
-    //     type: "bar",
-    //     height: 100,
-    //     toolbar: { show: false },
-    //     stacked: false,
-    //   },
-    //   plotOptions: {
-    //     bar: {
-    //       horizontal: true,
-    //       barHeight: "70%",
-    //       borderRadius: 15,
-    //       borderRadiusApplication: "end",
-    //     },
-    //   },
-    //   colors: ["#E0E0E0"], // Cinza
-    //   dataLabels: { enabled: false },
-    //   xaxis: {
-    //     max: 100,
-    //     categories: ["Disco 01"],
-    //     labels: { show: false },
-    //     axisBorder: { show: false },
-    //     axisTicks: { show: false },
-    //   },
-    //   yaxis: { labels: { show: false } },
-    //   grid: { show: false },
-    //   tooltip: { enabled: false },
-    //   background: "transparent",
-    // };
-    //
-    // var chartDisco01Background = new ApexCharts(
-    //   document.querySelector("#chart-disco-01-bg"),
-    //   optionsDisco01Background
-    // );
-    // chartDisco01Background.render();
-    //
-    // // Gráfico Disco 01 - FRENTE (36%)
-    // var optionsDisco01 = {
-    //   series: [
-    //     {
-    //       data: [36],
-    //     },
-    //   ],
-    //   chart: {
-    //     type: "bar",
-    //     height: 100,
-    //     toolbar: { show: false },
-    //     stacked: false,
-    //     background: "transparent",
-    //   },
-    //   plotOptions: {
-    //     bar: {
-    //       horizontal: true,
-    //       barHeight: "70%",
-    //       borderRadius: 15,
-    //       borderRadiusApplication: "end",
-    //     },
-    //   },
-    //   colors: ["#6C5DD3"], // Roxo
-    //   dataLabels: {
-    //     enabled: true,
-    //     style: {
-    //       fontSize: "16px",
-    //       fontWeight: "bold",
-    //       colors: ["#fff"],
-    //     },
-    //     formatter: function (val) {
-    //       return val + "%";
-    //     },
-    //   },
-    //   xaxis: {
-    //     max: 100,
-    //     categories: ["Disco 01"],
-    //     labels: { show: false },
-    //     axisBorder: { show: false },
-    //     axisTicks: { show: false },
-    //   },
-    //   yaxis: { labels: { show: false } },
-    //   grid: { show: false },
-    //   tooltip: { enabled: false },
-    // };
-    //
-    // var chartDisco01 = new ApexCharts(
-    //   document.querySelector("#chart-disco-01"),
-    //   optionsDisco01
-    // );
-    // chartDisco01.render();
-    //
-    // // Gráfico Disco 02 - FUNDO (100%)
-    // var optionsDisco02Background = {
-    //   series: [
-    //     {
-    //       data: [100],
-    //     },
-    //   ],
-    //   chart: {
-    //     type: "bar",
-    //     height: 100,
-    //     toolbar: { show: false },
-    //     stacked: false,
-    //   },
-    //   plotOptions: {
-    //     bar: {
-    //       horizontal: true,
-    //       barHeight: "70%",
-    //       borderRadius: 15,
-    //       borderRadiusApplication: "end",
-    //     },
-    //   },
-    //   colors: ["#E0E0E0"], // Cinza
-    //   dataLabels: { enabled: false },
-    //   xaxis: {
-    //     max: 100,
-    //     categories: ["Disco 02"],
-    //     labels: { show: false },
-    //     axisBorder: { show: false },
-    //     axisTicks: { show: false },
-    //   },
-    //   yaxis: { labels: { show: false } },
-    //   grid: { show: false },
-    //   tooltip: { enabled: false },
-    //   background: "transparent",
-    // };
-    //
-    // var chartDisco02Background = new ApexCharts(
-    //   document.querySelector("#chart-disco-02-bg"),
-    //   optionsDisco02Background
-    // );
-    // chartDisco02Background.render();
-    //
-    // // Gráfico Disco 02 - FRENTE (90%)
-    // var optionsDisco02 = {
-    //   series: [
-    //     {
-    //       data: [90],
-    //     },
-    //   ],
-    //   chart: {
-    //     type: "bar",
-    //     height: 100,
-    //     toolbar: { show: false },
-    //     stacked: false,
-    //     background: "transparent",
-    //   },
-    //   plotOptions: {
-    //     bar: {
-    //       horizontal: true,
-    //       barHeight: "70%",
-    //       borderRadius: 15,
-    //       borderRadiusApplication: "end",
-    //     },
-    //   },
-    //   colors: ["#FF5C5C"], // Vermelho
-    //   dataLabels: {
-    //     enabled: true,
-    //     style: {
-    //       fontSize: "16px",
-    //       fontWeight: "bold",
-    //       colors: ["#fff"],
-    //     },
-    //     formatter: function (val) {
-    //       return val + "%";
-    //     },
-    //   },
-    //   xaxis: {
-    //     max: 100,
-    //     categories: ["Disco 02"],
-    //     labels: { show: false },
-    //     axisBorder: { show: false },
-    //     axisTicks: { show: false },
-    //   },
-    //   yaxis: { labels: { show: false } },
-    //   grid: { show: false },
-    //   tooltip: { enabled: false },
-    // };
-    //
-    // var chartDisco02 = new ApexCharts(
-    //   document.querySelector("#chart-disco-02"),
-    //   optionsDisco02
-    // );
-    // chartDisco02.render();
+    // Gráficos de donut RAM e SWAP
 
-    // [+++] Stop as advanced process I'm greating! Copilot (Codex advanced productivity, sentencebanc++)
+    new ApexCharts(
+        document.querySelector("#ramChart"),
+        {
+            chart: {
+                type: 'donut',
+                width: '80%'
+            },
+            series: [75, 25],
+            labels: ["Usado", "Livre"],
+            legend: false,
+            colors: ["#44395F", "#D9D9D9"],
+            plotOptions: {
+                pie: {
+                    donut: {
+                        size: '50%'
+                    }
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            states: {
+                hover: {
+                    filter: {
+                        type: 'darken', // ou 'lighten'
+                        value: 0.1 // intensidade do efeito
+                    }
+                }
+            }
+        }
+    ).render()
+
+
+
+    new ApexCharts(
+        document.getElementById("swapChart"),
+        {
+            chart: {
+                type: 'donut',
+                width: '80%'
+            },
+            series: [75, 25],
+            labels: ["Usado", "Livre"],
+            legend: false,
+            colors: ["#44395F", "#D9D9D9"],
+            plotOptions: {
+                pie: {
+                    donut: {
+                        size: '50%' // Quanto maior o número, mais grosso o donut
+                    }
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            states: {
+                hover: {
+                    filter: {
+                        type: 'darken', // ou 'lighten'
+                        value: 0.1 // intensidade do efeito
+                    }
+                }
+            }
+        }
+    ).render()
+
+
+    function dateTimeCategories() {
+        const dates = new Array();
+        const initialDate = new Date();
+
+        const timezoneOffset = -3 * 60;
+
+        for (let i = 0; i < 60 / 3; i++) {
+
+            const newDate = new Date(initialDate.getTime() + i * 3000);
+            newDate.setMinutes(newDate.getMinutes() + timezoneOffset);
+            dates.push(newDate.getTime());
+        }
+
+        return dates;
+    }
 
     // Gráfico CPU (%)
-    var options = {
-        series: [
-            {
-                name: "Porcentagem da CPU",
-                data: [31, 40, 28, 51, 42, 109, 100],
-            },
-        ],
-        chart: {
-            height: 350,
-            type: "area",
-            toolbar: {
-                show: false, // Remove a barra de ferramentas (toolbar)
-            },
-        },
-        dataLabels: {
-            enabled: false,
-        },
-        stroke: {
-            curve: "smooth",
-        },
-        xaxis: {
-            type: "datetime",
-            categories: [
-                "2018-09-19T00:00:00.000Z",
-                "2018-09-19T01:30:00.000Z",
-                "2018-09-19T02:30:00.000Z",
-                "2018-09-19T03:30:00.000Z",
-                "2018-09-19T04:30:00.000Z",
-                "2018-09-19T05:30:00.000Z",
-                "2018-09-19T06:30:00.000Z",
-            ],
-        },
-        tooltip: {
-            x: {
-                format: "dd/MM/yy HH:mm",
-            },
-        },
-    };
-
-    var chart = new ApexCharts(
+    new ApexCharts(
         document.querySelector("#grafico-cpu-pctg"),
-        options
-    );
-    chart.render();
+        {
+            series: [
+                {
+                    name: "Porcentagem da CPU",
+                    data: [
+                        31, 40, 28, 51, 42, 100, 100, 100,
+                        95, 88, 70, 77, 84, 92, 65, 73,
+                        86, 90, 80, 79, 81,
+                    ],
+                    color: "#44395F"
+                },
+                {
+                    name: "Limite",
+                    type: "line",
+                    color: "#e14849",
+                    data: Array(20).fill(85),
+                }
+            ],
+            chart: {
+                height: 350,
+                type: "area",
+                toolbar: {
+                    show: true,
+                },
+            },
+            fill: {
+                type: ["gradient", "solid"],
+                gradient: {
+                    shade: "dark",
+                    shadeIntensity: 1,
+                    type: "vertical",
+                    opacityFrom: 0.7,
+                    opacityTo: 0.3,
+                    stops: [0, 90, 100],
+                }
+            },
+            dataLabels: {
+                enabled: false,
+            },
+            stroke: {
+                curve: "smooth",
+            },
+            xaxis: {
+                type: "datetime",
+                categories: dateTimeCategories(), // Agora com a data ajustada para o fuso horário brasileiro
+            },
+            tooltip: {
+                x: {
+                    format: "dd/MM/yy HH:mm:ss",
+                },
+            },
+            grid: {
+                show: false,
+            },
+            yaxis: {
+                min: 0,
+                max: 100,
+                labels: {
+                    formatter: function (val) {
+                        return val + "%";
+                    },
+                    style: {
+                        fontSize: 16,
+                    }
+                }
+            },
+        }
+    ).render();
+
 
     // Gráfico uso da memória (GB)
-
-    var options = {
-        series: [
-            {
-                name: "Porcentagem da CPU",
-                data: [31, 40, 28, 51, 42, 109, 100],
-            },
-        ],
-        chart: {
-            height: 350,
-            type: "area",
-            toolbar: {
-                show: false, // Remove a barra de ferramentas (toolbar)
-            },
-        },
-        dataLabels: {
-            enabled: false,
-        },
-        stroke: {
-            curve: "smooth",
-        },
-        xaxis: {
-            type: "datetime",
-            categories: [
-                "2018-09-19T00:00:00.000Z",
-                "2018-09-19T01:30:00.000Z",
-                "2018-09-19T02:30:00.000Z",
-                "2018-09-19T03:30:00.000Z",
-                "2018-09-19T04:30:00.000Z",
-                "2018-09-19T05:30:00.000Z",
-                "2018-09-19T06:30:00.000Z",
-            ],
-        },
-        tooltip: {
-            x: {
-                format: "dd/MM/yy HH:mm",
-            },
-        },
-    };
-
-    var chart = new ApexCharts(
+    new ApexCharts(
         document.querySelector("#grafico-uso-memoria"),
-        options
-    );
-    chart.render();
-
-    // Gráfico CPU temperatura (Cº)
-
-    var options = {
-        series: [
-            {
-                name: "Porcentagem da CPU",
-                data: [31, 40, 28, 51, 42, 109, 100],
-            },
-        ],
-        chart: {
-            height: 350,
-            type: "area",
-            toolbar: {
-                show: false, // Remove a barra de ferramentas (toolbar)
-            },
-        },
-        dataLabels: {
-            enabled: false,
-        },
-        stroke: {
-            curve: "smooth",
-        },
-        xaxis: {
-            type: "datetime",
-            categories: [
-                "2018-09-19T00:00:00.000Z",
-                "2018-09-19T01:30:00.000Z",
-                "2018-09-19T02:30:00.000Z",
-                "2018-09-19T03:30:00.000Z",
-                "2018-09-19T04:30:00.000Z",
-                "2018-09-19T05:30:00.000Z",
-                "2018-09-19T06:30:00.000Z",
+        {
+            series: [
+                {
+                    name: "Uso de memória RAM",
+                    type: "area",
+                    data: [12, 10, 8, 10, 9, 9, 14, 11, 7, 6, 15, 13, 17, 5, 18, 14, 16, 3, 19, 8],
+                    color: "#44395F"
+                },
+                {
+                    name: "Limite",
+                    type: "line",
+                    color: "#e14849",
+                    data: Array(20).fill(14),
+                },
             ],
-        },
-        tooltip: {
-            x: {
-                format: "dd/MM/yy HH:mm",
+            chart: {
+                height: 350,
+                toolbar: {
+                    show: true,
+                },
             },
-        },
-    };
+            fill: {
+                type: ["gradient", "solid"],
+                gradient: {
+                    shade: "dark",
+                    shadeIntensity: 1,
+                    type: "vertical",
+                    opacityFrom: 0.7,
+                    opacityTo: 0.3,
+                    stops: [0, 90, 100],
+                }
+            },
+            dataLabels: {
+                enabled: false,
+            },
+            stroke: {
+                curve: "smooth",
+            },
+            xaxis: {
+                type: "datetime",
+                categories: dateTimeCategories(),
+            },
+            tooltip: {
+                x: {
+                    format: "dd/MM/yy HH:mm",
+                },
+            },
+            grid: {
+                show: false
+            },
+            yaxis: {
+                labels: {
+                    formatter: function (val) {
+                        return val + "GB";
+                    },
+                    style: {
+                        fontSize: 16,
+                    }
+                }
+            },
+        }
+    ).render();
 
-    var chart = new ApexCharts(
+
+
+    // Gráfico temperatura da CPU
+    new ApexCharts(
         document.querySelector("#grafico-cpu-temperatura"),
-        options
-    );
-    chart.render();
-
-    // Gráfico Uso de Rede (Mbps)
-
-    var options = {
-        series: [
-            {
-                name: "Porcentagem da CPU",
-                data: [31, 40, 28, 51, 42, 109, 100],
-            },
-        ],
-        chart: {
-            height: 350,
-            type: "area",
-            toolbar: {
-                show: false, // Remove a barra de ferramentas (toolbar)
-            },
-        },
-        dataLabels: {
-            enabled: false,
-        },
-        stroke: {
-            curve: "smooth",
-        },
-        xaxis: {
-            type: "datetime",
-            categories: [
-                "2018-09-19T00:00:00.000Z",
-                "2018-09-19T01:30:00.000Z",
-                "2018-09-19T02:30:00.000Z",
-                "2018-09-19T03:30:00.000Z",
-                "2018-09-19T04:30:00.000Z",
-                "2018-09-19T05:30:00.000Z",
-                "2018-09-19T06:30:00.000Z",
+        {
+            series: [
+                {
+                    name: "Temperatura da CPU",
+                    type: "area",
+                    data: [70, 70, 68, 73, 70, 75, 70, 71, 71, 75, 78, 75, 71, 67, 72, 70, 66, 69, 75, 83],
+                    color: "#44395F"
+                },
+                {
+                    name: "Limite",
+                    type: "line",
+                    color: "#e14849",
+                    data: Array(20).fill(80),
+                },
             ],
-        },
-        tooltip: {
-            x: {
-                format: "dd/MM/yy HH:mm",
+            chart: {
+                height: 350,
+                toolbar: {
+                    show: true,
+                },
             },
-        },
-    };
+            fill: {
+                type: ["gradient", "solid"],
+                gradient: {
+                    shade: "dark",
+                    shadeIntensity: 1,
+                    type: "vertical",
+                    opacityFrom: 0.7,
+                    opacityTo: 0.3,
+                    stops: [0, 90, 100],
+                }
+            },
+            dataLabels: {
+                enabled: false,
+            },
+            stroke: {
+                curve: "smooth",
+            },
+            xaxis: {
+                type: "datetime",
+                categories: dateTimeCategories(),
+            },
+            tooltip: {
+                x: {
+                    format: "dd/MM/yy HH:mm",
+                },
+            },
+            grid: {
+                show: false
+            },
+            yaxis: {
+                labels: {
+                    formatter: function (val) {
+                        return val + "Cº";
+                    },
+                    style: {
+                        fontSize: 16,
+                    }
+                }
+            },
+        }
+    ).render();
 
-    var chart = new ApexCharts(
+    // Gráfico uso de rede
+    new ApexCharts(
         document.querySelector("#grafico-uso-rede"),
-        options
-    );
-    chart.render();
+        {
+            series: [
+                {
+                    name: "Download (Mbps)",
+                    type: "area",
+                    data: [850, 900, 910, 870, 920, 880, 940, 910, 930, 890, 920, 950, 970, 960, 940, 910, 950, 930, 960, 980],
+                    color: "#44395F"
+                },
+                {
+                    name: "Upload (Mbps)",
+                    type: "area",
+                    data:  [850, 880, 920, 900, 940, 960, 910, 950, 930, 970, 980, 1000, 970, 960, 940, 950, 920, 930, 910, 980, 990],
+                    color: "#03800c"
+                },
+            ],
+            chart: {
+                height: 350,
+                toolbar: {
+                    show: true,
+                },
+            },
+            fill: {
+                type: ["gradient", "gradient"],
+                gradient: {
+                    shade: "dark",
+                    shadeIntensity: 1,
+                    type: "vertical",
+                    opacityFrom: 0.7,
+                    opacityTo: 0.3,
+                    stops: [0, 90, 100],
+                }
+            },
+            dataLabels: {
+                enabled: false,
+            },
+            stroke: {
+                curve: "smooth",
+            },
+            xaxis: {
+                type: "datetime",
+                categories: dateTimeCategories(),
+            },
+            tooltip: {
+                x: {
+                    format: "dd/MM/yy HH:mm",
+                },
+            },
+            grid: {
+                show: false
+            },
+            yaxis: {
+                labels: {
+                    formatter: function (val) {
+                        return val + "Cº";
+                    },
+                    style: {
+                        fontSize: 16,
+                    }
+                }
+            },
+        }
+    ).render();
+
+
 </script>
 </body>
 </html>
