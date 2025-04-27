@@ -121,7 +121,30 @@ main {
     border-radius: 1vh;
     box-shadow: 0 0 0.9vh rgba(0, 0, 0, 0.2);
 }
+.process{
+    width: 97%;
+    height: 35vh;
+    margin: 20px;
+    border-radius: 1vh;
+    box-shadow: 0 0 0.9vh rgba(0, 0, 0, 0.2);
+}
+.container-process{
+    margin-left: 20px;
+    margin-right: 20px;
+}
+thead th,
+tbody td {
+  border-bottom: 1px solid #ddd;
+  vertical-align: middle;
+  text-align: center;
+  color: rgba(58, 46, 93, 1);
+}
 
+thead th {
+  background-color: #f9f9f9;
+  vertical-align: middle;
+  font-weight: bold;
+}
 .storage-chart-container {
     height: 250px;
     overflow-y: scroll;
