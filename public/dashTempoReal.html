@@ -15,7 +15,7 @@
     ></script>
 
     <div class="container">
-        <header>
+        <header style="margin-left: 20px;">
             <h1>Servidor ext-04202501</h1>
             <hr
                     style="height: 0.2vh; background-color: gainsboro; opacity: 0.5"
@@ -109,6 +109,7 @@
                     </div>
                 </div>
 
+                
                 <div class="graphs-monitoring-ram">
                     <p class="text-kpi">Monitoramento de memória</p>
 
@@ -135,6 +136,74 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <div class="process">
+                <div class="container-process">
+                    <h1>Lista de Processos</h1>
+                    <table style="width: 100%; text-align: center;">
+                        <thead>
+                            <tr>
+                                <th>PID</th>
+                                <th>Processo</th>
+                                <th>Uso de CPU</th>
+                                <th>Uso de RAM</th>
+                                <th>Uso da RAM (%)</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1236</td>
+                                <td>Java</td>
+                                <td>25%</td>
+                                <td>8.6GB</td>
+                                <td>30%</td>
+                                <td>Rodando</td>
+                            </tr>
+                            <tr>
+                                <td>938</td>
+                                <td>Google Chrome</td>
+                                <td>20%</td>
+                                <td>4.4GB</td>
+                                <td>20%</td>
+                                <td>Rodando</td>
+                            </tr>
+                            <tr>
+                                <td>712</td>
+                                <td>MySQL Server</td>
+                                <td>7%</td>
+                                <td>1GB</td>
+                                <td>10%</td>
+                                <td>Rodando</td>
+                            </tr>
+                            <tr>
+                                <td>800</td>
+                                <td>MongoDB</td>
+                                <td>5%</td>
+                                <td>500MB</td>
+                                <td>7%</td>
+                                <td>Parado</td>
+                            </tr>
+                            <tr>
+                                <td>1300</td>
+                                <td>Radmin VPN</td>
+                                <td>10%</td>
+                                <td>300MB</td>
+                                <td>5%</td>
+                                <td>Rodando</td>
+                            </tr>
+                            <tr>
+                                <td>0</td>
+                                <td>Serviços do Sistema</td>
+                                <td>2%</td>
+                                <td>100MB</td>
+                                <td>3%</td>
+                                <td>Rodando</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
