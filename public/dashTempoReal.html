@@ -25,8 +25,8 @@
         <div class="kpis">
             <div class="kpi first">
                 <div class="kpi-content">
-                    <span class="text-kpi">Uso CPU (%) : Crítico</span>
-                    <h1>70%</h1>
+                    <span class="text-kpi">Uso CPU (%) : <span style="color: red">Crítico</span></span>
+                    <h1>81%</h1>
 
                     <div class="kpi-chart">
                         <div id="grafico-kpi-01"></div>
@@ -179,7 +179,11 @@
             series: [
                 {
                     name: "series1",
-                    data: [31, 40, 28, 51, 42, 109, 100],
+                    data: [
+                        31, 40, 28, 51, 42, 100, 100, 100,
+                        95, 88, 70, 77, 84, 92, 65, 73,
+                        86, 90, 80, 79, 81,
+                    ],
                     color: "#44395F"
                 },
             ],
@@ -203,15 +207,7 @@
             },
             xaxis: {
                 type: "datetime",
-                categories: [
-                    "2018-09-19T00:00:00.000Z",
-                    "2018-09-19T01:30:00.000Z",
-                    "2018-09-19T02:30:00.000Z",
-                    "2018-09-19T03:30:00.000Z",
-                    "2018-09-19T04:30:00.000Z",
-                    "2018-09-19T05:30:00.000Z",
-                    "2018-09-19T06:30:00.000Z",
-                ],
+                categories: dateTimeCategories(),
                 axisBorder: {
                     show: false,
                 },
@@ -364,7 +360,7 @@
         {
             chart: {
                 type: 'donut',
-                width: '80%'
+                width: '75%'
             },
             series: [75, 25],
             labels: ["Usado", "Livre"],
@@ -398,7 +394,7 @@
         {
             chart: {
                 type: 'donut',
-                width: '80%'
+                width: '75%'
             },
             series: [0, 100],
             labels: ["Usado", "Livre"],
