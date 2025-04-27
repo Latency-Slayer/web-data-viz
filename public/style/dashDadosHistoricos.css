@@ -39,25 +39,51 @@ h1 {
 .container-kpi{
     display: flex;
     width: 100%;
+    margin-top: 20px;
     justify-content: space-between;
 }
 .kpi-1{
-    background-color: rgb(172, 172, 172);
+    box-shadow: 0 0 0.9vh rgba(0, 0, 0, 0.2);
     width: 30%;
-    height: 10vh;
+    height: 18vh;
+    display: flex;
+    flex-direction: column;
     border-radius: 10px;
 }
+.kpi-1 span{
+    margin-left: 20px;
+}
+.kpi-2 span{
+    margin-left: 20px;
+}
+.kpi-3 span{
+    margin-left: 20px;
+}
 .kpi-2{
-    background-color: rgb(172, 172, 172);
+    box-shadow: 0 0 0.9vh rgba(0, 0, 0, 0.2);
     width: 30%;
-    height: 10vh;
+    height: 18vh;
+    display: flex;
+    flex-direction: column;
     border-radius: 10px;
 }
 .kpi-3{
-    background-color: rgb(172, 172, 172);
+    box-shadow: 0 0 0.9vh rgba(0, 0, 0, 0.2);
     width: 30%;
-    height: 10vh;
+    height: 18vh;
+    display: flex;
+    flex-direction: column;
     border-radius: 10px;
+}
+.kpi-titulo{
+    color: #3A2E5D; 
+    font-weight: 600; 
+    font-size: 1.3vw;
+}
+.kpi-metrica{
+    font-size: 30px; 
+    color: #3A2E5D; 
+    font-weight: 500;
 }
 .container-grafico1 {
     display: flex;
@@ -80,10 +106,10 @@ h1 {
 .grafico1 {
     border-radius: 10px;
     width: 100%;
-    background-color: rgba(247, 239, 239, 0.659);
+    box-shadow: 0 0 0.9vh rgba(0, 0, 0, 0.2);
 }
 .grafico2{
     border-radius: 10px;
     width: 50%;
-    background-color: rgba(247, 239, 239, 0.659);
+    box-shadow: 0 0 0.9vh rgba(0, 0, 0, 0.2);
 }
