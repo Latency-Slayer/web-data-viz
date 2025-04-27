@@ -178,6 +178,24 @@ thead th {
     width: 36%;
     background-color: #765D8C;
 }
+.disk-chart-bar1 {
+    border-radius: 55px;
+    height: 100%;
+    width: 12%;
+    background-color: #765D8C;
+}
+.disk-chart-bar2 {
+    border-radius: 55px;
+    height: 100%;
+    width: 67%;
+    background-color: #765D8C;
+}
+.disk-chart-bar3 {
+    border-radius: 55px;
+    height: 100%;
+    width: 90%;
+    background-color: #9D4041;
+}
 
 .use-percent {
     font-weight: bold;
