@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,46 +8,59 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <title>Latency Slayer - Editar Perfil</title>
 </head>
+
 <body>
     <main>
-    <script src="./script/components/navBar.js" page="editarPerfil"></script>
-    <div class="container">
-        <div class="header-titulo">
-            <div class="titulo">
-                <h1>Editar Perfil</h1>
-                <div class="alerta-popup">
-                    <i class='bx bxs-bell-ring'></i>
-                    <span>2</span>
-                </div>
+        <script src="./script/components/navBar.js" page="editarPerfil"></script>
+        <div class="container">
+            <div class="header-titulo">
+                <div class="titulo">
+                    <h1>Editar Perfil</h1>
+                    <div class="alerta-popup">
+                        <i class='bx bxs-bell-ring'></i>
+                        <span>2</span>
+                    </div>
                 </div>
             </div>
-        <hr>
+            <hr>
 
-        <div class="container-editar">
-            <div class="coluna-1">
-                <span>Email</span>
-                <input type="email" placeholder="email@hotmail.com">
-                <span>Senha</span>
-                <input type="password" placeholder="senha123">
-                <span>Bairro</span>
-                <input type="text" placeholder="Bairro 24">
-                <span>Telefone</span>
-                <input type="phone" placeholder="11 9987231293">
+            <div class="container-editar">
+                <div class="coluna-1">
+                    <span>Email</span>
+                    <input type="email" placeholder="email@hotmail.com">
+                    <span>Senha</span>
+                    <input type="password" placeholder="senha123">
+                    <span>Bairro</span>
+                    <input type="text" placeholder="Bairro 24">
+                    <span>Telefone</span>
+                    <input type="phone" placeholder="11 9987231293">
+                </div>
+                <div class="coluna-2">
+                    <span>Rua</span>
+                    <input type="text" placeholder="Rua rua">
+                    <span>Número</span>
+                    <input type="number" placeholder="123">
+                    <span>Complemento</span>
+                    <input type="text" placeholder="Complemento 123">
+                    <span>Cargo</span>
+                    <input type="text" placeholder="Gerente de Infraestrutura">
+                </div>
             </div>
-            <div class="coluna-2">
-                <span>Rua</span>
-                <input type="text" placeholder="Rua rua">
-                <span>Número</span>
-                <input type="number" placeholder="123">
-                <span>Complemento</span>
-                <input type="text" placeholder="Complemento 123">
-                <span>Cargo</span>
-                <input type="text" placeholder="Gerente de Infraestrutura">
-            </div>
+            <button class="btn_update">Atualizar</button>
         </div>
-        <button class="btn_update">Atualizar</button>
-    </div>
 
     </main>
+    <script>
+        if (sessionStorage.getItem('ROLE_USER') == 'Gerente') {
+            gerenciarUsuario.style.display = "none"
+            registrarServidor.style.display = "none"
+        }
+        if (sessionStorage.getItem('ROLE_USER') == 'Analista de Dados') {
+            gerenciarUsuario.style.display = "none"
+            registrarServidor.style.display = "none"
+            alertas.style.display = "none"
+        }
+    </script>
 </body>
+
 </html>
