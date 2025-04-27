@@ -9,6 +9,8 @@
   <link rel="stylesheet" href="./style/dashDadosHistoricos.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
 </head>
 
 <body>
@@ -24,7 +26,7 @@
         <h1>Relatório da última semana</h1>
         <div class="container-kpi">
           <div class="kpi-1">
-              <span>Alguma coisa</span>
+            <span>Alguma coisa</span>
           </div>
           <div class="kpi-2">
             <span>Alguma coisa</span>
@@ -35,200 +37,281 @@
         </div>
         <div class="container-grafico1">
           <div class="grafico1">
-            <canvas id="grafico" height="300"></canvas>
+            <div id="chart"></div>
           </div>
         </div>
         <div class="container-grafico2">
-          <div class="grafico1">
-            <canvas id="grafico4" height="300"></canvas>
+          <div class="grafico2">
+            <div id="chart2"></div>
+          </div>
+          <div class="grafico2">
+            <div id="chart3"></div>
           </div>
         </div>
       </div>
     </div>
   </main>
   <script>
-    const ctx = document.getElementById('grafico').getContext('2d');
-    const ctx4 = document.getElementById('grafico4').getContext('2d');
-
-    const dados = {
-      labels: ["Média de Uso dos Componentes"],
-      datasets: [
-        {
-          label: 'Uso de CPU',
-          data: [47.27],
-          backgroundColor: 'rgba(255, 99, 132, 0.6)'
-        },
-        {
-          label: 'Uso de RAM',
-          data: [7.64],
-          backgroundColor: 'rgba(54, 162, 235, 0.6)'
-        },
-        {
-          label: 'Uso de Disco',
-          data: [124.92],
-          backgroundColor: 'rgba(255, 206, 86, 0.6)'
-        },
-        {
-          label: 'Envio de Upload',
-          data: [145.33],
-          backgroundColor: 'rgba(75, 192, 192, 0.6)'
-        },
-        {
-          label: 'Envio de Download',
-          data: [48.81],
-          backgroundColor: 'rgba(153, 102, 255, 0.6)'
-        },
-      ]
-    };
-
-    const config = {
-      type: 'bar',
-      data: dados,
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          dataLabels: {
-            anchor: 'center',
-            align: 'center',
-            color: 'white',
-            font: {
-              weight: 'bold',
-              size: 14
-            },
-          }
-        },
-        scales: {
-          x: {
-            stacked: false
-          },
-          y: {
-            beginAtZero: true
-          }
-        }
+    var options = {
+      series: [{
+        name: 'Quantidade de jogadores',
+        type: 'column',
+        data: [1239, 1203, 1921, 1239, 1298, 3281, 2300]
+      }, {
+        name: 'Uso CPU',
+        type: 'line',
+        data: [60, 58, 70, 40, 63, 90, 85]
+      }, {
+        name: 'Uso RAM',
+        type: 'line',
+        data: [20, 29, 37, 36, 44, 50, 58]
+      }],
+      chart: {
+        height: 550,
+        width: '100%',
+        type: 'line',
+        stacked: false
       },
-      plugins: [ChartDataLabels]
-    };
-
-    new Chart(ctx, config);
-
-    const dados4 = {
-      labels: ["Média de Jogadores"],
-      datasets: [
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        width: [1, 1, 4]
+      },
+      title: {
+        text: 'Uso de CPU e RAM na semana',
+        align: 'left',
+        offsetX: 110
+      },
+      xaxis: {
+        categories: ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"],
+      },
+      yaxis: [
         {
-          label: 'Segunda',
-          data: [300],
-          backgroundColor: 'rgba(255, 99, 132, 0.6)'
+          seriesName: 'Income',
+          axisTicks: {
+            show: true,
+          },
+          axisBorder: {
+            show: true,
+            color: '#008FFB'
+          },
+          labels: {
+            style: {
+              colors: '#008FFB',
+            }
+          },
+          title: {
+            text: "Quantidade de Jogadores",
+            style: {
+              color: '#008FFB',
+            }
+          },
+          tooltip: {
+            enabled: true
+          }
         },
         {
-          label: 'Terça',
-          data: [440],
-          backgroundColor: 'rgba(54, 162, 235, 0.6)'
+          seriesName: 'Cashflow',
+          opposite: true,
+          axisTicks: {
+            show: true,
+          },
+          axisBorder: {
+            show: true,
+            color: '#00E396'
+          },
+          labels: {
+            style: {
+              colors: '#00E396',
+            }
+          },
         },
         {
-          label: 'Quarta',
-          data: [270],
-          backgroundColor: 'rgba(255, 206, 86, 0.6)'
-        },
-        {
-          label: 'Quinta',
-          data: [560],
-          backgroundColor: 'rgba(75, 192, 192, 0.6)'
-        },
-        {
-          label: 'Sexta',
-          data: [1500],
-          backgroundColor: 'rgba(153, 102, 255, 0.6)'
-        },
-        {
-          label: 'Sábado',
-          data: [3000],
-          backgroundColor: 'rgba(255, 159, 64, 0.6)'
-        },
-        {
-          label: 'Domingo',
-          data: [2200],
-          backgroundColor: 'rgba(201, 203, 207, 0.6)'
-        },
-      ]
-    };
-
-    const config4 = {
-      type: 'bar',
-      data: dados4,
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          dataLabels: {
-            anchor: 'center',
-            align: 'center',
-            color: 'white',
-            font: {
-              weight: 'bold',
-              size: 14
+          seriesName: 'Revenue',
+          opposite: true,
+          axisTicks: {
+            show: true,
+          },
+          axisBorder: {
+            show: true,
+            color: '#FEB019'
+          },
+          labels: {
+            style: {
+              colors: '#FEB019',
             },
           },
-          annotation: {
-            annotations: [
-              {
-                // Linha de CPU
-                type: 'line',
-                yMin: 400, // Posição Y para a linha de CPU
-                yMax: 400, // Posição Y para a linha de CPU
-                borderColor: 'red', // Cor da linha
-                borderWidth: 2,
-                label: {
-                  enabled: true,
-                  content: 'Uso de CPU',
-                  position: 'end'
-                }
-              },
-              {
-                // Linha de RAM
-                type: 'line',
-                yMin: 1000, // Posição Y para a linha de RAM
-                yMax: 1000, // Posição Y para a linha de RAM
-                borderColor: 'blue', // Cor da linha
-                borderWidth: 2,
-                label: {
-                  enabled: true,
-                  content: 'Uso de RAM',
-                  position: 'end'
-                }
-              }
-            ]
-          }
         },
-        scales: {
-          x: {
-            stacked: false
-          },
-          y: {
-            beginAtZero: true
-          }
-        }
+      ],
+      tooltip: {
+        fixed: {
+          enabled: true,
+          position: 'topLeft', // topRight, topLeft, bottomRight, bottomLeft
+          offsetY: 30,
+          offsetX: 60
+        },
       },
-      plugins: [ChartDataLabels, ChartAnnotation]
+      legend: {
+        horizontalAlign: 'left',
+        offsetX: 40
+      }
     };
 
-    new Chart(ctx4, config4);
+    var chart = new ApexCharts(document.querySelector("#chart"), options);
+    chart.render();
 
-        var dash = document.getElementById("dashDadosHistoricos");
-        var dash1 = document.getElementById("dashDadosHistoricos1");
-        var dash2 = document.getElementById("dashDadosHistoricos2");
-        var dash3 = document.getElementById("dashDadosHistoricos3");
-        var dash4 = document.getElementById("dashDadosHistoricos4");
+    var options = {
+      series: [{
+        name: 'Hardware utilizado',
+        data: [45, 55, 70, 20, 30, 95, 80],
+        color: "#225122",
+      }, {
+        name: 'Hardware Ocioso',
+        data: [55, 45, 30, 80, 70, 5, 20],
+        color: "#953b3b",
+      }],
+      chart: {
+        type: 'bar',
+        height: 350,
+        stacked: true,
+        toolbar: {
+          show: true
+        },
 
-        console.log(sessionStorage.getItem('ROLE_USER'));
-
-        if (sessionStorage.getItem('ROLE_USER') == 'Gerente') {
-            dash.style.display = "none";
-            dash1.style.display = "none";
-            dash2.style.display = "none";
-            dash3.style.display = "none";
-            dash4.style.display = "none";
+        zoom: {
+          enabled: true
         }
+      },
+      responsive: [{
+        breakpoint: 480,
+        options: {
+          legend: {
+            position: 'bottom',
+            offsetX: -10,
+            offsetY: 0
+          }
+        }
+      }],
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          borderRadius: 10,
+          borderRadiusApplication: 'end', // 'around', 'end'
+          borderRadiusWhenStacked: 'last', // 'all', 'last'
+        },
+      },
+      xaxis: {
+        categories: ['Segunda', 'Terça', 'Quarta', 'Quinta',
+          'Sexta', 'Sabado', 'Domingo'],
+      },
+      yaxis: {
+        min: 0,
+        max: 100
+      },
+      title: {
+        text: 'Uso de CPU na Semna', // <-- Aqui é o título
+        align: 'left',           // Pode ser 'left', 'center', ou 'right'
+        style: {
+          fontSize: '20px',
+          color: '#263238'
+        },
+      },
+      legend: {
+        position: 'bottom',
+        offsetY: 20
+      },
+      fill: {
+        opacity: 1
+      }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chart2"), options);
+    chart.render();
+
+    var options = {
+      series: [{
+        name: 'Hardware utilizado',
+        data: [20, 25, 40, 25, 70, 97, 75],
+        color: "#225122",
+      }, {
+        name: 'Hardware Ocioso',
+        data: [80, 75, 60, 75, 30, 3, 25],
+        color: "#953b3b",
+      }],
+      chart: {
+        type: 'bar',
+        height: 350,
+        stacked: true,
+        toolbar: {
+          show: true
+        },
+        zoom: {
+          enabled: true
+        },
+      },
+      responsive: [{
+        breakpoint: 480,
+        options: {
+          legend: {
+            position: 'bottom',
+            offsetX: -10,
+            offsetY: 0
+          }
+        }
+      }],
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          borderRadius: 10,
+          borderRadiusApplication: 'end', // 'around', 'end'
+          borderRadiusWhenStacked: 'last', // 'all', 'last'
+        },
+      },
+      xaxis: {
+        categories: ['Segunda', 'Terça', 'Quarta', 'Quinta',
+          'Sexta', 'Sabado', 'Domingo'],
+      },
+      yaxis: {
+        min: 0,
+        max: 100
+      },
+      legend: {
+        position: 'bottom',
+        offsetY: 20
+      },
+      title: {
+        text: 'Uso da RAM na Semana',
+        align: 'left',
+        style: {
+          fontSize: '20px',
+          color: '#263238'
+        },
+      },
+      fill: {
+        opacity: 1
+      }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chart3"), options);
+    chart.render();
+
+
+    var dash = document.getElementById("dashDadosHistoricos");
+    var dash1 = document.getElementById("dashDadosHistoricos1");
+    var dash2 = document.getElementById("dashDadosHistoricos2");
+    var dash3 = document.getElementById("dashDadosHistoricos3");
+    var dash4 = document.getElementById("dashDadosHistoricos4");
+
+    console.log(sessionStorage.getItem('ROLE_USER'));
+
+    if (sessionStorage.getItem('ROLE_USER') == 'Gerente') {
+      dash.style.display = "none";
+      dash1.style.display = "none";
+      dash2.style.display = "none";
+      dash3.style.display = "none";
+      dash4.style.display = "none";
+    }
   </script>
 </body>
 
