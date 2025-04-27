@@ -8,6 +8,7 @@
 
 body {
     min-height: 100vh;
+    overflow: hidden;
 }
 
 main {
@@ -31,6 +32,7 @@ a:hover{
     flex-direction: column;
     height: 100vh;
     background-color: #F9FAFB;
+    overflow: auto;
     gap: 5%;
 }
 

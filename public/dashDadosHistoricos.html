@@ -15,24 +15,29 @@
 
 <body>
   <main>
-    <script src="./script/components/navBarAnalista.js" page="servidores"></script>
+    <script src="./script/components/navBar.js" page="servidores"></script>
 
     <div class="container">
       <div class="box-container">
         <header>
-          <h1>Máquina ext-04202501</h1>
+          <h1>Servidor ext-04202501</h1>
           <hr style="height: 0.2vh; background-color: gainsboro; opacity: 0.5" />
         </header>
         <h1>Relatório da última semana</h1>
         <div class="container-kpi">
           <div class="kpi-1">
-            <span>Alguma coisa</span>
+            <span class="kpi-titulo">Dia em alta: Sábado</span>
+            <span class="kpi-metrica"><strong style="font-size: 50px;">3581</strong> Jogadores</span>
           </div>
           <div class="kpi-2">
-            <span>Alguma coisa</span>
+            <span class="kpi-titulo">Dia Ocioso CPU: Segunda</span>
+            <span class="kpi-metrica"><strong style="font-size: 32px; color: #fc3921;">60%</strong> da CPU</span>
+            <span class="kpi-metrica"><strong style="font-size: 32px; color: #fc3921;">80%</strong> da RAM</span>
           </div>
           <div class="kpi-3">
-            <span>Alguma coisa</span>
+            <span class="kpi-titulo">Pico Máximo: Sábado</span>
+            <span class="kpi-metrica"><strong style="font-size: 32px; color: #71b061;">95%</strong> da CPU</span>
+            <span class="kpi-metrica"><strong style="font-size: 32px; color: #71b061;">80%</strong> da RAM</span>
           </div>
         </div>
         <div class="container-grafico1">
@@ -52,19 +57,29 @@
     </div>
   </main>
   <script>
+    if (sessionStorage.getItem('ROLE_USER') == 'Gerente') {
+            gerenciarUsuario.style.display = "none"
+            registrarServidor.style.display = "none"
+        }
+        if (sessionStorage.getItem('ROLE_USER') == 'Analista de Dados') {
+            gerenciarUsuario.style.display = "none"
+            registrarServidor.style.display = "none"
+            alertas.style.display = "none"
+        }
+
     var options = {
       series: [{
         name: 'Quantidade de jogadores',
         type: 'column',
-        data: [1239, 1203, 1921, 1239, 1298, 3281, 2300]
+        data: [1239, 1303, 1521, 1739, 2598, 3581, 2000]
       }, {
         name: 'Uso CPU',
         type: 'line',
-        data: [60, 58, 70, 40, 63, 90, 85]
+        data: [35, 45, 50, 60, 65, 90, 70]
       }, {
         name: 'Uso RAM',
         type: 'line',
-        data: [20, 29, 37, 36, 44, 50, 58]
+        data: [20, 30, 40, 55, 60, 80, 68]
       }],
       chart: {
         height: 550,
@@ -72,11 +87,12 @@
         type: 'line',
         stacked: false
       },
+      colors: ['#6f53ffac', '#277e1b', '#520000'],
       dataLabels: {
         enabled: false
       },
       stroke: {
-        width: [1, 1, 4]
+        width: [1, 4, 4]
       },
       title: {
         text: 'Uso de CPU e RAM na semana',
@@ -94,17 +110,17 @@
           },
           axisBorder: {
             show: true,
-            color: '#008FFB'
+            color: '#7245f8'
           },
           labels: {
             style: {
-              colors: '#008FFB',
+              colors: '#7245f8',
             }
           },
           title: {
             text: "Quantidade de Jogadores",
             style: {
-              color: '#008FFB',
+              color: '#7245f8',
             }
           },
           tooltip: {
@@ -119,28 +135,28 @@
           },
           axisBorder: {
             show: true,
-            color: '#00E396'
+            color: '#8b1e1e'
           },
           labels: {
             style: {
-              colors: '#00E396',
+              colors: '#8b1e1e',
             }
           },
         },
         {
-          seriesName: 'Revenue',
+          seriesName: 'Cashflow',
           opposite: true,
           axisTicks: {
             show: true,
           },
           axisBorder: {
             show: true,
-            color: '#FEB019'
+            color: '#8b1e1e'
           },
           labels: {
             style: {
-              colors: '#FEB019',
-            },
+              colors: '#8b1e1e',
+            }
           },
         },
       ],
@@ -164,12 +180,12 @@
     var options = {
       series: [{
         name: 'Hardware utilizado',
-        data: [45, 55, 70, 20, 30, 95, 80],
-        color: "#225122",
+        data: [40, 45, 60, 50, 65, 95, 80],
+        color: "#71b061",
       }, {
         name: 'Hardware Ocioso',
-        data: [55, 45, 30, 80, 70, 5, 20],
-        color: "#953b3b",
+        data: [60, 55, 40, 50, 35, 5, 20],
+        color: "#fc3921",
       }],
       chart: {
         type: 'bar',
@@ -197,8 +213,8 @@
         bar: {
           horizontal: false,
           borderRadius: 10,
-          borderRadiusApplication: 'end', // 'around', 'end'
-          borderRadiusWhenStacked: 'last', // 'all', 'last'
+          borderRadiusApplication: 'end', 
+          borderRadiusWhenStacked: 'last', 
         },
       },
       xaxis: {
@@ -210,8 +226,8 @@
         max: 100
       },
       title: {
-        text: 'Uso de CPU na Semna', // <-- Aqui é o título
-        align: 'left',           // Pode ser 'left', 'center', ou 'right'
+        text: 'Ociosidade da CPU na Semana', 
+        align: 'left',           
         style: {
           fontSize: '20px',
           color: '#263238'
@@ -232,12 +248,12 @@
     var options = {
       series: [{
         name: 'Hardware utilizado',
-        data: [20, 25, 40, 25, 70, 97, 75],
-        color: "#225122",
+        data: [20, 35, 40, 40, 70, 80, 75],
+        color: "#71b061",
       }, {
         name: 'Hardware Ocioso',
-        data: [80, 75, 60, 75, 30, 3, 25],
-        color: "#953b3b",
+        data: [80, 65, 60, 60, 30, 20, 25],
+        color: "#fc3921",
       }],
       chart: {
         type: 'bar',
@@ -264,8 +280,8 @@
         bar: {
           horizontal: false,
           borderRadius: 10,
-          borderRadiusApplication: 'end', // 'around', 'end'
-          borderRadiusWhenStacked: 'last', // 'all', 'last'
+          borderRadiusApplication: 'end', 
+          borderRadiusWhenStacked: 'last', 
         },
       },
       xaxis: {
@@ -281,7 +297,7 @@
         offsetY: 20
       },
       title: {
-        text: 'Uso da RAM na Semana',
+        text: 'Ociosidade da RAM na Semana',
         align: 'left',
         style: {
           fontSize: '20px',

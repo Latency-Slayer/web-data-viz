@@ -38,7 +38,7 @@
                                 <th>Data de Cadastro</th>
                                 <th>Execução</th>
                                 <th>Localização</th>
-                                <th>Dashboard Tempo Real</th>
+                                <th id="dashTempoReal">Dashboard Tempo Real</th>
                                 <th id="dashDadosHistoricos">Dashboard Dados Históricos</th>
                                 <th>Editar Servidor</th>
                             </tr>
@@ -50,7 +50,7 @@
                                 <td>01/04/2025</td>
                                 <td>Far Cry 5 Online</td>
                                 <td>San Diego</td>
-                                <td><a href="./dashTempoReal.html">Clique para ver</a></td>
+                                <td id="dashTempoReal1"><a href="./dashTempoReal.html">Clique para ver</a></td>
                                 <td id="dashDadosHistoricos1"><a href="./dashDadosHistoricos.html">Clique para ver</a>
                                 </td>
                                 <td>Clique para editar</td>
@@ -61,7 +61,7 @@
                                 <td>01/04/2025</td>
                                 <td>Far Cry 5 Online</td>
                                 <td>San Diego</td>
-                                <td><a href="./dashTempoReal.html">Clique para ver</a></td>
+                                <td id="dashTempoReal2"><a href="./dashTempoReal.html">Clique para ver</a></td>
                                 <td id="dashDadosHistoricos2"><a href="./dashDadosHistoricos.html">Clique para ver</a>
                                 </td>
                                 <td>Clique para editar</td>
@@ -72,7 +72,7 @@
                                 <td>01/04/2025</td>
                                 <td>Far Cry 5 Online</td>
                                 <td>San Diego</td>
-                                <td><a href="./dashTempoReal.html">Clique para ver</a></td>
+                                <td id="dashTempoReal3"><a href="./dashTempoReal.html">Clique para ver</a></td>
                                 <td id="dashDadosHistoricos3"><a href="./dashDadosHistoricos.html">Clique para ver</a>
                                 </td>
                                 <td>Clique para editar</td>
@@ -83,7 +83,7 @@
                                 <td>01/04/2025</td>
                                 <td>Far Cry 5 Online</td>
                                 <td>San Diego</td>
-                                <td><a href="./dashTempoReal.html">Clique para ver</a></td>
+                                <td id="dashTempoReal4"><a href="./dashTempoReal.html">Clique para ver</a></td>
                                 <td id="dashDadosHistoricos4"><a href="./dashDadosHistoricos.html">Clique para ver</a>
                                 </td>
                                 <td>Clique para editar</td>
@@ -113,6 +113,12 @@
         var dash3 = document.getElementById("dashDadosHistoricos3");
         var dash4 = document.getElementById("dashDadosHistoricos4");
 
+        var dash5 = document.getElementById("dashTempoReal");
+        var dash6 = document.getElementById("dashTempoReal1");
+        var dash7 = document.getElementById("dashTempoReal2");
+        var dash8 = document.getElementById("dashTempoReal3");
+        var dash9 = document.getElementById("dashTempoReal4");
+
         var registrarServidor = document.getElementById("registrarServidor")
         var alertas = document.getElementById("alertas")
         var gerenciarUsuario = document.getElementById("gerenciarUsuario")
@@ -127,11 +133,21 @@
             dash4.style.display = "none";
         }
         if (sessionStorage.getItem('ROLE_USER') == 'Analista de Dados') {
+            dash5.style.display = "none";
+            dash6.style.display = "none";
+            dash7.style.display = "none";
+            dash8.style.display = "none";
+            dash9.style.display = "none";
+            
             gerenciarUsuario.style.display = "none"
             registrarServidor.style.display = "none"
             alertas.style.display = "none"
         }
-        
+        if (sessionStorage.getItem('ROLE_USER') == 'Gerente') {
+            gerenciarUsuario.style.display = "none"
+            registrarServidor.style.display = "none"
+        }
+
     </script>
 </body>
 
