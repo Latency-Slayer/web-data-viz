@@ -1,7 +1,9 @@
 const parentElement = document.currentScript.parentElement;
 const page = document.currentScript.getAttribute("page");
 
-parentElement.insertAdjacentHTML("afterbegin", `
+
+
+parentElement.insertAdjacentHTML("afterbegin",`
     <style>
 .navbar {
     display: flex;
@@ -115,11 +117,8 @@ hr {
             </div>
             
             <div class="btnsNav">
-                <a class="buttonNav ${page === 'servidores' ? 'active' : ''}" href="./listaServidores.html"><button><i class='bx bxs-server nav-icon'></i>Servidores</button></a>
-                <a class="buttonNav ${page === 'registrarServidor' ? 'active' : ''}" href="./cadastroMaquina.html"><button id="registrarServidor"><i class='bx bx-desktop nav-icon'></i>Registrar Servidor</button></a>
-                <a class="buttonNav ${page === 'alertas' ? 'active' : ''}" href="./alertas.html"><button id="alertas"><i class='bx bxs-bell nav-icon'></i>Alertas</button></a>
-                <a class="buttonNav ${page === 'gerenciarUsuarios' ? 'active' : ''}" href="./usuarios.html"><button id="gerenciarUsuario"> <i class='bx bxs-user-account nav-icon'></i>Gerenciar Usuários</button></a>
-                <a class="buttonNav ${page === 'editarPerfil' ? 'active' : ''}" href="./editarPerfil.html"><button><i class='bx bxs-user-circle nav-icon'></i>Editar Perfil</button></a>
+                <a class="buttonNav ${page === 'servidores' ? 'active' : ''}" href="./listaServidoresAnalista.html"><button><i class='bx bxs-server nav-icon'></i>Servidores</button></a>
+                <a class="buttonNav ${page === 'editarPerfilAnalista' ? 'active' : ''}" href="./editarPerfilAnalista.html"><button><i class='bx bxs-user-circle nav-icon'></i>Editar Perfil</button></a>
                 <hr>
                 <div class="encerrar">
                     <i class='bx bx-log-in nav-icon'></i>
