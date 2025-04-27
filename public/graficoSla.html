@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <title>Title</title>
+</head>
+<body>
+    <div id="chart"></div>
+    <div id="chart2"></div>
+</body>
+</html>
+
+<script>
+
+    var options = {
+        series: [{
+            name: 'Quantidade de jogadores',
+            type: 'column',
+            data: [1239, 1203, 1921, 1239, 1298, 3281, 2300]
+        }, {
+            name: 'Uso CPU',
+            type: 'line',
+            data: [60, 58, 70, 40, 63, 90, 85]
+        }, {
+            name: 'Uso RAM',
+            type: 'line',
+            data: [20, 29, 37, 36, 44, 50, 58]
+        }],
+        chart: {
+            height: 350,
+            type: 'line',
+            stacked: false
+        },
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            width: [1, 1, 4]
+        },
+        title: {
+            text: 'XYZ - Stock Analysis (2009 - 2016)',
+            align: 'left',
+            offsetX: 110
+        },
+        xaxis: {
+            categories: ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"],
+        },
+        yaxis: [
+            {
+                seriesName: 'Income',
+                axisTicks: {
+                    show: true,
+                },
+                axisBorder: {
+                    show: true,
+                    color: '#008FFB'
+                },
+                labels: {
+                    style: {
+                        colors: '#008FFB',
+                    }
+                },
+                title: {
+                    text: "Income (thousand crores)",
+                    style: {
+                        color: '#008FFB',
+                    }
+                },
+                tooltip: {
+                    enabled: true
+                }
+            },
+            {
+                seriesName: 'Cashflow',
+                opposite: true,
+                axisTicks: {
+                    show: true,
+                },
+                axisBorder: {
+                    show: true,
+                    color: '#00E396'
+                },
+                labels: {
+                    style: {
+                        colors: '#00E396',
+                    }
+                },
+                title: {
+                    text: "Operating Cashflow (thousand crores)",
+                    style: {
+                        color: '#00E396',
+                    }
+                },
+            },
+            {
+                seriesName: 'Revenue',
+                opposite: true,
+                axisTicks: {
+                    show: true,
+                },
+                axisBorder: {
+                    show: true,
+                    color: '#FEB019'
+                },
+                labels: {
+                    style: {
+                        colors: '#FEB019',
+                    },
+                },
+                title: {
+                    text: "Revenue (thousand crores)",
+                    style: {
+                        color: '#FEB019',
+                    }
+                }
+            },
+        ],
+        tooltip: {
+            fixed: {
+                enabled: true,
+                position: 'topLeft', // topRight, topLeft, bottomRight, bottomLeft
+                offsetY: 30,
+                offsetX: 60
+            },
+        },
+        legend: {
+            horizontalAlign: 'left',
+            offsetX: 40
+        }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chart"), options);
+    chart.render();
+
+
+
+
+    var options = {
+        series: [{
+            name: 'Hardware utilizado',
+            data: [45, 55, 70, 20, 30, 95, 80],
+            color: "#225122",
+        }, {
+            name: 'Hardware Oioso',
+            data: [55, 45, 30, 80, 70, 5, 20],
+            color: "#953b3b",
+        }],
+        chart: {
+            type: 'bar',
+            height: 350,
+            stacked: true,
+            toolbar: {
+                show: true
+            },
+            zoom: {
+                enabled: true
+            }
+        },
+        responsive: [{
+            breakpoint: 480,
+            options: {
+                legend: {
+                    position: 'bottom',
+                    offsetX: -10,
+                    offsetY: 0
+                }
+            }
+        }],
+        plotOptions: {
+            bar: {
+                horizontal: false,
+                borderRadius: 10,
+                borderRadiusApplication: 'end',
+                borderRadiusWhenStacked: 'last',
+            },
+        },
+        xaxis: {
+            categories: ['Segunda', 'Terça', 'Quarta', 'Quinta',
+                'Sexta', 'Sabado', 'Domingo'],
+        },
+        yaxis: {
+            min: 0,
+            max: 100
+        },
+        legend: {
+            position: 'right',
+            offsetY: 40
+        },
+        fill: {
+            opacity: 1
+        }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chart2"), options);
+    chart.render();
+
+
+</script>
