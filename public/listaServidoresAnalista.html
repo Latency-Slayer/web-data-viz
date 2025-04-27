@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style/listaServidores.css">
+    <title>Latency Slayer - Servidores</title>
+</head>
+<body>
+    <main>  
+        <script src="./script/components/navBarAnalista.js" page="servidores"></script>        
+
+            <div class="container">
+                <div class="header-titulo">
+                    <div class="titulo">
+                        <h1>Servidores</h1>
+                        <div class="alerta-popup">
+                            <i class='bx bxs-bell-ring'></i>
+                            <span>2</span>
+                        </div>
+                    </div>
+                    <div class="barraPesquisa">
+                        <span>Pesquisar por tagname:</span>
+                        <input oninput="pesquisa()" type="text" id="ipt_pesquisa" placeholder="Ex: maquina-04-2025">
+                        <button>Buscar</button>
+                    </div>
+                    <hr>
+                </div>
+                <div class="lista-maquina">
+                    <div class="tabela-colunas">
+                        <table>
+                            <thead>
+                                <tr>
+                                  <th>UUID da Máquina</th>
+                                  <th>Tagname</th>
+                                  <th>Data de Cadastro</th>
+                                  <th>Execução</th>
+                                  <th>Localização</th>
+                                  <th>Dashboard</th>
+                                  <th>Editar Servidor</th>
+                                </tr>
+                            </thead>
+                                <tbody>
+                                    <tr>
+                                      <td>ext-04202501</td>
+                                      <td>ubs-far-cry-west-us</td>
+                                      <td>01/04/2025</td>
+                                      <td>Far Cry 5 Online</td>
+                                      <td>San Diego</td>
+                                      <td><a href="./dashDadosHistoricos.html">Clique para ver</a></td>
+                                      <td>Clique para editar</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ext-04202501</td>
+                                        <td>ubs-far-cry-west-us</td>
+                                        <td>01/04/2025</td>
+                                        <td>Far Cry 5 Online</td>
+                                        <td>San Diego</td>
+                                        <td><a href="./dashDadosHistoricos.html">Clique para ver</a></td>
+                                        <td>Clique para editar</td>
+                                      </tr>
+                                      <tr>
+                                        <td>ext-04202501</td>
+                                        <td>ubs-far-cry-west-us</td>
+                                        <td>01/04/2025</td>
+                                        <td>Far Cry 5 Online</td>
+                                        <td>San Diego</td>
+                                        <td><a href="./dashDadosHistoricos.html">Clique para ver</a></td>
+                                        <td>Clique para editar</td>
+                                    </tr>
+                                      <tr>
+                                        <td>ext-04202501</td>
+                                        <td>ubs-far-cry-west-us</td>
+                                        <td>01/04/2025</td>
+                                        <td>Far Cry 5 Online</td>
+                                        <td>San Diego</td>
+                                        <td><a href="./dashDadosHistoricos.html">Clique para ver</a></td>
+                                        <td>Clique para editar</td>
+                                      </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                        <div class="paginacao">
+                            <span class="disabled">← Anterior</span>
+                            <span class="page active">1</span>
+                            <span class="page">2</span>
+                            <span class="page">3</span>
+                            <span class="dots">...</span>
+                            <span class="page">67</span>
+                            <span class="page">68</span>
+                            <span class="next">Próximo →</span>
+                          </div>
+                    </div>
+                </div>
+            </div>
+    </main>
+</body>
+</html>

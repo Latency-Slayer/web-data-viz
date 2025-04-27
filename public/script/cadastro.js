@@ -434,9 +434,9 @@ function entrar() {
 
             resposta.json().then(function (json) {
                 console.log(json)
-                sessionStorage.NAME_USER = json.name;
+                sessionStorage.NAME_USER = json.nameUser;
                 sessionStorage.EMAIL_USER = json.email;
-                sessionStorage.ROLE_USER = json.id_opt_role;
+                sessionStorage.ROLE_USER = json.nameRole;
                 sessionStorage.ID_COMPANY = json.id_company;
                 sessionStorage.COMMERCIAL_NAME = json.commercial_name;
 
@@ -448,19 +448,12 @@ function entrar() {
                 });
 
                 if (json.id_opt_role == 1) {
-                    window.location = "./dashs/gestor.html"
+                    window.location = "./listaServidores.html"
                 } else if (json.id_opt_role == 2) {
-                    // window.location = "./index.html" Levar para a tela da role 2
+                    window.location = "./listaServidores.html"
                 } else if (json.id_opt_role == 3) {
-                    // window.location = "./index.html" Levar para a tela da role 3
+                    window.location = "./listaServidoresAnalista.html"
                 }
-
-                // if (json.id_opt_role == 1) {
-                // } else if(json.id_opt_role == 2){
-                //     window.location = "./dashs/gestor.html"
-                // } else if(json.id_opt_role == 3){
-                //     window.location = "./dashs/gestor.html"
-                // }
             })
         } else {
             mensagemErro += "Email ou Senha inválido";
