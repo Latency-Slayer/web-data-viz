@@ -70,16 +70,6 @@
     </div>
   </main>
   <script>
-    if (sessionStorage.getItem('ROLE_USER') == 'Gerente') {
-            gerenciarUsuario.style.display = "none"
-            registrarServidor.style.display = "none"
-        }
-        if (sessionStorage.getItem('ROLE_USER') == 'Analista de Dados') {
-            gerenciarUsuario.style.display = "none"
-            registrarServidor.style.display = "none"
-            alertas.style.display = "none"
-        }
-
     var options = {
       series: [{
         name: 'Quantidade de jogadores',
