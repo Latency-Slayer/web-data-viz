@@ -1,11 +1,10 @@
 const parentElement = document.currentScript.parentElement;
 const page = document.currentScript.getAttribute("page");
 
-
 function abrirMenu() {
     const conteudo = document.querySelector(".menuConteudo");
     const menu = document.querySelector(".menu");
-    
+
     if (menu.classList.contains("open")) {
         menu.classList.remove("open")
         conteudo.classList.remove("open")
@@ -278,3 +277,18 @@ hr {
         </div>
     </div>
 `);
+
+var registrarServidor = document.getElementById("registrarServidor")
+var alertas = document.getElementById("alertas")
+var gerenciarUsuario = document.getElementById("gerenciarUsuario")
+
+if (sessionStorage.getItem('ROLE_USER') == 'Analista de Dados') {
+    gerenciarUsuario.style.display = "none"
+    registrarServidor.style.display = "none"
+    alertas.style.display = "none"
+}
+
+if (sessionStorage.getItem('ROLE_USER') == 'Gerente') {
+    gerenciarUsuario.style.display = "none"
+    registrarServidor.style.display = "none"
+}
