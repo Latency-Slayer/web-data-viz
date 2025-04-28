@@ -1,6 +1,20 @@
 const parentElement = document.currentScript.parentElement;
 const page = document.currentScript.getAttribute("page");
 
+
+function abrirMenu() {
+    const conteudo = document.querySelector(".menuConteudo");
+    const menu = document.querySelector(".menu");
+    
+    if (menu.classList.contains("open")) {
+        menu.classList.remove("open")
+        conteudo.classList.remove("open")
+    } else {
+        menu.classList.add("open")
+        conteudo.classList.add("open")
+    }
+}
+
 parentElement.insertAdjacentHTML("afterbegin", `
     <style>
 .navbar {
@@ -101,6 +115,112 @@ hr {
     padding: 2.6vh 0;
 }
 
+.mobileMenu {
+    display: none;
+}
+
+.menuConteudo {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .nomeEmpresa, .pipe {
+        display: none !important;
+    }
+
+    .menu.open {
+        width: 30vh !important;
+    }
+}
+
+@media (max-width: 1700px) {
+
+    .container {
+    height: 90vh;
+    margin-top: 10vh; 
+    }
+
+    .menuConteudo.open {
+        display: flex;
+        justify-content: center;
+        color: white;
+    }
+
+    .navbar {
+        display: none;
+    }
+
+    main {
+        flex-direction: column; 
+    }
+
+    .mobileMenu {
+        display: flex;
+        position: fixed;
+        z-index: 999;
+        width: 100%;
+        justify-content: space-between;
+        height: 6vh;
+        background-color: #563f8c;
+        padding: 2vh 0;
+    }
+
+    .infos {
+    display: flex;
+    padding: 1vh;
+    }
+
+    .mobileMenu h2 {
+        display: flex;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-weight: 500;
+        height: 100%
+    }
+
+    #abrirMenu {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background-color: transparent;
+        border: none;
+        padding: 1vh;
+        cursor: pointer
+    }
+
+    .line {
+        height: 0.8vh;
+        background-color: white;
+        width: 6vh;
+        border-radius: 1vh;
+    }
+
+    .menu {
+        margin-top: 10vh;
+        position: absolute;
+        transform: translateX(80vh);
+        transition: all 0.1s;
+        }
+        
+        
+        .menu.open {
+            transform: translateX(0);
+            display: flex;
+            align-self: end;
+            // border: solid red 3px;
+            height: 90vh;
+            width: 35vw;
+            position: fixed;
+            transition: linear 0.5s;
+            background-color: #563f8c;
+            z-index: 999;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            justify-content: center;
+    }
+}
+
     </style>
 
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
@@ -126,5 +246,35 @@ hr {
                     <button class="logout" onclick="window.location.href='index.html'">Encerrar Sessão</button>
                 </div>
             </div>
-        </div>    
+        </div>  
+        
+            <div class="mobileMenu">
+        <div class="infos">
+            <h2 class="nomeEmpresa">Nome Empresa</h2>
+            <h2 class="pipe">ㅤ|ㅤ</h2>
+            <h2 class="colaborador">Colaborador</h2>
+        </div>
+        <button id="abrirMenu" onclick="abrirMenu()">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </button>
+    </div>
+
+    <div class="menu">
+        <div class="menuConteudo">
+                        <div class="btnsNav">
+                <a class="buttonNav ${page === 'servidores' ? 'active' : ''}" href="./listaServidores.html"><button><i class='bx bxs-server nav-icon'></i>Servidores</button></a>
+                <a class="buttonNav ${page === 'registrarServidor' ? 'active' : ''}" href="./cadastroMaquina.html"><button id="registrarServidor"><i class='bx bx-desktop nav-icon'></i>Registrar Servidor</button></a>
+                <a class="buttonNav ${page === 'alertas' ? 'active' : ''}" href="./alertas.html"><button id="alertas"><i class='bx bxs-bell nav-icon'></i>Alertas</button></a>
+                <a class="buttonNav ${page === 'gerenciarUsuarios' ? 'active' : ''}" href="./usuarios.html"><button id="gerenciarUsuario"> <i class='bx bxs-user-account nav-icon'></i>Gerenciar Usuários</button></a>
+                <a class="buttonNav ${page === 'editarPerfil' ? 'active' : ''}" href="./editarPerfil.html"><button><i class='bx bxs-user-circle nav-icon'></i>Editar Perfil</button></a>
+                <hr>
+                <div class="encerrar">
+                    <i class='bx bx-log-in nav-icon'></i>
+                    <button class="logout" onclick="window.location.href='index.html'">Encerrar Sessão</button>
+                </div>
+            </div>
+        </div>
+    </div>
 `);
