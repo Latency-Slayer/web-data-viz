@@ -324,23 +324,6 @@
 
     var chart = new ApexCharts(document.querySelector("#chart3"), options);
     chart.render();
-
-
-    var dash = document.getElementById("dashDadosHistoricos");
-    var dash1 = document.getElementById("dashDadosHistoricos1");
-    var dash2 = document.getElementById("dashDadosHistoricos2");
-    var dash3 = document.getElementById("dashDadosHistoricos3");
-    var dash4 = document.getElementById("dashDadosHistoricos4");
-
-    console.log(sessionStorage.getItem('ROLE_USER'));
-
-    if (sessionStorage.getItem('ROLE_USER') == 'Gerente') {
-      dash.style.display = "none";
-      dash1.style.display = "none";
-      dash2.style.display = "none";
-      dash3.style.display = "none";
-      dash4.style.display = "none";
-    }
   </script>
 </body>
 
