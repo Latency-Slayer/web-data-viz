@@ -49,17 +49,19 @@ a:hover{
 }
 .titulo{
     display: flex;
+    justify-content: space-between;
 }
 .titulo h1 {
     color: #3A2E5D;
     font-size: 60px;
 }
+
 .alerta-popup {
-  position: fixed; 
-  top: 20px; 
-  right: 30px; 
+  right: 30px;
+  margin-top: 2vh;
+  margin-right: 2vh;  
   background-color: red;
-  width: auto;
+  width: 70px;
   padding: 0 20px;
   align-items: center;
   display: flex;
@@ -146,6 +148,10 @@ input{
   thead th,
   tbody td {
     padding: 1.5rem;
+  }
+
+  .titulo {
+    flex-direction: column;
   }
 }
 
