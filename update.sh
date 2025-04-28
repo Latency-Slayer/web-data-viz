@@ -14,7 +14,7 @@ if [ "$LOCAL" != "$REMOTE" ]; then
     docker rmi web-data-viz
 
     docker build -t web-data-viz .
-    docker run --name web-data-viz -p 80:80 --restart unless-stopped web-data-viz
+    docker run --name web-data-viz -p 80:80 --restart always web-data-viz
 
     echo "Deploy do web-data-viz concluído"
 fi
