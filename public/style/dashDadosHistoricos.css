@@ -44,7 +44,8 @@ h1 {
 }
 .kpi-1{
     box-shadow: 0 0 0.9vh rgba(0, 0, 0, 0.2);
-    width: 30%;
+    justify-content: center;
+    width: calc(95% / 3);
     height: 18vh;
     display: flex;
     flex-direction: column;
@@ -61,7 +62,8 @@ h1 {
 }
 .kpi-2{
     box-shadow: 0 0 0.9vh rgba(0, 0, 0, 0.2);
-    width: 30%;
+    width: calc(95% / 3);
+    justify-content: center;
     height: 18vh;
     display: flex;
     flex-direction: column;
@@ -69,7 +71,8 @@ h1 {
 }
 .kpi-3{
     box-shadow: 0 0 0.9vh rgba(0, 0, 0, 0.2);
-    width: 30%;
+    width: calc(95% / 3);
+    justify-content: center;
     height: 18vh;
     display: flex;
     flex-direction: column;
@@ -112,4 +115,26 @@ h1 {
     border-radius: 10px;
     width: 50%;
     box-shadow: 0 0 0.9vh rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 920px) {
+    .container-kpi {
+        flex-direction: column;
+    }
+
+    .kpi-1, .kpi-2, .kpi-3 {
+        width: 100%;
+    }
+
+    .container-grafico2 {
+        flex-direction: column;
+    }
+
+    .grafico2 {
+        width: 100%;
+    }
+
+    .container {
+        margin-top: 10vh;
+    }
 }
