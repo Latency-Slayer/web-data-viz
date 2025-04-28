@@ -68,23 +68,25 @@ button {
 .header-titulo{
     margin-left: 50px;
 }
+
 .header-titulo hr {
     width: 97%;
     border:1px solid rgba(238, 238, 238, 1);
 }
 .titulo{
     display: flex;
+    justify-content: space-between;
 }
 .titulo h1 {
     color: #3A2E5D;
     font-size: 60px;
 }
 .alerta-popup {
-  position: fixed; 
-  top: 20px; 
-  right: 30px; 
+  right: 30px;
+  margin-top: 2vh;
+  margin-right: 2vh;  
   background-color: red;
-  width: auto;
+  width: 70px;
   padding: 0 20px;
   align-items: center;
   display: flex;
@@ -114,6 +116,7 @@ button {
     border-radius: 12px;
     overflow: auto;
 }
+
 .lista-maquina h2{
     margin-left: 30px;
     color: rgba(58, 46, 93, 1);
@@ -143,7 +146,7 @@ button {
 }
 thead th,
 tbody td {
-  padding: 1rem 2rem;
+  padding: 1rem 1rem;
   border-bottom: 1px solid #ddd;
   vertical-align: middle;
   text-align: center;
@@ -206,6 +209,10 @@ thead th {
   thead th,
   tbody td {
     padding: 1.5rem;
+  }
+
+  .titulo {
+    flex-direction: column;
   }
 }
 
