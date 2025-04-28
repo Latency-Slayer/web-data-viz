@@ -84,5 +84,6 @@ a:hover{
     border-radius: 10px;
     color: #F9FAFB;
     border: none;
+    cursor: pointer;
     background-color: #3A2E5D;
 }
