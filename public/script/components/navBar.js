@@ -250,9 +250,9 @@ hr {
         
             <div class="mobileMenu">
         <div class="infos">
-            <h2 class="nomeEmpresa">Nome Empresa</h2>
+            <h2 class="nomeEmpresa">${sessionStorage.COMMERCIAL_NAME}</h2>
             <h2 class="pipe">ㅤ|ㅤ</h2>
-            <h2 class="colaborador">Colaborador</h2>
+            <h2 class="colaborador">${sessionStorage.NAME_USER}</h2>
         </div>
         <button id="abrirMenu" onclick="abrirMenu()">
             <div class="line"></div>
