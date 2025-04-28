@@ -119,12 +119,6 @@
         var dash8 = document.getElementById("dashTempoReal3");
         var dash9 = document.getElementById("dashTempoReal4");
 
-        var registrarServidor = document.getElementById("registrarServidor")
-        var alertas = document.getElementById("alertas")
-        var gerenciarUsuario = document.getElementById("gerenciarUsuario")
-
-        console.log(sessionStorage.getItem('ROLE_USER'));
-
         if (sessionStorage.getItem('ROLE_USER') == 'Analista de Suporte') {
             dash.style.display = "none";
             dash1.style.display = "none";
@@ -132,20 +126,13 @@
             dash3.style.display = "none";
             dash4.style.display = "none";
         }
+        
         if (sessionStorage.getItem('ROLE_USER') == 'Analista de Dados') {
             dash5.style.display = "none";
             dash6.style.display = "none";
             dash7.style.display = "none";
             dash8.style.display = "none";
             dash9.style.display = "none";
-
-            gerenciarUsuario.style.display = "none"
-            registrarServidor.style.display = "none"
-            alertas.style.display = "none"
-        }
-        if (sessionStorage.getItem('ROLE_USER') == 'Gerente') {
-            gerenciarUsuario.style.display = "none"
-            registrarServidor.style.display = "none"
         }
 
     </script>
