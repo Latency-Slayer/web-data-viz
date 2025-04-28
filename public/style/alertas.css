@@ -179,3 +179,9 @@ thead th {
     padding: 1.5rem;
   }
 }
+
+@media (max-width: 1700px) {
+  main {
+    justify-content: start;
+  }
+}
