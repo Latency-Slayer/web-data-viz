@@ -45,11 +45,11 @@
 
             <div class="moreOptions">
                 <li>
-                    <div class="servers"><a href="#">Servidores</a></div>
-                    <div class="registerServer"><a href="#">Registrar servidor</a></div>
-                    <div class="alerts"><a href="#">Alertas</a></div>
-                    <div class="manageUsers"><a href="#">Gerenciar usuários</a></div>
-                    <div class="support"><a href="#">Suporte</a></div>
+                    <div class="servers" style="display: none;"><a href="#">Servidores</a></div>
+                    <div class="registerServer" style="display: none;"><a href="#">Registrar servidor</a></div>
+                    <div class="alerts" style="display: none;"><a href="#">Alertas</a></div>
+                    <div class="manageUsers" style="display: none;"><a href="#">Gerenciar usuários</a></div>
+                    <div class="support" style="display: none;"><a href="#">Suporte</a></div>
                     <div class="editProfile"><a href="#">Editar perfil</a></div>
                     <div class="exit"><a href="#">Encerrar sessão</a></div>
                 </li>
@@ -169,6 +169,10 @@
         display: flex;
     }
 
+    .moreOptions li {
+        width: 100%;
+    }
+
     @media (max-width: 1350px) {
         .navDesktop {
             display: none;
@@ -199,11 +203,19 @@
         a, .name, .nameMinScreen {
             font-size: 28px;
         }
+
+        .support {
+            display: flex !important;
+        }
     }
 
     @media (max-width: 1215px) {
         .alerts {
             display: none;
+        }
+
+        .moreOptions .alerts {
+            display: flex !important;
         }
     }
 
@@ -211,11 +223,19 @@
         .registerServer {
             display: none;
         }
+
+        .moreOptions .registerServer {
+            display: flex !important;
+        }
     }
 
     @media (max-width: 670px) {
         .servers {
             display: none;
+        }
+
+        .moreOptions .servers {
+            display: flex !important;
         }
     }
 
