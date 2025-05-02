@@ -26,8 +26,7 @@
             <nav class="navMobile">
                 <div class="profile">
                     <!-- <div class="name">${sessionStorange.NAME_USER}▼ㅤ</div> -->
-                     <div class="name" onclick=""><span class="arrowDown">▼ㅤ</span>Roberta</div>
-                     <div class="nameMinScreen" style="display: none;" onclick=""><span class="arrowDown">▼</span>Roberta</div>
+                     <div class="name" onclick="">Roberta</div>
                 </div>
 
                 <li>
@@ -36,7 +35,7 @@
                     <ul class="alerts"><a href="#">Alertas</a></ul>
                 </li>
 
-                <div class="menu">
+                <div class="menu" onclick="abrirOptions()">
                     <div class="line"></div>
                     <div class="line"></div>
                     <div class="line"></div>
@@ -207,6 +206,16 @@
         .support {
             display: flex !important;
         }
+
+        .moreOptions {
+        left: 75vw;
+        width: 20vw;
+        }
+
+        .moreOptions div a {
+        font-size: 2vw;
+        /* border: solid; */
+    }
     }
 
     @media (max-width: 1215px) {
@@ -227,6 +236,16 @@
         .moreOptions .registerServer {
             display: flex !important;
         }
+
+        .moreOptions {
+            width: 30vw;
+            left: 65vw;
+        }
+
+        .moreOptions div a {
+        font-size: 2.3vw;
+        /* border: solid; */
+    }
     }
 
     @media (max-width: 670px) {
@@ -237,6 +256,16 @@
         .moreOptions .servers {
             display: flex !important;
         }
+
+        .moreOptions {
+            width: 40vw;
+            left: 50vw;
+        }
+
+        .moreOptions div a {
+        font-size: 3.2vw;
+        /* border: solid; */
+    }
     }
 
     @media (max-width: 430px) {
@@ -244,21 +273,22 @@
             padding: 0 25px 0 0;
         }
 
-        a, .name, .nameMinScreen {
+        a, .name {
             font-size: 3vh;
             padding: 0 25px;
         }
-    }
 
-    @media (max-width: 330px) {
-        .name {
-            display: none;
+        .moreOptions {
+            width: 45vw;
+            left: 40vw;
         }
 
-        .nameMinScreen {
-            display: flex !important;
-        }
+        .moreOptions div a {
+        font-size: 4vw;
+        /* border: solid; */
     }
+    }
+
 
 </style>
 
