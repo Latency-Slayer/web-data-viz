@@ -1,281 +1,295 @@
 const parentElement = document.currentScript.parentElement;
 const page = document.currentScript.getAttribute("page");
 
-function abrirMenu() {
-    const conteudo = document.querySelector(".menuConteudo");
-    const menu = document.querySelector(".menu");
+    function abrirOptions() {
+        const opcoes = document.querySelector(".moreOptions");
 
-    if (menu.classList.contains("open")) {
-        menu.classList.remove("open")
-        conteudo.classList.remove("open")
-    } else {
-        menu.classList.add("open")
-        conteudo.classList.add("open")
+        if(opcoes.classList.contains("open")) {
+            opcoes.classList.remove("open")
+        } else {
+            opcoes.classList.add("open")
+        }
+
     }
-}
 
 parentElement.insertAdjacentHTML("afterbegin", `
-    <style>
-.navbar {
-    display: flex;
-    flex-direction: column;
-    width: 15vw;
-    height: 100vh;
-    background-color: rgba(86, 64, 140, 1);
-    color: rgba(255, 255, 255, 1);
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 5vh;
-}
-.profile{
-    margin-top: 4vh;
-    display: flex;
-    flex-direction: column;
-    text-align: left;
-    width: 100%;
-}
+   <style>
+    /* Fonte Poppins */
 
-hr {
-    height: .2vh;
-    background: #DADFD2;
-    background: linear-gradient(90deg, rgba(218, 223, 210, 1) 0%, rgba(218, 223, 210, 0) 100%);
-    border: none;
-    margin: 2.6vh 0;
-}
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-#company, #user{
-    font-size: 5vh;
-}
-
-#cargo {
-    font-size: 2vh;
-}
-
-.btnsNav{
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    justify-content: space-around
-}
-
-.buttonNav {
-    color: white;
-    font-size: 2.4vh;
-    text-decoration: none;
-    border-radius: 5px;
-    padding: 0 10px;
-}
-
-.buttonNav button {
-    all: unset;
-    display: flex;
-    width: 15vw;
-    padding: 1.5vh 0;
-    justify-content: start;
-    border-radius: 5px;
-    transition: 0.3s ease-in-out;
-    align-items: center;
-    gap: 25px;
-}
-
-.nav-icon {
-    font-size: 30px;
-}
-
-.buttonNav:hover, .encerrar:hover{
-    cursor: pointer;
-    background-color: rgb(105, 85, 157);
-
-    /*transform: scale(1.05);*/
-    text-decoration: none;
-}
-
-.buttonNav.active {
-    background-color: white;
-    color: #563f8c;
-}
-
-.encerrar{
-    display: flex;
-    align-items: center;
-    transition: 0.3s ease-in-out;
-    border-radius: 5px;
-    gap: 25px;
-}   
-
-.logout{
-    all: unset;
-    display: flex;
-    border: none;
-    height: 4vh;
-    justify-content: start;
-    align-items: center;
-    font-size: 2.4vh;
-    padding: 2.6vh 0;
-}
-
-.mobileMenu {
-    display: none;
-}
-
-.menuConteudo {
-    display: none;
-}
-
-@media (max-width: 600px) {
-    .nomeEmpresa, .pipe {
-        display: none !important;
+    body {
+        margin: 0;
+        font-family: "Poppins";
+        background: #F9FAFB;
     }
-
-    .menu.open {
-        width: 30vh !important;
-    }
-}
-
-@media (max-width: 1700px) {
 
     .container {
-    height: 90vh;
-    margin-top: 10vh; 
-    }
-
-    .menuConteudo.open {
+        margin: 0;
         display: flex;
-        justify-content: center;
-        color: white;
     }
 
-    .navbar {
+    .navDesktop, .navMobile {
+        display: flex;
+        height: 100px;
+        width: 100%;
+        background: #F9FAFB;
+        border-bottom: solid rgba(0, 0, 0, 0.3);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        justify-content: space-between;
+    }
+
+    .navMobile {
         display: none;
     }
 
-    main {
-        flex-direction: column; 
+    ul, .name, .nameMinScreen {
+        /* border: solid; */
+        margin-block-start: 0;
+        margin-block-end: 0;
+        padding-inline-start: 0;
+        padding: 0 50px;
     }
 
-    .mobileMenu {
+    li, .name, .nameMinScreen, .profile {
         display: flex;
-        position: fixed;
-        z-index: 999;
-        width: 100%;
-        justify-content: space-between;
-        height: 6vh;
-        background-color: #563f8c;
-        padding: 2vh 0;
-    }
-
-    .infos {
-    display: flex;
-    padding: 1vh;
-    }
-
-    .mobileMenu h2 {
-        display: flex;
-        text-align: center;
-        justify-content: center;
         align-items: center;
-        color: white;
-        font-weight: 500;
-        height: 100%
+        height: 100%;
+        /* border: solid; */
     }
 
-    #abrirMenu {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        background-color: transparent;
-        border: none;
-        padding: 1vh;
-        cursor: pointer
+    a, .name, .nameMinScreen {
+        text-decoration: none;
+        color: #56408C;
+        font-weight: 400;
+        font-size: 1.5vw;
+        transition: linear 0.3s;
+        cursor: pointer;
     }
 
-    .line {
-        height: 0.8vh;
-        background-color: white;
-        width: 6vh;
-        border-radius: 1vh;
+    a:hover, .name:hover, .nameMinScreen:hover {
+        color: #8564db;
     }
 
-    .menu {
-        margin-top: 10vh;
+    .arrowDown {
+        transform: scaleY(0.8);
+    }
+
+    .moreOptions {
+        display: none;
+        background: white;
+        border: solid 2px gainsboro;
         position: absolute;
-        transform: translateX(80vh);
-        transition: all 0.1s;
+        top: 80px;
+        left: 85vw;
+        padding: 0 1rem;
+        width: 10vw;
+        border-radius: 8px;
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .moreOptions li {
+        flex-direction: column;
+        align-items: start;
+    }
+
+    .moreOptions div {
+        display: flex;
+        padding: 1vh 0;
+        width: 100%;
+        border-bottom: gainsboro solid thin;
+        transition: linear 0.3s;
+    }
+
+    .exit {
+        border: none !important;
+    }
+
+    .moreOptions div a {
+        padding: 0;
+        font-size: 1vw;
+        color: gray;
+        opacity: 0.8;
+        width: 100%;
+        /* border: solid; */
+    }
+
+    .moreOptions div a:hover {
+        opacity: 1;
+        color: #56408C;
+    }
+
+    .moreOptions.open {
+        display: flex;
+    }
+
+    .moreOptions li {
+        width: 100%;
+    }
+
+    @media (max-width: 1350px) {
+        .navDesktop {
+            display: none;
+        }
+
+        .navMobile {
+            display: flex;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            width: 60px;
+            justify-content: center;
+            padding: 0 50px;
+            /* border: solid; */
+            cursor: pointer;
         }
         
-        
-        .menu.open {
-            transform: translateX(0);
-            display: flex;
-            align-self: end;
-            // border: solid red 3px;
-            height: 90vh;
-            width: 35vw;
-            position: fixed;
-            transition: linear 0.5s;
-            background-color: #563f8c;
-            z-index: 999;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-            justify-content: center;
+        .line {
+            background-color: #56408C;
+            height: 0.8vh;
+            width: 100%;
+            /* border-radius: 8px; */
+            margin: 5px 0;
+        }
+
+        a, .name, .nameMinScreen {
+            font-size: 28px;
+        }
+
+        .support {
+            display: flex !important;
+        }
+
+        .moreOptions {
+        left: 75vw;
+        width: 20vw;
+        }
+
+        .moreOptions div a {
+        font-size: 2vw;
+        /* border: solid; */
     }
-}
+    }
 
-    </style>
+    @media (max-width: 1215px) {
+        .alerts {
+            display: none;
+        }
 
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    
-        <div class="navbar">
-            <div class="profile">
-                <span class="titulo" id="company">${sessionStorage.COMMERCIAL_NAME}</span>
-                <hr>
-                <span class="titulo" id="user">${sessionStorage.NAME_USER}</span>
-                <span class="titulo" id="cargo">${sessionStorage.ROLE_USER}</span>
-                <hr>
-            </div>
-            
-            <div class="btnsNav">
-                <a class="buttonNav ${page === 'servidores' ? 'active' : ''}" href="./listaServidores.html"><button><i class='bx bxs-server nav-icon'></i>Servidores</button></a>
-                <a class="buttonNav ${page === 'registrarServidor' ? 'active' : ''}" href="./cadastroMaquina.html"><button id="registrarServidor"><i class='bx bx-desktop nav-icon'></i>Registrar Servidor</button></a>
-                <a class="buttonNav ${page === 'alertas' ? 'active' : ''}" href="./alertas.html"><button id="alertas"><i class='bx bxs-bell nav-icon'></i>Alertas</button></a>
-                <a class="buttonNav ${page === 'gerenciarUsuarios' ? 'active' : ''}" href="./usuarios.html"><button id="gerenciarUsuario"> <i class='bx bxs-user-account nav-icon'></i>Gerenciar Usuários</button></a>
-                <a class="buttonNav ${page === 'editarPerfil' ? 'active' : ''}" href="./editarPerfil.html"><button><i class='bx bxs-user-circle nav-icon'></i>Editar Perfil</button></a>
-                <hr>
-                <div class="encerrar">
-                    <i class='bx bx-log-in nav-icon'></i>
-                    <button class="logout" onclick="window.location.href='index.html'">Encerrar Sessão</button>
+        .moreOptions .alerts {
+            display: flex !important;
+        }
+    }
+
+    @media (max-width: 1020px) {
+        .registerServer {
+            display: none;
+        }
+
+        .moreOptions .registerServer {
+            display: flex !important;
+        }
+
+        .moreOptions {
+            width: 30vw;
+            left: 65vw;
+        }
+
+        .moreOptions div a {
+        font-size: 2.3vw;
+        /* border: solid; */
+    }
+    }
+
+    @media (max-width: 670px) {
+        .servers {
+            display: none;
+        }
+
+        .moreOptions .servers {
+            display: flex !important;
+        }
+
+        .moreOptions {
+            width: 40vw;
+            left: 50vw;
+        }
+
+        .moreOptions div a {
+        font-size: 3.2vw;
+        /* border: solid; */
+    }
+    }
+
+    @media (max-width: 430px) {
+        .menu {
+            padding: 0 25px 0 0;
+        }
+
+        a, .name {
+            font-size: 3vh;
+            padding: 0 25px;
+        }
+
+        .moreOptions {
+            width: 45vw;
+            left: 40vw;
+        }
+
+        .moreOptions div a {
+        font-size: 4vw;
+        /* border: solid; */
+    }
+    }
+
+
+</style>
+
+            <nav class="navDesktop">
+                <li>
+                    <ul class="servers"><a href="#">Servidores</a></ul>
+                    <ul class="registerServer"><a href="#">Registrar servidor</a></ul>
+                    <ul class="alerts"><a href="#">Alertas</a></ul>
+                    <ul class="manageUsers"><a href="#">Gerenciar usuários</a></ul>
+                    <ul class="support"><a href="#">Suporte</a></ul>
+                </li>
+
+                <div class="profile">
+                     <div class="name" onclick="abrirOptions()">${sessionStorage.NAME_USER} <span class="arrowDown">ㅤ▼</span></div>
                 </div>
-            </div>
-        </div>  
-        
-            <div class="mobileMenu">
-        <div class="infos">
-            <h2 class="nomeEmpresa">${sessionStorage.COMMERCIAL_NAME}</h2>
-            <h2 class="pipe">ㅤ|ㅤ</h2>
-            <h2 class="colaborador">${sessionStorage.NAME_USER}</h2>
-        </div>
-        <button id="abrirMenu" onclick="abrirMenu()">
-            <div class="line"></div>
-            <div class="line"></div>
-            <div class="line"></div>
-        </button>
-    </div>
+            </nav>
 
-    <div class="menu">
-        <div class="menuConteudo">
-                        <div class="btnsNav">
-                <a class="buttonNav ${page === 'servidores' ? 'active' : ''}" href="./listaServidores.html"><button><i class='bx bxs-server nav-icon'></i>Servidores</button></a>
-                <a class="buttonNav ${page === 'registrarServidor' ? 'active' : ''}" href="./cadastroMaquina.html"><button id="registrarServidor"><i class='bx bx-desktop nav-icon'></i>Registrar Servidor</button></a>
-                <a class="buttonNav ${page === 'alertas' ? 'active' : ''}" href="./alertas.html"><button id="alertas"><i class='bx bxs-bell nav-icon'></i>Alertas</button></a>
-                <a class="buttonNav ${page === 'gerenciarUsuarios' ? 'active' : ''}" href="./usuarios.html"><button id="gerenciarUsuario"> <i class='bx bxs-user-account nav-icon'></i>Gerenciar Usuários</button></a>
-                <a class="buttonNav ${page === 'editarPerfil' ? 'active' : ''}" href="./editarPerfil.html"><button><i class='bx bxs-user-circle nav-icon'></i>Editar Perfil</button></a>
-                <hr>
-                <div class="encerrar">
-                    <i class='bx bx-log-in nav-icon'></i>
-                    <button class="logout" onclick="window.location.href='index.html'">Encerrar Sessão</button>
+            <nav class="navMobile">
+                <div class="profile">
+                     <div class="name" onclick="">${sessionStorage.NAME_USER}</div>
                 </div>
+
+                <li>
+                    <ul class="servers"><a href="#">Servidores</a></ul>
+                    <ul class="registerServer"><a href="#">Registrar servidor</a></ul>
+                    <ul class="alerts"><a href="#">Alertas</a></ul>
+                </li>
+
+                <div class="menu" onclick="abrirOptions()">
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                </div>
+            </nav>
+
+            <div class="moreOptions">
+                <li>
+                    <div class="servers" style="display: none;"><a href="#">Servidores</a></div>
+                    <div class="registerServer" style="display: none;"><a href="#">Registrar servidor</a></div>
+                    <div class="alerts" style="display: none;"><a href="#">Alertas</a></div>
+                    <div class="manageUsers" style="display: none;"><a href="#">Gerenciar usuários</a></div>
+                    <div class="support" style="display: none;"><a href="#">Suporte</a></div>
+                    <div class="editProfile"><a href="#">Editar perfil</a></div>
+                    <div class="exit"><a href="#">Encerrar sessão</a></div>
+                </li>
             </div>
-        </div>
-    </div>
 `);
 
 var registrarServidor = document.getElementById("registrarServidor")
