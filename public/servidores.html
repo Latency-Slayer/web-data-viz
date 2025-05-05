@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <title>Servidores</title>
@@ -11,97 +11,83 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style/servidores.css">
     <!-- ---------------------------------------------------------- -->
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: "Poppins";
-        }
-
-        .container {
-            margin: 0 auto;
-            width: 85%;
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
-
-        alert-card {
-            flex-basis: calc((100% / 3) - 20px);
-            margin-bottom: 20px;
-        }
-
-        @media (max-width: 1775px) {
-            alert-card {
-                flex-basis: calc((100% / 2) - 20px);
-            }
-        }
-
-        @media (max-width: 1050px) {
-            .container {
-                margin: 0 auto;
-                width: 90%;
-                display: flex;
-                flex-direction: column;
-            }
-
-            alert-card {
-                flex-basis: calc(100% - 20px);
-            }
-        }
-    </style>
 </head>
 <body>
+    <main>
+        <nav-bar></nav-bar>
 
-    <nav-bar></nav-bar>
-    <div class="container">
-        <alert-card
-                criticality="Crítico"
-                component="CPU"
-                tagName="Servidor 01"
-                uuid="HNZ-202112132021"
-                desc="O processador ultrapassou o limite máximo de temperatura."
-                capturing="85C°"
-                limit="75C°"
-                datetime="01/05/2025 21:00:20"
-        ></alert-card>
+        <div class="sorts">
+            
+            <div class="left">
+                <div class="sortBtn">
+                    <img src="img/filterIcon.png" alt="">
+                    Filtrar
+                </div>
 
-        <alert-card
-                criticality="Crítico"
-                component="CPU"
-                tagName="Servidor 01"
-                uuid="HNZ-202112132021"
-                desc="O processador ultrapassou o limite máximo de temperatura."
-                capturing="85C°"
-                limit="75C°"
-                datetime="01/05/2025 21:00:20"
-        ></alert-card>
+                <div class="sortBtn">
+                    <img src="img/sortIcon.png" alt="">
+                    Ordenar
+                </div>
+            </div>
 
-        <alert-card
-                criticality="Crítico"
-                component="CPU"
-                tagName="Servidor 01"
-                uuid="HNZ-202112132021"
-                desc="O processador ultrapassou o limite máximo de temperatura."
-                capturing="85C°"
-                limit="75C°"
-                datetime="01/05/2025 21:00:20"
-        ></alert-card>
 
-        <alert-card
-                criticality="Crítico"
-                component="CPU"
-                tagName="Servidor 01"
-                uuid="HNZ-202112132021"
-                desc="O processador ultrapassou o limite máximo de temperatura."
-                capturing="85C°"
-                limit="75C°"
-                datetime="01/05/2025 21:00:20"
-        ></alert-card>
-    </div>
+            <div class="right">
+                <div class="sortBtn">
+                    <img src="img/allServersIcon.png" alt="">
+                    Ver todos os servidores
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <alert-card
+                    criticality="Crítico"
+                    component="CPU"
+                    tagName="Servidor 01"
+                    uuid="HNZ-202112132021"
+                    desc="O processador ultrapassou o limite máximo de temperatura."
+                    capturing="85C°"
+                    limit="75C°"
+                    datetime="01/05/2025 21:00:20"
+            ></alert-card>
+    
+            <alert-card
+                    criticality="Crítico"
+                    component="CPU"
+                    tagName="Servidor 01"
+                    uuid="HNZ-202112132021"
+                    desc="O processador ultrapassou o limite máximo de temperatura."
+                    capturing="85C°"
+                    limit="75C°"
+                    datetime="01/05/2025 21:00:20"
+            ></alert-card>
+    
+            <alert-card
+                    criticality="Crítico"
+                    component="CPU"
+                    tagName="Servidor 01"
+                    uuid="HNZ-202112132021"
+                    desc="O processador ultrapassou o limite máximo de temperatura."
+                    capturing="85C°"
+                    limit="75C°"
+                    datetime="01/05/2025 21:00:20"
+            ></alert-card>
+    
+            <alert-card
+                    criticality="Crítico"
+                    component="CPU"
+                    tagName="Servidor 01"
+                    uuid="HNZ-202112132021"
+                    desc="O processador ultrapassou o limite máximo de temperatura."
+                    capturing="85C°"
+                    limit="75C°"
+                    datetime="01/05/2025 21:00:20"
+            ></alert-card>
+        </div>
+    </main>
 
 
 </body>

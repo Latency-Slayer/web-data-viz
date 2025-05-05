@@ -31,8 +31,8 @@ class NavBarComponent extends HTMLElement {
         height: 100px;
         width: 100%;
         background: #F9FAFB;
-        border-bottom: solid rgba(0, 0, 0, 0.3);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        border-bottom: solid rgba(0, 0, 0, 0.3) 1px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
         justify-content: space-between;
     }
 
@@ -83,6 +83,7 @@ class NavBarComponent extends HTMLElement {
         width: 10vw;
         border-radius: 8px;
         box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+        z-index: 2;
     }
 
     .moreOptions li {
