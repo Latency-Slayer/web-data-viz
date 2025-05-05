@@ -35,8 +35,7 @@ class AlertCard extends HTMLElement {
                 }
             
                 .card {
-                    min-width: 350px;
-                    height: 215px;
+                    /*height: 215px;*/
                     border: 2px solid rgba(103,86,147,0.47);
                     box-shadow: 1px 1px 3px rgba(58,46,93,0.3);
                     border-radius: 8px;
@@ -154,32 +153,57 @@ class AlertCard extends HTMLElement {
                 
                  @media (max-width: 1050px) {
                     .card {
-                        padding: 10px 20px;
-                        height: 400px;
+                        padding: 20px 20px;
                     }
                  
                     .label {
-                        font-size: 2.2rem;
+                        font-size: 2.2vw;
                     }
                  
                     .identification h1 {
-                        font-size: 3.5rem;
+                        font-size: 4vw;
                     }
                     
                     .identification span {
-                        font-size: 2.5rem;
+                        font-size: 3vw;
                     }
                     
                     .desc span {
-                        font-size: 2.3rem;
+                        font-size: 2.8vw;
                     }
                     
                     .info {
-                        border-radius: 3px;
-                        padding: 4px 10px;
-                        font-weight: 400;
-                        
-                        font-size: 2rem;
+                        font-size: 2.5vw;
+                    }
+                 }
+                 
+                 @media (max-width: 550px) {                 
+                    .label {
+                        font-size: 3.5vw;
+                    }
+                 
+                    .identification h1 {
+                        font-size: 7vw;
+                    }
+                    
+                    .identification span {
+                        font-size: 5vw;
+                    }
+                    
+                    .desc span {
+                        font-size: 4vw;
+                    }
+                    
+                    .info {                        
+                        font-size: 3vw;
+                    }
+                
+                 }
+                 
+                 
+                 @media (max-width: 400px) {
+                    .info {                 
+                        font-size: 2.9vw;
                     }
                 
                  }
