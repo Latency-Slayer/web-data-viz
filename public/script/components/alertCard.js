@@ -36,8 +36,8 @@ class AlertCard extends HTMLElement {
             
                 .card {
                     /*height: 215px;*/
-                    border: 2px solid rgba(103,86,147,0.47);
-                    box-shadow: 1px 1px 3px rgba(58,46,93,0.3);
+                    border: rgba(58, 46, 93, 0.3) solid 1px;
+                    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
                     border-radius: 8px;
                     padding: 20px 20px;
                     
@@ -92,7 +92,7 @@ class AlertCard extends HTMLElement {
                 }
                 
                 .identification span {
-                    color: #3A2E5D;
+                    color: rgba(58, 46, 93, 0.8);
                     font-weight: 400;
                     font-size: 1.2rem;
                 }
@@ -102,7 +102,8 @@ class AlertCard extends HTMLElement {
                 }
                 
                 .desc span {
-                    font-size: 1.2rem; 
+                    font-size: 1.2rem;
+                    color: #3A2E5D;
                 }
                 
                 .infos {
