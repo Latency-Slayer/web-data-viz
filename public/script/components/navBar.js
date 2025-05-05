@@ -1,35 +1,32 @@
 const parentElement = document.currentScript.parentElement;
 const page = document.currentScript.getAttribute("page");
 
-    function abrirOptions() {
-        const opcoes = document.querySelector(".moreOptions");
 
-        if(opcoes.classList.contains("open")) {
-            opcoes.classList.remove("open")
-        } else {
-            opcoes.classList.add("open")
-        }
-
+class NavBarComponent extends HTMLElement {
+    constructor() {
+        super();
+        this.attachShadow({ mode: 'open' });
     }
 
-parentElement.insertAdjacentHTML("afterbegin", `
-   <style>
-    /* Fonte Poppins */
-
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
-    body {
-        margin: 0;
-        font-family: "Poppins";
-        background: #F9FAFB;
+    connectedCallback() {
+        this.render();
+        this.shadowRoot.querySelectorAll('.toggleOptions').forEach(el =>
+            el.addEventListener('click', this.toggleOptions.bind(this))
+        );
     }
 
-    .container {
-        margin: 0;
-        display: flex;
+    toggleOptions() {
+        const opcoes = this.shadowRoot.querySelector(".moreOptions");
+        opcoes.classList.toggle("open");
     }
+
+    render() {
+        this.shadowRoot.innerHTML = `
+
+            <style>
 
     .navDesktop, .navMobile {
+
         display: flex;
         height: 100px;
         width: 100%;
@@ -257,13 +254,13 @@ parentElement.insertAdjacentHTML("afterbegin", `
                 </li>
 
                 <div class="profile">
-                     <div class="name" onclick="abrirOptions()">${sessionStorage.NAME_USER} <span class="arrowDown">ㅤ▼</span></div>
+                     <div class="name toggleOptions">${sessionStorage.NAME_USER || 'Ghost'} <span class="arrowDown">ㅤ▼</span></div>
                 </div>
             </nav>
 
             <nav class="navMobile">
                 <div class="profile">
-                     <div class="name" onclick="">${sessionStorage.NAME_USER}</div>
+                     <div class="name">${sessionStorage.NAME_USER || 'Ghost'}</div>
                 </div>
 
                 <li>
@@ -272,7 +269,7 @@ parentElement.insertAdjacentHTML("afterbegin", `
                     <ul class="alerts"><a href="#">Alertas</a></ul>
                 </li>
 
-                <div class="menu" onclick="abrirOptions()">
+                <div class="menu toggleOptions">
                     <div class="line"></div>
                     <div class="line"></div>
                     <div class="line"></div>
@@ -290,7 +287,11 @@ parentElement.insertAdjacentHTML("afterbegin", `
                     <div class="exit"><a href="#">Encerrar sessão</a></div>
                 </li>
             </div>
-`);
+        `;
+    }
+}
+
+customElements.define('nav-bar', NavBarComponent);
 
 var registrarServidor = document.getElementById("registrarServidor")
 var alertas = document.getElementById("alertas")
