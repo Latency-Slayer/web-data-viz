@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latency Slayer - Dashboard Usuários</title>
+
+    <script src="script/components/alertaChamado.js"></script>
+    <script src="script/components/navBar.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style/dashJiraSlack.css">
+</head>
+<body>
+    <main>
+        <nav-bar></nav-bar>
+
+        <div class="container-kpi">
+            <div class="kpi-1">
+                <h2>Chamados Pendentes</h2>
+                <span>7</span>
+            </div>
+            <div class="kpi-2">
+                <h2>Chamados Andamento</h2>
+                <span>18</span>
+            </div>
+            <div class="kpi-3">
+                <h2>Chamados Concluídos</h2>
+                <span>40</span>
+            </div>
+            <div class="kpi-4">
+                <h2>Tempo Médio de Resposta</h2>
+                <span>26 minutos</span>
+            </div>
+        </div>
+        <div class="sorts">
+            
+            <div class="left">
+                <div class="sortBtn">
+                    <img src="img/filterIcon.png" alt="">
+                    Filtrar
+                </div>
+
+                <div class="sortBtn">
+                    <img src="img/sortIcon.png" alt="">
+                    Ordenar
+                </div>
+            </div>
+
+
+            <div class="right">
+                <div class="sortBtn">
+                    <img src="img/allServersIcon.png" alt="">
+                    Ver todos os chamados
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <alerta-chamado
+                    criticality="Andamento"
+                    time="40 minuto atrás"
+                    responsavel="Cliente 1"
+                    desc="Não consigo acessar a minha conta."
+                    datetime="01/05/2025 21:00:20"
+                    suporte="Guilherme"
+                    comentario="Problema resolvido com sucesso!"
+            ></alerta-chamado>
+
+            <alerta-chamado
+                    criticality="Pendente"
+                    time="30 minuto atrás"
+                    responsavel="Cliente 2"
+                    desc="Não consigo acessar a minha conta."
+                    datetime="01/05/2025 21:00:20"
+                    suporte="Guilherme"
+            ></alerta-chamado>
+
+            <alerta-chamado
+                    criticality="Concluido"
+                    time="1 minuto atrás"
+                    responsavel="Cliente 3"
+                    desc="Não consigo acessar a minha conta."
+                    datetime="01/05/2025 21:00:20"
+                    suporte="Guilherme"
+            ></alerta-chamado>
+
+            <alerta-chamado
+                    criticality="Andamento"
+                    time="10 minuto atrás"
+                    responsavel="Cliente 4"
+                    desc="Não consigo acessar a minha conta."
+                    datetime="01/05/2025 21:00:20"
+                    suporte="Guilherme"
+            ></alerta-chamado>
+
+            <alerta-chamado
+                    criticality="Andamento"
+                    time="6 minuto atrás"
+                    responsavel="Cliente 5"
+                    desc="Não consigo acessar a minha conta."
+                    datetime="01/05/2025 21:00:20"
+                    suporte="Guilherme"
+            ></alerta-chamado>
+
+            <alerta-chamado
+                    criticality="Concluido"
+                    time="2 horas atrás"
+                    responsavel="Cliente 6"
+                    desc="Não consigo acessar a minha conta."
+                    datetime="01/05/2025 21:00:20"
+                    suporte="Guilherme"
+            ></alerta-chamado>
+
+        </div>
+    </main>
+</body>
+</html>
