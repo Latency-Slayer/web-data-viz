@@ -9,14 +9,50 @@
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://unpkg.com/tippy.js@6"></script>
 
+    <script src="https://unpkg.com/slim-select@latest/dist/slimselect.min.js"></script>
+    <link href="https://unpkg.com/slim-select@latest/dist/slimselect.css" rel="stylesheet"></link>
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
+
+    <!--    Import de componentes-->
     <script src="./components/Kpi.js"></script>
+    <script src="./components/Filter.js"></script>
 
     <title>Dashboard - Business Intelligence</title>
 </head>
 <body class="bg-gray-200">
     <nav-bar></nav-bar>
+
+    <div class="border h-fit w-1/2">
+        <filter-select
+                options="[
+                    {
+                        text: 'América',
+                        value: 'america'
+                    },
+                    {
+                        text: 'Europa',
+                        value: 'europa'
+                    },
+                    {
+                        text: 'Oceania',
+                        value: 'oceania'
+                    },
+                    {
+                        text: 'Asia',
+                        value: 'asia'
+                    },
+                    {
+                        text: 'África',
+                        value: 'africa'
+                    }
+                ]"
+                filter-name="Continente"
+                icon="bi-globe2"
+            >
+        </filter-select>
+    </div>
 
     <div class="flex justify-between gap-10 w-2/3">
         <kpi-card
