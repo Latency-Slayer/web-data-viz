@@ -2,31 +2,46 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
-    <script src="../script/components/navBar.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif !important;
+        }
+    </style>
+    <!-- Tailwind   -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.min.js" integrity="sha384-RuyvpeZCxMJCqVUGFI0Do1mQrods/hhxYlcVfGPOfQtPJh0JCw12tUAZ/Mv10S7D" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://unpkg.com/tippy.js@6"></script>
 
-    <script src="https://unpkg.com/slim-select@latest/dist/slimselect.min.js"></script>
-    <link href="https://unpkg.com/slim-select@latest/dist/slimselect.css" rel="stylesheet"></link>
+
+    <!-- Manipulação de Mapa  -->
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf/turf.min.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.12.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.12.0/mapbox-gl.js"></script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
-
     <!--    Import de componentes-->
+    <script src="../script/components/navBar.js"></script>
     <script src="./components/Kpi.js"></script>
     <script src="./components/Filter.js"></script>
+
+    <!-- Imports  Scripts  -->
+    <script defer src="./scripts/MapBox.js"></script>
 
     <title>Dashboard - Business Intelligence</title>
 </head>
 <body class="bg-gray-200">
     <nav-bar></nav-bar>
 
-    <div class="border h-fit w-1/2">
-        <filter-select
-                options="[
+    <main class="w-[96%] m-auto">
+        <div class="h-fit w-1/2 flex my-5 gap-2">
+            <filter-select
+                    options="[
                     {
                         text: 'América',
                         value: 'america'
@@ -48,35 +63,149 @@
                         value: 'africa'
                     }
                 ]"
-                filter-name="Continente"
-                icon="bi-globe2"
+                    filter-name="Continente"
+                    icon="bi-globe2"
             >
-        </filter-select>
-    </div>
+            </filter-select>
 
-    <div class="flex justify-between gap-10 w-2/3">
-        <kpi-card
-            icon-name="bi-wifi"
-            kpi-title="Quantidade de conexões"
-            value="10.000"
-            class="w-1/3"
-            id="teste"
-            hint="Soma de todos os jogadores conectados em todos os servidores ao redor de mundo."
-        ></kpi-card>
+            <filter-select
+                    options="
+                    [
+                        {
+                            text: 'Minecraft',
+                            value: 'minecraft'
+                        },
+                        {
+                            text: 'Halo Infinite',
+                            value: 'halo_infinite'
+                        },
+                        {
+                            text: 'Forza Horizon 5',
+                            value: 'forza_horizon_5'
+                        },
+                        {
+                            text: 'Starfield',
+                            value: 'starfield'
+                        },
+                        {
+                            text: 'The Elder Scrolls V: Skyrim',
+                            value: 'skyrim'
+                        },
+                        {
+                            text: 'DOOM Eternal',
+                            value: 'doom_eternal'
+                        },
+                        {
+                            text: 'Fallout 4',
+                            value: 'fallout_4'
+                        },
+                        {
+                            text: 'Sea of Thieves',
+                            value: 'sea_of_thieves'
+                        },
+                        {
+                            text: 'Call of Duty',
+                            value: 'call_of_duty'
+                        },
+                        {
+                            text: 'Gears 5',
+                            value: 'gears_5'
+                        }
+                    ]
 
-        <kpi-card
-            icon-name="bi-hdd-stack"
-            kpi-title="Total de servidores ativos"
-            value="223"
-            class="w-1/3"
-        ></kpi-card>
+                "
+                    filter-name="Jogo"
+                    icon="bi-controller"
+            >
+            </filter-select>
+            <filter-select
+                    options="
+                    [
+                        {
+                            text: 'Minecraft',
+                            value: 'minecraft'
+                        },
+                        {
+                            text: 'Halo Infinite',
+                            value: 'halo_infinite'
+                        },
+                        {
+                            text: 'Forza Horizon 5',
+                            value: 'forza_horizon_5'
+                        },
+                        {
+                            text: 'Starfield',
+                            value: 'starfield'
+                        },
+                        {
+                            text: 'The Elder Scrolls V: Skyrim',
+                            value: 'skyrim'
+                        },
+                        {
+                            text: 'DOOM Eternal',
+                            value: 'doom_eternal'
+                        },
+                        {
+                            text: 'Fallout 4',
+                            value: 'fallout_4'
+                        },
+                        {
+                            text: 'Sea of Thieves',
+                            value: 'sea_of_thieves'
+                        },
+                        {
+                            text: 'Call of Duty',
+                            value: 'call_of_duty'
+                        },
+                        {
+                            text: 'Gears 5',
+                            value: 'gears_5'
+                        }
+                    ]
 
-        <kpi-card
-            icon-name="bi-controller"
-            kpi-title="Jogo mais jogado no momento"
-            value="Forza Horizon 5"
-            class="w-1/3"
-        ></kpi-card>
-    </div>
+                "
+                    filter-name="Periodo"
+                    icon="bi-calendar-event"
+            >
+            </filter-select>
+        </div>
+
+        <section class="flex justify-between">
+            <div class="flex justify-between gap-3 w-[53%]">
+                <kpi-card
+                        icon-name="bi-wifi"
+                        kpi-title="Quantidade de conexões"
+                        value="10.000"
+                        class="w-1/3"
+                        id="teste"
+                        hint="Soma de todos os jogadores conectados em todos os servidores ao redor de mundo."
+                ></kpi-card>
+
+                <kpi-card
+                        icon-name="bi-hdd-stack"
+                        kpi-title="Total de servidores ativos"
+                        value="223"
+                        class="w-1/3"
+                ></kpi-card>
+
+                <kpi-card
+                        icon-name="bi-controller"
+                        kpi-title="Jogo mais jogado no momento"
+                        value="Forza Horizon 5"
+                        class="w-1/3"
+                ></kpi-card>
+            </div>
+
+
+            <div class="w-[45%] h-[600px] bg-white rounded-xl flex flex-col pb-15 px-5 gap-3">
+                <h1 class="text-purple-900 font-bold text-3xl text-center">Mapa de atividade dos jogadores</h1>
+                <div id="map" class="flex-1 rounded-xl"></div>
+
+                <div class="">
+                    <i class="bi bi-geo-alt-fill text-purple-900 text-3xl"></i>
+                </div>
+            </div>
+        </section>
+    </main>
 </body>
 </html>

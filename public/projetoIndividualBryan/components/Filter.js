@@ -9,18 +9,20 @@ class Filter extends HTMLElement {
 
     render() {
         this.innerHTML = `
-                <div class="w-[calc((100%/3)-10px)] h-8 relative" id="filter-${this.getAttribute("filter-name")}">
-                    <div class="filter-content border border-purple-900 w-full h-full rounded-full flex justify-evenly items-center text-xl font-medium text-purple-900 cursor-pointer">
+                <div class="w-fit h-8 relative " id="filter-${this.getAttribute("filter-name")}">
+                    <div class="filter-content gap-3 px-5 border border-purple-900 w-full h-full rounded-full flex justify-evenly items-center text-xl font-medium text-purple-900 cursor-pointer">
                         <i class="bi ${this.getAttribute("icon")}"></i>
                         <span>${this.getAttribute("text") || this.getAttribute("filter-name")}</span>
                         <i class="bi bi-caret-down-fill"></i>
                     </div>
                 
-                    <div class="options-div w-full h-fit absolute z-10 bg-white options shadow-lg scale-y-0 origin-top transition-transform duration-300">
+                    <div class="options-div inline-block w-fit p-3 whitespace-nowrap h-fit absolute z-10 bg-white options shadow-lg scale-y-0 origin-top transition-transform duration-300">
                         
                     </div>
                 </div>
             `;
+
+
 
         this.options();
         this.openOrCloseOptions();
@@ -34,7 +36,7 @@ class Filter extends HTMLElement {
         // const icon = this.getAttribute('icon');
         const filterId = "filter-" + this.getAttribute('filter-name');
 
-        const select = document.querySelector(`#${filterId} .options`);
+        const select = this.querySelector(`#${filterId} .options`);
 
 
         select.insertAdjacentHTML("beforeend", `
@@ -97,6 +99,17 @@ class Filter extends HTMLElement {
            optionsDiv.classList.toggle('scale-y-100');
         });
 
+        this.closeOnClickOut();
+    }
+
+    closeOnClickOut() {
+        const optionsDiv = this.querySelector(".options-div");
+
+        document.addEventListener("click", (e) => {
+            if(!this.contains(e.target)) {
+                optionsDiv.classList.remove('scale-y-100');
+            }
+        });
     }
 }
 
