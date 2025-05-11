@@ -1,28 +1,17 @@
 // Documentação para marcadores: https://docs.mapbox.com/mapbox-gl-js/api/markers/#marker#getelement
 // Documentação para turfJS (Lib para colocar formas geométricas no mapa): https://turfjs.org/docs/api/circle
 
-// Latitude: -24,3436000
-// Longitude: -46,6056333
-
-// Latitude: -24,3739667
-// Longitude: -46,8024500
-
-// Latitude: -24,4902500
-// Longitude: -46,6688333
-
-// Latitude: -24,2352833,
-// Longitude: -46,6906500
-
+import "https://api.mapbox.com/mapbox-gl-js/v3.12.0/mapbox-gl.js"
 
 class MapBox {
     #map;
     defaultMarkers = [];
     #playersLayerIds = [];
 
-    constructor() {
+    constructor(container) {
         mapboxgl.accessToken = 'pk.eyJ1IjoiYnJ5YW4tcm8iLCJhIjoiY2x3ZTl5ZHZ4MWhiazJpa2h0NXFucTZ2diJ9.KygeJsIPYhDkEUZiow7P5Q';
         this.#map = new mapboxgl.Map({
-            container: 'map',
+            container: container,
             style: 'mapbox://styles/bryan-ro/cmahlmqfx018801s0cxzhcejv',
             projection: 'mercator',
             zoom: 1,
@@ -32,16 +21,6 @@ class MapBox {
 
         this.#map.addControl(new mapboxgl.NavigationControl(), 'top-left');
         this.#map.addControl(new mapboxgl.FullscreenControl(), 'top-left');
-
-        // this.onload(() => {
-        //     this.setProhibitedArea([-46.806655, -24.375334], 1.5, 'queimadinha');
-        //
-        //     this.setGoodArea([-46.792585, -24.194505], .3, 'ilha-das-cabras');
-        //     this.setGoodArea([-46.675694, -24.485472], 3, 'queimada-grande');
-        //     this.setGoodArea([-46.690620, -24.237077], 1, 'lage-conceicao');
-        //     this.setGoodArea([-46.690819, -24.136990], 0.3, 'pier-mongagua');
-        //     this.setGoodArea([-46.6056333, -24.3436000], 4, 'parcel-reis');
-        // })
     }
 
     setDefaultMarker(cordinates, popupValue) {
@@ -122,10 +101,4 @@ class MapBox {
     }
 }
 
-const map = new MapBox()
-
-map.setDefaultMarker([-46.792585, -24.194505], "<h1 style='color: red'>Teste<h1>")
-map.onload(() => {
-    map.setPlayerArea([-46.593359, -23.548301], 500, "teste", 0.3)
-})
-
+export default MapBox;
