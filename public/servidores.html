@@ -5,9 +5,10 @@
     <title>Servidores</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Links ---------------------------------------------------- -->
+    <!-- Links ------------------------------------------------------>
     <script src="script/components/alertCard.js"></script>
     <script src="script/components/navBar.js"></script>
+    <script src="script/servidores.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
@@ -15,77 +16,17 @@
     <!-- ---------------------------------------------------------- -->
 
 </head>
-<body>
+<body onload="getServers();">
     <main>
         <nav-bar></nav-bar>
-
-        <div class="sorts">
-            
-            <div class="left">
-                <div class="sortBtn">
-                    <img src="img/filterIcon.png" alt="">
-                    Filtrar
-                </div>
-
-                <div class="sortBtn">
-                    <img src="img/sortIcon.png" alt="">
-                    Ordenar
-                </div>
-            </div>
-
-
-            <div class="right">
-                <div class="sortBtn">
-                    <img src="img/allServersIcon.png" alt="">
-                    Ver todos os servidores
-                </div>
-            </div>
+        <div style="margin-left: 150px; margin-top: 10px; margin-bottom: 10px;">
+            <span style="font-size: 2rem; color: #56408C;">Lista de Servidores</span>
         </div>
-
         <div class="container">
-            <alert-card
-                    criticality="Crítico"
-                    component="CPU"
-                    tagName="Servidor 01"
-                    uuid="HNZ-202112132021"
-                    desc="O processador ultrapassou o limite máximo de temperatura."
-                    capturing="85C°"
-                    limit="75C°"
-                    datetime="01/05/2025 21:00:20"
-            ></alert-card>
+        <div id="server-container">
+                
+        </div>
     
-            <alert-card
-                    criticality="Crítico"
-                    component="CPU"
-                    tagName="Servidor 01"
-                    uuid="HNZ-202112132021"
-                    desc="O processador ultrapassou o limite máximo de temperatura."
-                    capturing="85C°"
-                    limit="75C°"
-                    datetime="01/05/2025 21:00:20"
-            ></alert-card>
-    
-            <alert-card
-                    criticality="Crítico"
-                    component="CPU"
-                    tagName="Servidor 01"
-                    uuid="HNZ-202112132021"
-                    desc="O processador ultrapassou o limite máximo de temperatura."
-                    capturing="85C°"
-                    limit="75C°"
-                    datetime="01/05/2025 21:00:20"
-            ></alert-card>
-    
-            <alert-card
-                    criticality="Crítico"
-                    component="CPU"
-                    tagName="Servidor 01"
-                    uuid="HNZ-202112132021"
-                    desc="O processador ultrapassou o limite máximo de temperatura."
-                    capturing="85C°"
-                    limit="75C°"
-                    datetime="01/05/2025 21:00:20"
-            ></alert-card>
         </div>
     </main>
 

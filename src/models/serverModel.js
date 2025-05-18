@@ -74,6 +74,17 @@ function registerComponent(componentData, serverId) {
     });
  }
 
+ function getServerBytagName(tagName){
+    var instrucaoSql = `SELECT * FROM server WHERE server.tag_name = ${tagName};`
+            
+    return database.executar(instrucaoSql);
+ }
+function listarServer(){
+    var instrucaoSql = `SELECT * FROM server;`
+            
+    return database.executar(instrucaoSql);
+ }
+
 
 async function getServerComponentsData(motherBoardId) {
         const [server] = await database.executar(
@@ -105,5 +116,7 @@ async function getServerComponentsData(motherBoardId) {
 
 module.exports = {
     registerServer,
-    getServerComponentsData
+    getServerComponentsData,
+    getServerBytagName,
+    listarServer
 };

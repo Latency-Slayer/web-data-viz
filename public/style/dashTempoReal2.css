@@ -1,0 +1,417 @@
+@import url('https://fonts.googleapis.com/css2?family=Asap:ital,wght@0,100..900;1,100..900&family=Edu+AU+VIC+WA+NT+Guides:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    overflow: hidden;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    height: 100vh;
+    width: 100%;
+    overflow: auto;
+    overflow-x: hidden;
+
+}
+
+.box-container {
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+    /* border: solid red 3px; */
+}
+
+.kpis {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    max-height: 200px;
+    margin: 10px auto;
+}
+
+.kpi {
+    display: flex;
+    flex-direction: column;
+    width: 25%;
+    border-radius: 1vh;
+    box-shadow: 0 0 0.9vh rgba(0, 0, 0, 0.2);
+    align-items: center;
+    justify-content: center;
+}
+.first{
+    background-color: #c30a03;
+}
+.second{
+    background-color: #c30a03;
+}
+.third{
+    background-color: #ffa507;
+}
+.danger{
+    background-color: #c30a03;
+}
+.warning{
+    background-color: #ffa507;
+}
+.kpi-content {
+    width: 95%;
+    height: 90%;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: space-between !important;
+    /*border: 1px solid blue;*/
+}
+.kpi-content span{
+    color: white;
+}
+
+.kpi-chart {
+    height: 98px;
+}
+
+.kpi-chart-net {
+    height: 84px;
+}
+
+.text-kpi {
+    /* border: solid red 3px; */
+    font-size: 1.5vw;
+    font-weight: bold;
+    color: #56408C;
+}
+
+.kpi h1 {
+    font-size: 2vw;
+    font-weight: bolder;
+    /* border: solid red; */
+}
+
+.kpi h2 {
+    font-size: 1.3vw;
+    font-weight: 600;
+    color: white;
+    width: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+#grafico-kpi-01, #grafico-kpi-02 {
+    margin: 0;
+    /* border: solid red 3px; */
+}
+
+.graficos {
+    height: 50vh;
+    display: flex;
+    gap: 1rem;
+    margin-left: 20px;
+    margin-top: 2rem;
+}
+.processos{
+    width: 50%;
+    height: 60vh;
+    box-shadow: 0 0 0.9vh rgba(0, 0, 0, 0.2);
+}
+.container-graficos-linhas{
+    display: flex;
+}
+.graficos-linhas{
+    width: 100%;
+    height: 10vh;
+}
+.grafico-barra{
+    width: 97%; 
+    height: 60vh;
+    box-shadow: 0 0 0.9vh rgba(0, 0, 0, 0.2);  
+}
+.first-line-graphs, .second-line-graphs, .third-line-graphs {
+    display: flex;
+    width: 100%;
+    /* height: 30vh; */
+    /* border: solid green 3px; */
+    justify-content: space-around;
+}   
+.chart-use-cpu, .graphs-monitoring-ram, .graphs-ram, .graphs-network, .graphs-temperature-cpu, .graphs-monitoring-storage {
+    width: calc(95% / 2);
+    border-radius: 1vh;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 0.9vh rgba(0, 0, 0, 0.2);
+}
+.process{
+    width: 97%;
+    height: 35vh;
+    margin: 20px;
+    border-radius: 1vh;
+    box-shadow: 0 0 0.9vh rgba(0, 0, 0, 0.2);
+}
+
+
+.container-process{
+    margin-left: 20px;
+    margin-right: 20px;
+}
+thead th,
+tbody td {
+  border-bottom: 1px solid #ddd;
+  vertical-align: middle;
+  text-align: center;
+  height: 55px;
+  padding: 1.5px;
+  color: #fff;
+}
+
+thead th {
+  background-color: #765D8C;
+  vertical-align: middle;
+  font-weight: bold;
+
+}
+.storage-chart-container {
+    height: 250px;
+    overflow-y: scroll;
+}
+
+.disk {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+
+    padding: 3vh;
+}
+
+.flex-percent {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.disk-chart-background {
+    width: 100%;
+    height: 40px;
+    background-color: #dad9d9;
+    border-radius: 55px;
+}
+
+.disk-chart-bar {
+    border-radius: 55px;
+    height: 100%;
+    width: 36%;
+    background-color: #765D8C;
+}
+.disk-chart-bar1 {
+    border-radius: 55px;
+    height: 100%;
+    width: 12%;
+    background-color: #765D8C;
+}
+.disk-chart-bar2 {
+    border-radius: 55px;
+    height: 100%;
+    width: 67%;
+    background-color: #765D8C;
+}
+.disk-chart-bar3 {
+    border-radius: 55px;
+    height: 100%;
+    width: 90%;
+    background-color: #9D4041;
+}
+
+.use-percent {
+    font-weight: bold;
+    font-size: 1.4rem;
+}
+
+.graphs-monitoring-storage span {
+    font-size: 2vh;
+    color: #3A2E5D;
+    font-weight: 500;
+}
+
+.graphs-monitoring-storage .text-kpi, .graphs-monitoring-ram .text-kpi {
+    font-size: 1.8rem;
+    font-weight: bold;
+
+    text-indent: 20px;
+}
+
+.ram-chart-container {
+    display: flex;
+    height: 80%;
+    width: 95%;
+    margin: 0 auto;
+}
+
+.donut-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: calc(100% / 2);
+    height: 100%;
+    margin: 0 auto;
+}
+
+.kpi-title {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.ram-kpi p {
+    font-size: 1.2rem;
+}
+
+.line-chart-title {
+    font-size: 1.4vw;
+    text-indent: 1vw;
+}
+
+
+/* Firefox (uncomment to work in Firefox, although other properties will not work!)  */
+/** {
+  scrollbar-width: thin;
+  scrollbar-color: #397524 #DFE9EB;
+}*/
+
+/* Chrome, Edge and Safari */
+*::-webkit-scrollbar {
+    height: 1vh;
+    width: 1vh;
+}
+*::-webkit-scrollbar-track {
+    border-radius: 1vh;
+    background-color: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+    border-radius: 1vh;
+    background-color: #6c5ce7;
+    transition: 1s ease-in-out;
+}
+
+*::-webkit-scrollbar-thumb:active {
+    background-color: #4c3fb1;
+}
+
+h1 {
+    font-size: 5vh;
+    font-weight: 500;
+    color: white;
+}
+
+header h1 {
+    margin-left: 2vh;
+}
+
+
+@media (max-width: 800px) {
+    header h1 {
+        font-size: 1.5rem;
+        margin-left: 2vh;
+    }
+
+    .kpis {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        min-height: fit-content;
+    }
+
+    .kpi {
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    .text-kpi {
+        font-size: 1rem;
+        font-weight: bold;
+        color: #56408C;
+    }
+
+    .kpi h1 {
+        font-size: 1.4rem;
+        font-weight: bolder;
+        /* border: solid red; */
+    }
+
+    .kpi h2 {
+        font-size: 1.3rem;
+    }
+
+    .first-line-graphs {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.2rem;
+    }
+
+    .chart-use-cpu, .graphs-monitoring-ram, .graphs-ram, .graphs-network, .graphs-temperature-cpu, .graphs-monitoring-storage {
+        width: 90%;
+        border-radius: 1vh;
+        box-shadow: 0 0 0.9vh rgba(0, 0, 0, 0.2);
+    }
+
+    .graphs-monitoring-storage .text-kpi, .graphs-monitoring-ram .text-kpi {
+        font-size: 1.4rem;
+        font-weight: bold;
+        text-align: center;
+
+        text-indent: 20px;
+    }
+
+
+    .storage-chart-container {
+        overflow-x: hidden;
+    }
+
+    .ram-chart-container {
+        flex-direction: column;
+    }
+
+    .donut-box {
+        width: 100%;
+        flex-direction: column-reverse;
+    }
+
+    .ram-kpi {
+        text-align: center;
+    }
+
+    .second-line-graphs {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.2rem;
+    }
+
+
+    .line-chart-title {
+        font-size: 1.2rem;
+    }
+
+
+    .third-line-graphs {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: .1rem;
+        gap: 1.2rem;
+    }
+}

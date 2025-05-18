@@ -11,4 +11,11 @@ router.get("/get/components", (req, res) => {
     serverController.getServerComponentsData(req, res);
 })
 
+router.get("/:tag-name", (req, res) => {
+    serverController.getServerBytagName(req.params.tagName, res);
+})
+router.get("/listarServidores", (req, res) => {
+    serverController.listarServer(req, res);
+});
+
 module.exports = router;

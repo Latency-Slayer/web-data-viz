@@ -19,7 +19,8 @@ var indexRouter = require("./src/routes/index");
 var usuarioRouter = require("./src/routes/usuarios");
 var empresaRouter = require("./src/routes/empresas");
 var cadastrarMaquinaRouter = require("./src/routes/server");
-
+var hardwareRouter = require("./src/routes/hardware-real-time")
+var processRouter = require("./src/routes/process-real-time")
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -31,7 +32,8 @@ app.use("/", indexRouter);
 app.use("/usuarios", usuarioRouter);
 app.use("/empresas", empresaRouter);
 app.use("/server", cadastrarMaquinaRouter);
-
+app.use("/hardware", hardwareRouter);
+app.use("/process", processRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`

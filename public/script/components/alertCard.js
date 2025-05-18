@@ -10,14 +10,11 @@ class AlertCard extends HTMLElement {
     connectedCallback() {
         // Coletando atributos.
         const criticality = this.getAttribute("criticality");
-        const component = this.getAttribute("component");
-        const uuid = this.getAttribute("uuid");
         const tagName = this.getAttribute("tagName");
-        const desc = this.getAttribute("desc");
-        const capturing = this.getAttribute("capturing");
-        const limit = this.getAttribute("limit");
+        const cpu = this.getAttribute("cpu");
+        const ram = this.getAttribute("ram")
+        const disco = this.getAttribute("disco")
         const datetime = this.getAttribute("datetime");
-
 
         // Adicionando HTML no elemento.
         this.shadowRoot.innerHTML = `
@@ -40,7 +37,7 @@ class AlertCard extends HTMLElement {
                     box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
                     border-radius: 8px;
                     padding: 20px 20px;
-                    
+                    margin-bottom: 10px;
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
@@ -51,44 +48,37 @@ class AlertCard extends HTMLElement {
                     display: flex;
                     align-items: center;
                     gap: 10px;
+                    justify-content: space-between;
                 }
                 
                 .label {
                     border-radius: 3px;            
                     height: 100%;
                     width: fit-content;
-                    padding: 0 20px;
-                    font-weight: 500;
+                    padding: 4px 10px;
+                    font-weight: 400;
                     font-size: 1.2rem;
-                    
                     display: flex;
                     align-items: center;
                     justify-content: center;            
                 }
-                
-                .component {
-                    background-color: #F0ECFB;
-                    color: #56408C;
-                }
+            
                 
                 .Crítico {
-                    background-color: #FBECEC;
-                    color: #F62821; 
+                    background-color: #c30a03;
+                    color: #fff; 
                 }
                 
                 .Atenção {
-                    background-color: #f6b321;
-                    color: #3a3804; 
+                    background-color:#ffa507;
+                    color: #fff; 
                 }
                 
                 .identification {
-                    margin-top: 15px;
-                }
-                
-                .identification h1 {
-                    color: #3A2E5D;
-                    font-weight: 400;
-                    font-size: 1.6rem;
+                    background-color: #F0ECFB;
+                    color: #56408C;
+                    padding: 4px 10px;
+
                 }
                 
                 .identification span {
@@ -112,44 +102,34 @@ class AlertCard extends HTMLElement {
                     justify-content: space-between;
                 }
                 
-                .info-col {
-                    width: calc(97% / 2);
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: space-between;
-                    gap: 8px;
-                }
-                
                 .info {
                     border-radius: 3px;
                     padding: 4px 10px;
                     font-weight: 400;
-                    
+                    font-size: 1.2rem;
                     display: flex;
                     justify-content: center;
                     align-items: center;
                 }
                 
-                .info.capturing {
-                    color: #F62821;
-                    background: #fbecec;
+                .info.cpu {
+                    background-color: #c30a03;
+                    color: #fff; 
                 }
                 
-                .info.limit {
-                    color: #56408C;
-                    background-color: #F0ECFB;
+                .info.ram {
+                    background-color: #c30a03;
+                    color: #fff; 
+                }
+                .info.disco {
+                    background-color: #c30a03;
+                    color: #fff; 
                 }
                 
                 .info.date {
-                    color: #575757;
-                    background-color: #F7F7F7;
+                    color: #fff;
+                    background-color:rgb(138, 135, 135);
                     text-align: center;
-                }
-                
-                .info.more-info {
-                    text-align: center;
-                    background-color: #B69CF6;
-                    color: white;
                 }
                 
                  @media (max-width: 1050px) {
@@ -214,42 +194,21 @@ class AlertCard extends HTMLElement {
              <div class="card">
                 <div class="labels">
                     <div class="label criticality ${criticality}">${["Crítico", "Atenção"].includes(criticality) ? criticality : "Atributo 'criticality' inválido"}</div>    
-                    <div class="label component">${component}</div>
-                </div>
-                
-                <div class="identification">
-                    <h1>${uuid}</h1>
-                    <span>#${tagName}</span>
-                </div>
-                
-                <div class="desc">
-                    <span>${desc}</span>
-                </div>
-                
-                <div class="infos">
-                    <div class="info-col">
-                        <div class="info capturing">
-                            <span>Valor capturado: ${capturing}</span>
-                        </div>
-                    
-                        <div class="info limit">
-                            <span>Limite: ${limit}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="info-col">
-                        <div class="info date">
-                            <span>${datetime}</span>
-                        </div>
-                    
-                        <div class="info more-info">
-                            <span>Mais informações</span>
-                        </div>
-                    </div>
-                </div>
+                    <div class="identification"><span class="titulo-tag">${tagName}</span></div>
+                    <div class="info cpu"><span class="cpu-tag">Uso CPU: ${cpu}</span></div>
+                    <div class="info ram"><span>Uso RAM: ${ram}</span></div>
+                    <div class="info disco"><span>Uso Disco: ${disco}</span></div>
+                     <div class="info date"><span>${datetime}</span></div>
+                </div>                
              </div>
             
-        `
+        `;
+        this.shadowRoot.querySelector('.titulo-tag').textContent = tagName;
+
+
+        this.shadowRoot.querySelector('.card').addEventListener('click', () => {
+        window.location.href = `../../dashboardTempoRealNew.html?tag=${tagName}`;
+    });
     }
 }
 
