@@ -19,6 +19,7 @@ var indexRouter = require("./src/routes/index");
 var usuarioRouter = require("./src/routes/usuarios");
 var empresaRouter = require("./src/routes/empresas");
 var cadastrarMaquinaRouter = require("./src/routes/server");
+let businessInteligenceDashboardRouter = require("./src/dashboardBryan/routes/realTimeRouter.js");
 
 
 app.use(express.json());
@@ -31,6 +32,7 @@ app.use("/", indexRouter);
 app.use("/usuarios", usuarioRouter);
 app.use("/empresas", empresaRouter);
 app.use("/server", cadastrarMaquinaRouter);
+app.use("/bi/dashboard", businessInteligenceDashboardRouter);
 
 
 app.listen(PORTA_APP, function () {
