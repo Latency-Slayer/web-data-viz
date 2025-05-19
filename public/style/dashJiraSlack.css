@@ -12,83 +12,82 @@ main {
     /* border: solid; */
 }
 
-.container-kpi{
-    margin-top: 20px;
-    width: 80%;
+.container-kpi{ 
+    flex-direction: row;
     display: flex;
     justify-content: space-between;
-    align-self: center; 
-    padding: 20px;
-    height: 20vh;
+    padding: 30px;
 }
-.kpi-1{
-    width: 20%;
-    border: rgba(58, 46, 93, 0.3) solid 1px;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
-    background-color: #dc3545;
+.kpi-1, .kpi-2, .kpi-3, .kpi-4 {
+    width: 21vw;
+    border: rgba(45, 46, 93, 0.3) solid 1px;
+    box-shadow: 0 0 10px rgba(0, 30, 120, 0.5);
     color: #fff;
     border-radius: 10px;
-    padding-left: 10px;
-    text-align: center;
-}
-.kpi-1 span{
-    font-size: 64px;
-    font-weight: bold;
-    align-content: center;
-}
-.kpi-2 span{
-    font-size: 64px;
-    font-weight: bold;
-    align-content: center;
-}
-.kpi-3 span{
-    font-size: 64px;
-    font-weight: bold;
-    align-content: center;
-}
-.kpi-4 span{
-    font-size: 32px;
-    font-weight: bold;
-    align-content: center;
-}
-.kpi-2{
-    width: 20%;
-    border: rgba(58, 46, 93, 0.3) solid 1px;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
-    color: #fff;
-    background-color: #ffc107;
-    border-radius: 10px;
-    padding-left: 10px;
-    text-align: center;
-}
-.kpi-3{
-    width: 20%;
-    border: rgba(58, 46, 93, 0.3) solid 1px;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
-    background-color: #4caf50;
-    color: #fff;
-    border-radius: 10px;
-    padding-left: 10px;
-    text-align: center;
-}
-.kpi-4{
-    width: 20%;
-    border: rgba(58, 46, 93, 0.3) solid 1px;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
-    color: black;
-    border-radius: 10px;
-    padding-left: 10px;
+    padding-left: 30px;
     text-align: center;
 }
 
-.sorts {
+
+.kpi-1 {
+    background-color: firebrick;
+    
+}
+
+.kpi-2{
+    background-color: orange;
+}
+
+.kpi-3{
+    background-color: gold;
+}
+
+.kpi-4{
+    border: rgba(58, 46, 93, 0.3) solid 1px;
+    color: black;
+}
+
+.kpi-1 span, .kpi-2 span, .kpi-3 span, .kpi-4 span {
+    font-size: 60px;
+    font-weight: bold;
+    align-content: center;
+}
+
+
+.card {
+    padding: 10px;
+    width: 46vw;
+    box-shadow: 0 0 10px rgba(0, 30, 120, 0.5);
+    border: rgba(58, 46, 93, 0.3) solid 1px;
+    border-radius: 10px;
+}
+
+ .linha1, .linha2, .linha3, .linha4 { 
+    width: 1000px;
+    height: auto;
     display: flex;
-    width: 80%;
-    /* border: solid red; */
-    padding: 2rem 0;
+    padding: 5px;
+}
+
+.coluna_esquerda {
+    width: 800vw;
+    height: 20px;
+    display: flex;
+}
+
+.coluna_direita{
+    width: 800vw;
+    height: 20px;
+    display: flex;
+}
+
+/* .sorts {
+    display: flex;
+    width: 90%;
+    padding: 5px;
     align-self: center;
     justify-content: space-between;
-}
+}  
 
 .left {
     display: flex;
@@ -118,21 +117,22 @@ main {
 
 .sortBtn img {
     margin-right: 1rem;
-}
+} */
 
 .container {
     display: flex;
-    width: 80%;
+    width: 97%;
     align-self: center;
+    flex-direction: column;
     justify-content: space-between;
     flex-wrap: wrap;
-    /* border: solid; */
 }
 
 alert-card {
     flex-basis: calc((100% / 3) - 20px);
     margin-bottom: 20px;
     transition: linear 0.3s;
+    border: solid;
 }
 
 alert-card:hover {
