@@ -67,7 +67,7 @@
         let chamadosExistentes = []
 
     function getChamados(){
-        fetch('http://localhost:3000/jira/chamados-abertos')
+        fetch('/jira/chamados-abertos')
           .then(res => res.json())
           .then(data => {
             const container = document.getElementById('chamados-container');
