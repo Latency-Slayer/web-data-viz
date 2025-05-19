@@ -3,7 +3,7 @@ class AlertCard extends HTMLElement {
         // Chamando construtor da classe HTMLElement
         super();
         // Encapsulando código no componente (Tudo o que for escrito aqui, não afeta outros componentes.)
-        this.attachShadow({mode: 'open'});
+        this.attachShadow({ mode: 'open' });
     }
 
     // Metodo chamado pelo navegador ao renderizar o componente.
@@ -11,6 +11,7 @@ class AlertCard extends HTMLElement {
         // Coletando atributos.
         const criticality = this.getAttribute("criticality");
         const tagName = this.getAttribute("tagName");
+        const motherboardid = this.getAttribute("motherboardid");
         const cpu = this.getAttribute("cpu");
         const ram = this.getAttribute("ram")
         const disco = this.getAttribute("disco")
@@ -193,22 +194,47 @@ class AlertCard extends HTMLElement {
             
              <div class="card">
                 <div class="labels">
-                    <div class="label criticality ${criticality}">${["Crítico", "Atenção"].includes(criticality) ? criticality : "Atributo 'criticality' inválido"}</div>    
-                    <div class="identification"><span class="titulo-tag">${tagName}</span></div>
-                    <div class="info cpu"><span class="cpu-tag">Uso CPU: ${cpu}</span></div>
-                    <div class="info ram"><span>Uso RAM: ${ram}</span></div>
-                    <div class="info disco"><span>Uso Disco: ${disco}</span></div>
-                     <div class="info date"><span>${datetime}</span></div>
+                    <div class="label criticality "></div>    
+                    <div class="identification"><span class="titulo-tag"></span></div>
+                    <div class="info cpu"><span class="cpu-tag"></span></div>
+                    <div class="info ram"><span class="ram-tag"></span></div>
+                    <div class="info disco"><span class="disco-tag"></span></div>
+                     <div class="info date"><span class="datetime-tag"></span></div>
                 </div>                
              </div>
             
         `;
         this.shadowRoot.querySelector('.titulo-tag').textContent = tagName;
 
-
         this.shadowRoot.querySelector('.card').addEventListener('click', () => {
-        window.location.href = `../../dashboardTempoRealNew.html?tag=${tagName}`;
-    });
+            window.location.href = `../../dashboardTempoRealNew.html?tag=${motherboardid}`;
+        });
+    }
+    updateMetrics({ cpu, ram, disco, datetime }) {
+        this.shadowRoot.querySelector(".cpu-tag").textContent = `Uso CPU: ${cpu}%`;
+        this.shadowRoot.querySelector(".ram-tag").textContent = `Uso RAM: ${ram}%`;
+        this.shadowRoot.querySelector(".disco-tag").textContent = `Uso Disco: ${disco}%`;
+        this.shadowRoot.querySelector(".datetime-tag").textContent = `Criticidade: ${this.formatarDataISO(datetime)}`;
+
+        const criticalityTag = this.shadowRoot.querySelector(".criticality");
+        
+        let criticidade = "Normal";
+        let classe = "";
+
+        if (cpu >= 80 || ram >= 80 || disco >= 90) {
+            criticidade = "Crítico";
+            classe = "Crítico";
+        } else if (cpu <= 20 || ram <= 20 || disco <= 20) {
+            criticidade = "Atenção";
+            classe = "Atenção";
+        }
+
+        criticalityTag.textContent = criticidade;
+
+        criticalityTag.className = `label criticality ${classe}`;
+    }
+    formatarDataISO(timestamp) {
+        return new Date(timestamp).toISOString().split('T')[0];
     }
 }
 

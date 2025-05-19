@@ -17,7 +17,7 @@
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
 
-<body onload="getData(), getProcess()">
+<body onload="getData(), getProcess(), getLimitComponent()">
     <main>
         <nav-bar></nav-bar>
 
@@ -29,21 +29,21 @@
             <div class="kpis">
                 <div class="kpi first">
                     <div class="kpi-content">
-                        <span class="text-kpi">Uso de CPU - <span>Limite: 15%</span></span>
+                        <span class="text-kpi">Uso de CPU - Limite:<span id="cpu_limit"></span></span>
                         <h1 id="cpuUsage"></h1>
                     </div>
                 </div>
 
                 <div class="kpi second">
                     <div class="kpi-content">
-                        <span class="text-kpi">Uso de RAM - <span>Limite: 15%</span></span>
+                        <span class="text-kpi">Uso de RAM - Limite:<span id="ram_limit"></span></span>
                         <h1 id="ramUsage"></h1>
                     </div>
                 </div>
 
                 <div class="kpi third">
                     <div class="kpi-content">
-                        <span class="text-kpi">Uso de Disco - <span>Limite: 15%</span></span>
+                        <span class="text-kpi">Uso de Disco - Limite:<span id="disco_limit"></span></span>
                         <h1 id="diskUsage"></h1>
                     </div>
                 </div>
@@ -64,46 +64,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="danger">
-                                <td>1236</td>
-                                <td>Java</td>
-                                <td>25%</td>
-                                <td>4.6GB</td>
-                                <td>14%</td>
-                                <td>Rodando</td>
-                            </tr>
-                            <tr class="danger">
-                                <td>938</td>
-                                <td>Google Chrome</td>
-                                <td>20%</td>
-                                <td>2.4GB</td>
-                                <td>10%</td>
-                                <td>Rodando</td>
-                            </tr>
-                            <tr class="warning">
-                                <td>712</td>
-                                <td>MySQL Server</td>
-                                <td>7%</td>
-                                <td>100MB</td>
-                                <td>6%</td>
-                                <td>Rodando</td>
-                            </tr>
-                            <tr class="warning">
-                                <td>1300</td>
-                                <td>Radmin VPN</td>
-                                <td>10%</td>
-                                <td>200MB</td>
-                                <td>4%</td>
-                                <td>Rodando</td>
-                            </tr>
-                            <tr class="warning">
-                                <td>0</td>
-                                <td>Serviços do Sistema</td>
-                                <td>7%</td>
-                                <td>200MB</td>
-                                <td>2%</td>
-                                <td>Rodando</td>
-                            </tr>
+                            
                         </tbody>
                     </table>
                 </div>
@@ -121,11 +82,11 @@
 
     <script>
         const params = new URLSearchParams(window.location.search);
-        const tagName = params.get("tag");
+        const motherboardid = params.get("tag");
 
         document.addEventListener("DOMContentLoaded", () => {
         const h1 = document.getElementById("titulo");
-        h1.textContent = "Servidor " + tagName;
+        h1.textContent = "Servidor " + motherboardid;
         });
 
         // Barra de Alertas

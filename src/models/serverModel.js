@@ -85,6 +85,12 @@ function listarServer(){
     return database.executar(instrucaoSql);
  }
 
+ function getLimitComponent(){
+    var instrucaoSql = `SELECT c.type,m.max_limit,m.min_limit from component as c INNER JOIN metric as m ON m.fk_component = id_component WHERE m.metric = "%";`
+
+    return database.executar(instrucaoSql)
+ }
+
 
 async function getServerComponentsData(motherBoardId) {
         const [server] = await database.executar(
@@ -118,5 +124,6 @@ module.exports = {
     registerServer,
     getServerComponentsData,
     getServerBytagName,
-    listarServer
+    listarServer,
+    getLimitComponent
 };
