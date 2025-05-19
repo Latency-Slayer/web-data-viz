@@ -75,7 +75,7 @@
         let chamadosExistentes = []
 
         function getChamados() {
-            fetch('/jira/chamados-abertos')
+        fetch('/jira/chamados-abertos')
                 .then(res => res.json())
                 .then(data => {
                     const container = document.getElementById('chamados-container');
@@ -171,11 +171,109 @@
                 .catch(err => {
                     console.error('Erro ao buscar chamados:', err);
                     document.getElementById('chamados-container').innerHTML = '<p>Erro ao buscar chamados.</p>';
-                });
-        }
-        getChamados();
+        });
+        
+        fetch('/jira/chamados-abertos')
+            .then(res => res.json())
+            .then(data => {
+                const container = document.getElementById('chamados-container2');
 
-        setInterval(getChamados, 5000);
+                // Filtra os chamados com status "abertos"
+                const kpiElement = document.getElementById('kpi-chamados-abertos');
+                kpiElement.textContent = data.length;
+
+                // Filtra os chamados com status "pendentes"
+                const chamadosPendentes = data.filter(chamado => chamado.fields.status.name.toLowerCase() === "pendente");
+
+                // Atualiza a quarta KPI com o número de chamados pendentes
+                const kpiPendentes = document.getElementById('kpi-chamados-pendentes');
+                kpiPendentes.textContent = chamadosPendentes.length;
+
+                // --- Atualiza KPI de chamados em análise
+                const chamadosEmAnalise = data.filter(chamado => chamado.fields.status.name.toLowerCase() === "em análise");
+                const kpiEmAnalise = document.getElementById('kpi-chamados-em-analise');
+                kpiEmAnalise.textContent = chamadosEmAnalise.length;
+
+                if (data.length === 0) {
+                    container.innerHTML = '<p>Nenhum chamado aberto encontrado.</p>';
+                    return;
+                }
+
+                //Filtro e selecionando os cahamdos que não tem a key, ou seja que não foram exibidos
+                const novosChamados = data.filter(chamado => {
+                    return !chamadosExistentes.includes(chamado.key);
+                })
+
+                //Adiciona os novos chamados pelo key e coloca dentro do array
+                chamadosExistentes = chamadosExistentes.concat(novosChamados.map(chamado => chamado.key))
+
+                // Ordena os chamados conforme a prioridade dos status
+                novosChamados.sort((a, b) => {
+                    const statusOrder = {
+                        "pendente": 1,
+                        "em análise": 2,
+                        "fazendo": 3
+                    };
+
+                    const statusA = a.fields.status.name.toLowerCase();
+                    const statusB = b.fields.status.name.toLowerCase();
+
+                    return (statusOrder[statusA] || 99) - (statusOrder[statusB] || 99);
+                });
+
+                novosChamados.forEach(chamado => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+
+                    card.innerHTML = `
+            <div class=" linha1">
+                <span>${chamado.key} - ${chamado.fields.summary}</span>
+            </div>
+            <div class=" linha2">    
+                <div class="coluna_esquerda">
+                    <span><strong>ID: </strong>${chamado.id}</span>
+                </div>
+                <div class="coluna_direita">
+                    <span><strong>Data de Criação:</strong> ${new Date(chamado.fields.created).toLocaleDateString('pt-BR')} ${new Date(chamado.fields.created).toLocaleTimeString('pt-BR')}</span>
+                </div>
+            </div>
+            <div class=" linha3">    
+                <div class="coluna_esquerda">
+                    <span><strong>Responsável:</strong> ${chamado.fields.assignee ? chamado.fields.assignee.displayName : 'Não atribuído'}</span>
+                </div>
+                <div class="coluna_direita">
+                    <span><strong>Status:</strong> <span class="status">${chamado.fields.status.name}</span></span>
+                </div>
+            </div>
+            <div class=" linha4">
+                <span><strong>Descrição:</strong> ${chamado.fields.description?.content?.[0]?.content?.[0]?.text || 'Sem descrição'}</span>
+            </div>`;
+
+                    if (chamado.fields.status.name.toLowerCase() === "pendente") {
+                        const statusSpan = card.querySelector(".status");
+                        statusSpan.style.color = "red";
+                        statusSpan.style.fontWeight = "bold";
+                    } else if (chamado.fields.status.name.toLowerCase() === "em análise") {
+                        const statusSpan = card.querySelector(".status");
+                        statusSpan.style.color = "orange";
+                        statusSpan.style.fontWeight = "bold";
+                    } else if (chamado.fields.status.name.toLowerCase() === "fazendo") {
+                        const statusSpan = card.querySelector(".status");
+                        statusSpan.style.color = "gold";
+                        statusSpan.style.fontWeight = "bold";
+                    }
+
+                    container.appendChild(card);
+                });
+            })
+            .catch(err => {
+                console.error('Erro ao buscar chamados:', err);
+                document.getElementById('chamados-container2').innerHTML = '<p>Erro ao buscar chamados.</p>';
+        });
+        }
+    getChamados();
+
+    setInterval(getChamados, 5000);
 
     </script>
     </div>
