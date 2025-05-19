@@ -10,7 +10,7 @@ window.onload = renderRealTimeDashboard;
 async function renderRealTimeDashboard () {
     const kpis = loadKpis();
 
-    loadTopGamesChart();
+    await loadTopGamesChart();
 }
 
 
@@ -81,7 +81,7 @@ async function getTopGame() {
 async function loadTopGamesChart() {
     const chartdiv = document.getElementById("chart1");
 
-    var options = {
+    let options = {
         series: [{
             name: "Quantidade de jogadores",
             data: await getAllTopGames(),
@@ -125,7 +125,7 @@ async function loadTopGamesChart() {
 
     };
 
-    var chart = new ApexCharts(chartdiv, options);
+    let chart = new ApexCharts(chartdiv, options);
     chart.render();
 
     setInterval(async () => {
@@ -149,9 +149,8 @@ async function getAllTopGames() {
         });
     }
 
-    return [];
+    return [{
+        x: "Nenhum jogo sendo executado no momento",
+        y: 0
+    }];
 }
-
-(async () => {
-    console.log(await getAllTopGames());
-})();

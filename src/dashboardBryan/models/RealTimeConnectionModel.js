@@ -151,7 +151,7 @@ class RealTimeConnectionModel {
             gamesOfMoment.set(serverGame, quantConnections + serverQuantConnections);
         });
 
-        return [...gamesOfMoment].sort((a, b) => b[1] - a[1]);;
+        return [...gamesOfMoment].sort((a, b) => b[1] - a[1]);
     }
 
     getTopGamesOfMomentInContinent(registrationNumber, continentCode) {
