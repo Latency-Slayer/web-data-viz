@@ -36,6 +36,40 @@ class RealTimeConnectionController {
 
         return res.status(200).json({ quantConnections: connections });
     }
+
+    getQuantActiveServers(req, res) {
+        const companyRegister = req.params["registerNumber"];
+        const continent = req.query["continent"];
+
+        if(!companyRegister) {
+            throw new AppError("Mandatory data missing.", 400);
+        }
+
+        const activeServers = service.getQuantServerActive(companyRegister, continent);
+
+        if(activeServers instanceof AppError) {
+            throw activeServers;
+        }
+
+        return res.status(200).json({ quantActiveServers: activeServers });
+    }
+
+    getTopGamesOfMoment(req, res) {
+        const companyRegister = req.params["registerNumber"];
+        const continent = req.query["continent"];
+
+        if(!companyRegister) {
+            throw new AppError("Mandatory data missing.", 400);
+        }
+
+        const topGames = service.getTopGames(companyRegister, continent);
+
+        if(topGames instanceof AppError) {
+            throw topGames;
+        }
+
+        return res.status(200).json({ topGames: topGames });
+    }
 }
 
 module.exports = RealTimeConnectionController;
