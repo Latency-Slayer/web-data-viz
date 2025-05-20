@@ -10,8 +10,9 @@ window.onload = renderRealTimeDashboard;
 async function renderRealTimeDashboard () {
     const kpis = loadKpis();
 
-    await loadTopGamesChart();
-    await loadTopContinentsChart();
+    const chart1 = await loadTopGamesChart();
+    const chart2 = await loadTopContinentsChart();
+    const chart3 = await loadConnectionsVarianceChart();
 }
 
 
@@ -129,11 +130,11 @@ async function loadTopGamesChart() {
     let chart = new ApexCharts(chartdiv, options);
     chart.render();
 
-    setInterval(async () => {
+    return setInterval(async () => {
         chart.updateSeries([{
             data: await getAllTopGames(),
         }]);
-    }, 2000)
+    }, 2000);
 }
 
 
@@ -214,11 +215,11 @@ async function loadTopContinentsChart() {
     let chart = new ApexCharts(chartdiv, options);
     chart.render();
 
-    setInterval(async () => {
+    return setInterval(async () => {
         chart.updateSeries([{
             data: await getTopContinents(),
         }]);
-    }, 2000)
+    }, 2000);
 }
 
 
@@ -252,3 +253,63 @@ async function getTopContinents() {
         y: 0
     }];
 }
+
+
+
+async function loadConnectionsVarianceChart() {
+    const chartdiv = document.getElementById("chart3");
+
+    let options = {
+        series: [{
+            name: "Quantidade de jogadores",
+            data: [1, 2, 3, 4, 5, 6, 7, 8, 90, 10],
+        }],
+        chart: {
+            type: 'line',
+            height: '90%',
+        },
+        plotOptions: {
+            bar: {
+                borderRadius: 10,
+            },
+        },
+        xaxis: {
+            labels: {
+                style: {
+                    colors: ["#56408C"],
+                    fontSize: '14px',
+                    fontFamily: 'Helvetica, Arial, sans-serif',
+                    fontWeight: 600,
+
+                }
+            }
+        },
+        yaxis: {
+            labels: {
+                style: {
+                    colors: ["#56408C"],
+                    fontSize: '14px',
+                    fontFamily: 'Helvetica, Arial, sans-serif',
+                    fontWeight: 400
+                },
+                formatter: (val) => {
+                    return Intl.NumberFormat("en-US").format(val);
+                }
+            }
+        },
+        fill: {
+            colors: ['#B69CF6']
+        },
+
+    };
+
+    let chart = new ApexCharts(chartdiv, options);
+    chart.render();
+
+    // return setInterval(async () => {
+    //     chart.updateSeries([{
+    //         data: await getTopContinents(),
+    //     }]);
+    // }, 2000);
+}
+
