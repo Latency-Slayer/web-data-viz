@@ -148,15 +148,6 @@ main {
     margin-bottom: 20px;
     box-shadow: 0 0 0.9vh rgba(0, 0, 0, 0.2);
 }
-.process{
-    width: 97%;
-    height: 35vh;
-    margin: 20px;
-    border-radius: 1vh;
-    box-shadow: 0 0 0.9vh rgba(0, 0, 0, 0.2);
-}
-
-
 .container-process{
     margin-left: 20px;
     margin-right: 20px;

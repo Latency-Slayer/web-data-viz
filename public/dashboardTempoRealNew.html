@@ -9,8 +9,7 @@
     <script src="script/components/navBar.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <script src="./script/hardware-fetch.js"></script>
-    <script src="./script/process-fetch.js"></script>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
@@ -55,29 +54,47 @@
                     <table style="width: 100%; text-align: center;">
                         <thead>
                             <tr>
+                                <th id="criticidade">Criticidade</th>
                                 <th>PID</th>
                                 <th>Processo</th>
-                                <th>Uso de CPU</th>
-                                <th>Uso de RAM</th>
-                                <th>Uso da RAM (%)</th>
+                                <th>CPU (%)</th>
+                                <th>RAM (%)</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
-                            
+
                         </tbody>
                     </table>
                 </div>
-                    <div class="grafico-barra">
+                <!-- <div class="grafico-barra">
                         <div class="chart-grafico">
                             <div class="line-chart-title text-kpi">Quantidade de alertas na semana: </div>
                             <div id="grafico-uso-armazenamento"></div>                        
                         </div>
+                    </div> -->
+
+                <div class="graficos-linhas">
+                    <div class="container-graficos-linhas">
+                        <div class="chart-use-cpu">
+                            <div class="line-chart-title text-kpi">Uso da CPU (%)</div>
+                            <div id="grafico-cpu-pctg"></div>
+                        </div>
+
+                        <div class="graphs-ram">
+                            <div class="line-chart-title text-kpi">Uso da Memória (%)</div>
+                            <div id="grafico-uso-memoria"></div>
+                        </div>
+                    </div>
+
+                    <div class="grafico-barra">
+                        <div class="chart-grafico">
+                            <div class="line-chart-title text-kpi">Uso do Disco (%)</div>
+                            <div id="grafico-uso-armazenamento"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        </div>
+
     </main>
 
     <script>
@@ -85,24 +102,194 @@
         const motherboardid = params.get("tag");
 
         document.addEventListener("DOMContentLoaded", () => {
-        const h1 = document.getElementById("titulo");
-        h1.textContent = "Servidor " + motherboardid;
+            const h1 = document.getElementById("titulo");
+            h1.textContent = "Servidor " + motherboardid;
         });
 
         // Barra de Alertas
+        // new ApexCharts(
+        //     document.querySelector("#grafico-uso-armazenamento"),
+        //     {
+        //         series: [
+        //             {
+        //                 name: "Quantidade de Alertas",
+        //                 type: "bar",
+        //                 data: [12,54,90,2,13,50,10],
+        //                 color: "#44395F",
+        //             },
+        //         ],
+        //         chart: {
+        //             height: 400,
+        //             width: 900,
+        //             toolbar: {
+        //                 show: true,
+        //             },
+        //         },
+        //         dataLabels: {
+        //             enabled: false,
+        //         },
+
+        //         xaxis: {
+        //             categories: ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"]
+        //         },
+
+        //         yaxis: {
+
+        //         },
+
+        //     }
+        // ).render();
+
+        function dateTimeCategories() {
+            const dates = new Array();
+            const initialDate = new Date();
+
+            const timezoneOffset = -3 * 60;
+
+            for (let i = 0; i < 60 / 3; i++) {
+
+                const newDate = new Date(initialDate.getTime() + i * 3000);
+                newDate.setMinutes(newDate.getMinutes() + timezoneOffset);
+                dates.push(newDate.getTime());
+            }
+
+            return dates;
+        }
+
+        const chartCPU = new ApexCharts(
+            document.querySelector("#grafico-cpu-pctg"),
+            {
+                series: [
+                    {
+                        name: "Uso da CPU",
+                        data: [],
+                        color: "#44395F"
+                    },
+                    {
+                        name: "Limite",
+                        type: "line",
+                        color: "#e14849",
+                        data: [],
+                    }
+                ],
+                chart: {
+                    height: 150,
+                    width: 450,
+                    type: "line",
+                    toolbar: {
+                        show: true,
+                    },
+                },
+                dataLabels: {
+                    enabled: false,
+                },
+                xaxis: {
+                    type: "datetime",
+                    categories: dateTimeCategories(), 
+                },
+                tooltip: {
+                    x: {
+                        format: "dd/MM/yy HH:mm:ss",
+                    },
+                },
+                grid: {
+                    show: false,
+                },
+                yaxis: {
+                    min: 0,
+                    max: 100,
+                    labels: {
+                        formatter: function (val) {
+                            return val + "%";
+                        },
+                        style: {
+                            fontSize: 16,
+                        }
+                    }
+                },
+            }
+        )
+
+        chartCPU.render();
+
+
+        // Gráfico uso da memória (%)
+        const chartRAM = new ApexCharts(
+            document.querySelector("#grafico-uso-memoria"),
+            {
+                series: [
+                    {
+                        name: "Uso de memória RAM",
+                        data: [],
+                        color: "#44395F"
+                    },
+                    {
+                        name: "Limite",
+                        type: "line",
+                        color: "#e14849",
+                        data: [],
+                    },
+                ],
+                chart: {
+                    height: 150,
+                    width: 450,
+                    toolbar: {
+                        show: true,
+                    },
+                },
+                dataLabels: {
+                    enabled: false,
+                },
+
+                xaxis: {
+                    type: "datetime",
+                    categories: dateTimeCategories(),
+                },
+                tooltip: {
+                    x: {
+                        format: "dd/MM/yy HH:mm",
+                    },
+                },
+                grid: {
+                    show: false
+                },
+                yaxis: {
+                    labels: {
+                        min: 0,
+                        max: 100,
+                        formatter: function (val) {
+                            return val + "%";
+                        },
+                        style: {
+                            fontSize: 16,
+                        }
+                    }
+                },
+            }
+        )
+        chartRAM.render();
+
+        // Barra Armazenamento
+
         new ApexCharts(
             document.querySelector("#grafico-uso-armazenamento"),
             {
                 series: [
                     {
-                        name: "Quantidade de Alertas",
+                        name: "Uso do Disco",
                         type: "bar",
-                        data: [12,54,90,2,13,50,10],
+                        data: [12, 54, 90, 2, 13],
                         color: "#44395F",
+                    },
+                    {
+                        name: "Limite",
+                        type: "bar",
+                        color: "#e14849",
+                        data: Array(5).fill(75),
                     },
                 ],
                 chart: {
-                    height: 400,
+                    height: 200,
                     width: 900,
                     toolbar: {
                         show: true,
@@ -113,16 +300,18 @@
                 },
 
                 xaxis: {
-                    categories: ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"]
+                    categories: ["C://", "D://", "E://", "F://", "G://"]
                 },
-                
+
                 yaxis: {
-                    
+
                 },
-                
+
             }
         ).render();
     </script>
+    <script src="./script/hardware-fetch.js"></script>
+    <script src="./script/process-fetch.js"></script>
 </body>
 
 </html>

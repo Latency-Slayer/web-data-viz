@@ -32,7 +32,7 @@ function getData(motherboard_id) {
             console.log(data)
             console.log(`Métricas do servidor ${motherboard_id}:`, data);
 
-            //Alert card de acordo com a tag name
+            //Alert card de acordo com a motherboard
             const card = document.querySelector(`alert-card[motherboardid="${motherboard_id}"]`);
             
             //Atualizar as metricas e puxar elas

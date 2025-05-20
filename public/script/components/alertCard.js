@@ -71,8 +71,13 @@ class AlertCard extends HTMLElement {
                 }
                 
                 .Atenção {
-                    background-color:#ffa507;
+                    background-color: #ffa507;
                     color: #fff; 
+                }
+                
+                .Normal {
+                    background-color: #F0ECFB;
+                    color: black;
                 }
                 
                 .identification {
@@ -112,20 +117,7 @@ class AlertCard extends HTMLElement {
                     justify-content: center;
                     align-items: center;
                 }
-                
-                .info.cpu {
-                    background-color: #c30a03;
-                    color: #fff; 
-                }
-                
-                .info.ram {
-                    background-color: #c30a03;
-                    color: #fff; 
-                }
-                .info.disco {
-                    background-color: #c30a03;
-                    color: #fff; 
-                }
+            
                 
                 .info.date {
                     color: #fff;
@@ -210,29 +202,58 @@ class AlertCard extends HTMLElement {
             window.location.href = `../../dashboardTempoRealNew.html?tag=${motherboardid}`;
         });
     }
-    updateMetrics({ cpu, ram, disco, datetime }) {
+    
+    updateMetrics({ cpu, ram, disco, datetime, limiteCPU, limiteRAM, limiteDisco }) {
         this.shadowRoot.querySelector(".cpu-tag").textContent = `Uso CPU: ${cpu}%`;
         this.shadowRoot.querySelector(".ram-tag").textContent = `Uso RAM: ${ram}%`;
         this.shadowRoot.querySelector(".disco-tag").textContent = `Uso Disco: ${disco}%`;
-        this.shadowRoot.querySelector(".datetime-tag").textContent = `Criticidade: ${this.formatarDataISO(datetime)}`;
+        this.shadowRoot.querySelector(".datetime-tag").textContent = `${this.formatarDataISO(datetime)}`;
 
+        const container_cpu = this.shadowRoot.querySelector(".info.cpu");
+        const container_ram = this.shadowRoot.querySelector(".info.ram");
+        const container_disco = this.shadowRoot.querySelector(".info.disco");
         const criticalityTag = this.shadowRoot.querySelector(".criticality");
+
+        container_cpu.classList.remove("Normal", "Atenção", "Crítico");
+        container_ram.classList.remove("Normal", "Atenção", "Crítico");
+        container_disco.classList.remove("Normal", "Atenção", "Crítico");
         
-        let criticidade = "Normal";
-        let classe = "";
-
-        if (cpu >= 80 || ram >= 80 || disco >= 90) {
-            criticidade = "Crítico";
-            classe = "Crítico";
-        } else if (cpu <= 20 || ram <= 20 || disco <= 20) {
-            criticidade = "Atenção";
-            classe = "Atenção";
+        let criticidadeGeral = "Normal";
+        
+        if (cpu >= 70) {
+            container_cpu.classList.add("Crítico");
+            criticidadeGeral = "Crítico";
+        } else if (cpu <= 70 && cpu >= 50) { 
+            container_cpu.classList.add("Atenção");
+            if (criticidadeGeral !== "Crítico") criticidadeGeral = "Atenção";
+        } else {
+            container_cpu.classList.add("Normal");
         }
-
-        criticalityTag.textContent = criticidade;
-
-        criticalityTag.className = `label criticality ${classe}`;
+        
+        if (ram >= 70) {
+            container_ram.classList.add("Crítico");
+            criticidadeGeral = "Crítico";
+        } else if (ram <= 70 && ram >= 50) { 
+            container_ram.classList.add("Atenção");
+            if (criticidadeGeral !== "Crítico") criticidadeGeral = "Atenção";
+        } else {
+            container_ram.classList.add("Normal");
+        }
+        
+        if (disco >= 60) {
+            container_disco.classList.add("Crítico");
+            criticidadeGeral = "Crítico";
+        } else if (disco <= 70 && disco >= 50) { 
+            container_disco.classList.add("Atenção");
+            if (criticidadeGeral !== "Crítico") criticidadeGeral = "Atenção";
+        } else {
+            container_disco.classList.add("Normal");
+        }
+        
+        criticalityTag.textContent = criticidadeGeral;
+        criticalityTag.className = `label criticality ${criticidadeGeral}`;
     }
+    
     formatarDataISO(timestamp) {
         return new Date(timestamp).toISOString().split('T')[0];
     }
