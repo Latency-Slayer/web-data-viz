@@ -11,6 +11,7 @@ async function renderRealTimeDashboard () {
     const kpis = loadKpis();
 
     await loadTopGamesChart();
+    await loadTopContinentsChart();
 }
 
 
@@ -144,6 +145,103 @@ async function getAllTopGames() {
         return json.topGames.map((data) => {
             return {
                 x: data[0],
+                y: data[1]
+            }
+        });
+    }
+
+    return [{
+        x: "Nenhum jogo sendo executado no momento",
+        y: 0
+    }];
+}
+
+
+
+
+
+
+
+
+
+async function loadTopContinentsChart() {
+    const chartdiv = document.getElementById("chart2");
+
+    let options = {
+        series: [{
+            name: "Quantidade de jogadores",
+            data: await getTopContinents(),
+        }],
+        chart: {
+            type: 'bar',
+            height: '90%',
+        },
+        plotOptions: {
+            bar: {
+                borderRadius: 10,
+            },
+        },
+        xaxis: {
+            labels: {
+                style: {
+                    colors: ["#56408C"],
+                    fontSize: '14px',
+                    fontFamily: 'Helvetica, Arial, sans-serif',
+                    fontWeight: 600,
+
+                }
+            }
+        },
+        yaxis: {
+            labels: {
+                style: {
+                    colors: ["#56408C"],
+                    fontSize: '14px',
+                    fontFamily: 'Helvetica, Arial, sans-serif',
+                    fontWeight: 400
+                },
+                formatter: (val) => {
+                    return Intl.NumberFormat("en-US").format(val);
+                }
+            }
+        },
+        fill: {
+            colors: ['#B69CF6']
+        },
+
+    };
+
+    let chart = new ApexCharts(chartdiv, options);
+    chart.render();
+
+    setInterval(async () => {
+        chart.updateSeries([{
+            data: await getTopContinents(),
+        }]);
+    }, 2000)
+}
+
+
+
+async function getTopContinents() {
+    const request = await fetch(`/bi/dashboard/real-time/top-continents/${sessionStorage.REGISTRATION_NUMBER}`);
+    const json = await request.json();
+
+    const continents = {
+        SA: "América do Sul",
+        NA: "América do Norte",
+        AF: "África",
+        EU: "Europa",
+        OC: "Oceânia",
+        AN: "Antártida",
+        AS: "Ásia"
+    }
+
+    if(json.topContinents.length > 0){
+        return json.topContinents.map((data) => {
+
+            return {
+                x: continents[data[0]],
                 y: data[1]
             }
         });

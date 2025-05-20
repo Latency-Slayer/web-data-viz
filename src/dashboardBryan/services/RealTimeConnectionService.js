@@ -42,18 +42,27 @@ class RealTimeConnectionService {
         return model.getNumberOfActiveServers(companyRegisterNumber);
     }
 
-    getTopGames(companyRegistarNumber, continent) {
-        if(!companyRegistarNumber) {
+    getTopGames(companyRegisterNumber, continent) {
+        if(!companyRegisterNumber) {
             return AppError("Error getting information for companyRegisterNumber", 400);
         }
 
         const continents = ["AS", "AF", "SA", "NA", "EU", "OC", "AN"];
 
         if(continents.includes(continent)) {
-            return model.getTopGamesOfMomentInContinent(companyRegistarNumber, continent);
+            return model.getTopGamesOfMomentInContinent(companyRegisterNumber, continent);
         }
 
-        return model.getTopGamesOfMoment(companyRegistarNumber);
+        return model.getTopGamesOfMoment(companyRegisterNumber);
+    }
+
+
+    getTopContinents(companyRegisterNumber) {
+        if(!companyRegisterNumber) {
+            return AppError("Error getting information for companyRegisterNumber", 400);
+        }
+
+        return model.topContinents(companyRegisterNumber);
     }
 }
 

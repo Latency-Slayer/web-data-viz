@@ -70,6 +70,18 @@ class RealTimeConnectionController {
 
         return res.status(200).json({ topGames: topGames });
     }
+
+    getTopContinents(req, res) {
+        const companyRegister = req.params["registerNumber"];
+
+        if(!companyRegister) {
+            throw new AppError("Mandatory data missing.", 400);
+        }
+
+        const topContinents = service.getTopContinents(companyRegister);
+
+        return res.status(200).json({ topContinents });
+    }
 }
 
 module.exports = RealTimeConnectionController;

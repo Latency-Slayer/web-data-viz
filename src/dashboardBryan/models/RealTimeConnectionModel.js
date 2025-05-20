@@ -163,7 +163,6 @@ class RealTimeConnectionModel {
             let serverQuantConnections = 0;
 
             serverData.connectionsData.connections.forEach((connection) => {
-                console.log(connection[2].continent_code);
 
                 if(connection[2].continent_code === continentCode) {
                     serverQuantConnections++;
@@ -182,6 +181,34 @@ class RealTimeConnectionModel {
         });
 
         return [...gamesOfMoment].sort((a, b) => b[1] - a[1]);
+    }
+
+
+    topContinents(registrationNumber) {
+        const companyServers = this.#connectionsData.get(registrationNumber);
+
+        if(!companyServers) {
+            return {};
+        }
+
+        let playersByContinent = {
+            AS: 0,
+            AF: 0,
+            SA: 0,
+            NA: 0,
+            EU: 0,
+            OC: 0,
+            AN: 0
+        };
+
+        companyServers.forEach((serverData) => {
+            serverData.connectionsData.connections.forEach(connection => {
+                playersByContinent[connection[2].continent_code]++;
+            });
+        });
+
+        return [...Object.entries(playersByContinent)].sort((a, b) => b[1] - a[1])
+            .filter(v => v[1] > 0);
     }
 
     removeInactiveServer() {
