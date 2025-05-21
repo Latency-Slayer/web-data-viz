@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Asap:ital,wght@0,100..900;1,100..900&family=Edu+AU+VIC+WA+NT+Guides:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+.dashNegocio {
+    margin: 10px;
+}
+
+.filtros {
+    width: 30%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.filtros .filtro {
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.50);
+    width: 150px;
+    height: 30px;
+    font-size: 20px;
+    border-radius: 5px;
+    color: #56408C;
+}
+
+.filtro:hover {
+    background-color: #f0f0f0; 
+}
+
+.filtro option {
+    font-size: 18px;
+    border: none;  
+}
+
+
