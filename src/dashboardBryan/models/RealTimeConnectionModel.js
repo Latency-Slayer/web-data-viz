@@ -95,18 +95,27 @@ class RealTimeConnectionModel {
         }
 
         let totalConnections = 0;
+        let connectionsOutContinent = 0;
 
         companyServers.forEach((serverData) => {
             serverData.connectionsData.connections.forEach((connection) => {
 
-                if (connection[2].continent_code == continentCode) {
+                if (connection[2].continent_code === continentCode) {
                     totalConnections++;
+                }
+
+                if(serverData.continentCode !== continentCode && connection[2].continent_code === continentCode) {
+                    connectionsOutContinent++;
                 }
             })
 
         });
 
-        return totalConnections;
+        return {
+            totalConnections: totalConnections,
+            connectionsOutContinent: connectionsOutContinent,
+            warning: connectionsOutContinent > totalConnections / 4
+        };
     }
 
     getNumberOfActiveServers(registrationNumber) {
@@ -120,8 +129,12 @@ class RealTimeConnectionModel {
 
         let totalServers = 0;
 
+        if(!companyServers) {
+            return 0;
+        }
+
         companyServers.forEach((serverData) => {
-            if(serverData.continentCode == continentCode) {
+            if(serverData.continentCode === continentCode) {
                 totalServers++;
             }
         })
@@ -158,11 +171,11 @@ class RealTimeConnectionModel {
         const companyServers = this.#connectionsData.get(registrationNumber);
 
         const gamesOfMoment = new Map();
-
         companyServers.forEach((serverData) => {
             let serverQuantConnections = 0;
 
             serverData.connectionsData.connections.forEach((connection) => {
+
 
                 if(connection[2].continent_code === continentCode) {
                     serverQuantConnections++;
@@ -209,6 +222,30 @@ class RealTimeConnectionModel {
 
         return [...Object.entries(playersByContinent)].sort((a, b) => b[1] - a[1])
             .filter(v => v[1] > 0);
+    }
+
+    getTopCountries(registrationNumber, continentCode) {
+        const companyServers = this.#connectionsData.get(registrationNumber);
+
+        if(!companyServers || !continent) {
+            return [];
+        }
+
+        const topContries = Map();
+
+        companyServers.forEach(companyServers => {
+            companyServers.connectionsData.connections.forEach(connection => {
+                if(connection[2].continent_code === continentCode) {
+                    const country = topContries.get(connection[2].country)
+
+                    if(!country) {
+                        topContries.set(connection[2].country, 1);
+                    } else {
+
+                    }
+                }
+            });
+        });
     }
 
     removeInactiveServer() {

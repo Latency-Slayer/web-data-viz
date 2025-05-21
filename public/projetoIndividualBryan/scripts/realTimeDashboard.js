@@ -8,21 +8,44 @@ window.onload = renderRealTimeDashboard;
 
 
 async function renderRealTimeDashboard () {
-    const kpis = loadKpis();
+    let kpis = loadKpis();
 
-    const chart1 = await loadTopGamesChart();
-    const chart2 = await loadTopContinentsChart();
-    const chart3 = await loadConnectionsVariationChart();
+    let chart1 = await loadTopGamesChart();
+    let chart2 = await loadTopContinentsChart();
+    let chart3 = await loadConnectionsVariationChart();
 
     // Reload dashboard on filter change;
 
     const continentFilter = document.getElementById("continent-filter");
 
-    observeElementAtributteChange(continentFilter, (filter) => {
-        console.log(filter);
+    const filters = {
+        continent: null,
+        game: null
+    }
+
+    observeElementAtributteChange(continentFilter, async (filter) => {
+        kpis.kpi01.stop();
+        kpis.kpi01.destroy();
+
+        kpis.kpi02.stop();
+        kpis.kpi02.destroy();
+
+        kpis.kpi03.stop();
+        kpis.kpi03.destroy();
+
+        filters.continent = filter;
+
+        kpis = loadKpis(filters);
+
+        chart1.stop();
+        chart3.stop();
+
+
+        chart1 = await loadTopGamesChart(filters);
+        chart3 = await loadConnectionsVariationChart(filters);
+
     });
 }
-
 
 function loadKpis(filters) {
     const kpisDiv = document.getElementById("kpisDiv");
@@ -43,7 +66,7 @@ function loadKpis(filters) {
         id: "kpi01"
     }, ["w-1/3"]);
 
-    const kpis03 = insertElement(kpisDiv,"kpi-card", {
+    const kpi03 = insertElement(kpisDiv,"kpi-card", {
         "icon-name": "bi-controller",
         "kpi-title": "Jogo mais jogado no momento",
         value: 0,
@@ -53,48 +76,88 @@ function loadKpis(filters) {
 
     const kpi01Init = initKpi(kpi01, getQuantPlayers, filters);
     const kpi02Init = initKpi(kpi02, getQuantServersActive, filters);
-    const kpi03Init = initKpi(kpis03, getTopGame, filters);
+    const kpi03Init = initKpi(kpi03, getTopGame, filters);
 
     return {
-        kpi01: kpi01Init,
-        kpi02: kpi02Init,
-        kpi03: kpi03Init,
+        kpi01: {
+            stop: () =>  kpi01Init.stopKpi(),
+            destroy: () => kpi01.remove()
+        },
+        kpi02: {
+            stop: () =>  kpi02Init.stopKpi(),
+            destroy: () => kpi02.remove(),
+        },
+        kpi03: {
+            stop: () => kpi03Init.stopKpi(),
+            destroy: () => kpi03.remove(),
+        },
     }
 }
 
 async function getQuantPlayers(filters) {
-    const request = await fetch(`/bi/dashboard/real-time/quantity-connections/${sessionStorage.REGISTRATION_NUMBER}`);
+    let url = `/bi/dashboard/real-time/quantity-connections/${sessionStorage.REGISTRATION_NUMBER}`;
+
+    if(filters && filters.hasOwnProperty("continent")) {
+        url = `/bi/dashboard/real-time/quantity-connections/${sessionStorage.REGISTRATION_NUMBER}?continent=${filters.continent}`;
+    }
+
+    const request = await fetch(url);
     const json = await request.json();
+
+
+    if(json.quantConnections.hasOwnProperty("totalConnections")) {
+        if(json.quantConnections.warning) {
+            document.getElementById("warning").classList.remove("invisible");
+        } else {
+            document.getElementById("warning").classList.add("invisible");
+        }
+
+        return json.quantConnections.totalConnections;
+    }
+
+    document.getElementById("warning").classList.add("invisible");
 
     return json.quantConnections;
 }
 
 async function getQuantServersActive(filters) {
-    const request = await fetch(`/bi/dashboard/real-time/quantity-active-servers/${sessionStorage.REGISTRATION_NUMBER}`);
+    let url = `/bi/dashboard/real-time/quantity-active-servers/${sessionStorage.REGISTRATION_NUMBER}`;
+
+    if(filters && filters.hasOwnProperty("continent")) {
+        url = `/bi/dashboard/real-time/quantity-active-servers/${sessionStorage.REGISTRATION_NUMBER}?continent=${filters.continent}`;
+    }
+
+    const request = await fetch(url);
     const json = await request.json();
 
     return json.quantActiveServers;
 }
 
 async function getTopGame(filters) {
-    const request = await fetch(`/bi/dashboard/real-time/top-games/${sessionStorage.REGISTRATION_NUMBER}`);
+    let url = `/bi/dashboard/real-time/top-games/${sessionStorage.REGISTRATION_NUMBER}`;
+
+    if(filters && filters.hasOwnProperty("continent")) {
+        url = `/bi/dashboard/real-time/top-games/${sessionStorage.REGISTRATION_NUMBER}?continent=${filters.continent}`;
+    }
+
+    const request = await fetch(url);
     const json = await request.json();
 
     if(json.topGames.length > 0){
         return json.topGames[0][0];
     }
 
-    return "N/A"
+    return "N/A";
 }
 
 
-async function loadTopGamesChart() {
+async function loadTopGamesChart(filters) {
     const chartdiv = document.getElementById("chart1");
 
     let options = {
         series: [{
             name: "Quantidade de jogadores",
-            data: await getAllTopGames(),
+            data: await getAllTopGames(filters),
         }],
         chart: {
             type: 'bar',
@@ -138,16 +201,29 @@ async function loadTopGamesChart() {
     let chart = new ApexCharts(chartdiv, options);
     chart.render();
 
-    return setInterval(async () => {
+    const interval = setInterval(async () => {
         chart.updateSeries([{
-            data: await getAllTopGames(),
+            data: await getAllTopGames(filters),
         }]);
     }, 2000);
+
+    return {
+        stop: () => {
+            clearInterval(interval);
+            chart.destroy();
+        }
+    }
 }
 
 
-async function getAllTopGames() {
-    const request = await fetch(`/bi/dashboard/real-time/top-games/${sessionStorage.REGISTRATION_NUMBER}`);
+async function getAllTopGames(filters) {
+    let url = `/bi/dashboard/real-time/top-games/${sessionStorage.REGISTRATION_NUMBER}`;
+
+    if(filters && filters.hasOwnProperty("continent")) {
+        url = `/bi/dashboard/real-time/top-games/${sessionStorage.REGISTRATION_NUMBER}?continent=${filters.continent}`;
+    }
+
+    const request = await fetch(url);
     const json = await request.json();
 
     if(json.topGames.length > 0){
@@ -262,7 +338,7 @@ async function getTopContinents() {
     }];
 }
 
-async function loadConnectionsVariationChart() {
+async function loadConnectionsVariationChart(filters) {
     const chartdiv = document.getElementById("chart3");
 
     let options = {
@@ -309,7 +385,10 @@ async function loadConnectionsVariationChart() {
                     fontWeight: 600,
                 },
             },
-            format: "HH:mm:ss",
+            datetimeFormatter: {
+                hour: "HH:mm:ss"
+            },
+            datetimeUTC: false,
             range: 10000
         },
         yaxis: {
@@ -336,9 +415,11 @@ async function loadConnectionsVariationChart() {
 
     const data = [];
 
-    return setInterval(async () => {
-        const y = await getQuantPlayers();
-        const x = new Date().getTime();
+    const interval = setInterval(async () => {
+        const y = await getQuantPlayers(filters);
+        let x = new Date();
+        x.setHours(x.getHours() - 3);
+        x = x.getTime();
 
         data.push({ x, y });
 
@@ -347,5 +428,12 @@ async function loadConnectionsVariationChart() {
             data: data
         }]);
     }, 2000);
+
+    return {
+        stop: () => {
+            clearInterval(interval);
+            chart.destroy();
+        }
+    }
 }
 

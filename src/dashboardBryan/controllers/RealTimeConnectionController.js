@@ -58,6 +58,8 @@ class RealTimeConnectionController {
         const companyRegister = req.params["registerNumber"];
         const continent = req.query["continent"];
 
+        console.log(continent)
+
         if(!companyRegister) {
             throw new AppError("Mandatory data missing.", 400);
         }

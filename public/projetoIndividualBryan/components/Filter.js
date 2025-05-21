@@ -50,11 +50,10 @@ class Filter extends HTMLElement {
 
             select.insertAdjacentHTML('beforeend', `
                         <div value="${option.value}" text=${option.text} class="option w-full h-10 flex justify-start items-center indent-5 text-purple-900 hover:bg-purple-900 hover:text-white cursor-pointer transition-all border-b">
-                            <span class="font-medium text-xl">${option.text}</span>
+                            <span class="font-medium text-xl">${option.text.replace(/_/g, " ")}</span>
                         <div>`
             );
-        })
-
+        });
 
         this.selectOption();
         this.cleanFilter();
@@ -67,7 +66,9 @@ class Filter extends HTMLElement {
         optionsElements.forEach((option) => {
             option.addEventListener('click', () => {
                 const value = option.getAttribute('value');
-                const text = option.getAttribute('text');
+                let text = option.getAttribute('text');
+
+               text = text.replace(/_/g, " ");
 
                 this.setAttribute('value', value);
                 this.setAttribute('text', text);

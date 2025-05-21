@@ -39,12 +39,17 @@
     <nav-bar></nav-bar>
 
     <main class="w-[96%] m-auto">
-        <div class="h-fit w-1/2 flex my-5 gap-2">
-            <filter-select id="continent-filter"
-                    options="[
+        <div class="flex justify-between">
+            <div class="h-fit w-1/2 flex my-5 gap-2">
+                <filter-select id="continent-filter"
+                               options="[
                     {
-                        text: 'América',
+                        text: 'América_do_Norte',
                         value: 'NA'
+                    },
+                    {
+                        text: 'América_do_Sul',
+                        value: 'SA'
                     },
                     {
                         text: 'Europa',
@@ -63,13 +68,13 @@
                         value: 'AF'
                     }
                 ]"
-                    filter-name="Continente"
-                    icon="bi-globe2"
-            >
-            </filter-select>
+                               filter-name="Continente"
+                               icon="bi-globe2"
+                >
+                </filter-select>
 
-            <filter-select
-                    options="
+                <filter-select
+                        options="
                     [
                         {
                             text: 'Minecraft',
@@ -114,12 +119,12 @@
                     ]
 
                 "
-                    filter-name="Jogo"
-                    icon="bi-controller"
-            >
-            </filter-select>
-            <filter-select
-                    options="
+                        filter-name="Jogo"
+                        icon="bi-controller"
+                >
+                </filter-select>
+                <filter-select
+                        options="
                     [
                         {
                             text: 'Minecraft',
@@ -164,10 +169,15 @@
                     ]
 
                 "
-                    filter-name="Periodo"
-                    icon="bi-calendar-event"
-            >
-            </filter-select>
+                        filter-name="Periodo"
+                        icon="bi-calendar-event"
+                >
+                </filter-select>
+
+            </div>
+            <div class="flex justify-between items-center">
+                <i class="bi bi-exclamation-triangle-fill text-5xl text-yellow-500 cursor-pointer invisible animate-bounce" id="warning"></i>
+            </div>
         </div>
 
         <section class="flex justify-between h-[600px]">

@@ -36,7 +36,7 @@ class RealTimeConnectionService {
         const continents = ["AS", "AF", "SA", "NA", "EU", "OC", "AN"];
 
         if(continents.includes(continent)) {
-            return model.getNumberOfConnectionsInContinent(companyRegisterNumber, continent);
+            return model.getNumberOfActiveServersInContinent(companyRegisterNumber, continent);
         }
 
         return model.getNumberOfActiveServers(companyRegisterNumber);
