@@ -1,4 +1,4 @@
-import { insertElement, initKpi } from "./functions.js";
+import { insertElement, initKpi, observeElementAtributteChange } from "./functions.js";
 import MapBox from "./classes/MapBox.js";
 import "https://cdn.jsdelivr.net/npm/apexcharts"
 
@@ -12,11 +12,19 @@ async function renderRealTimeDashboard () {
 
     const chart1 = await loadTopGamesChart();
     const chart2 = await loadTopContinentsChart();
-    const chart3 = await loadConnectionsVarianceChart();
+    const chart3 = await loadConnectionsVariationChart();
+
+    // Reload dashboard on filter change;
+
+    const continentFilter = document.getElementById("continent-filter");
+
+    observeElementAtributteChange(continentFilter, (filter) => {
+        console.log(filter);
+    });
 }
 
 
-function loadKpis() {
+function loadKpis(filters) {
     const kpisDiv = document.getElementById("kpisDiv");
 
     const kpi01 = insertElement(kpisDiv,"kpi-card", {
@@ -43,9 +51,9 @@ function loadKpis() {
         id: "kpi01"
     }, ["w-1/3"]);
 
-    const kpi01Init = initKpi(kpi01, getQuantPlayers);
-    const kpi02Init = initKpi(kpi02, getQuantServersActive);
-    const kpi03Init = initKpi(kpis03, getTopGame);
+    const kpi01Init = initKpi(kpi01, getQuantPlayers, filters);
+    const kpi02Init = initKpi(kpi02, getQuantServersActive, filters);
+    const kpi03Init = initKpi(kpis03, getTopGame, filters);
 
     return {
         kpi01: kpi01Init,
@@ -54,21 +62,21 @@ function loadKpis() {
     }
 }
 
-async function getQuantPlayers() {
+async function getQuantPlayers(filters) {
     const request = await fetch(`/bi/dashboard/real-time/quantity-connections/${sessionStorage.REGISTRATION_NUMBER}`);
     const json = await request.json();
 
     return json.quantConnections;
 }
 
-async function getQuantServersActive() {
+async function getQuantServersActive(filters) {
     const request = await fetch(`/bi/dashboard/real-time/quantity-active-servers/${sessionStorage.REGISTRATION_NUMBER}`);
     const json = await request.json();
 
     return json.quantActiveServers;
 }
 
-async function getTopGame() {
+async function getTopGame(filters) {
     const request = await fetch(`/bi/dashboard/real-time/top-games/${sessionStorage.REGISTRATION_NUMBER}`);
     const json = await request.json();
 
@@ -254,19 +262,37 @@ async function getTopContinents() {
     }];
 }
 
-
-
-async function loadConnectionsVarianceChart() {
+async function loadConnectionsVariationChart() {
     const chartdiv = document.getElementById("chart3");
 
     let options = {
         series: [{
             name: "Quantidade de jogadores",
-            data: [1, 2, 3, 4, 5, 6, 7, 8, 90, 10],
+            data: [],
         }],
         chart: {
             type: 'line',
             height: '90%',
+            animations: {
+                enabled: true,
+                easing: 'linear',
+                dynamicAnimation: {
+                    speed: 1000
+                }
+            },
+            zoom: {
+                enabled: true
+            },
+            dropShadow: {
+                enabled: true,
+                top: 2,
+                left: 0,
+                blur: 3,
+                opacity: 0.5
+            }
+        },
+        stroke: {
+            curve: 'smooth'
         },
         plotOptions: {
             bar: {
@@ -274,15 +300,17 @@ async function loadConnectionsVarianceChart() {
             },
         },
         xaxis: {
+            type: "datetime",
             labels: {
                 style: {
                     colors: ["#56408C"],
                     fontSize: '14px',
                     fontFamily: 'Helvetica, Arial, sans-serif',
                     fontWeight: 600,
-
-                }
-            }
+                },
+            },
+            format: "HH:mm:ss",
+            range: 10000
         },
         yaxis: {
             labels: {
@@ -298,7 +326,7 @@ async function loadConnectionsVarianceChart() {
             }
         },
         fill: {
-            colors: ['#B69CF6']
+            colors: ['#56408C']
         },
 
     };
@@ -306,10 +334,18 @@ async function loadConnectionsVarianceChart() {
     let chart = new ApexCharts(chartdiv, options);
     chart.render();
 
-    // return setInterval(async () => {
-    //     chart.updateSeries([{
-    //         data: await getTopContinents(),
-    //     }]);
-    // }, 2000);
+    const data = [];
+
+    return setInterval(async () => {
+        const y = await getQuantPlayers();
+        const x = new Date().getTime();
+
+        data.push({ x, y });
+
+        chart.updateSeries([{
+            name: "Quantidade de jogadores",
+            data: data
+        }]);
+    }, 2000);
 }
 
