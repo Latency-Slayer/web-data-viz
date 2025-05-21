@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard | Latency Slayer</title>
     <script src="script/components/navBar.js"></script>
+    <script src="script/components/kpi.js"></script>
     <link rel="stylesheet" href="style/dashboardManagement.css" />
   </head>
   <body>
@@ -12,20 +13,11 @@
 
     <main>
       <div class="kpis">
-        <div class="kpi">
-          <div class="box-kpi">
-            <span class="titulo-kpi">Chamados chamados e chamados</span>
-
-            <div class="center-infos">
-              <span class="numero">12</span>
-              <span class="msg-kpi">chamados em aberto sem responsável</span>
-            </div>
-
-            <span class="msg-label">60% do total de chamados (total de 20)</span>
-          </div>
-        </div>
-        <div class="kpi"></div>
-        <div class="kpi"></div>
+        <m-kpi></m-kpi>
+        <m-kpi></m-kpi>
+        <m-kpi></m-kpi>
+        <!-- <div class="kpi"></div> -->
+        <!-- <div class="kpi"></div> -->
       </div>
     </main>
   </body>
