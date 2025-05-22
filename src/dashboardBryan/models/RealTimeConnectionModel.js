@@ -4,7 +4,7 @@ class RealTimeConnectionModel {
     constructor() {
         this.#connectionsData = new Map();
 
-        setInterval(() => this.removeInactiveServer(), 5000);
+        setInterval(() => this.#removeInactiveServer(), 5000);
     }
 
     get connectionsData() {
@@ -52,6 +52,7 @@ class RealTimeConnectionModel {
             companyServers.set(serverData.motherboard_id, {
                 tagName: serverData.tag_name,
                 game: serverData.game,
+                ip: serverData.ip,
                 port: serverData.port,
                 continentCode: serverData.continentCode,
                 country: serverData.country,
@@ -171,6 +172,11 @@ class RealTimeConnectionModel {
         const companyServers = this.#connectionsData.get(registrationNumber);
 
         const gamesOfMoment = new Map();
+
+        if(!companyServers) {
+            return [];
+        }
+
         companyServers.forEach((serverData) => {
             let serverQuantConnections = 0;
 
@@ -227,28 +233,65 @@ class RealTimeConnectionModel {
     getTopCountries(registrationNumber, continentCode) {
         const companyServers = this.#connectionsData.get(registrationNumber);
 
-        if(!companyServers || !continent) {
+        if(!companyServers || !continentCode) {
             return [];
         }
 
-        const topContries = Map();
+        const topContries = new Map();
 
         companyServers.forEach(companyServers => {
             companyServers.connectionsData.connections.forEach(connection => {
+                if(connection.length === 0) {
+                    return [];
+                }
+
                 if(connection[2].continent_code === continentCode) {
                     const country = topContries.get(connection[2].country)
 
                     if(!country) {
                         topContries.set(connection[2].country, 1);
                     } else {
-
+                        topContries.set(connection[2].country, topContries.get(connection[2].country) + 1);
                     }
                 }
+
             });
         });
+
+
+        return [...topContries].sort((a, b) => b[1] - a[1]);
     }
 
-    removeInactiveServer() {
+    getFarPlayers(registrationNumber, continentCode) {
+        const companyServers = this.#connectionsData.get(registrationNumber);
+
+        console.log(continentCode)
+
+        if(!companyServers) {
+            return 0;
+        }
+
+        const farPlayers = [];
+
+        companyServers.forEach((serverData) => {
+            serverData.connectionsData.connections.forEach((connection) => {
+                if(serverData.continentCode !== continentCode && connection[2].continent_code === continentCode) {
+                    farPlayers.push({
+                        playerIp: connection[0],
+                        playerContinent: connection[2].continent_code,
+                        serverTagName: serverData.tagName,
+                        serverIp: serverData.ip,
+                        serverContinent: serverData.continentCode
+                    })
+                }
+            })
+        });
+
+        return farPlayers;
+    }
+
+
+    #removeInactiveServer() {
         this.#connectionsData.forEach((companyServers) => {
             companyServers.forEach((serverData, motherboardId) => {
                 if(Date.now() - serverData.connectionsData.lastUpdate.getTime() > 5000) {

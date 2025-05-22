@@ -64,6 +64,22 @@ class RealTimeConnectionService {
 
         return model.topContinents(companyRegisterNumber);
     }
+
+    getTopCountries(companyRegisterNumber, continent) {
+        if(!companyRegisterNumber || !continent) {
+            return AppError("Error getting information for companyRegisternumber or continent", 400);
+        }
+
+        return model.getTopCountries(companyRegisterNumber, continent);
+    }
+
+    getFarPlayers(companyRegisterNumber, continent) {
+        if(!companyRegisterNumber || !continent) {
+            return AppError("Error getting information for companyRegisterNumber", 400);
+        }
+
+        return model.getFarPlayers(companyRegisterNumber, continent);
+    }
 }
 
 module.exports = RealTimeConnectionService;

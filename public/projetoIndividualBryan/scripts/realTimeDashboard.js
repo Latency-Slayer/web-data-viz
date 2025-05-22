@@ -4,8 +4,17 @@ import "https://cdn.jsdelivr.net/npm/apexcharts"
 
 const map = new MapBox("map");
 
+const warningData = {
+    title: "",
+    playerList: new Map()
+};
+
 window.onload = renderRealTimeDashboard;
 
+const filters = {
+    continent: null,
+    game: null
+}
 
 async function renderRealTimeDashboard () {
     let kpis = loadKpis();
@@ -18,43 +27,49 @@ async function renderRealTimeDashboard () {
 
     const continentFilter = document.getElementById("continent-filter");
 
-    const filters = {
-        continent: null,
-        game: null
-    }
-
     observeElementAtributteChange(continentFilter, async (filter) => {
-        kpis.kpi01.stop();
         kpis.kpi01.destroy();
-
-        kpis.kpi02.stop();
         kpis.kpi02.destroy();
-
-        kpis.kpi03.stop();
         kpis.kpi03.destroy();
 
         filters.continent = filter;
 
-        kpis = loadKpis(filters);
+        const kpiHints = filter ? {
+            kpi1Hint: "Quantidade de conexões no continente filtrado.",
+            kpi2Hint: "Total de servidores ativos no continente filtrado. É possível ter jogadores ativos no " +
+                "continente, mas não necessáriamente ter um servidor ativo. Nesse caso significa que os jogadores estão " +
+                "jogando em servidores localizados em outros continentes.",
+            kpi3Hint: "Jogo mais jogado no continente filtrado.",
+        } : null;
+
+        kpis = loadKpis(filters, kpiHints);
 
         chart1.stop();
+        chart2.stop();
         chart3.stop();
 
-
         chart1 = await loadTopGamesChart(filters);
+        chart2 = await loadTopContinentsChart(filters.continent);
         chart3 = await loadConnectionsVariationChart(filters);
-
     });
 }
 
-function loadKpis(filters) {
+function loadKpis(filters, hints) {
     const kpisDiv = document.getElementById("kpisDiv");
+
+    if(!hints) {
+        hints = {};
+
+        hints.kpi1Hint = "Soma de todos os jogadores conectados em todos os servidores ao redor de mundo.";
+        hints.kpi2Hint = "Total de servidores ativos globalmente.";
+        hints.kpi3Hint = "Jogo mais jogado globalmente.";
+    }
 
     const kpi01 = insertElement(kpisDiv,"kpi-card", {
         "icon-name": "bi-wifi",
         "kpi-title": "Quantidade de conexões",
         value: 0,
-        hint: "Soma de todos os jogadores conectados em todos os servidores ao redor de mundo.",
+        hint: hints.kpi1Hint,
         id: "kpi01"
     }, ["w-1/3"]);
 
@@ -62,16 +77,16 @@ function loadKpis(filters) {
         "icon-name": "bi-hdd-stack",
         "kpi-title": "Total de servidores ativos",
         value: 0,
-        hint: "Total de servidores ativos globalmente.",
-        id: "kpi01"
+        hint: hints.kpi2Hint,
+        id: "kpi02"
     }, ["w-1/3"]);
 
     const kpi03 = insertElement(kpisDiv,"kpi-card", {
         "icon-name": "bi-controller",
         "kpi-title": "Jogo mais jogado no momento",
         value: 0,
-        hint: "Jogo mais jogado no mundo.",
-        id: "kpi01"
+        hint: hints.kpi3Hint,
+        id: "kpi03"
     }, ["w-1/3"]);
 
     const kpi01Init = initKpi(kpi01, getQuantPlayers, filters);
@@ -80,16 +95,22 @@ function loadKpis(filters) {
 
     return {
         kpi01: {
-            stop: () =>  kpi01Init.stopKpi(),
-            destroy: () => kpi01.remove()
+            destroy: () => {
+                kpi01Init.stopKpi();
+                kpi01.remove();
+            }
         },
         kpi02: {
-            stop: () =>  kpi02Init.stopKpi(),
-            destroy: () => kpi02.remove(),
+            destroy: () => {
+                kpi02Init.stopKpi();
+                kpi02.remove();
+            },
         },
         kpi03: {
-            stop: () => kpi03Init.stopKpi(),
-            destroy: () => kpi03.remove(),
+            destroy: () => {
+                kpi03Init.stopKpi();
+                kpi03.remove();
+            },
         },
     }
 }
@@ -244,18 +265,13 @@ async function getAllTopGames(filters) {
 
 
 
-
-
-
-
-
-async function loadTopContinentsChart() {
+async function loadTopContinentsChart(continent) {
     const chartdiv = document.getElementById("chart2");
 
     let options = {
         series: [{
             name: "Quantidade de jogadores",
-            data: await getTopContinents(),
+            data: !continent ? await getTopContinents() : await getTopCountries(continent),
         }],
         chart: {
             type: 'bar',
@@ -293,17 +309,23 @@ async function loadTopContinentsChart() {
         fill: {
             colors: ['#B69CF6']
         },
-
     };
 
     let chart = new ApexCharts(chartdiv, options);
     chart.render();
 
-    return setInterval(async () => {
+    const interval = setInterval(async () => {
         chart.updateSeries([{
-            data: await getTopContinents(),
+            data: !continent ? await getTopContinents() : await getTopCountries(continent),
         }]);
-    }, 2000);
+    }, 2000)
+
+    return {
+        stop: () => {
+            clearInterval(interval);
+            chart.destroy();
+        }
+    };
 }
 
 
@@ -337,6 +359,22 @@ async function getTopContinents() {
         y: 0
     }];
 }
+
+async function getTopCountries(continentCode) {
+    const request = await fetch(`/bi/dashboard/real-time/top-countries/${sessionStorage.REGISTRATION_NUMBER}?continent=${continentCode}`);
+    const json = await request.json();
+
+    if(json.topCountries.length > 0){
+        return json.topCountries.map((data) => {
+
+            return {
+                x: data[0],
+                y: data[1]
+            }
+        }).slice(0, 7);
+    }
+}
+
 
 async function loadConnectionsVariationChart(filters) {
     const chartdiv = document.getElementById("chart3");
@@ -437,3 +475,65 @@ async function loadConnectionsVariationChart(filters) {
     }
 }
 
+
+// Alertas!
+
+const warningModal = jSuites.modal(document.getElementById("modal"), {
+    title: "Jogadores conectados em servidores muito distantes",
+    width: "80vw",
+    height: "80vh",
+    closed: true,
+});
+
+document.getElementById("warning").onclick = async () => {
+    if(!filters.continent) {
+        return;
+    }
+
+    console.log(filters.continent);
+
+    const request = await fetch(`/bi/dashboard//real-time/far-players/${sessionStorage.REGISTRATION_NUMBER}?continent=${filters.continent}`);
+    const json = await request.json();
+
+    const table = document.getElementById("far-players-table");
+
+
+    const continents = {
+        SA: "América do Sul",
+        NA: "América do Norte",
+        AF: "África",
+        EU: "Europa",
+        OC: "Oceânia",
+        AN: "Antártida",
+        AS: "Ásia"
+    }
+
+
+    for(let line of json.farPlayers) {
+        table.innerHTML += `
+        <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-900">
+                            ${line.playerIp}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium text-white" style="background-color: #59168b;">
+                                    ${continents[line.playerContinent]}
+                                </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">
+                            ${line.serverTagName}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-900">
+                            ${line.serverIp}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium text-white bg-red-500">
+                                    ${continents[line.serverContinent]}
+                                </span>
+                        </td>
+                    </tr>
+        `;
+    }
+
+    warningModal.open();
+}

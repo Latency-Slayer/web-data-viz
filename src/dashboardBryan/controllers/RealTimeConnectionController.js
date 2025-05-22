@@ -58,8 +58,6 @@ class RealTimeConnectionController {
         const companyRegister = req.params["registerNumber"];
         const continent = req.query["continent"];
 
-        console.log(continent)
-
         if(!companyRegister) {
             throw new AppError("Mandatory data missing.", 400);
         }
@@ -83,6 +81,36 @@ class RealTimeConnectionController {
         const topContinents = service.getTopContinents(companyRegister);
 
         return res.status(200).json({ topContinents });
+    }
+
+    getTopCountries(req, res) {
+        const companyRegister = req.params["registerNumber"];
+        const continent = req.query["continent"];
+
+        if(!companyRegister || !continent) {
+            throw new AppError("Mandatory data missing.", 400);
+        }
+
+        const topCountries = service.getTopCountries(companyRegister, continent);
+
+        return res.status(200).json({ topCountries: topCountries });
+    }
+
+    getFarPlayers(req, res) {
+        const companyRegister = req.params["registerNumber"];
+        const continent = req.query["continent"];
+
+        if(!companyRegister || !continent) {
+            throw new AppError("Mandatory data missing.", 400);
+        }
+
+        const farPlayers = service.getFarPlayers(companyRegister, continent);
+
+        if(farPlayers instanceof AppError) {
+            throw farPlayers;
+        }
+
+        return res.status(200).json({ farPlayers: farPlayers });
     }
 }
 

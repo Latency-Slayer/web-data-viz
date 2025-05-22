@@ -20,6 +20,9 @@
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://unpkg.com/tippy.js@6"></script>
 
+    <!-- JSuites   -->
+    <script src="https://jsuites.net/v5/jsuites.js"></script>
+    <link rel="stylesheet" href="https://jsuites.net/v5/jsuites.css" type="text/css" />
 
     <!-- Manipulação de Mapa  -->
     <script src="https://cdn.jsdelivr.net/npm/@turf/turf/turf.min.js"></script>
@@ -37,10 +40,44 @@
 </head>
 <body class="bg-gray-200">
     <nav-bar></nav-bar>
+    <div id="modal">
+        <div class="bg-white rounded-lg shadow-sm">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h2 class="text-lg font-semibold text-gray-900">Jogadores e Servidores Conectados</h2>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            IP do Jogador
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Continente do Jogador
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Tag Name do Servidor
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            IP do Servidor
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Continente do Servidor
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200" id="far-players-table">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
     <main class="w-[96%] m-auto">
-        <div class="flex justify-between">
-            <div class="h-fit w-1/2 flex my-5 gap-2">
+        <div class="flex gap-5">
+            <div class="h-fit w-fit flex my-5 gap-2">
                 <filter-select id="continent-filter"
                                options="[
                     {
@@ -175,8 +212,8 @@
                 </filter-select>
 
             </div>
-            <div class="flex justify-between items-center">
-                <i class="bi bi-exclamation-triangle-fill text-5xl text-yellow-500 cursor-pointer invisible animate-bounce" id="warning"></i>
+            <div class="flex items-center">
+                <i class="bi bi-exclamation-triangle-fill text-5xl text-yellow-500 cursor-pointer invisible animate-bounce transition-all" id="warning"></i>
             </div>
         </div>
 
