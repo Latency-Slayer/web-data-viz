@@ -46,6 +46,13 @@
                         <h1 id="diskUsage"></h1>
                     </div>
                 </div>
+
+                <div class="kpi four">
+                    <div class="kpi-content-alert">
+                        <span class="text-kpi-alert">Quantidade de Alertas no dia:<span id="qtd_alertas"></span></span>
+                        <h1 id="qtd_alerts">4</h1>
+                    </div>
+                </div>
             </div>
 
             <div class="graficos">
@@ -67,32 +74,32 @@
                         </tbody>
                     </table>
                 </div>
-                <!-- <div class="grafico-barra">
-                        <div class="chart-grafico">
-                            <div class="line-chart-title text-kpi">Quantidade de alertas na semana: </div>
-                            <div id="grafico-uso-armazenamento"></div>                        
-                        </div>
-                    </div> -->
-
+                
                 <div class="graficos-linhas">
                     <div class="container-graficos-linhas">
                         <div class="chart-use-cpu">
                             <div class="line-chart-title text-kpi">Uso da CPU (%)</div>
                             <div id="grafico-cpu-pctg"></div>
                         </div>
-
+                        
                         <div class="graphs-ram">
                             <div class="line-chart-title text-kpi">Uso da Memória (%)</div>
                             <div id="grafico-uso-memoria"></div>
                         </div>
                     </div>
-
+                    
                     <div class="grafico-barra">
+                            <div class="chart-grafico">
+                                <div class="line-chart-title text-kpi">Quantidade de alertas na semana: </div>
+                                <div id="grafico-uso-armazenamento"></div>                        
+                            </div>
+                        </div>
+                    <!-- <div class="grafico-barra">
                         <div class="chart-grafico">
                             <div class="line-chart-title text-kpi">Uso do Disco (%)</div>
                             <div id="grafico-uso-armazenamento"></div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
     </main>
@@ -107,38 +114,41 @@
         });
 
         // Barra de Alertas
-        // new ApexCharts(
-        //     document.querySelector("#grafico-uso-armazenamento"),
-        //     {
-        //         series: [
-        //             {
-        //                 name: "Quantidade de Alertas",
-        //                 type: "bar",
-        //                 data: [12,54,90,2,13,50,10],
-        //                 color: "#44395F",
-        //             },
-        //         ],
-        //         chart: {
-        //             height: 400,
-        //             width: 900,
-        //             toolbar: {
-        //                 show: true,
-        //             },
-        //         },
-        //         dataLabels: {
-        //             enabled: false,
-        //         },
+        const barAlert = "";
+        new ApexCharts(
+            document.querySelector("#grafico-uso-armazenamento"),
+            {
+                series: [
+                    {
+                        name: "Quantidade de Alertas",
+                        type: "bar",
+                        data: [12,54,90,2,13,50,10],
+                        color: "#44395F",
+                    },
+                ],
+                chart: {
+                    height: 200,
+                    width: 900,
+                    toolbar: {
+                        show: true,
+                    },
+                },
+                dataLabels: {
+                    enabled: false,
+                },
 
-        //         xaxis: {
-        //             categories: ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"]
-        //         },
+                xaxis: {
+                    categories: ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"]
+                },
 
-        //         yaxis: {
+                yaxis: {
 
-        //         },
+                },
 
-        //     }
-        // ).render();
+            }
+        ).render();
+
+        //barAlert.render()
 
         function dateTimeCategories() {
             const dates = new Array();
@@ -173,7 +183,7 @@
                     }
                 ],
                 chart: {
-                    height: 150,
+                    height: 225,
                     width: 450,
                     type: "line",
                     toolbar: {
@@ -198,6 +208,7 @@
                 yaxis: {
                     min: 0,
                     max: 100,
+                    tickAmount: 4,
                     labels: {
                         formatter: function (val) {
                             return val + "%";
@@ -231,7 +242,7 @@
                     },
                 ],
                 chart: {
-                    height: 150,
+                    height: 225,
                     width: 450,
                     toolbar: {
                         show: true,
@@ -257,6 +268,7 @@
                     labels: {
                         min: 0,
                         max: 100,
+                        tickAmount: 4,
                         formatter: function (val) {
                             return val + "%";
                         },
@@ -267,48 +279,8 @@
                 },
             }
         )
+
         chartRAM.render();
-
-        // Barra Armazenamento
-
-        new ApexCharts(
-            document.querySelector("#grafico-uso-armazenamento"),
-            {
-                series: [
-                    {
-                        name: "Uso do Disco",
-                        type: "bar",
-                        data: [12, 54, 90, 2, 13],
-                        color: "#44395F",
-                    },
-                    {
-                        name: "Limite",
-                        type: "bar",
-                        color: "#e14849",
-                        data: Array(5).fill(75),
-                    },
-                ],
-                chart: {
-                    height: 200,
-                    width: 900,
-                    toolbar: {
-                        show: true,
-                    },
-                },
-                dataLabels: {
-                    enabled: false,
-                },
-
-                xaxis: {
-                    categories: ["C://", "D://", "E://", "F://", "G://"]
-                },
-
-                yaxis: {
-
-                },
-
-            }
-        ).render();
     </script>
     <script src="./script/hardware-fetch.js"></script>
     <script src="./script/process-fetch.js"></script>
