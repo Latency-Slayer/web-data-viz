@@ -12,6 +12,7 @@
 
 .filtros {
     width: 30%;
+    margin: 5px;
     display: flex;
     justify-content: space-between;
 }
@@ -19,11 +20,12 @@
 .filtros .filtro {
     border: none;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.50);
-    width: 150px;
-    height: 30px;
+    width: 155px;
+    height: 35px;
     font-size: 20px;
     border-radius: 5px;
     color: #56408C;
+    transition: linear .2s;
 }
 
 .filtro:hover {
@@ -32,7 +34,45 @@
 
 .filtro option {
     font-size: 18px;
-    border: none;  
 }
 
+.metricas {
+    display: flex;
+    flex-direction: column;
+}
 
+.KPIs {
+    width: 100%;
+    display: flex;
+}
+
+.containers {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.containers .container {
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.50);
+    width: 31.6rem;
+    height: 12.8rem;
+    font-size: 24px;
+    border-radius: 5px;
+    color: #56408C;
+}
+
+.Graficos {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.Grafico {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.50);
+    width: 48%;
+    height: 25.5rem;
+    font-size: 20px;
+    border-radius: 5px;
+    color: #56408C;
+}
