@@ -1,4 +1,4 @@
-import { insertElement, initKpi, observeElementAtributteChange } from "./functions.js";
+import { insertElement, initKpi, observeElementAttributeChange, continentName } from "./functions.js";
 import MapBox from "./classes/MapBox.js";
 import "https://cdn.jsdelivr.net/npm/apexcharts"
 
@@ -19,15 +19,15 @@ const filters = {
 async function renderRealTimeDashboard () {
     let kpis = loadKpis();
 
-    let chart1 = await loadTopGamesChart();
-    let chart2 = await loadTopContinentsChart();
-    let chart3 = await loadConnectionsVariationChart();
+    let chart1 = await loadTopGamesChart(`Jogos mais acessados no momento (${continentName(filters.continent) || "Global"})`);
+    let chart2 = await loadTopContinentsChart(`Países com mais jogadores no momento (${continentName(filters.continent) || "Global"})`);
+    let chart3 = await loadConnectionsVariationChart(`Variação de conexões (${continentName(filters.continent) || "Global"})`);
 
     // Reload dashboard on filter change;
 
     const continentFilter = document.getElementById("continent-filter");
 
-    observeElementAtributteChange(continentFilter, async (filter) => {
+    observeElementAttributeChange(continentFilter, async (filter) => {
         kpis.kpi01.destroy();
         kpis.kpi02.destroy();
         kpis.kpi03.destroy();
@@ -48,9 +48,9 @@ async function renderRealTimeDashboard () {
         chart2.stop();
         chart3.stop();
 
-        chart1 = await loadTopGamesChart(filters);
-        chart2 = await loadTopContinentsChart(filters.continent);
-        chart3 = await loadConnectionsVariationChart(filters);
+        chart1 = await loadTopGamesChart(`Jogos mais acessados no momento (${continentName(filters.continent) || "Global"})`, filters);
+        chart2 = await loadTopContinentsChart(`Países com mais jogadores no momento (${continentName(filters.continent) || "Global"})`, filters.continent);
+        chart3 = await loadConnectionsVariationChart(`Variação de conexões (${continentName(filters.continent) || "Global"})`, filters);
     });
 }
 
@@ -172,8 +172,9 @@ async function getTopGame(filters) {
 }
 
 
-async function loadTopGamesChart(filters) {
+async function loadTopGamesChart(title, filters) {
     const chartdiv = document.getElementById("chart1");
+    document.getElementById("title-chart1").innerHTML = title;
 
     let options = {
         series: [{
@@ -265,8 +266,9 @@ async function getAllTopGames(filters) {
 
 
 
-async function loadTopContinentsChart(continent) {
+async function loadTopContinentsChart(title, continent) {
     const chartdiv = document.getElementById("chart2");
+    document.getElementById("title-chart2").innerHTML = title;
 
     let options = {
         series: [{
@@ -334,21 +336,11 @@ async function getTopContinents() {
     const request = await fetch(`/bi/dashboard/real-time/top-continents/${sessionStorage.REGISTRATION_NUMBER}`);
     const json = await request.json();
 
-    const continents = {
-        SA: "América do Sul",
-        NA: "América do Norte",
-        AF: "África",
-        EU: "Europa",
-        OC: "Oceânia",
-        AN: "Antártida",
-        AS: "Ásia"
-    }
-
     if(json.topContinents.length > 0){
         return json.topContinents.map((data) => {
 
             return {
-                x: continents[data[0]],
+                x: continentName(data[0]),
                 y: data[1]
             }
         });
@@ -376,8 +368,9 @@ async function getTopCountries(continentCode) {
 }
 
 
-async function loadConnectionsVariationChart(filters) {
+async function loadConnectionsVariationChart(title, filters) {
     const chartdiv = document.getElementById("chart3");
+    document.getElementById("title-chart3").innerHTML = title;
 
     let options = {
         series: [{
@@ -498,16 +491,6 @@ document.getElementById("warning").onclick = async () => {
     const table = document.getElementById("far-players-table");
 
 
-    const continents = {
-        SA: "América do Sul",
-        NA: "América do Norte",
-        AF: "África",
-        EU: "Europa",
-        OC: "Oceânia",
-        AN: "Antártida",
-        AS: "Ásia"
-    }
-
 
     for(let line of json.farPlayers) {
         table.innerHTML += `
@@ -517,7 +500,7 @@ document.getElementById("warning").onclick = async () => {
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium text-white" style="background-color: #59168b;">
-                                    ${continents[line.playerContinent]}
+                                    ${continentName(line.playerContinent)}
                                 </span>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">
@@ -528,7 +511,7 @@ document.getElementById("warning").onclick = async () => {
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium text-white bg-red-500">
-                                    ${continents[line.serverContinent]}
+                                    ${continentName(line.serverContinent)}
                                 </span>
                         </td>
                     </tr>

@@ -1,9 +1,9 @@
 export function setAttributes(element, obj) {
-    const attributesMap = new Map(Object.entries(obj));
+    const attributes = Object.entries(obj);
 
-    attributesMap.forEach((value, key) => {
+    for(let [key, value] of attributes) {
         element.setAttribute(key, String(value));
-    });
+    }
 }
 
 export function insertElement(container, tagName, att, classList) {
@@ -34,7 +34,7 @@ export function initKpi(kpi, func, filters) {
     }
 }
 
-export function observeElementAtributteChange(element, callback) {
+export function observeElementAttributeChange(element, callback) {
     const mutationObserver  = new MutationObserver(mutationsList => {
         for(const mutation of mutationsList) {
             if(mutation.type === "attributes" && mutation.attributeName === "value") {
@@ -44,4 +44,28 @@ export function observeElementAtributteChange(element, callback) {
     });
 
     mutationObserver.observe(element, { attributes: true });
+
+    return {
+        disconnect: () => mutationObserver.disconnect()
+    };
+}
+
+export function continentName(continentCode) {
+    const continentCodes = ["AS", "AF", "SA", "NA", "EU", "OC", "AN"];
+
+    if(!continentCodes.includes(continentCode)) {
+        return null;
+    }
+
+    const continents = {
+        SA: "América do Sul",
+        NA: "América do Norte",
+        AF: "África",
+        EU: "Europa",
+        OC: "Oceânia",
+        AN: "Antártida",
+        AS: "Ásia"
+    }
+
+    return continents[continentCode];
 }
