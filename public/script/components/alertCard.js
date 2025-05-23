@@ -203,7 +203,7 @@ class AlertCard extends HTMLElement {
         });
     }
     
-    updateMetrics({ cpu, ram, disco, datetime, limiteCPU, limiteRAM, limiteDisco }) {
+    updateMetrics({ cpu, ram, disco, datetime, limiteCPU, limiteRAM, limiteDisco, limiteMinimoCPU, limiteMinimoRAM, limiteMinimoDisco }) {
         this.shadowRoot.querySelector(".cpu-tag").textContent = `Uso CPU: ${cpu}%`;
         this.shadowRoot.querySelector(".ram-tag").textContent = `Uso RAM: ${ram}%`;
         this.shadowRoot.querySelector(".disco-tag").textContent = `Uso Disco: ${disco}%`;
@@ -220,30 +220,30 @@ class AlertCard extends HTMLElement {
         
         let criticidadeGeral = "Normal";
         
-        if (cpu >= 70) {
+        if (cpu >= limiteCPU) {
             container_cpu.classList.add("Crítico");
             criticidadeGeral = "Crítico";
-        } else if (cpu <= 70 && cpu >= 50) { 
+        } else if (cpu >= limiteMinimoCPU) { 
             container_cpu.classList.add("Atenção");
             if (criticidadeGeral !== "Crítico") criticidadeGeral = "Atenção";
         } else {
             container_cpu.classList.add("Normal");
         }
         
-        if (ram >= 70) {
+        if (ram >= limiteRAM) {
             container_ram.classList.add("Crítico");
             criticidadeGeral = "Crítico";
-        } else if (ram <= 70 && ram >= 50) { 
+        } else if (ram >= limiteMinimoRAM) { 
             container_ram.classList.add("Atenção");
             if (criticidadeGeral !== "Crítico") criticidadeGeral = "Atenção";
         } else {
             container_ram.classList.add("Normal");
         }
         
-        if (disco >= 60) {
+        if (disco >= limiteDisco) {
             container_disco.classList.add("Crítico");
             criticidadeGeral = "Crítico";
-        } else if (disco <= 70 && disco >= 50) { 
+        } else if (disco >= limiteMinimoDisco) { 
             container_disco.classList.add("Atenção");
             if (criticidadeGeral !== "Crítico") criticidadeGeral = "Atenção";
         } else {

@@ -1,55 +1,91 @@
 let servidoresDatas = []
 
-function getServers() {
-    fetch("/server/listarServidores", {
-        method: 'GET',
-    }).then(resposta => resposta.json())
-        .then(servidores => {
-        
-        // Tempo Real armazenando em um array
-        servidoresDatas = servidores;
+let limitesMaximos = {}
+let limitesMinimos = {}
 
-        //Salvar no card e usar no component alert-card
+async function getServers() {
+    try {
+        const resposta = await fetch("/server/listarServidores", { method: 'GET' });
+        const servidores = await resposta.json();
+
+        servidoresDatas = servidores;
         mostrarCards(servidores);
         console.log(servidores);
 
-        //Pegando os dados de cada servidor pela motherboardID
-        servidores.forEach(server => {
-            getData(server.motherboard_id);
-        })
+        for (const server of servidores) {
+            console.log("Processando servidor:", server.motherboard_id);
+            //chama o getLimitComponent e por ser um await retorna uma Promisa, então ele espera retornar uma resposta antes de prosseguir
+            await getLimitComponent(server.motherboard_id);
+            await getData(server.motherboard_id);
+        }
 
-        })
-        .catch(erro => console.log("Erro ao buscar servidores:", erro));
+        console.log("Todos os servidores processados!");
+    } catch (erro) {
+        console.log("Erro ao buscar servidores:", erro);
+    }
 }
 
-
 function getData(motherboard_id) {
-    fetch(`/hardware/api/real-time?tag=${motherboard_id}`, {
-        method: 'GET'
-    })
+    //Usar encodeURI por que alguns servidores começam com / e da problema na url
+    fetch(`/hardware/api/real-time?tag=${encodeURIComponent(motherboard_id)}`, { method: 'GET' })
         .then(resposta => resposta.json())
         .then(data => {
             console.log(data)
             console.log(`Métricas do servidor ${motherboard_id}:`, data);
 
-            //Alert card de acordo com a motherboard
             const card = document.querySelector(`alert-card[motherboardid="${motherboard_id}"]`);
-            
-            //Atualizar as metricas e puxar elas
+
+            const limiteMax = limitesMaximos[motherboard_id];
+            const limiteMin = limitesMinimos[motherboard_id];
+
+            // Ver qual servidor ele está com problmeas na leitura dos limites
+            if (!limiteMax || !limiteMin) {
+                console.warn(`Limites não encontrados para ${motherboard_id}`);
+                return;
+            }
+
             card.updateMetrics({
                 cpu: data.metrics.cpu_percent,
                 ram: data.metrics.ram_percent,
                 disco: data.metrics.disk_percent,
-                datetime: data.metrics.timestamp
+                datetime: data.metrics.timestamp,
+                limiteCPU: limiteMax.cpu,
+                limiteRAM: limiteMax.ram,
+                limiteDisco: limiteMax.storage,
+                limiteMinimoCPU: limiteMin.cpu,
+                limiteMinimoRAM: limiteMin.ram,
+                limiteMinimoDisco: limiteMin.storage,
             });
         })
         .catch(erro => console.error(`Erro ao buscar métricas do servidor ${motherboard_id}:`, erro));
 }
 
-// Função para atualizar o component e ser dinâmica para adicionar o card
+function getLimitComponent(motherboard_id) {
+    fetch(`/server/getLimitComponent/${encodeURIComponent(motherboard_id)}`, { method: 'GET' })
+        .then(resposta => resposta.json())
+        .then(data => {
+            console.log(data)
+            console.log(`Limites do servidor ${motherboard_id}:`, data);
+
+            limitesMaximos[motherboard_id] = {};
+            limitesMinimos[motherboard_id] = {};
+
+            data.forEach(item => {
+                limitesMaximos[motherboard_id][item.type] = item.max_limit;
+                limitesMinimos[motherboard_id][item.type] = item.min_limit;
+
+                const el = document.getElementById(item.type + "_limit");
+                if (el) {
+                    el.textContent = item.max_limit + "%";
+                }
+            });
+        })
+        .catch(erro => console.error(`Erro ao buscar limites do servidor ${motherboard_id}:`, erro));
+}
+
 function mostrarCards(servidores) {
     const container = document.getElementById("server-container");
-    container.innerHTML = ""; 
+    container.innerHTML = "";
 
     servidores.forEach(server => {
         const card = document.createElement("alert-card");
@@ -59,18 +95,8 @@ function mostrarCards(servidores) {
     });
 }
 
-
-// setInterval(() => {
-//     document.querySelectorAll("alert-card").forEach(card => {
-//         const tagName = card.getAttribute("tagName");
-//         const metricas = getData(tagName); 
-//         card.updateMetrics(metricas[tagName]);
-//     });
-// }, 2000);
-
 setInterval(() => {
-    document.querySelectorAll("alert-card").forEach(card => {
-        const motherboardId = card.getAttribute("motherboardid");
-        getData(motherboardId); 
-    });
+    servidoresDatas.forEach((server) => {
+        getData(server.motherboard_id)
+    })
 }, 2000);

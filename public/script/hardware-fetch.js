@@ -1,3 +1,6 @@
+let limitesMaximos = {}
+let limitesMinimos = {}
+
 function getData() {
     fetch("/hardware/api/real-time", {
         method: 'GET'
@@ -26,25 +29,25 @@ function getData() {
             document.getElementById('ramUsage').textContent = ramValue + '%';
             document.getElementById('diskUsage').textContent = discoValue + '%';
 
-            if (cpuValue >= 80) {
+            if (cpuValue >= limitesMaximos.cpu) {
                 container_cpu.classList.add("Crítico");
-            } else if (cpuValue >= 50) {
+            } else if (cpuValue <= limitesMaximos.cpu && cpuValue >= limitesMinimos.cpu) {
                 container_cpu.classList.add("Atenção");
             } else {
                 container_cpu.classList.add("Normal");
             }
 
-            if (ramValue >= 80) {
+            if (ramValue >= limitesMaximos.ram) {
                 container_ram.classList.add("Crítico");
-            } else if (ramValue >= 50) {
+            } else if (ramValue <= limitesMaximos.ram && ramValue >= limitesMinimos.ram) {
                 container_ram.classList.add("Atenção");
             } else {
                 container_ram.classList.add("Normal");
             }
 
-            if (discoValue >= 60) {
+            if (discoValue >= limitesMaximos.storage) {
                 container_disco.classList.add("Crítico");
-            } else if (discoValue >= 50) {
+            } else if (discoValue <= limitesMaximos.storage && discoValue >= limitesMinimos.storage) {
                 container_disco.classList.add("Atenção");
             } else {
                 container_disco.classList.add("Normal");
@@ -88,19 +91,14 @@ function getLimitComponent() {
             console.log("Limites Recebidos:", json);
 
             json.forEach(item => {
-                if (item.type === "cpu") {
-                    document.getElementById('cpu_limit').textContent = item.max_limit + "%";
-                } else if (item.type === "ram") {
-                    document.getElementById('ram_limit').textContent = item.max_limit + "%";
-                } else if (item.type === "storage") {
-                    document.getElementById('disco_limit').textContent = item.max_limit + "%";
-                }
+                limitesMaximos[item.type] = item.max_limit;
+                limitesMinimos[item.type] = item.min_limit;
+                document.getElementById(item.type + "_limit").textContent = item.max_limit + "%";
             });
         })
         .catch(function (erro) {
             console.error("Erro ao buscar limites:", erro);
         });
 }
-
 
 setInterval(getData, 2000);
