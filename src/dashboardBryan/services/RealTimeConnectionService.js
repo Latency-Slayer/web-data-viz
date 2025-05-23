@@ -80,6 +80,16 @@ class RealTimeConnectionService {
 
         return model.getFarPlayers(companyRegisterNumber, continent);
     }
+
+    getPlayerLocations(companyRegisterNumber, continent) {
+        if(!companyRegisterNumber) {
+            return AppError("Error getting information for companyRegisterNumber", 400);
+        }
+
+        if(!continent) {
+            return model.getPlayerLocations(companyRegisterNumber);
+        }
+    }
 }
 
 module.exports = RealTimeConnectionService;

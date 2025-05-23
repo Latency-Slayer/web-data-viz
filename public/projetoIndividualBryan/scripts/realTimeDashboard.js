@@ -1,13 +1,22 @@
-import { insertElement, initKpi, observeElementAttributeChange, continentName } from "./functions.js";
+import { insertElement, initKpi, observeElementAttributeChange, continentName, executeNowAndRepeatWithInterval } from "./functions.js";
 import MapBox from "./classes/MapBox.js";
 import "https://cdn.jsdelivr.net/npm/apexcharts"
 
 const map = new MapBox("map");
 
-const warningData = {
-    title: "",
-    playerList: new Map()
-};
+map.onload(() => {
+    map.loadClusters();
+
+    executeNowAndRepeatWithInterval(async () => {
+        const playerLocations = await fetch(`/bi/dashboard/real-time/player-locations/${sessionStorage.REGISTRATION_NUMBER}`)
+        const json = await playerLocations.json();
+
+        console.log(json)
+
+        map.loadData(json.playerLocations);
+        map.updateMapPoints();
+    }, 2000);
+});
 
 window.onload = renderRealTimeDashboard;
 
@@ -28,11 +37,14 @@ async function renderRealTimeDashboard () {
     const continentFilter = document.getElementById("continent-filter");
 
     observeElementAttributeChange(continentFilter, async (filter) => {
+        filters.continent = filter;
+
+        document.getElementById("far-players-table").innerHTML = "";
+
         kpis.kpi01.destroy();
         kpis.kpi02.destroy();
         kpis.kpi03.destroy();
 
-        filters.continent = filter;
 
         const kpiHints = filter ? {
             kpi1Hint: "Quantidade de conexões no continente filtrado.",
@@ -469,7 +481,7 @@ async function loadConnectionsVariationChart(title, filters) {
 }
 
 
-// Alertas!
+// Alertas
 
 const warningModal = jSuites.modal(document.getElementById("modal"), {
     title: "Jogadores conectados em servidores muito distantes",
@@ -483,18 +495,26 @@ document.getElementById("warning").onclick = async () => {
         return;
     }
 
-    console.log(filters.continent);
-
     const request = await fetch(`/bi/dashboard//real-time/far-players/${sessionStorage.REGISTRATION_NUMBER}?continent=${filters.continent}`);
     const json = await request.json();
 
     const table = document.getElementById("far-players-table");
 
+    let page = 0
 
+    const pagination = () => {
+        const start = page * 20
+        const end = start + 20;
 
-    for(let line of json.farPlayers) {
-        table.innerHTML += `
-        <tr class="hover:bg-gray-50">
+        return json.farPlayers.slice(start, end);
+    }
+
+    const select = pagination();
+
+    const loadTable = (select) => {
+        for(let line of select) {
+            table.insertAdjacentHTML("beforeend", `
+            <tr class="hover:bg-gray-50">
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-900">
                             ${line.playerIp}
                         </td>
@@ -515,8 +535,21 @@ document.getElementById("warning").onclick = async () => {
                                 </span>
                         </td>
                     </tr>
-        `;
+            `);
+        }
+
+        const modal = document.querySelector(".jmodal_content");
+
+        modal.onscroll = () => {
+            if (modal.scrollTop + modal.clientHeight >= modal.scrollHeight) {
+                page++;
+                const select = pagination();
+                loadTable(select);
+            }
+        };
     }
+
+    loadTable(select);
 
     warningModal.open();
 }

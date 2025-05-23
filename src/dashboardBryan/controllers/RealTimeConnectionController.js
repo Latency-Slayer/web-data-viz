@@ -112,6 +112,19 @@ class RealTimeConnectionController {
 
         return res.status(200).json({ farPlayers: farPlayers });
     }
+
+    getPlayerLocations(req, res) {
+        const companyRegister = req.params["registerNumber"];
+        const continent = req.query["continent"];
+
+        if(!companyRegister) {
+            throw new AppError("Mandatory data missing.", 400);
+        }
+
+        const playerLocations = service.getPlayerLocations(companyRegister, continent);
+
+        return res.status(200).json({ playerLocations });
+    }
 }
 
 module.exports = RealTimeConnectionController;

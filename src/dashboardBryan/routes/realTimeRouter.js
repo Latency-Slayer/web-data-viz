@@ -13,7 +13,7 @@ router.get("/real-time/top-games/:registerNumber", controller.getTopGamesOfMomen
 router.get("/real-time/top-continents/:registerNumber", controller.getTopContinents);
 router.get("/real-time/top-countries/:registerNumber", controller.getTopCountries);
 router.get("/real-time/far-players/:registerNumber", controller.getFarPlayers);
-
+router.get("/real-time/player-locations/:registerNumber", controller.getPlayerLocations);
 
 router.use(ErrorHandler);
 

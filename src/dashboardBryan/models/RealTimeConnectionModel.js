@@ -290,6 +290,26 @@ class RealTimeConnectionModel {
         return farPlayers;
     }
 
+    getPlayerLocations(registrationNumber) {
+        const companyServers = this.#connectionsData.get(registrationNumber);
+
+        if(!companyServers) {
+            return [];
+        }
+
+        const locations = [];
+
+        companyServers.forEach((serverData) => {
+           serverData.connectionsData.connections.forEach((connection) => {
+                locations.push({
+                    lat: connection[2].lat,
+                    lon: connection[2].lon,
+                })
+           });
+        });
+
+        return locations;
+    }
 
     #removeInactiveServer() {
         this.#connectionsData.forEach((companyServers) => {
