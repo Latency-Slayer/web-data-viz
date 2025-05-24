@@ -158,9 +158,11 @@ main {
     width: 50%;
     height: 70vh;
     box-shadow: 0 0 0.9vh rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 .nome-processo{
-    max-width: 100px;  /* ou o valor ideal para sua tabela */
+    max-width: 100px; 
     white-space: normal;
     word-break: break-word;
 }

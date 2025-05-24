@@ -1,3 +1,7 @@
+let estadoOrdenacao = {
+    campo: null, 
+    crescente: false
+};
 function getProcess() {
     fetch("/process/api/real-time", {
         method: 'GET'
@@ -8,12 +12,11 @@ function getProcess() {
         }
         return resposta.json();
     }).then(function (json) {
-        if (json) {
-            console.log("Processos recebidos:", json.process.process_data);
-            mostrarProcessos(json.process.process_data);
-        } else {
-            console.warn("Formato inesperado do JSON:", json);
-        }
+        let processos = json.process.process_data
+        console.log("Processos recebidos:", processos);
+        processos = ordenarProcessos(processos, estadoOrdenacao.campo, estadoOrdenacao.crescente)
+        mostrarProcessos(processos);
+
     })
         .catch(function (erro) {
             console.error("Erro ao buscar métricas:", erro);
@@ -41,11 +44,26 @@ function mostrarProcessos(processos) {
             <td>${proc.pid ?? 0}</td>
             <td class="nome-processo">${proc.name}</td>
             <td>${proc.cpu_percent.toFixed(2)}%</td>
-            <td>${proc.ram_percent.toFixed(2)}%</td>
+            <td>${proc.ram_mb.toFixed(2)}MB</td>
             <td>${proc.status === "running" ? "Rodando" : "Parado"}</td>
         `;
 
         tbody.appendChild(row);
+    });
+}
+
+function ordenarProcessos(processos, campo, crescente = false) {
+    return processos.sort((a, b) => {
+        const valA = a[campo] ?? 0;
+        const valB = b[campo] ?? 0;
+
+        if (valA < valB) {
+            return crescente ? -1 : 1;
+        }
+        if (valA > valB) {
+            return crescente ? 1 : -1;
+        } 
+        return 0;
     });
 }
 

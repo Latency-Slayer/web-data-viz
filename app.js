@@ -34,7 +34,6 @@ app.use("/empresas", empresaRouter);
 app.use("/server", cadastrarMaquinaRouter);
 app.use("/hardware", hardwareRouter);
 app.use("/process", processRouter);
-
 app.listen(PORTA_APP, function () {
     console.log(`
     ##   ##  ######   #####             ####       ##     ######     ##              ##  ##    ####    ######  
