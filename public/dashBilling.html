@@ -12,9 +12,9 @@
     <nav-bar></nav-bar>
     <main>
         <div class="container">
-            <div class="titulo-principal">Observability - FINOPS</div>
+            <div class="titulo-principal">Observability - FinOps</div>
             <header>
-                <h1>Billing e Forcasting</h1>
+                <h1>Billing & Forcasting</h1>
             </header>
             <div class="kpis">
                 <div class="kpi-content">
@@ -50,21 +50,24 @@
                     </div>
                 </div>    
             </div>
+
             <div class="graficos">
                 <div class="plot-content">
                     <div class="grafico1">
-                        <div class="titulo">visualização de custos</div>
+                        <div class="titulo">Visualização de Custos</div>
                         <div class="subtitulo">custo mensal</div>
                         <div id="grafico-01"></div>
                         <div class="legenda">
-                            <div class="indicador-cor-1"></div> <div>mêses anteriores</div>
-                            <div class="indicador-cor-2"></div> <div>mês atual</div>
-                            <div class="indicador-cor-3"></div> <div>previsão mêses futuros</div>
+                            <div class="indicador-cor-1"></div><div>mês anterior</div>
+                            <div class="indicador-cor-2"></div><div>mês atual</div>
+                            <div class="indicador-cor-3"></div><div>previsão mês futuro</div>
                         </div>
                     </div>
                     <div class="grafico2">
                         <div class="titulo">Porcentagem de custos por serviço</div>
-                        <div id="grafico-02"></div>
+                        <div class="plot-grafico">
+                            <div id="grafico-02"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -78,6 +81,7 @@
         {
             chart: {
             type: 'bar',
+            height: "70%",
             toolbar: {
                 show: false
             }
@@ -87,7 +91,8 @@
             },
             plotOptions: {
             bar: {
-            horizontal: false
+            horizontal: false,
+            borderRadius: 10
             }
             },
             yaxis: {
@@ -100,37 +105,45 @@
                     }
                 }
             },
+            xaxis: {
+                axisBorder: {
+                    show: false,
+                },
+                axisTicks: {
+                    show: false,
+                },
+            },
             series: [{
                 name: "gasto",
-            data: [{
-                    x: 'fev',
-                    y: 60,
-                    fillColor: '#f803bb'
-                }, {
-                    x: 'mar',
-                    y: 75,
-                    fillColor: '#f803bb'
-                }, {
-                    x: 'abr',
-                    y: 80,
-                    fillColor: '#f803bb'
-                }, {
-                    x: 'mai',
-                    y: 125,
-                    fillColor: '#3d1b91'
-                }, {
-                    x: 'jun',
-                    y: 125,
-                    fillColor: '#3a2e5d57'
-                }, {
-                    x: 'jul',
-                    y: 120,
-                    fillColor: '#3a2e5d57'
-                }, {
-                    x: 'ago',
-                    y: 115,
-                    fillColor: '#3a2e5d57'
-                }]
+                data: [{
+                        x: 'fev',
+                        y: 60,
+                        fillColor: '#f803bb'
+                    }, {
+                        x: 'mar',
+                        y: 75,
+                        fillColor: '#f803bb'
+                    }, {
+                        x: 'abr',
+                        y: 80,
+                        fillColor: '#f803bb'
+                    }, {
+                        x: 'mai',
+                        y: 125,
+                        fillColor: '#3d1b91'
+                    }, {
+                        x: 'jun',
+                        y: 125,
+                        fillColor: '#3a2e5d57'
+                    }, {
+                        x: 'jul',
+                        y: 120,
+                        fillColor: '#3a2e5d57'
+                    }, {
+                        x: 'ago',
+                        y: 115,
+                        fillColor: '#3a2e5d57'
+                    }]
             }]
         }
     ).render();
@@ -140,21 +153,23 @@
         {
             chart: {
                 type: 'donut',
-                width: '75%'
+                width: '100%',
             },
-            series: [40, 60],
-            labels: ["Usado", "Livre"],
-            legend: false,
-            colors: ["#44395F", "#D9D9D9"],
+            series: [55, 30, 15],
+            labels: ["EC2", "S3", "Lambda"],
+            legend: {
+                position: 'bottom'
+            },
+            colors: ["#B69CF6", "#0F5FC2", "#FF83E8"],
             plotOptions: {
                 pie: {
                     donut: {
-                        size: '50%'
+                        size: '60%'
                     }
                 }
             },
             dataLabels: {
-                enabled: false
+                enabled: true,
             },
             states: {
                 hover: {
