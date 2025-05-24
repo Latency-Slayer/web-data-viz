@@ -27,24 +27,28 @@ main {
     text-align: center;
 }
 
-.kpi-1, .kpi-2, .kpi-4 {
+.kpi-1, .kpi-4, .kpi-5 {
     color: #fff;
 }
 
-.kpi-3, .kpi-5 {
+.kpi-2, .kpi-3 {
     color: #56408c;
 }
 
-.kpi-1, .kpi-4 {
+.kpi-1 {
+    background-color: orange;
+}
+
+.kpi-4, .kpi-5 {
     background-color: firebrick;
 }
 
 .kpi-2 {
-    background-color: orange;
+    background-color: gold;
 }
 
 .kpi-3 {
-    background-color: gold;
+    background-color: white;
 }
 
 .kpi-1 span, .kpi-2 span, .kpi-3 span, .kpi-5 span {

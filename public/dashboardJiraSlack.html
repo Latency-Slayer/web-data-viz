@@ -22,13 +22,17 @@
         <nav-bar></nav-bar>
 
         <div class="container-kpi">
-            <div class="kpi-1">
-                <h2>Chamados Pendentes</h2>
-                <span id="kpi-chamados-pendentes">0</span>
+            <div class="kpi-5">
+                <h2>Chamados fora do Tempo</h2>
+                <span>0</span>
             </div>
             <div class="kpi-4">
                 <h2>Chamado Mais Antigo</h2>
                 <span>0</span>
+            </div>
+            <div class="kpi-1">
+                <h2>Chamados Pendentes</h2>
+                <span id="kpi-chamados-pendentes">0</span>
             </div>
             <div class="kpi-2">
                 <h2>Chamados em Análise</h2>
@@ -37,10 +41,6 @@
             <div class="kpi-3">
                 <h2>Chamados do Dia</h2>
                 <span id="kpi-chamados-abertos">0</span>
-            </div>
-            <div class="kpi-5">
-                <h2>Chamados fora do Tempo</h2>
-                <span>0</span>
             </div>
         </div>
         <!-- <div class="sorts">
@@ -70,152 +70,128 @@
             <div class="container2" id="chamados-outros"></div>
         </div>
     </main>
+<script>
+    let chamadosExistentes = [];
 
-    <script>
-        let chamadosExistentes = []
-
-        function getChamados() {
+    function getChamados() {
         fetch('/jira/chamados-abertos')
-                .then(res => res.json())
-                .then(data => {
-                    const container = document.getElementById('chamados-container');
-                    const containerOutros = document.getElementById('chamados-outros');
+            .then(res => res.json())
+            .then(data => {
+                const container = document.getElementById('chamados-container');
+                const containerOutros = document.getElementById('chamados-outros');
+                container.innerHTML = '';
+                containerOutros.innerHTML = '';
 
-                    // Filtra os chamados com status "abertos"
-                    const kpiElement = document.getElementById('kpi-chamados-abertos');
-                    kpiElement.textContent = data.length;
+                const kpiAbertos = document.getElementById('kpi-chamados-abertos');
+                kpiAbertos.textContent = data.length;
 
-                    // Filtra os chamados com status "pendentes"
-                    const chamadosPendentes = data.filter(chamado => chamado.fields.status.name.toLowerCase() === "pendente");
+                const chamadosForaDoTempo = [];
+                const chamadosEmAnalise = [];
+                let chamadoMaisAntigo = null;
 
-                    // Atualiza a quarta KPI com o número de chamados pendentes
-                    const kpiPendentes = document.getElementById('kpi-chamados-pendentes');
-                    kpiPendentes.textContent = chamadosPendentes.length;
+                data.forEach(chamado => {
+                    const criadoEm = new Date(chamado.fields.created);
+                    const agora = new Date();
+                    const diffMinutos = (agora - criadoEm) / 1000 / 60;
 
-                    // --- Atualiza KPI de chamados em análise
-                    const chamadosEmAnalise = data.filter(chamado => chamado.fields.status.name.toLowerCase() === "em análise");
-                    const kpiEmAnalise = document.getElementById('kpi-chamados-em-analise');
-                    kpiEmAnalise.textContent = chamadosEmAnalise.length;
-
-                    if (data.length === 0) {
-                        container.innerHTML = '<p>Nenhum chamado aberto encontrado.</p>';
-                        containerOutros.innerHTML = '<p>Nenhum chamado aberto encontrado.</p>';
-                        return;
+                    if (!chamadoMaisAntigo || criadoEm < new Date(chamadoMaisAntigo.fields.created)) {
+                        chamadoMaisAntigo = chamado;
                     }
 
-                    let chamadoMaisAntigo = null;
-                    let chamadosForaDoTempo = 0;
+                    const status = chamado.fields.status.name.toLowerCase();
 
-                    data.forEach(chamado => {
-                        const criadoEm = new Date(chamado.fields.created);
-                        const agora = new Date();
-                        const diffMinutos = (agora - criadoEm) / 1000 / 60;
+                    if (status === "fora do tempo" || diffMinutos > 60) {
+                        chamadosForaDoTempo.push(chamado);
+                    }
 
-                        // Verifica se é o mais antigo
-                        if (!chamadoMaisAntigo || criadoEm < new Date(chamadoMaisAntigo.fields.created)) {
-                            chamadoMaisAntigo = chamado;
-                        }
+                    if (status === "em análise") {
+                        chamadosEmAnalise.push(chamado);
+                    }
+                });
 
-                        // Verifica se ultrapassou 50 minutos
-                        if (diffMinutos > 50) {
-                            chamadosForaDoTempo++;
-                        }
-                    });
+                // Atualizar KPIs
+                document.getElementById('kpi-chamados-pendentes').textContent = chamadosForaDoTempo.length;
+                document.getElementById('kpi-chamados-em-analise').textContent = chamadosEmAnalise.length;
 
-                    // Atualiza a KPI-4 com o chamado mais antigo
-                    const kpiTempoResposta = document.querySelector(".kpi-4 span");
-                    kpiTempoResposta.textContent = chamadoMaisAntigo ?
-                        `${chamadoMaisAntigo.key}
-                         ${new Date(chamadoMaisAntigo.fields.created).toLocaleDateString('pt-BR')} - ${new Date(chamadoMaisAntigo.fields.created).toLocaleTimeString('pt-BR')}` :
-                        "Sem dados";
+                const kpiMaisAntigo = document.querySelector(".kpi-4 span");
+                kpiMaisAntigo.textContent = chamadoMaisAntigo ?
+                    `${chamadoMaisAntigo.key} ${new Date(chamadoMaisAntigo.fields.created).toLocaleDateString('pt-BR')} - ${new Date(chamadoMaisAntigo.fields.created).toLocaleTimeString('pt-BR')}` :
+                    "Sem dados";
 
-                    // Atualiza a KPI-5 com a quantidade de chamados fora do tempo
-                    const kpiForaDoTempo = document.querySelector(".kpi-5 span");
-                    kpiForaDoTempo.textContent = chamadosForaDoTempo;
+                const kpiForaDoTempo = document.querySelector(".kpi-5 span");
+                kpiForaDoTempo.textContent = chamadosForaDoTempo.length;
 
-                    //Filtro e selecionando os cahamdos que não tem a key, ou seja que não foram exibidos
-                    const novosChamados = data.filter(chamado => {
-                        return !chamadosExistentes.includes(chamado.key);
-                    })
+                data.sort((a, b) => {
+                    const statusOrder = {
+                        "fora do tempo": 1,
+                        "em análise": 2,
+                        "fazendo": 3
+                    };
+                    const statusA = a.fields.status.name.toLowerCase();
+                    const statusB = b.fields.status.name.toLowerCase();
+                    return (statusOrder[statusA] || 99) - (statusOrder[statusB] || 99);
+                });
 
-                    //Adiciona os novos chamados pelo key e coloca dentro do array
-                    chamadosExistentes = chamadosExistentes.concat(novosChamados.map(chamado => chamado.key))
+                data.forEach(chamado => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
 
-                    // Ordena os chamados conforme a prioridade dos status
-                    novosChamados.sort((a, b) => {
-                        const statusOrder = {
-                            "pendente": 1,
-                            "em análise": 2,
-                            "fazendo": 3
-                        };
+                    const criado = new Date(chamado.fields.created).toLocaleDateString('pt-BR') + ' ' + new Date(chamado.fields.created).toLocaleTimeString('pt-BR');
+                    const status = chamado.fields.status.name.toLowerCase();
+                    const descricao = chamado.fields.description?.content?.[0]?.content?.[0]?.text || 'Sem descrição';
 
-                        const statusA = a.fields.status.name.toLowerCase();
-                        const statusB = b.fields.status.name.toLowerCase();
-
-                        return (statusOrder[statusA] || 99) - (statusOrder[statusB] || 99);
-                    });
-
-                    novosChamados.forEach(chamado => {
-                        const card = document.createElement('div');
-                        card.className = 'card';
-
-                        card.innerHTML = `
-                            <div class=" linha1">
-                                <span>${chamado.key} - ${chamado.fields.summary}</span>
+                    card.innerHTML = `
+                        <div class="linha1">
+                            <span>${chamado.key} - ${chamado.fields.summary}</span>
+                        </div>
+                        <div class="linha2">    
+                            <div class="coluna_esquerda">
+                                <span><strong>ID: </strong>${chamado.id}</span>
                             </div>
-                            <div class=" linha2">    
-                                <div class="coluna_esquerda">
-                                    <span><strong>ID: </strong>${chamado.id}</span>
-                                </div>
-                                <div class="coluna_direita">
-                                    <span><strong>Data de Criação:</strong> ${new Date(chamado.fields.created).toLocaleDateString('pt-BR')} ${new Date(chamado.fields.created).toLocaleTimeString('pt-BR')}</span>
-                                </div>
+                            <div class="coluna_direita">
+                                <span><strong>Data de Criação:</strong> ${criado}</span>
                             </div>
-                            <div class=" linha3">    
-                                <div class="coluna_esquerda">
-                                    <span><strong>Responsável:</strong> ${chamado.fields.assignee ? chamado.fields.assignee.displayName : 'Não atribuído'}</span>
-                                </div>
-                                <div class="coluna_direita">
-                                    <span><strong>Status:</strong> <span class="status">${chamado.fields.status.name}</span></span>
-                                </div>
+                        </div>
+                        <div class="linha3">    
+                            <div class="coluna_esquerda">
+                                <span><strong>Responsável:</strong> ${chamado.fields.assignee ? chamado.fields.assignee.displayName : 'Não atribuído'}</span>
                             </div>
-                            <div class=" linha4">
-                                <span><strong>Descrição:</strong> ${chamado.fields.description?.content?.[0]?.content?.[0]?.text || 'Sem descrição'}</span>
-                            </div>`;
+                            <div class="coluna_direita">
+                                <span><strong>Status:</strong> <span class="status">${chamado.fields.status.name}</span></span>
+                            </div>
+                        </div>
+                        <div class="linha4">
+                            <span><strong>Descrição:</strong> ${descricao}</span>
+                        </div>`;
 
-                        if (chamado.fields.status.name.toLowerCase() === "pendente") {
-                            const statusSpan = card.querySelector(".status");
-                            statusSpan.style.color = "red";
-                            statusSpan.style.fontWeight = "bold";
-                        } else if (chamado.fields.status.name.toLowerCase() === "em análise") {
-                            const statusSpan = card.querySelector(".status");
-                            statusSpan.style.color = "orange";
-                            statusSpan.style.fontWeight = "bold";
-                        } else if (chamado.fields.status.name.toLowerCase() === "fazendo") {
-                            const statusSpan = card.querySelector(".status");
-                            statusSpan.style.color = "gold";
-                            statusSpan.style.fontWeight = "bold";
-                        }
+                    const statusSpan = card.querySelector(".status");
+                    if (status === "fora do tempo") {
+                        statusSpan.style.color = "orange";
+                    } else if (status === "em análise") {
+                        statusSpan.style.color = "gold";
+                    } else if (status === "fazendo") {
+                        statusSpan.style.color = "green";
+                    }
+                    statusSpan.style.fontWeight = "bold";
 
-                if (chamado.fields.status.name.toLowerCase() === "pendente") {
-                    container.appendChild(card);
-                } else {
-                    containerOutros.appendChild(card);
-                }
+                    if (status === "fora do tempo" || (new Date() - new Date(chamado.fields.created)) / 1000 / 60 > 60) {
+                        container.appendChild(card);
+                    } else {
+                        containerOutros.appendChild(card);
+                    }
+                });
+            })
+            .catch(err => {
+                console.error('Erro ao buscar chamados:', err);
+                document.getElementById('chamados-container').innerHTML = '<p>Erro ao buscar chamados.</p>';
+            });
+    }
 
-                    });
-                })
-                .catch(err => {
-                    console.error('Erro ao buscar chamados:', err);
-                    document.getElementById('chamados-container').innerHTML = '<p>Erro ao buscar chamados.</p>';
-        });
-        }
-
-    getChamados();
-
-    setInterval(getChamados, 5000);
-
-    </script>
-    </div>
+    document.addEventListener('DOMContentLoaded', function () {
+        getChamados();
+        setInterval(getChamados, 3000);
+    });
+</script>
+</div>
 </body>
 </html>
