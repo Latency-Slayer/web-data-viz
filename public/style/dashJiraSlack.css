@@ -43,6 +43,7 @@ main {
     padding-top: 120px;
     padding-right: 25px;
     padding-bottom: 15px;
+    background-color: #ccc5e0;
     box-shadow: 0 2px 4px #56408c;
 }
 
@@ -109,20 +110,14 @@ main {
 }
 
  .linha1, .linha2, .linha3, .linha4 { 
-    width: 1000px;
+    width: 890px;
     height: auto;
     display: flex;
     padding: 5px;
 }
 
-.coluna_esquerda {
-    width: 800vw;
-    height: 20px;
-    display: flex;
-}
-
-.coluna_direita{
-    width: 800vw;
+.coluna_esquerda, .coluna_direita {
+    width: 780vw;
     height: 20px;
     display: flex;
 }
@@ -170,13 +165,12 @@ main {
     justify-content: space-between;
     padding-right: 10px;
     padding-left: 10px;
-    gap: 10px;
 }
 
 .container1, .container2 {
     flex: 1;
     display: flex;
-    padding: 10px;
+    padding: 15px;
     width: fit-content;
     flex-direction: column;
     flex-wrap: wrap;
