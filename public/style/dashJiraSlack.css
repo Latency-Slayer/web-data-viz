@@ -1,13 +1,37 @@
-body {
+body, html {
     margin: 0;
     padding: 0;
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
     font-family: "Poppins";
     background: #F9FAFB;
+}
+
+nav-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100px;
+    width: 100%;
+    z-index: 1000; 
+    background-color: #fff; 
+    box-shadow: 0 2px 4px #56408c; 
+}
+
+.header-fixo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: white; /* ou a cor do seu topo */
+    z-index: 10;
 }
 
 main {
     display: flex;
     width: 100%;
+    padding-top: 110px;
     flex-direction: column;
 }
 
@@ -15,50 +39,52 @@ main {
     flex-direction: row;
     display: flex;
     justify-content: space-between;
-    padding: 20px;
+    padding-left: 20px;
+    padding-top: 120px;
+    padding-right: 25px;
 }
 
-.kpi-1, .kpi-2, .kpi-3, .kpi-4, .kpi-5 {
-    width: 335px;
+.main-scroll {
+    margin-top: 170px;
+}
+
+.kpi-1, .kpi-2, .kpi-3, .kpi-4 {
+    width: 440px;
     border: #56408c solid 1px;
     box-shadow: 0 0 10px #56408c;
     border-radius: 10px;
-    height: 10vw;
     text-align: center;
 }
 
-.kpi-1, .kpi-4, .kpi-5 {
+.kpi-1, .kpi-2 {
     color: #fff;
 }
 
-.kpi-2, .kpi-3 {
+.kpi-3, .kpi-4 {
     color: #56408c;
 }
 
-.kpi-1 {
-    background-color: orange;
-}
-
-.kpi-4, .kpi-5 {
+.kpi-1, .kpi-2 {
     background-color: firebrick;
 }
 
-.kpi-2 {
+.kpi-3 {
     background-color: gold;
 }
 
-.kpi-3 {
+.kpi-4 {
     background-color: white;
 }
 
-.kpi-1 span, .kpi-2 span, .kpi-3 span, .kpi-5 span {
-    font-size: 60px;
+
+.kpi-1 span, .kpi-3 span, .kpi-4 span {
+    font-size: 50px;
     font-weight: bold;
     align-content: center;
 }
 
-.kpi-4 span {
-    font-size: 25px;
+.kpi-2 span {
+    font-size: 20px;
     white-space: pre-line;
     font-weight: bold;
     align-content: center;
@@ -66,7 +92,7 @@ main {
 
 .card {
     padding: 10px;
-    width: 46vw;
+    width: 890px;
     box-shadow: 0 0 10px #56408c;
     border: #56408c solid 1px;
     border-radius: 10px;
@@ -135,18 +161,11 @@ main {
     justify-content: space-between;
     padding-right: 10px;
     padding-left: 10px;
-    gap: 5px;
+    gap: 10px;
 }
 
-.container1 {
-    display: flex;
-    padding: 10px;
-    width: fit-content;
-    flex-direction: column;
-    flex-wrap: wrap;
-}
-
-.container2 {
+.container1, .container2 {
+    flex: 1;
     display: flex;
     padding: 10px;
     width: fit-content;
@@ -198,4 +217,5 @@ alert-card:hover {
         margin-bottom: 1rem;
         font-size: 1rem;
     }
+
 }

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Latency Slayer - Dashboard Usuários</title>
+    <title>Latency Slayer - Alertas</title>
 
     <script src="script/components/alertaChamado.js"></script>
     <script src="script/components/navBar.js"></script>
@@ -19,30 +19,28 @@
 
 <body>
     <main>
-        <nav-bar></nav-bar>
-
-        <div class="container-kpi">
-            <div class="kpi-5">
-                <h2>Chamados fora do Tempo</h2>
-                <span>0</span>
+        <header class="header-fixo">
+            <nav-bar></nav-bar>
+    
+            <div class="container-kpi">
+                <div class="kpi-1">
+                    <h2>Chamados fora do Tempo</h2>
+                    <span id="kpi-chamados-criticos">0</span>
+                </div>
+                <div class="kpi-2">
+                    <h2>Chamado Mais Antigo</h2>
+                    <span>0</span>
+                </div>
+                <div class="kpi-3">
+                    <h2>Chamados em Tempo</h2>
+                    <span id="kpi-chamados-em-analise">0</span>
+                </div>
+                <div class="kpi-4">
+                    <h2>Chamados do Dia</h2>
+                    <span id="kpi-chamados-abertos">0</span>
+                </div>
             </div>
-            <div class="kpi-4">
-                <h2>Chamado Mais Antigo</h2>
-                <span>0</span>
-            </div>
-            <div class="kpi-1">
-                <h2>Chamados Pendentes</h2>
-                <span id="kpi-chamados-pendentes">0</span>
-            </div>
-            <div class="kpi-2">
-                <h2>Chamados em Análise</h2>
-                <span id="kpi-chamados-em-analise">0</span>
-            </div>
-            <div class="kpi-3">
-                <h2>Chamados do Dia</h2>
-                <span id="kpi-chamados-abertos">0</span>
-            </div>
-        </div>
+        </header>
         <!-- <div class="sorts">
             
             <div class="left">
@@ -64,10 +62,12 @@
                 </div>
             </div>
         </div> -->
-        <div class="espaco" id="espaco">
-            <div class="container1" id="chamados-container"></div>
-
-            <div class="container2" id="chamados-outros"></div>
+        <div class="main-scroll">
+            <div class="espaco" id="espaco">
+                <div class="container1" id="chamados-container"></div>
+    
+                <div class="container2" id="chamados-outros"></div>
+            </div>
         </div>
     </main>
 <script>
@@ -86,7 +86,7 @@
                 kpiAbertos.textContent = data.length;
 
                 const chamadosForaDoTempo = [];
-                const chamadosEmAnalise = [];
+                const chamadosEmTempo = [];
                 let chamadoMaisAntigo = null;
 
                 data.forEach(chamado => {
@@ -100,36 +100,27 @@
 
                     const status = chamado.fields.status.name.toLowerCase();
 
-                    if (status === "fora do tempo" || diffMinutos > 60) {
+                    if (diffMinutos > 60) {
                         chamadosForaDoTempo.push(chamado);
-                    }
-
-                    if (status === "em análise") {
-                        chamadosEmAnalise.push(chamado);
+                    } else {
+                        chamadosEmTempo.push(chamado);
                     }
                 });
 
                 // Atualizar KPIs
-                document.getElementById('kpi-chamados-pendentes').textContent = chamadosForaDoTempo.length;
-                document.getElementById('kpi-chamados-em-analise').textContent = chamadosEmAnalise.length;
+                document.getElementById('kpi-chamados-criticos').textContent = chamadosForaDoTempo.length;
+                document.getElementById('kpi-chamados-em-analise').textContent = chamadosEmTempo.length;
 
-                const kpiMaisAntigo = document.querySelector(".kpi-4 span");
+                const kpiMaisAntigo = document.querySelector(".kpi-2 span");
                 kpiMaisAntigo.textContent = chamadoMaisAntigo ?
-                    `${chamadoMaisAntigo.key} ${new Date(chamadoMaisAntigo.fields.created).toLocaleDateString('pt-BR')} - ${new Date(chamadoMaisAntigo.fields.created).toLocaleTimeString('pt-BR')}` :
+                    `Chamado: ${chamadoMaisAntigo.key} \n ${new Date(chamadoMaisAntigo.fields.created).toLocaleDateString('pt-BR')} - ${new Date(chamadoMaisAntigo.fields.created).toLocaleTimeString('pt-BR')}` :
                     "Sem dados";
 
-                const kpiForaDoTempo = document.querySelector(".kpi-5 span");
+                const kpiForaDoTempo = document.querySelector(".kpi-1 span");
                 kpiForaDoTempo.textContent = chamadosForaDoTempo.length;
 
                 data.sort((a, b) => {
-                    const statusOrder = {
-                        "fora do tempo": 1,
-                        "em análise": 2,
-                        "fazendo": 3
-                    };
-                    const statusA = a.fields.status.name.toLowerCase();
-                    const statusB = b.fields.status.name.toLowerCase();
-                    return (statusOrder[statusA] || 99) - (statusOrder[statusB] || 99);
+                    return new Date(a.fields.created) - new Date(b.fields.created);
                 });
 
                 data.forEach(chamado => {
@@ -157,7 +148,8 @@
                                 <span><strong>Responsável:</strong> ${chamado.fields.assignee ? chamado.fields.assignee.displayName : 'Não atribuído'}</span>
                             </div>
                             <div class="coluna_direita">
-                                <span><strong>Status:</strong> <span class="status">${chamado.fields.status.name}</span></span>
+                                <span><strong>Status:</strong> <span class="status">${chamado.fields.status.name}
+                                    - ${chamadosForaDoTempo.includes(chamado) ? 'Fora do Tempo' : 'Em Tempo'}</span></span>
                             </div>
                         </div>
                         <div class="linha4">
@@ -165,20 +157,21 @@
                         </div>`;
 
                     const statusSpan = card.querySelector(".status");
-                    if (status === "fora do tempo") {
-                        statusSpan.style.color = "orange";
+                    if (chamadosForaDoTempo.includes(chamado)) {
+                        statusSpan.style.color = "red";
+                        statusSpan.style.fontWeight = "bold";
                     } else if (status === "em análise") {
                         statusSpan.style.color = "gold";
-                    } else if (status === "fazendo") {
-                        statusSpan.style.color = "green";
+                    } else if (status === "pendente") {
+                        statusSpan.style.color = "orange";
                     }
-                    statusSpan.style.fontWeight = "bold";
 
-                    if (status === "fora do tempo" || (new Date() - new Date(chamado.fields.created)) / 1000 / 60 > 60) {
-                        container.appendChild(card);
+                    if (chamadosForaDoTempo.includes(chamado)) {
+                        container.appendChild(card); // Coluna da esquerda
                     } else {
-                        containerOutros.appendChild(card);
+                        containerOutros.appendChild(card); // Coluna da direita
                     }
+
                 });
             })
             .catch(err => {
