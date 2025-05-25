@@ -203,7 +203,7 @@ class AlertCard extends HTMLElement {
         });
     }
     
-    updateMetrics({ cpu, ram, disco, datetime, limiteCPU, limiteRAM, limiteDisco, limiteMinimoCPU, limiteMinimoRAM, limiteMinimoDisco }) {
+    updateMetrics({ cpu, ram, disco, datetime, limiteCPU, limiteRAM, limiteDisco}) {
         this.shadowRoot.querySelector(".cpu-tag").textContent = `Uso CPU: ${cpu}%`;
         this.shadowRoot.querySelector(".ram-tag").textContent = `Uso RAM: ${ram}%`;
         this.shadowRoot.querySelector(".disco-tag").textContent = `Uso Disco: ${disco}%`;
@@ -223,7 +223,7 @@ class AlertCard extends HTMLElement {
         if (cpu >= limiteCPU) {
             container_cpu.classList.add("Crítico");
             criticidadeGeral = "Crítico";
-        } else if (cpu >= limiteMinimoCPU) { 
+        } else if (cpu >= 65) { 
             container_cpu.classList.add("Atenção");
             if (criticidadeGeral !== "Crítico") criticidadeGeral = "Atenção";
         } else {
@@ -233,7 +233,7 @@ class AlertCard extends HTMLElement {
         if (ram >= limiteRAM) {
             container_ram.classList.add("Crítico");
             criticidadeGeral = "Crítico";
-        } else if (ram >= limiteMinimoRAM) { 
+        } else if (ram >= 65) { 
             container_ram.classList.add("Atenção");
             if (criticidadeGeral !== "Crítico") criticidadeGeral = "Atenção";
         } else {
@@ -243,7 +243,7 @@ class AlertCard extends HTMLElement {
         if (disco >= limiteDisco) {
             container_disco.classList.add("Crítico");
             criticidadeGeral = "Crítico";
-        } else if (disco >= limiteMinimoDisco) { 
+        } else if (disco >= 60) { 
             container_disco.classList.add("Atenção");
             if (criticidadeGeral !== "Crítico") criticidadeGeral = "Atenção";
         } else {

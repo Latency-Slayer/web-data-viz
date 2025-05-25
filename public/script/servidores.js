@@ -36,10 +36,9 @@ function getData(motherboard_id) {
             const card = document.querySelector(`alert-card[motherboardid="${motherboard_id}"]`);
 
             const limiteMax = limitesMaximos[motherboard_id];
-            const limiteMin = limitesMinimos[motherboard_id];
 
             // Ver qual servidor ele está com problmeas na leitura dos limites
-            if (!limiteMax || !limiteMin) {
+            if (!limiteMax) {
                 console.warn(`Limites não encontrados para ${motherboard_id}`);
                 return;
             }
@@ -52,9 +51,6 @@ function getData(motherboard_id) {
                 limiteCPU: limiteMax.cpu,
                 limiteRAM: limiteMax.ram,
                 limiteDisco: limiteMax.storage,
-                limiteMinimoCPU: limiteMin.cpu,
-                limiteMinimoRAM: limiteMin.ram,
-                limiteMinimoDisco: limiteMin.storage,
             });
         })
         .catch(erro => console.error(`Erro ao buscar métricas do servidor ${motherboard_id}:`, erro));
@@ -72,7 +68,6 @@ function getLimitComponent(motherboard_id) {
 
             data.forEach(item => {
                 limitesMaximos[motherboard_id][item.type] = item.max_limit;
-                limitesMinimos[motherboard_id][item.type] = item.min_limit;
 
                 const el = document.getElementById(item.type + "_limit");
                 if (el) {

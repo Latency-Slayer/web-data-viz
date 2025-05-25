@@ -2,6 +2,7 @@ let estadoOrdenacao = {
     campo: null, 
     crescente: false
 };
+
 function getProcess() {
     fetch("/process/api/real-time", {
         method: 'GET'
@@ -54,16 +55,34 @@ function mostrarProcessos(processos) {
 
 function ordenarProcessos(processos, campo, crescente = false) {
     return processos.sort((a, b) => {
-        const valA = a[campo] ?? 0;
-        const valB = b[campo] ?? 0;
+        
+        let valorAnterior = a[campo];
+        let valorDepois = b[campo];
 
-        if (valA < valB) {
-            return crescente ? -1 : 1;
+        if (valorAnterior == null){
+            valorAnterior = 0;
+        }   
+        if (valorDepois == null){
+            valorDepois = 0;
         }
-        if (valA > valB) {
-            return crescente ? 1 : -1;
-        } 
-        return 0;
+
+        if (valorAnterior === valorDepois) {
+            return 0;  // são iguais, então não muda a ordem
+        }
+
+        if (crescente) {
+            if (valorAnterior > valorDepois) {
+                return 1;  // A vai depois de B
+            } else {
+                return -1; // A vai antes de B
+            }
+        } else {
+            if (valorAnterior > valorDepois) {
+                return -1;
+            } else {
+                return 1; 
+            }
+        }
     });
 }
 
