@@ -99,6 +99,8 @@
                     }
 
                     const status = chamado.fields.status.name.toLowerCase();
+                    const kpiForaDoTempoDiv = document.querySelector(".kpi-1");
+                    kpiForaDoTempoDiv.classList.remove('kpi-verde', 'kpi-vermelha');
 
                     if (diffMinutos > 60) {
                         chamadosForaDoTempo.push(chamado);
@@ -116,8 +118,13 @@
                     `Chamado: ${chamadoMaisAntigo.key} \n ${new Date(chamadoMaisAntigo.fields.created).toLocaleDateString('pt-BR')} - ${new Date(chamadoMaisAntigo.fields.created).toLocaleTimeString('pt-BR')}` :
                     "Sem dados";
 
-                const kpiForaDoTempo = document.querySelector(".kpi-1 span");
-                kpiForaDoTempo.textContent = chamadosForaDoTempo.length;
+                const kpiForaDoTempoDiv = document.querySelector(".kpi-1");
+                kpiForaDoTempoDiv.classList.remove('kpi-verde', 'kpi-vermelha');
+                if (chamadosForaDoTempo.length === 0) {
+                    kpiForaDoTempoDiv.classList.add('kpi-verde');
+                } else {
+                    kpiForaDoTempoDiv.classList.add('kpi-vermelha');
+                }
 
                 data.sort((a, b) => {
                     return new Date(a.fields.created) - new Date(b.fields.created);
