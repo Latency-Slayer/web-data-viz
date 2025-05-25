@@ -265,8 +265,6 @@ class RealTimeConnectionModel {
     getFarPlayers(registrationNumber, continentCode) {
         const companyServers = this.#connectionsData.get(registrationNumber);
 
-        console.log(continentCode)
-
         if(!companyServers) {
             return 0;
         }
@@ -310,6 +308,8 @@ class RealTimeConnectionModel {
 
         return locations;
     }
+
+
 
     #removeInactiveServer() {
         this.#connectionsData.forEach((companyServers) => {
