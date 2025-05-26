@@ -1,3 +1,8 @@
+// import { valor_kpi } from "../valoresKpis";
+var valor_kpi_chamados_abertos = 12
+var total_chamados_abertos = 20
+var pctg_chamados_abertos = 60
+
 class kpiComponent extends HTMLElement {
     constructor() {
         super();
@@ -15,11 +20,11 @@ class kpiComponent extends HTMLElement {
             <span class="titulo-kpi">Chamados chamados e chamados</span>
 
             <div class="center-infos">
-              <span class="numero">12</span>
+              <span class="numero">${valor_kpi_chamados_abertos}</span>
               <span class="msg-kpi">chamados em aberto sem responsável</span>
             </div>
 
-            <span class="msg-label">60% do total de chamados (total de 20)</span>
+            <span class="msg-label">${total_chamados_abertos}% do total de chamados (total de ${total_chamados_abertos})</span>
           </div>
         </div>
 
@@ -92,64 +97,8 @@ class kpiComponent extends HTMLElement {
     font-size: 1vw;
 }
 
-@media (max-width: 1650px) {
-    .titulo-kpi {
-        font-size: 1.4vw;
-    }
 
-    .msg-kpi {
-        font-size: 2.8vh;
-    }
-}
 
-@media (max-width: 1590px) {
-    .msg-kpi {
-        font-size: 2.4vh;
-    }
-}
-
-@media (max-width: 1500px) {
-    .kpis {
-        flex-direction: row;
-        width: 100%;
-        height: fit-content;
-    }
-
-    .kpi {
-        width: calc((100% / 3) - 30px);
-    }
-}
-
-@media (max-width: 1150px) {
-    .kpis {
-        flex-direction: column;
-    }
-
-    .kpi {
-        height: fit-content;
-        width: 100%;
-    }
-
-    .titulo-kpi {
-        font-size: 3vw;
-    }
-
-    .numero {
-        font-size: 13vw;
-    }
-
-    .msg-kpi {
-        font-size: 5vw;
-        width: calc(100% - 15vw);
-    }
-
-    .msg-label {
-        font-size: 3vw;
-        border-radius: 3vw;
-        padding-left: 3vh;
-        padding-right: 3vh;
-    }
-}
         </style>
         `
     }
