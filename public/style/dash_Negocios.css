@@ -12,7 +12,7 @@
 
 .filtros {
     width: 30%;
-    margin: 5px;
+    margin: 15px;
     display: flex;
     justify-content: space-between;
 }
@@ -39,6 +39,8 @@
 .metricas {
     display: flex;
     flex-direction: column;
+    gap: 2vh;
+    
 }
 
 .KPIs {
@@ -55,11 +57,16 @@
 .containers .container {
     border: none;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.50);
-    width: 31.6rem;
+    width: 33.1rem;
     height: 12.8rem;
     font-size: 24px;
     border-radius: 5px;
     color: #56408C;
+}
+
+.container span {
+    display: flex;
+    justify-content: center;
 }
 
 .Graficos {
@@ -71,8 +78,13 @@
 .Grafico {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.50);
     width: 48%;
-    height: 25.5rem;
-    font-size: 20px;
+    height: 24.5rem;
+    font-size: 23px;
     border-radius: 5px;
     color: #56408C;
+}
+
+.Grafico {
+    display: flex;
+    justify-content: center;
 }
