@@ -19,7 +19,7 @@ var indexRouter = require("./src/routes/index");
 var usuarioRouter = require("./src/routes/usuarios");
 var empresaRouter = require("./src/routes/empresas");
 var cadastrarMaquinaRouter = require("./src/routes/server");
-let businessInteligenceDashboardRouter = require("./src/dashboardBryan/routes/realTimeRouter.js");
+let businessInteligenceDashboardRouter = require("./src/dashboardBryan/routes/index.js");
 
 
 app.use(express.json({ limit: '50mb' }));

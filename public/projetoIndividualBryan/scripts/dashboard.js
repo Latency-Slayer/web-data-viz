@@ -11,21 +11,19 @@ map.onload(() => {
         const playerLocations = await fetch(`/bi/dashboard/real-time/player-locations/${sessionStorage.REGISTRATION_NUMBER}`)
         const json = await playerLocations.json();
 
-        console.log(json)
-
         map.loadData(json.playerLocations);
         map.updateMapPoints();
     }, 2000);
 });
 
-window.onload = renderRealTimeDashboard;
+window.onload = renderDashboard;
 
 const filters = {
     continent: null,
-    game: null
+    period: null
 }
 
-async function renderRealTimeDashboard () {
+async function renderDashboard () {
     let kpis = loadKpis();
 
     let chart1 = await loadTopGamesChart(`Jogos mais acessados no momento (${continentName(filters.continent) || "Global"})`);
@@ -33,20 +31,14 @@ async function renderRealTimeDashboard () {
     let chart3 = await loadConnectionsVariationChart(`Variação de conexões (${continentName(filters.continent) || "Global"})`);
 
     // Reload dashboard on filter change;
-
-    const continentFilter = document.getElementById("continent-filter");
-
-    observeElementAttributeChange(continentFilter, async (filter) => {
-        filters.continent = filter;
-
+    async function changeContinentContext() {
         document.getElementById("far-players-table").innerHTML = "";
 
         kpis.kpi01.destroy();
         kpis.kpi02.destroy();
         kpis.kpi03.destroy();
 
-
-        const kpiHints = filter ? {
+        const kpiHints = filters.continent ? {
             kpi1Hint: "Quantidade de conexões no continente filtrado.",
             kpi2Hint: "Total de servidores ativos no continente filtrado. É possível ter jogadores ativos no " +
                 "continente, mas não necessáriamente ter um servidor ativo. Nesse caso significa que os jogadores estão " +
@@ -63,6 +55,15 @@ async function renderRealTimeDashboard () {
         chart1 = await loadTopGamesChart(`Jogos mais acessados no momento (${continentName(filters.continent) || "Global"})`, filters);
         chart2 = await loadTopContinentsChart(`Países com mais jogadores no momento (${continentName(filters.continent) || "Global"})`, filters.continent);
         chart3 = await loadConnectionsVariationChart(`Variação de conexões (${continentName(filters.continent) || "Global"})`, filters);
+    }
+
+
+    const continentFilter = document.getElementById("continent-filter");
+
+    observeElementAttributeChange(continentFilter, async (filter) => {
+        filters.continent = filter;
+
+        await changeContinentContext();
     });
 }
 
@@ -552,4 +553,10 @@ document.getElementById("warning").onclick = async () => {
     loadTable(select);
 
     warningModal.open();
+}
+
+
+// Funções para trazer dados analiticos
+function getDailyAvarageInPeriod(filters) {
+
 }
