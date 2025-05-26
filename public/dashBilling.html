@@ -24,7 +24,7 @@
                             <div class="titulo">Taxa de custo do mês atual</div>
                         </div>
                         <div class="linha1">
-                            <div class="valor" style="padding-left: 10px;">R$ 125.00 <img src="./img/seta-vermelha.svg"></div>
+                            <div class="valor" style="padding-left: 10px; color: #3A2E5D;">R$ 125.00 <img src="./img/seta-vermelha.svg"></div>
                             <div style="color: #DC2626;">37.8%</div><div style="padding-left: 5px;">este mês</div>
                         </div>
                     </div>
@@ -34,7 +34,7 @@
                             <div class="titulo">Previsão de custo para o final do mês atual</div>
                         </div>
                         <div class="linha1">
-                            <div class="valor" style="padding-left: 10px;">R$ 160.00 <img src="./img/seta-vermelha.svg"></div>
+                            <div class="valor" style="padding-left: 10px; color: #3A2E5D;">R$ 160.00 <img src="./img/seta-vermelha.svg"></div>
                             <div style="color: #DC2626;">67.8%</div><div style="padding-left: 5px;">este mês</div>
                         </div>
                     </div>
@@ -44,13 +44,12 @@
                             <div class="titulo">Meta de gasto mensal</div>
                         </div>
                         <div class="linha1">
-                            <div class="valor" style="padding-left: 5px; font-size: 20px;">R$ 125.00/R$250.00 <img style="height: 20px;" src="./img/seta-verde.svg"></div>
+                            <div class="valor" style="padding-left: 5px; font-size: 20px; color: #3A2E5D;">R$ 125.00/R$250.00 <img style="height: 20px;" src="./img/seta-verde.svg"></div>
                             <div style="color: #00D207;">16.6%</div><div style="padding-left: 5px;">este mês</div>
                         </div>
                     </div>
                 </div>    
             </div>
-
             <div class="graficos">
                 <div class="plot-content">
                     <div class="grafico1">
@@ -70,6 +69,56 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <br>
+            <header>
+                <h1>Operacional</h1>
+            </header>
+            <div class="kpi-lista">
+                <div class="list-content">
+                    <div class="kpi" style="width: 45%;">
+                        <div class="linha1">
+                            <img src="./img/escada.svg" height="50px">
+                            <div class="titulo">Quantidade de requisições HTTP no sistema web</div>
+                        </div>
+                        <div class="linha1">
+                            <div class="valor" style="padding-left: 10px; font-size: 40px; color: #3A2E5D;">20.000</div>
+                            <div style="padding-left: 5px; color: #3A2E5D; padding-top: 10px;">essa semana</div>
+                        </div>
+                    </div>
+                    <div class="kpi" style="width: 45%;">
+                        <div class="titulo" style="padding-left: 20px; padding-bottom: 10px; font-size: 18px;">Monitoramento de containers</div>
+                            <table style="color: #3A2E5D;">
+                                <tr style="color: #B69CF6; border-bottom: #020202;">
+                                    <th>CONTAINER</th>
+                                    <th>STATUS</th>
+                                    <th>PORTA</th>
+                                    <th>LOGS</th>
+                                </tr>
+                                <tr>
+                                    <th>aplicação web</th>
+                                    <th><img src="./img/check_circle.svg" style="height: 25px;">em execução</th>
+                                    <th>80</th>
+                                    <th>ver logs</th>
+                                </tr>
+                                <tr>
+                                    <th>Mysql</th>
+                                    <th><img src="./img/check_circle.svg" style="height: 25px;">em execução</th>
+                                    <th>3306</th>
+                                    <th>ver logs</th>
+                                </tr>
+                                <tr>
+                                    <th>Data Transfer API</th>
+                                    <th><img src="./img/check_circle.svg" style="height: 25px;">em execução</th>
+                                    <th>5000</th>
+                                    <th>ver logs</th>
+                                </tr>
+                            </table>
+                    </div>
+                </div>
+            </div>
+            <div class="plot-content">
+                <div class="grafico3"></div>
             </div>
             <br><br><br><br><br><br>
         </div>

@@ -18,7 +18,7 @@ main {
 
 .titulo-principal {
     font-size: 6vh;
-    font-weight: 600;
+    font-weight: 700;
     color: #3A2E5D;
     text-align: center;
 }
@@ -33,9 +33,21 @@ main {
     background-color: #e2e0e0;
 }
 
+.container2 {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+    overflow: auto;
+    overflow-x: hidden;
+    background-color: #e2e0e0;
+}
+
 h1 {
     font-size: 5vh;
-    font-weight: 500;
+    font-weight: 600;
     color: #3A2E5D;
 }
 
@@ -48,6 +60,15 @@ header h1 {
     display: flex;
     flex-direction: row;
     width: 100%;
+    padding-left: 30px;
+    padding-bottom: 15px;
+}
+
+.kpi-lista {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 400px;
     padding-left: 30px;
     padding-bottom: 15px;
 }
@@ -91,6 +112,16 @@ header h1 {
     /* border: 1px black solid; */
 }
 
+.grafico3 {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    height: 300px;
+    width: 50%;
+    border-radius: 1vh;
+    background-color: white;
+}
+
 .plot-grafico {
     height: 100%;
     /* border: 1px solid red; */
@@ -111,6 +142,14 @@ header h1 {
     width: 95%;
     height: 90%;
     display: flex;
+    justify-content: space-between !important;
+}
+
+.list-content {
+    width: 95%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
     justify-content: space-between !important;
 }
 
@@ -140,7 +179,7 @@ header h1 {
     padding-left: 10px;
     font-size: 10px;
     font-weight: bold;
-    color: #888888;
+    color: #B69CF6;
 }
 
 .legenda {
