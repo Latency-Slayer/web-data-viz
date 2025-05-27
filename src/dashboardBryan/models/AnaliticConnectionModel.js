@@ -8,7 +8,26 @@ class AnaliticConnectionModel {
         const startMonth = date.getMonth() + 1;
         const endMonth = new Date().getMonth();
 
-        const result = await database.executar(`SELECT
+        let result;
+
+        if (continent) {
+            return await database.executar(`SELECT
+                DATE_FORMAT(date_time, '%Y-%m') AS mes,
+                ROUND(COUNT(*) / COUNT(DISTINCT day (date_time)), 0) AS media_mensal
+            FROM
+                connection_capturing
+            JOIN server ON id_server = fk_server
+            JOIN company ON id_company = fk_company
+            WHERE company.registration_number = ? AND (MONTH(connection_capturing.date_time) >= ? AND MONTH(connection_capturing.date_time) <= ?) AND
+            connection_capturing.continent_code = ?
+            GROUP BY
+                DATE_FORMAT(date_time, '%Y-%m')
+            ORDER BY
+                mes 
+            `, [companyRegisterNumber, startMonth, endMonth, continent]);
+        }
+
+        return await database.executar(`SELECT
                 DATE_FORMAT(date_time, '%Y-%m') AS mes,
                 ROUND(COUNT(*) / COUNT(DISTINCT day (date_time)), 0) AS media_mensal
             FROM
@@ -21,8 +40,10 @@ class AnaliticConnectionModel {
             ORDER BY
                 mes 
         `, [companyRegisterNumber, startMonth, endMonth]);
+    }
 
-        return result;
+    async getPeakOfSimultaneousConnections (companyRegisterNumber, continent, period) {
+
     }
 }
 

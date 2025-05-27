@@ -10,9 +10,11 @@ class AnaliticConnectionService {
 
         const avarageMonth = await model.getDailyAverageConnectionsInPeriod(companyRegisterNumber, continent, period);
 
-        return avarageMonth.reduce((accumulator, currentValue) => {
+
+
+        return Math.round(avarageMonth.reduce((accumulator, currentValue) => {
             return accumulator + Number(currentValue.media_mensal)
-        }, 0) / avarageMonth.length;
+        }, 0) / avarageMonth.length, 0) || 0;
     }
 }
 

@@ -1,4 +1,10 @@
-import { insertElement, initKpi, observeElementAttributeChange, continentName, executeNowAndRepeatWithInterval } from "./functions.js";
+import {
+    continentName,
+    executeNowAndRepeatWithInterval,
+    initKpi,
+    insertElement,
+    observeElementAttributeChange
+} from "./functions.js";
 import MapBox from "./classes/MapBox.js";
 import "https://cdn.jsdelivr.net/npm/apexcharts"
 
@@ -46,6 +52,14 @@ observeElementAttributeChange(document.getElementById("continent-filter"), async
     await renderDashboard();
 });
 
+observeElementAttributeChange(document.getElementById("period-filter"), async (filter) => {
+    console.log(filter)
+    filters.period = filter;
+
+    destroyDashboard();
+    await renderDashboard();
+});
+
 
 async function renderDashboard () {
     kpis = loadKpis();
@@ -72,11 +86,27 @@ function loadKpis() {
                 "jogando em servidores localizados em outros continentes.",
             kpi3Hint: "Jogo mais jogado no continente filtrado.",
         }
+    } else
+
+    if(filters.continent && filters.period) {
+        hints = {
+            kpi1Hint: "Quantidade de conexões no continente filtrado e no período selecionado.",
+            kpi2Hint: "Pico de conexões simultâneas.",
+            kpi3Hint: "Jogo mais jogado no continente filtrado e no periodo filtrado.",
+        }
+    } else
+
+    if(!filters.continent && filters.period) {
+        hints = {
+            kpi1Hint: "Média de conexões no período selecionado. (Total de conexões no periodo dividido pela quantidade de dias).",
+            kpi2Hint: "Pico de conexões simultâneas no período selecionado.",
+            kpi3Hint: "Jogo mais jogado no periodo filtrado."
+        }
     }
 
     const kpi01 = insertElement(kpisDiv,"kpi-card", {
         "icon-name": "bi-wifi",
-        "kpi-title": "Quantidade de conexões",
+        "kpi-title": !filters.period ? "Quantidade de conexões" : "Média de quantidade de conexões",
         value: 0,
         hint: hints.kpi1Hint,
         id: "kpi01"
@@ -84,7 +114,7 @@ function loadKpis() {
 
     const kpi02 = insertElement(kpisDiv,"kpi-card", {
         "icon-name": "bi-hdd-stack",
-        "kpi-title": "Total de servidores ativos",
+        "kpi-title": !filters.period ? "Jogo mais jogado no momento" : "Pico de conexões simultâneas",
         value: 0,
         hint: hints.kpi2Hint,
         id: "kpi02"
@@ -129,6 +159,20 @@ async function getQuantPlayers() {
 
     if(filters.continent && !filters.period) {
         url = `/bi/dashboard/real-time/quantity-connections/${sessionStorage.REGISTRATION_NUMBER}?continent=${filters.continent}`;
+    }
+    else if(!filters.continent && filters.period) {
+            url =`/bi/dashboard/analitic/daily-avarage-connections/${sessionStorage.REGISTRATION_NUMBER}/${filters.period}`;
+            const request = await fetch(url);
+            const json = await request.json();
+
+            return json.avarage;
+    }
+    else if(filters.continent && filters.period) {
+        url =`/bi/dashboard/analitic/daily-avarage-connections/${sessionStorage.REGISTRATION_NUMBER}/${filters.period}?continent=${filters.continent}`;
+        const request = await fetch(url);
+        const json = await request.json();
+
+        return json.avarage;
     }
 
     const request = await fetch(url);

@@ -10,7 +10,7 @@ class AnaliticConnectionController {
 
         const result = await service.getDailyAverageConnectionsInPeriod(companyRegisterNumber, continent, period);
 
-        return res.json(result);
+        return res.json({ avarage: result });
     }
 }
 
