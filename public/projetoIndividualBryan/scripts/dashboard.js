@@ -23,30 +23,20 @@ const filters = {
     period: null
 }
 
-async function renderDashboard () {
-    let kpis = loadKpis();
+let kpis;
+let chart1;
+let chart2;
+let chart3;
 
-    let chart1 = await loadTopGamesChart(`Jogos mais acessados no momento (${continentName(filters.continent) || "Global"})`);
-    let chart2 = await loadTopContinentsChart(`Países com mais jogadores no momento (${continentName(filters.continent) || "Global"})`);
-    let chart3 = await loadConnectionsVariationChart(`Variação de conexões (${continentName(filters.continent) || "Global"})`);
+function destroyDashboard() {
+    kpis.kpi01.destroy();
+    kpis.kpi02.destroy();
+    kpis.kpi03.destroy();
 
-    // Reload dashboard on filter change;
-    async function changeContinentContext() {
-        document.getElementById("far-players-table").innerHTML = "";
-
-        kpis.kpi01.destroy();
-        kpis.kpi02.destroy();
-        kpis.kpi03.destroy();
-
-        const kpiHints = filters.continent ? {
-            kpi1Hint: "Quantidade de conexões no continente filtrado.",
-            kpi2Hint: "Total de servidores ativos no continente filtrado. É possível ter jogadores ativos no " +
-                "continente, mas não necessáriamente ter um servidor ativo. Nesse caso significa que os jogadores estão " +
-                "jogando em servidores localizados em outros continentes.",
-            kpi3Hint: "Jogo mais jogado no continente filtrado.",
-        } : null;
-
-        kpis = loadKpis(filters, kpiHints);
+    chart1.destroy();
+    chart2.destroy();
+    chart3.destroy();
+}
 
 
 observeElementAttributeChange(document.getElementById("continent-filter"), async (filter) => {
