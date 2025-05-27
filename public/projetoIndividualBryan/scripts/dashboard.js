@@ -48,34 +48,40 @@ async function renderDashboard () {
 
         kpis = loadKpis(filters, kpiHints);
 
-        chart1.stop();
-        chart2.stop();
-        chart3.stop();
 
-        chart1 = await loadTopGamesChart(`Jogos mais acessados no momento (${continentName(filters.continent) || "Global"})`, filters);
-        chart2 = await loadTopContinentsChart(`Países com mais jogadores no momento (${continentName(filters.continent) || "Global"})`, filters.continent);
-        chart3 = await loadConnectionsVariationChart(`Variação de conexões (${continentName(filters.continent) || "Global"})`, filters);
-    }
+observeElementAttributeChange(document.getElementById("continent-filter"), async (filter) => {
+    filters.continent = filter;
+
+    destroyDashboard();
+    await renderDashboard();
+});
 
 
-    const continentFilter = document.getElementById("continent-filter");
+async function renderDashboard () {
+    kpis = loadKpis();
 
-    observeElementAttributeChange(continentFilter, async (filter) => {
-        filters.continent = filter;
-
-        await changeContinentContext();
-    });
+    chart1 = await loadTopGamesChart();
+    chart2 = await loadTopContinentsChart();
+    chart3 = await loadConnectionsVariationChart();
 }
 
-function loadKpis(filters, hints) {
+function loadKpis() {
     const kpisDiv = document.getElementById("kpisDiv");
 
-    if(!hints) {
-        hints = {};
+    let hints = {
+        kpi1Hint: "Soma de todos os jogadores conectados em todos os servidores ao redor de mundo.",
+        kpi2Hint: "Total de servidores ativos globalmente.",
+        kpi3Hint: "Jogo mais jogado globalmente."
+    };
 
-        hints.kpi1Hint = "Soma de todos os jogadores conectados em todos os servidores ao redor de mundo.";
-        hints.kpi2Hint = "Total de servidores ativos globalmente.";
-        hints.kpi3Hint = "Jogo mais jogado globalmente.";
+    if(filters.continent && !filters.period) {
+        hints = {
+            kpi1Hint: "Quantidade de conexões no continente filtrado.",
+            kpi2Hint: "Total de servidores ativos no continente filtrado. É possível ter jogadores ativos no " +
+                "continente, mas não necessáriamente ter um servidor ativo. Nesse caso significa que os jogadores estão " +
+                "jogando em servidores localizados em outros continentes.",
+            kpi3Hint: "Jogo mais jogado no continente filtrado.",
+        }
     }
 
     const kpi01 = insertElement(kpisDiv,"kpi-card", {
@@ -102,9 +108,9 @@ function loadKpis(filters, hints) {
         id: "kpi03"
     }, ["w-1/3"]);
 
-    const kpi01Init = initKpi(kpi01, getQuantPlayers, filters);
-    const kpi02Init = initKpi(kpi02, getQuantServersActive, filters);
-    const kpi03Init = initKpi(kpi03, getTopGame, filters);
+    const kpi01Init = initKpi(kpi01, getQuantPlayers);
+    const kpi02Init = initKpi(kpi02, getQuantServersActive);
+    const kpi03Init = initKpi(kpi03, getTopGame);
 
     return {
         kpi01: {
@@ -128,10 +134,10 @@ function loadKpis(filters, hints) {
     }
 }
 
-async function getQuantPlayers(filters) {
+async function getQuantPlayers() {
     let url = `/bi/dashboard/real-time/quantity-connections/${sessionStorage.REGISTRATION_NUMBER}`;
 
-    if(filters && filters.hasOwnProperty("continent")) {
+    if(filters.continent && !filters.period) {
         url = `/bi/dashboard/real-time/quantity-connections/${sessionStorage.REGISTRATION_NUMBER}?continent=${filters.continent}`;
     }
 
@@ -154,10 +160,10 @@ async function getQuantPlayers(filters) {
     return json.quantConnections;
 }
 
-async function getQuantServersActive(filters) {
+async function getQuantServersActive() {
     let url = `/bi/dashboard/real-time/quantity-active-servers/${sessionStorage.REGISTRATION_NUMBER}`;
 
-    if(filters && filters.hasOwnProperty("continent")) {
+    if(filters.continent && !filters.period) {
         url = `/bi/dashboard/real-time/quantity-active-servers/${sessionStorage.REGISTRATION_NUMBER}?continent=${filters.continent}`;
     }
 
@@ -167,10 +173,10 @@ async function getQuantServersActive(filters) {
     return json.quantActiveServers;
 }
 
-async function getTopGame(filters) {
+async function getTopGame() {
     let url = `/bi/dashboard/real-time/top-games/${sessionStorage.REGISTRATION_NUMBER}`;
 
-    if(filters && filters.hasOwnProperty("continent")) {
+    if(filters.continent && !filters.period) {
         url = `/bi/dashboard/real-time/top-games/${sessionStorage.REGISTRATION_NUMBER}?continent=${filters.continent}`;
     }
 
@@ -185,14 +191,16 @@ async function getTopGame(filters) {
 }
 
 
-async function loadTopGamesChart(title, filters) {
+async function loadTopGamesChart() {
     const chartdiv = document.getElementById("chart1");
+    let title = `Jogos mais acessados no momento (${continentName(filters.continent) || "Global"})`
+
     document.getElementById("title-chart1").innerHTML = title;
 
     let options = {
         series: [{
             name: "Quantidade de jogadores",
-            data: await getAllTopGames(filters),
+            data: await getAllTopGames(),
         }],
         chart: {
             type: 'bar',
@@ -238,12 +246,12 @@ async function loadTopGamesChart(title, filters) {
 
     const interval = setInterval(async () => {
         chart.updateSeries([{
-            data: await getAllTopGames(filters),
+            data: await getAllTopGames(),
         }]);
     }, 2000);
 
     return {
-        stop: () => {
+        destroy: () => {
             clearInterval(interval);
             chart.destroy();
         }
@@ -251,10 +259,10 @@ async function loadTopGamesChart(title, filters) {
 }
 
 
-async function getAllTopGames(filters) {
+async function getAllTopGames() {
     let url = `/bi/dashboard/real-time/top-games/${sessionStorage.REGISTRATION_NUMBER}`;
 
-    if(filters && filters.hasOwnProperty("continent")) {
+    if(filters.continent && !filters.period) {
         url = `/bi/dashboard/real-time/top-games/${sessionStorage.REGISTRATION_NUMBER}?continent=${filters.continent}`;
     }
 
@@ -279,14 +287,20 @@ async function getAllTopGames(filters) {
 
 
 
-async function loadTopContinentsChart(title, continent) {
+async function loadTopContinentsChart() {
     const chartdiv = document.getElementById("chart2");
+    let title = "Continentes com mais jogadores no momento";
+
+    if(filters.continent && !filters.period) {
+        title = "Países com mais jogadores no momento";
+    }
+
     document.getElementById("title-chart2").innerHTML = title;
 
     let options = {
         series: [{
             name: "Quantidade de jogadores",
-            data: !continent ? await getTopContinents() : await getTopCountries(continent),
+            data: await getTopContinents(),
         }],
         chart: {
             type: 'bar',
@@ -331,12 +345,12 @@ async function loadTopContinentsChart(title, continent) {
 
     const interval = setInterval(async () => {
         chart.updateSeries([{
-            data: !continent ? await getTopContinents() : await getTopCountries(continent),
+            data: await getTopCountries(),
         }]);
     }, 2000)
 
     return {
-        stop: () => {
+        destroy: () => {
             clearInterval(interval);
             chart.destroy();
         }
@@ -365,8 +379,8 @@ async function getTopContinents() {
     }];
 }
 
-async function getTopCountries(continentCode) {
-    const request = await fetch(`/bi/dashboard/real-time/top-countries/${sessionStorage.REGISTRATION_NUMBER}?continent=${continentCode}`);
+async function getTopCountries() {
+    const request = await fetch(`/bi/dashboard/real-time/top-countries/${sessionStorage.REGISTRATION_NUMBER}?continent=${filters.continent}`);
     const json = await request.json();
 
     if(json.topCountries.length > 0){
@@ -381,9 +395,10 @@ async function getTopCountries(continentCode) {
 }
 
 
-async function loadConnectionsVariationChart(title, filters) {
+async function loadConnectionsVariationChart() {
     const chartdiv = document.getElementById("chart3");
-    document.getElementById("title-chart3").innerHTML = title;
+
+    document.getElementById("title-chart3").innerHTML = `Variação de conexões (${continentName(filters.continent) || "Global"})`;
 
     let options = {
         series: [{
@@ -460,7 +475,7 @@ async function loadConnectionsVariationChart(title, filters) {
     const data = [];
 
     const interval = setInterval(async () => {
-        const y = await getQuantPlayers(filters);
+        const y = await getQuantPlayers();
         let x = new Date();
         x.setHours(x.getHours() - 3);
         x = x.getTime();
@@ -474,7 +489,7 @@ async function loadConnectionsVariationChart(title, filters) {
     }, 2000);
 
     return {
-        stop: () => {
+        destroy: () => {
             clearInterval(interval);
             chart.destroy();
         }

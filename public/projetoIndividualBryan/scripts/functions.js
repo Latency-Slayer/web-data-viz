@@ -24,9 +24,9 @@ export function executeNowAndRepeatWithInterval(callback, timeOut) {
     return setInterval(callback, timeOut);
 }
 
-export function initKpi(kpi, func, filters) {
+export function initKpi(kpi, func) {
     const interval = executeNowAndRepeatWithInterval(async () => {
-        kpi.value = await func(filters);
+        kpi.value = await func();
     }, 2000);
 
     return {
