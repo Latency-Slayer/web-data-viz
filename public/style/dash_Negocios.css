@@ -11,10 +11,39 @@
 }
 
 .filtros {
-    width: 30%;
+    width: 45%;
     margin: 15px;
     display: flex;
     justify-content: space-between;
+}
+
+.filtros input {
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.50);
+    width: 15rem;
+    height: 35px;
+    font-size: 18px;
+    border-radius: 5px;
+    color: #56408C;
+    padding: 0 0 0 5px;
+}
+
+.filtros button {
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.50);
+    width: 10rem;
+    height: 35px;
+    font-size: 20px;
+    border-radius: 5px;
+    color: #56408C;
+    transition: linear .2s;
+    background-color: white;
+}
+
+.filtros button:hover {
+    background-color: #56408C;
+    color: white;
+    cursor: pointer;
 }
 
 .filtros .filtro {
@@ -29,18 +58,21 @@
 }
 
 .filtro:hover {
-    background-color: #f0f0f0; 
+    background-color: #56408C;
+    color: white;
+    cursor: pointer;
 }
 
 .filtro option {
     font-size: 18px;
+    background-color: white;
+    color: #56408C;
 }
 
 .metricas {
     display: flex;
     flex-direction: column;
     gap: 2vh;
-    
 }
 
 .KPIs {
