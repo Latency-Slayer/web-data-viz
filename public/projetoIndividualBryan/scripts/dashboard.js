@@ -134,7 +134,6 @@ async function getQuantPlayers() {
     const request = await fetch(url);
     const json = await request.json();
 
-
     if(json.quantConnections.hasOwnProperty("totalConnections")) {
         if(json.quantConnections.warning) {
             document.getElementById("warning").classList.remove("invisible");
@@ -290,7 +289,7 @@ async function loadTopContinentsChart() {
     let options = {
         series: [{
             name: "Quantidade de jogadores",
-            data: await getTopContinents(),
+            data: !filters.continent ? await getTopContinents() : await getTopCountries(),
         }],
         chart: {
             type: 'bar',
@@ -335,7 +334,7 @@ async function loadTopContinentsChart() {
 
     const interval = setInterval(async () => {
         chart.updateSeries([{
-            data: await getTopCountries(),
+            data: !filters.continent ? await getTopContinents() : await getTopCountries()
         }]);
     }, 2000)
 
