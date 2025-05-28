@@ -32,9 +32,11 @@ function getData() {
             if (cpuValue >= limitesMaximos.cpu) {
                 container_cpu.classList.add("Crítico");
                 registerAlert('cpu', cpuValue, limitesMaximos.cpu, "Crítico")
+                abrirChamadoJira()
             } else if (cpuValue <= limitesMaximos.cpu && cpuValue >= 65) {
                 container_cpu.classList.add("Atenção");
                 registerAlert('cpu', cpuValue, limitesMaximos.cpu, "Atenção")
+                abrirChamadoJira()
             } else {
                 container_cpu.classList.add("Normal");
             }
@@ -42,9 +44,11 @@ function getData() {
             if (ramValue >= limitesMaximos.ram) {
                 container_ram.classList.add("Crítico");
                 registerAlert('ram', ramValue, limitesMaximos.ram, "Crítico")
+                abrirChamadoJira()
             } else if (ramValue <= limitesMaximos.ram && ramValue >= 65) {
                 container_ram.classList.add("Atenção");
                 registerAlert('ram', ramValue, limitesMaximos.ram, "Atenção")
+                abrirChamadoJira()
             } else {
                 container_ram.classList.add("Normal");
             }
@@ -52,9 +56,11 @@ function getData() {
             if (discoValue >= limitesMaximos.storage) {
                 container_disco.classList.add("Crítico");
                 registerAlert('storage', discoValue, limitesMaximos.storage, "Crítico")
+                abrirChamadoJira()
             } else if (discoValue <= limitesMaximos.storage && discoValue >= 60) {
                 container_disco.classList.add("Atenção");
                 registerAlert('storage', discoValue, limitesMaximos.storage, "Atenção")
+                abrirChamadoJira()
             } else {
                 container_disco.classList.add("Normal");
             }
@@ -172,12 +178,12 @@ function getAlerts() {
 }
 
 function abrirChamadoJira() {
-    fetch('http://localhost:8080/criar-chamado', {
+    fetch('/jira/criar-chamado', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            summary: 'Chamado criado via contador',
-            description: 'Descrição criada pelo contador ao chegar em 5'
+            summary: 'Chamado criado via Node',
+            description: 'Descrição criada pelo Node'
         })
     })
         .then(res => res.json())

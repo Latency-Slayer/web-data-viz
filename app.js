@@ -22,7 +22,7 @@ var cadastrarMaquinaRouter = require("./src/routes/server");
 var hardwareRouter = require("./src/routes/hardware-real-time")
 var processRouter = require("./src/routes/process-real-time")
 var alertRouter = require("./src/routes/alert");
-var jiraRouter = require("./src/routes/jira.js");
+var jiraRouter = require("./src/routes/jira");
 let businessInteligenceDashboardRouter = require("./src/dashboardBryan/routes/realTimeRouter.js");
 
 app.use(express.json({ limit: '50mb' }));
