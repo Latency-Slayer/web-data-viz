@@ -446,16 +446,20 @@ function entrar() {
                     icon: "success",
                     timer: 2000
                 });
-
-                setTimeout(() => {
+               
+              
+              setTimeout(() => {
                     if (json.id_opt_role == 1) {
                         window.location = "./listaServidores.html"
                     } else if (json.id_opt_role == 2) {
                         window.location = "./listaServidores.html"
                     } else if (json.id_opt_role == 3) {
                         window.location = "./listaServidores.html"
-                    }
+                    } else if (json.id_opt_role == 4) {
+                    window.location = "./dashboardJiraSlack.html"
+                  }
                 }, 2000);
+              
             })
         } else {
             mensagemErro += "Email ou Senha inválido";
