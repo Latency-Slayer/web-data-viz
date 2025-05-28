@@ -51,27 +51,6 @@ main {
     justify-content: center;
 }
 
-.first {
-    background-color: #c30a03;
-}
-
-.second {
-    background-color: #c30a03;
-}
-
-.third {
-    background-color: #ffa507;
-}
-
-
-.danger {
-    background-color: #c30a03;
-}
-
-.warning {
-    background-color: #ffa507;
-}
-
 .kpi-content {
     width: 80%;
     height: 90%;
