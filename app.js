@@ -20,9 +20,10 @@ var usuarioRouter = require("./src/routes/usuarios");
 var empresaRouter = require("./src/routes/empresas");
 var cadastrarMaquinaRouter = require("./src/routes/server");
 var jiraRouter = require("./src/routes/jira.js")
+let businessInteligenceDashboardRouter = require("./src/dashboardBryan/routes/realTimeRouter.js");
 
 
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -33,6 +34,7 @@ app.use("/usuarios", usuarioRouter);
 app.use("/empresas", empresaRouter);
 app.use("/server", cadastrarMaquinaRouter);
 app.use("/jira", jiraRouter);
+app.use("/bi/dashboard", businessInteligenceDashboardRouter);
 
 
 app.listen(PORTA_APP, function () {
