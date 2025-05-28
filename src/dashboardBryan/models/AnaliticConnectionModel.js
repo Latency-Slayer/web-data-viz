@@ -45,8 +45,6 @@ class AnaliticConnectionModel {
         const startMonth = date.getMonth() + 1;
         const endMonth = new Date().getMonth();
 
-        // console.log(startMonth, endMonth);
-
         if (continent) {
             return database.executar(`SELECT
                                           DATE_FORMAT(date_time, '%Y-%m-%d %H:00:00') AS horario,
@@ -92,11 +90,38 @@ class AnaliticConnectionModel {
 
         if(continent) {
             return await database.executar(`
-            SELECT COUNT(*) FROM connection_capturing 
-            JOIN server ON id_server = fk_server
-            GROUP BY game
-            `)
+                SELECT game
+                FROM
+                    connection_capturing
+                        JOIN server ON id_server = fk_server
+                        JOIN company ON company.id_company = server.fk_company
+                WHERE
+                    company.registration_number = ?
+                  AND (MONTH(connection_capturing.date_time) >= ? AND
+                       MONTH(connection_capturing.date_time) <= ?) AND
+                    connection_capturing.continent_code = ?
+                GROUP BY
+                    game
+                ORDER BY COUNT(*) DESC
+                LIMIT 1;
+            `, [companyRegisterNumber, startMonth, endMonth, continent]);
         }
+
+        return await database.executar(`
+                SELECT game
+                FROM
+                    connection_capturing
+                        JOIN server ON id_server = fk_server
+                        JOIN company ON company.id_company = server.fk_company
+                WHERE
+                    company.registration_number = ?
+                  AND (MONTH(connection_capturing.date_time) >= ? AND
+                       MONTH(connection_capturing.date_time) <= ?)
+                GROUP BY
+                    game
+                ORDER BY COUNT(*) DESC
+                LIMIT 1;
+            `, [companyRegisterNumber, startMonth, endMonth]);
     }
 }
 

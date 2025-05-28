@@ -23,9 +23,17 @@ class AnaliticConnectionService {
             return null;
         }
 
-        const data = await model.getPeakOfSimultaneousConnections(companyRegisterNumber, continent, period);
+        return await model.getPeakOfSimultaneousConnections(companyRegisterNumber, continent, period);
+    }
 
-        return data;
+    async getTopGameOfPeriod (companyRegisterNumber, continent, period) {
+        if(!companyRegisterNumber || !period) {
+            return null;
+        }
+
+        const game = await model.getTopGameOfPeriod(companyRegisterNumber, continent, period)
+
+        return game[0];
     }
 }
 

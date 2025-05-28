@@ -138,7 +138,7 @@ function loadKpis() {
 
     const kpi01Init = initKpi(kpi01, getQuantPlayers);
     const kpi02Init = initKpi(kpi02, !filters.period ? getQuantServersActive : getPeakOfConnections);
-    const kpi03Init = initKpi(kpi03, getTopGame);
+    const kpi03Init = initKpi(kpi03, !filters.period ? getTopGame : getTopGameOfPeriod);
 
     return {
         kpi01: {
@@ -623,8 +623,6 @@ async function getPeakOfConnections() {
     const request = await fetch(url);
     const json = await request.json();
 
-    console.log(json);
-
     if(!json.hasOwnProperty("peak")) {
         return {
             value: 0,
@@ -636,4 +634,17 @@ async function getPeakOfConnections() {
         value: json.peak.total_conexoes,
         subvalue: new Date(json.peak.horario).toLocaleDateString("pt-BR")
     };
+}
+
+async function getTopGameOfPeriod() {
+    let url = `/bi/dashboard/analitic/top-game-of-period/${sessionStorage.REGISTRATION_NUMBER}/${filters.period}`;
+
+    if(filters.continent) {
+        url = `/bi/dashboard/analitic/top-game-of-period/${sessionStorage.REGISTRATION_NUMBER}/${filters.period}?continent=${filters.continent}`;
+    }
+
+    const request = await fetch(url);
+    const json = await request.json();
+
+    return json.result.game;
 }
