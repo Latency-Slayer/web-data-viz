@@ -6,6 +6,22 @@
     font-family: 'Poppins', sans-serif;
 }
 
+a {
+    color: #3A2E5D;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #8564db;
+}
+
+select {
+    width: 80px;
+    height: 30px;
+    border-color: #B69CF6;
+    color: #56408C;
+    border-radius: 5px;
+}
 
 body {
     overflow: hidden;
@@ -24,18 +40,6 @@ main {
 }
 
 .container {
-    height: 100vh;
-    width: 100%;
-    padding-left: 20px;
-    padding-right: 20px;
-    overflow: auto;
-    overflow-x: hidden;
-    background-color: #e2e0e0;
-}
-
-.container2 {
-    display: flex;
-    flex-direction: row;
     height: 100vh;
     width: 100%;
     padding-left: 20px;
@@ -64,12 +68,19 @@ header h1 {
     padding-bottom: 15px;
 }
 
+.operacional {
+    display: flex;
+    flex-direction: row;
+    width: 95%;
+    padding-right: 30px;
+    padding-left: 30px;
+}
+
 .kpi-lista {
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 400px;
-    padding-left: 30px;
+    height: 450px;
     padding-bottom: 15px;
 }
 
@@ -116,10 +127,16 @@ header h1 {
     display: flex;
     flex-direction: column;
     padding: 10px;
-    height: 300px;
-    width: 50%;
+    height: 385px;
+    width: 100%;
     border-radius: 1vh;
     background-color: white;
+}
+
+.select-componentes {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .plot-grafico {
@@ -142,22 +159,28 @@ header h1 {
     width: 95%;
     height: 90%;
     display: flex;
-    justify-content: space-between !important;
+    justify-content: space-between;
 }
 
 .list-content {
-    width: 95%;
+    /* width: 95%; */
     height: 90%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between !important;
+    justify-content: space-between;
 }
 
 .plot-content {
     width: 95%;
     height: 90%;
     display: flex;
-    justify-content: space-between !important;
+    justify-content: space-between;
+}
+
+.plot-grafico3 {
+    width: 95%;
+    height: 90%;
+    display: flex;
 }
 
 .linha1 {
@@ -176,8 +199,8 @@ header h1 {
 
 
 .subtitulo {
-    padding-left: 10px;
-    font-size: 10px;
+    padding-left: 12px;
+    font-size: 15px;
     font-weight: bold;
     color: #B69CF6;
 }
@@ -222,9 +245,15 @@ header h1 {
     font-size: 30px;
     font-weight: bolder;
 }
+thead th{
+    color: #B69CF6;
+    border-bottom: 0.5px solid #B69CF6; 
+}
 
 .cores {
     color: #3d1b91;
     color: #f803bb;
     color: #3a2e5d57;
+    color: #523b8f;
+    color: #000000
 }
