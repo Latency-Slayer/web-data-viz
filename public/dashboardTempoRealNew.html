@@ -65,7 +65,7 @@
                                 <th>PID</th>
                                 <th>Processo</th>
                                 <th id="cpu-desc">CPU (%)</th>
-                                <th id="ram-desc">RAM (MB)</th>
+                                <th id="ram-desc">RAM (%)</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -132,10 +132,10 @@
             ramHeader.addEventListener("click", () => {
                 const ramHeader = document.getElementById("ram-desc");
 
-                if (estadoOrdenacao.campo === 'ram_mb') {
+                if (estadoOrdenacao.campo === 'ram_percent') {
                     estadoOrdenacao.crescente = !estadoOrdenacao.crescente;
                 } else {
-                    estadoOrdenacao.campo = 'ram_mb';
+                    estadoOrdenacao.campo = 'ram_percent';
                     estadoOrdenacao.crescente = false;
                 }
                 getProcess();

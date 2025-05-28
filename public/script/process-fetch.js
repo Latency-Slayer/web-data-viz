@@ -44,8 +44,8 @@ function mostrarProcessos(processos) {
             <td><div class="criticidade ${criticidadeClass}"></div></td>
             <td>${proc.pid ?? 0}</td>
             <td class="nome-processo">${proc.name}</td>
-            <td>${proc.cpu_percent.toFixed(2)}%</td>
-            <td>${proc.ram_mb.toFixed(2)}MB</td>
+            <td>${proc.cpu_percent}%</td>
+            <td>${proc.ram_percent}%</td>
             <td>${proc.status === "running" ? "Rodando" : "Parado"}</td>
         `;
 

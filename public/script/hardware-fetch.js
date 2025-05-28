@@ -171,6 +171,30 @@ function getAlerts() {
         .catch(err => console.error('Erro ao buscar total de alertas:', err));
 }
 
+function abrirChamadoJira() {
+    fetch('http://localhost:8080/criar-chamado', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            summary: 'Chamado criado via contador',
+            description: 'Descrição criada pelo contador ao chegar em 5'
+        })
+    })
+        .then(res => res.json())
+        .then(data => {
+            console.log('Chamado criado:', data);
+        })
+        .catch(err => console.error('Erro ao criar chamado:', err));
+}
+
+// setInterval(() => {
+//     const numero = Math.floor(Math.random() * 100) + 1; // 1 a 100
+//     document.getElementById('contador').innerText = numero;
+
+//     if (numero > 80) {
+//         criarChamado();
+//     }
+// }, 1000);
 
 setInterval(getData, 2000);
 setInterval(getAlerts, 5000);
