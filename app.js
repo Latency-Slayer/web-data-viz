@@ -21,9 +21,11 @@ var empresaRouter = require("./src/routes/empresas");
 var cadastrarMaquinaRouter = require("./src/routes/server");
 var hardwareRouter = require("./src/routes/hardware-real-time")
 var processRouter = require("./src/routes/process-real-time")
-var alertRouter = require("./src/routes/alert")
+var alertRouter = require("./src/routes/alert");
+var jiraRouter = require("./src/routes/jira.js");
+let businessInteligenceDashboardRouter = require("./src/dashboardBryan/routes/realTimeRouter.js");
 
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -36,6 +38,8 @@ app.use("/server", cadastrarMaquinaRouter);
 app.use("/hardware", hardwareRouter);
 app.use("/process", processRouter);
 app.use("/alert", alertRouter);
+app.use("/jira", jiraRouter);
+app.use("/bi/dashboard", businessInteligenceDashboardRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`

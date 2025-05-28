@@ -433,12 +433,12 @@ function entrar() {
             mensagemErro += "Login realizado com sucesso!"
 
             resposta.json().then(function (json) {
-                console.log(json)
                 sessionStorage.NAME_USER = json.nameUser;
                 sessionStorage.EMAIL_USER = json.email;
                 sessionStorage.ROLE_USER = json.nameRole;
                 sessionStorage.ID_COMPANY = json.id_company;
                 sessionStorage.COMMERCIAL_NAME = json.commercial_name;
+                sessionStorage.REGISTRATION_NUMBER = json.registration_number;
 
                 Swal.fire({
                     title: "Sucesso",
@@ -446,14 +446,20 @@ function entrar() {
                     icon: "success",
                     timer: 2000
                 });
-
-                if (json.id_opt_role == 1) {
-                    window.location = "./listaServidores.html"
-                } else if (json.id_opt_role == 2) {
-                    window.location = "./servidores.html"
-                } else if (json.id_opt_role == 3) {
-                    window.location = "./listaServidores.html"
-                }
+               
+              
+              setTimeout(() => {
+                    if (json.id_opt_role == 1) {
+                        window.location = "./listaServidores.html"
+                    } else if (json.id_opt_role == 2) {
+                        window.location = "./servidores.html"
+                    } else if (json.id_opt_role == 3) {
+                        window.location = "./listaServidores.html"
+                    } else if (json.id_opt_role == 4) {
+                    window.location = "./dashboardJiraSlack.html"
+                  }
+                }, 2000);
+              
             })
         } else {
             mensagemErro += "Email ou Senha inválido";

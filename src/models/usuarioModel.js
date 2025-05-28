@@ -3,7 +3,7 @@ var database = require("../database/config")
 function login(email, password) {
     console.log("EERO NO MODEL AUTENTICAR")
     var instrucaoSql = 
-    `SELECT c.email, e.name as nameUser,e.password, o.id_opt_role, o.name as nameRole, comp.id_company, comp.commercial_name from employee as e JOIN contact as c ON e.fk_contact = c.id_contact 
+    `SELECT c.email, e.name as nameUser,e.password, o.id_opt_role, o.name as nameRole, comp.id_company, comp.commercial_name, comp.registration_number from employee as e JOIN contact as c ON e.fk_contact = c.id_contact 
      JOIN opt_role as o ON e.fk_role = o.id_opt_role JOIN company as comp ON e.fk_company = comp.id_company where c.email = '${email}' AND e.password = '${password}'
     `;
     return database.executar(instrucaoSql);
