@@ -16,6 +16,17 @@ class AnaliticConnectionService {
             return accumulator + Number(currentValue.media_mensal)
         }, 0) / avarageMonth.length, 0) || 0;
     }
+
+
+    async getPeakOfSimultaneousConnections (companyRegisterNumber, continent, period) {
+        if(!companyRegisterNumber || !period) {
+            return null;
+        }
+
+        const data = await model.getPeakOfSimultaneousConnections(companyRegisterNumber, continent, period);
+
+        return data;
+    }
 }
 
 

@@ -9,19 +9,17 @@ class AnaliticConnectionModel {
         const endMonth = new Date().getMonth();
 
         if (continent) {
-            return await database.executar(`SELECT
-                DATE_FORMAT(date_time, '%Y-%m') AS mes,
-                ROUND(COUNT(*) / COUNT(DISTINCT day (date_time)), 0) AS media_mensal
-            FROM
-                connection_capturing
-            JOIN server ON id_server = fk_server
-            JOIN company ON id_company = fk_company
-            WHERE company.registration_number = ? AND (MONTH(connection_capturing.date_time) >= ? AND MONTH(connection_capturing.date_time) <= ?) AND
-            connection_capturing.continent_code = ?
-            GROUP BY
-                DATE_FORMAT(date_time, '%Y-%m')
-            ORDER BY
-                mes 
+            return database.executar(`SELECT DATE_FORMAT(date_time, '%Y-%m')                     AS mes,
+                                             ROUND(COUNT(*) / COUNT(DISTINCT day(date_time)), 0) AS media_mensal
+                                      FROM connection_capturing
+                                               JOIN server ON id_server = fk_server
+                                               JOIN company ON id_company = fk_company
+                                      WHERE company.registration_number = ?
+                                        AND (MONTH(connection_capturing.date_time) >= ? AND
+                                             MONTH(connection_capturing.date_time) <= ?)
+                                        AND connection_capturing.continent_code = ?
+                                      GROUP BY DATE_FORMAT(date_time, '%Y-%m')
+                                      ORDER BY mes
             `, [companyRegisterNumber, startMonth, endMonth, continent]);
         }
 
@@ -47,20 +45,24 @@ class AnaliticConnectionModel {
         const startMonth = date.getMonth() + 1;
         const endMonth = new Date().getMonth();
 
+        // console.log(startMonth, endMonth);
+
         if (continent) {
-            return await database.executar(`SELECT
-                DATE_FORMAT(date_time, '%Y-%m') AS mes,
-                ROUND(COUNT(*) / COUNT(DISTINCT day (date_time)), 0) AS media_mensal
-            FROM
-                connection_capturing
-            JOIN server ON id_server = fk_server
-            JOIN company ON id_company = fk_company
-            WHERE company.registration_number = ? AND (MONTH(connection_capturing.date_time) >= ? AND MONTH(connection_capturing.date_time) <= ?) AND
-            connection_capturing.continent_code = ?
-            GROUP BY
-                DATE_FORMAT(date_time, '%Y-%m')
-            ORDER BY
-                mes 
+            return database.executar(`SELECT
+                                          DATE_FORMAT(date_time, '%Y-%m-%d %H:00:00') AS horario,
+                                          COUNT(*) AS total_conexoes
+                                      FROM
+                                          connection_capturing
+                                              JOIN server ON id_server = fk_server
+                                              JOIN company ON id_company = fk_company
+                                      WHERE
+                                          company.registration_number = ?
+                                        AND (MONTH(connection_capturing.date_time) >= ? AND
+                                             MONTH(connection_capturing.date_time) <= ?) AND
+                                        connection_capturing.continent_code = ?
+                                      GROUP BY horario
+                                      ORDER BY total_conexoes DESC
+                                      LIMIT 1;
             `, [companyRegisterNumber, startMonth, endMonth, continent]);
         }
 
@@ -73,10 +75,28 @@ class AnaliticConnectionModel {
                                                 JOIN company ON id_company = fk_company
                                         WHERE
                                             company.registration_number = ?
+                                          AND (MONTH(connection_capturing.date_time) >= ? AND
+                                               MONTH(connection_capturing.date_time) <= ?)
                                         GROUP BY horario
                                         ORDER BY total_conexoes DESC
-                                        LIMIT 1; 
+                                        LIMIT 1;
         `, [companyRegisterNumber, startMonth, endMonth]);
+    }
+
+    async getTopGameOfPeriod (companyRegisterNumber, continent, period) {
+        const date = new Date();
+        date.setDate(date.getDate() - period);
+
+        const startMonth = date.getMonth() + 1;
+        const endMonth = new Date().getMonth();
+
+        if(continent) {
+            return await database.executar(`
+            SELECT COUNT(*) FROM connection_capturing 
+            JOIN server ON id_server = fk_server
+            GROUP BY game
+            `)
+        }
     }
 }
 

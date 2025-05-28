@@ -6,6 +6,7 @@ const controller = new Controller();
 const router = Router();
 
 router.get("/analitic/daily-avarage-connections/:registerNumber/:period", controller.getDailyAverageConnectionsInPeriod);
+router.get("/analitic/peak-of-connections/:registerNumber/:period", controller.getPeakOfSimultaneousConnections);
 
 router.use(ErrorHandler);
 

@@ -26,7 +26,14 @@ export function executeNowAndRepeatWithInterval(callback, timeOut) {
 
 export function initKpi(kpi, func) {
     const interval = executeNowAndRepeatWithInterval(async () => {
-        kpi.value = await func();
+        const values = await func();
+
+        if(values.hasOwnProperty("subvalue")) {
+            kpi.subvalue = values.subvalue;
+            kpi.value = values.value;
+        } else {
+            kpi.value = values;
+        }
     }, 2000);
 
     return {
@@ -68,4 +75,17 @@ export function continentName(continentCode) {
     }
 
     return continents[continentCode];
+}
+
+
+export function loader() {
+    const htmlBody = document.querySelector("body");
+
+    const loaderElement = document.createElement("screen-loader");
+
+    htmlBody.appendChild(loaderElement);
+
+    return {
+        remove: () => loaderElement.remove()
+    }
 }

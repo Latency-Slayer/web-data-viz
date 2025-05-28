@@ -3,7 +3,8 @@ import {
     executeNowAndRepeatWithInterval,
     initKpi,
     insertElement,
-    observeElementAttributeChange
+    observeElementAttributeChange,
+    loader
 } from "./functions.js";
 import MapBox from "./classes/MapBox.js";
 import "https://cdn.jsdelivr.net/npm/apexcharts"
@@ -53,7 +54,6 @@ observeElementAttributeChange(document.getElementById("continent-filter"), async
 });
 
 observeElementAttributeChange(document.getElementById("period-filter"), async (filter) => {
-    console.log(filter)
     filters.period = filter;
 
     destroyDashboard();
@@ -62,11 +62,19 @@ observeElementAttributeChange(document.getElementById("period-filter"), async (f
 
 
 async function renderDashboard () {
+    const initLoader = loader();
+
     kpis = loadKpis();
 
     chart1 = await loadTopGamesChart();
     chart2 = await loadTopContinentsChart();
     chart3 = await loadConnectionsVariationChart();
+
+    if(filters.period) {
+        setTimeout(() => initLoader.remove(), 3000);
+    } else {
+        initLoader.remove();
+    }
 }
 
 function loadKpis() {
@@ -114,7 +122,7 @@ function loadKpis() {
 
     const kpi02 = insertElement(kpisDiv,"kpi-card", {
         "icon-name": "bi-hdd-stack",
-        "kpi-title": !filters.period ? "Jogo mais jogado no momento" : "Pico de conexões simultâneas",
+        "kpi-title": !filters.period ? "Quantidade de servidores ativos" : "Pico de conexões simultâneas",
         value: 0,
         hint: hints.kpi2Hint,
         id: "kpi02"
@@ -122,14 +130,14 @@ function loadKpis() {
 
     const kpi03 = insertElement(kpisDiv,"kpi-card", {
         "icon-name": "bi-controller",
-        "kpi-title": "Jogo mais jogado no momento",
+        "kpi-title": !filters.period ? "Jogo mais acessado no momento" : "Jogo mais acessado durante o periodo selecionado",
         value: 0,
         hint: hints.kpi3Hint,
         id: "kpi03"
     }, ["w-1/3"]);
 
     const kpi01Init = initKpi(kpi01, getQuantPlayers);
-    const kpi02Init = initKpi(kpi02, getQuantServersActive);
+    const kpi02Init = initKpi(kpi02, !filters.period ? getQuantServersActive : getPeakOfConnections);
     const kpi03Init = initKpi(kpi03, getTopGame);
 
     return {
@@ -605,6 +613,27 @@ document.getElementById("warning").onclick = async () => {
 
 
 // Funções para trazer dados analiticos
-function getDailyAvarageInPeriod(filters) {
+async function getPeakOfConnections() {
+    let url = `/bi/dashboard/analitic/peak-of-connections/${sessionStorage.REGISTRATION_NUMBER}/${filters.period}`;
 
+    if(filters.continent) {
+        url = `/bi/dashboard/analitic/peak-of-connections/${sessionStorage.REGISTRATION_NUMBER}/${filters.period}?continent=${filters.continent}`;
+    }
+
+    const request = await fetch(url);
+    const json = await request.json();
+
+    console.log(json);
+
+    if(!json.hasOwnProperty("peak")) {
+        return {
+            value: 0,
+            subvalue: ""
+        };
+    }
+
+    return {
+        value: json.peak.total_conexoes,
+        subvalue: new Date(json.peak.horario).toLocaleDateString("pt-BR")
+    };
 }
