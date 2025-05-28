@@ -90,7 +90,7 @@ class AnaliticConnectionModel {
 
         if(continent) {
             return await database.executar(`
-                SELECT game
+                SELECT game, COUNT(*) AS total_connections
                 FROM
                     connection_capturing
                         JOIN server ON id_server = fk_server
@@ -108,7 +108,7 @@ class AnaliticConnectionModel {
         }
 
         return await database.executar(`
-                SELECT game
+                SELECT game, COUNT(*) AS total_connections
                 FROM
                     connection_capturing
                         JOIN server ON id_server = fk_server
@@ -124,6 +124,5 @@ class AnaliticConnectionModel {
             `, [companyRegisterNumber, startMonth, endMonth]);
     }
 }
-
 
 module.exports = AnaliticConnectionModel;

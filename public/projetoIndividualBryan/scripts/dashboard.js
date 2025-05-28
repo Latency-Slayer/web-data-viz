@@ -236,6 +236,10 @@ async function loadTopGamesChart() {
     const chartdiv = document.getElementById("chart1");
     let title = `Jogos mais acessados no momento (${continentName(filters.continent) || "Global"})`
 
+    if(filters.period) {
+        title = `Jogos mais acessados nos últimos ${filters.period} dias`;
+    }
+
     document.getElementById("title-chart1").innerHTML = title;
 
     let options = {
@@ -648,3 +652,4 @@ async function getTopGameOfPeriod() {
 
     return json.result.game;
 }
+
