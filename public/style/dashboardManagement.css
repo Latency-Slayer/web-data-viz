@@ -4,12 +4,13 @@
     font-family: 'Poppins', sans-serif;
 }
 
+
 body {
     display: flex;
     flex-direction: column;
     background: #FAFAFA;
     margin: 0;
-    width: 100vw;
+    width: 100%;
 }
 
 
