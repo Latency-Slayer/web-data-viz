@@ -474,10 +474,104 @@ async function loadConnectionsVariationChart() {
 
     document.getElementById("title-chart3").innerHTML = `Variação de conexões (${continentName(filters.continent) || "Global"})`;
 
+    if(filters.period) {
+        let options = {
+            series: [{
+                name: "Quantidade de conexões",
+                data: filters.period ? await getConnectionsVariationOfPeriod() : [],
+            }],
+            chart: {
+                type: 'line',
+                height: '90%',
+                animations: {
+                    enabled: true,
+                    easing: 'linear',
+                    dynamicAnimation: {
+                        speed: 1000
+                    }
+                },
+                zoom: {
+                    enabled: true
+                },
+                dropShadow: {
+                    enabled: true,
+                    top: 2,
+                    left: 0,
+                    blur: 3,
+                    opacity: 0.5
+                }
+            },
+            stroke: {
+                curve: 'smooth'
+            },
+            plotOptions: {
+                bar: {
+                    borderRadius: 10,
+                },
+            },
+            xaxis: {
+                type: "datetime",
+                labels: {
+                    rotate: -45,
+                    style: {
+                        colors: ["#56408C"],
+                        fontSize: '14px',
+                        fontFamily: 'Helvetica, Arial, sans-serif',
+                        fontWeight: 600,
+                    },
+                    formatter: function (val) {
+                        const date = new Date(val);
+                        const day = String(date.getDate()).padStart(2, '0');
+                        const month = String(date.getMonth() + 1).padStart(2, '0');
+
+                        const weekdays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+                        const weekday = weekdays[date.getDay()];
+
+                        return `${weekday} ${day}/${month}`;
+                    }
+                },
+                tooltip: {
+                    enabled: true,
+                    x: {
+                        format: "dd/MM"
+                    }
+                }
+            },
+            yaxis: {
+                labels: {
+                    style: {
+                        colors: ["#56408C"],
+                        fontSize: '14px',
+                        fontFamily: 'Helvetica, Arial, sans-serif',
+                        fontWeight: 400
+                    },
+                    formatter: (val) => {
+                        return Intl.NumberFormat("en-US").format(val);
+                    }
+                }
+            },
+            fill: {
+                colors: ['#56408C']
+            },
+
+        };
+
+        let chart = new ApexCharts(chartdiv, options);
+        chart.render();
+
+        if(filters.period) {
+            return {
+                destroy: () => {
+                    chart.destroy();
+                }
+            };
+        }
+    }
+
     let options = {
         series: [{
-            name: "Quantidade de jogadores",
-            data: [],
+            name: "Quantidade de conexões",
+            data: filters.period ? await getConnectionsVariationOfPeriod() : [],
         }],
         chart: {
             type: 'line',
@@ -744,4 +838,32 @@ async function getTopContinentsOfPeriod () {
         x: "Nenhum jogo acessado no periodo selecionado",
         y: 0
     }];
+}
+
+
+async function getConnectionsVariationOfPeriod() {
+    let url = `/bi/dashboard/analitic/get-connections-variations/${sessionStorage.REGISTRATION_NUMBER}/${filters.period}`
+
+    if(filters.continent) {
+        url = `/bi/dashboard/analitic/get-connections-variations/${sessionStorage.REGISTRATION_NUMBER}/${filters.period}`
+    }
+
+    let request = await fetch(url);
+    let json = await request.json();
+
+    if(json.hasOwnProperty("result")) {
+
+        const data =  json.result.map(v => {
+            return {
+                x: new Date(v.date).getTime(),
+                y: v.total_connections
+            };
+        })
+
+
+        console.log(data)
+        return data;
+    }
+
+    return [{}]
 }

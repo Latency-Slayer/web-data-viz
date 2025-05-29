@@ -53,6 +53,16 @@ class AnaliticConnectionController {
 
         return res.json({ result });
     }
+
+    async getConnectionsVariation(req, res) {
+        const companyRegisterNumber = req.params["registerNumber"];
+        const period = req.params["period"];
+        const continent = req.query.continent;
+
+        const result = await service.getConnectionsVariation(companyRegisterNumber, continent, period);
+
+        return res.json({ result });
+    }
 }
 
 module.exports = AnaliticConnectionController;

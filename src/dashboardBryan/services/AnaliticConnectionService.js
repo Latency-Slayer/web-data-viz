@@ -1,4 +1,5 @@
 const Model = require("../models/AnaliticConnectionModel.js");
+const {regexpToText} = require("nodemon/lib/utils");
 
 const model = new Model();
 
@@ -50,6 +51,14 @@ class AnaliticConnectionService {
         }
 
         return await model.getTopContinentsOfPeriod(companyRegisterNumber, continent, period);
+    }
+
+    async getConnectionsVariation(companyRegisterNumber, continent, period) {
+        if(!companyRegisterNumber || !period) {
+            return null;
+        }
+
+        return await model.getConnectionsVariation(companyRegisterNumber, continent, period);
     }
 }
 

@@ -9,7 +9,7 @@ class AnaliticConnectionModel {
         const endMonth = new Date().getMonth();
 
         if (continent) {
-            return database.executar(`SELECT DATE_FORMAT(date_time, '%Y-%m')                     AS mes,
+            return database.executar(`SELECT DATE_FORMAT(date_time, '%Y-%m') AS mes,
                                              ROUND(COUNT(*) / COUNT(DISTINCT day(date_time)), 0) AS media_mensal
                                       FROM connection_capturing
                                                JOIN server ON id_server = fk_server
@@ -166,6 +166,8 @@ class AnaliticConnectionModel {
         const startMonth = date.getMonth() + 1;
         const endMonth = new Date().getMonth();
 
+        console.log(continent)
+
         if(continent) {
             return database.executar(`
             SELECT country AS continent, COUNT(*) AS total_connections
@@ -192,6 +194,42 @@ class AnaliticConnectionModel {
             GROUP BY continent_code
             ORDER BY COUNT(*) DESC
         `, [companyRegisterNumber, startMonth, endMonth]);
+    }
+
+
+    async getConnectionsVariation(companyRegisterNumber, continent, period) {
+        const date = new Date();
+        date.setDate(date.getDate() - period);
+
+        const startMonth = date.getMonth() + 1;
+        const endMonth = new Date().getMonth();
+
+        if(continent) {
+            return database.executar(`
+                SELECT country AS continent, COUNT(*) AS total_connections
+                FROM connection_capturing
+                         JOIN server ON id_server = fk_server
+                         JOIN company ON company.id_company = server.fk_company
+                WHERE company.registration_number = ?
+                  AND (MONTH(connection_capturing.date_time) >= ? AND
+                       MONTH(connection_capturing.date_time) <= ?) AND
+                    connection_capturing.continent_code = ?
+                GROUP BY DATE_FORMAT(date_time, '%Y-%m-%d')
+                ORDER BY DATE_FORMAT(date_time, '%Y-%m-%d')
+            `, [companyRegisterNumber, startMonth, endMonth, continent]);
+        }
+
+        return database.executar(`
+                SELECT COUNT(*) AS total_connections, DATE_FORMAT(date_time, '%Y-%m-%d') AS date
+                FROM connection_capturing
+                         JOIN server ON id_server = fk_server
+                         JOIN company ON company.id_company = server.fk_company
+                WHERE company.registration_number = ?
+                  AND (MONTH(connection_capturing.date_time) >= ? AND
+                       MONTH(connection_capturing.date_time) <= ?)
+                GROUP BY DATE_FORMAT(date_time, '%Y-%m-%d')
+                ORDER BY DATE_FORMAT(date_time, '%Y-%m-%d')
+            `, [companyRegisterNumber, startMonth, endMonth]);
     }
 }
 
