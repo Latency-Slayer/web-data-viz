@@ -1,6 +1,12 @@
 let limitesMaximos = {}
 let limitesMinimos = {}
 
+let ultimaChamadaJira = {
+    cpu: 0,
+    ram: 0, 
+    storage: 0
+};
+
 function getData() {
     fetch("/hardware/api/real-time", {
         method: 'GET'
@@ -32,11 +38,11 @@ function getData() {
             if (cpuValue >= limitesMaximos.cpu) {
                 container_cpu.classList.add("Crítico");
                 registerAlert('cpu', cpuValue, limitesMaximos.cpu, "Crítico")
-                abrirChamadoJira()
+                abrirChamadoJira('cpu', cpuValue, limitesMaximos.cpu, "Crítico");
             } else if (cpuValue <= limitesMaximos.cpu && cpuValue >= 65) {
                 container_cpu.classList.add("Atenção");
                 registerAlert('cpu', cpuValue, limitesMaximos.cpu, "Atenção")
-                abrirChamadoJira()
+                abrirChamadoJira('cpu', cpuValue, limitesMaximos.cpu, "Atenção");
             } else {
                 container_cpu.classList.add("Normal");
             }
@@ -44,11 +50,11 @@ function getData() {
             if (ramValue >= limitesMaximos.ram) {
                 container_ram.classList.add("Crítico");
                 registerAlert('ram', ramValue, limitesMaximos.ram, "Crítico")
-                abrirChamadoJira()
+                abrirChamadoJira('ram', ramValue, limitesMaximos.ram, "Crítico")
             } else if (ramValue <= limitesMaximos.ram && ramValue >= 65) {
                 container_ram.classList.add("Atenção");
                 registerAlert('ram', ramValue, limitesMaximos.ram, "Atenção")
-                abrirChamadoJira()
+                abrirChamadoJira('ram', ramValue, limitesMaximos.ram, "Atenção")
             } else {
                 container_ram.classList.add("Normal");
             }
@@ -56,11 +62,11 @@ function getData() {
             if (discoValue >= limitesMaximos.storage) {
                 container_disco.classList.add("Crítico");
                 registerAlert('storage', discoValue, limitesMaximos.storage, "Crítico")
-                abrirChamadoJira()
+                abrirChamadoJira('storage', discoValue, limitesMaximos.storage, "Crítico")
             } else if (discoValue <= limitesMaximos.storage && discoValue >= 60) {
                 container_disco.classList.add("Atenção");
                 registerAlert('storage', discoValue, limitesMaximos.storage, "Atenção")
-                abrirChamadoJira()
+                abrirChamadoJira('storage', discoValue, limitesMaximos.storage, "Atenção")
             } else {
                 container_disco.classList.add("Normal");
             }
@@ -177,13 +183,24 @@ function getAlerts() {
         .catch(err => console.error('Erro ao buscar total de alertas:', err));
 }
 
-function abrirChamadoJira() {
+function abrirChamadoJira(component, value, limite, nivel) {
+    let mensagem = "";
+    if (nivel === "Crítico") {
+        mensagem = `O componente ${component.toUpperCase()} ultrapassou o limite. Valor atual: ${value}%, Limite: ${limite}%`;
+    } else if (nivel === "Atenção") {
+        mensagem = `O componente ${component.toUpperCase()} está próximo do limite. Valor atual: ${value}%, Limite: ${limite}%`;
+    } else {
+        mensagem = `O componente ${component.toUpperCase()} está em situação anormal. Valor atual: ${value}%, Limite: ${limite}%`;
+    }
+
+
     fetch('/jira/criar-chamado', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            summary: 'Chamado criado via Node',
-            description: 'Descrição criada pelo Node'
+            summary: `Alerta : ${component.toUpperCase()} - ${value}% ${nivel}`,
+            description: mensagem,
+            assignee: "712020:46bc3ab4-b0da-4a73-9cd5-8b395c3e3678"
         })
     })
         .then(res => res.json())
@@ -193,14 +210,10 @@ function abrirChamadoJira() {
         .catch(err => console.error('Erro ao criar chamado:', err));
 }
 
-// setInterval(() => {
-//     const numero = Math.floor(Math.random() * 100) + 1; // 1 a 100
-//     document.getElementById('contador').innerText = numero;
-
-//     if (numero > 80) {
-//         criarChamado();
-//     }
-// }, 1000);
+function canOpenJiraCall(component) {
+    const now = Date.now();
+    return (now - lastJiraCall[component]) >= 10000; // 10 segundos
+}
 
 setInterval(getData, 2000);
 setInterval(getAlerts, 5000);
