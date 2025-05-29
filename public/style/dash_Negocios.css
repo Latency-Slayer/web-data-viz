@@ -11,7 +11,7 @@
 }
 
 .filtros {
-    width: 45%;
+    width: 25%;
     margin: 15px;
     display: flex;
     justify-content: space-between;
@@ -44,29 +44,6 @@
     background-color: #56408C;
     color: white;
     cursor: pointer;
-}
-
-.filtros .filtro {
-    border: none;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.50);
-    width: 155px;
-    height: 35px;
-    font-size: 20px;
-    border-radius: 5px;
-    color: #56408C;
-    transition: linear .2s;
-}
-
-.filtro:hover {
-    background-color: #56408C;
-    color: white;
-    cursor: pointer;
-}
-
-.filtro option {
-    font-size: 18px;
-    background-color: white;
-    color: #56408C;
 }
 
 .metricas {
