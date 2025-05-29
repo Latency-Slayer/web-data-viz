@@ -107,7 +107,29 @@ class AnaliticConnectionModel {
             `, [companyRegisterNumber, startMonth, endMonth, continent]);
         }
 
-        return await database.executar(`
+        return database.executar(`
+            SELECT game, COUNT(*) AS total_connections
+            FROM connection_capturing
+                     JOIN server ON id_server = fk_server
+                     JOIN company ON company.id_company = server.fk_company
+            WHERE company.registration_number = ?
+              AND (MONTH(connection_capturing.date_time) >= ? AND
+                   MONTH(connection_capturing.date_time) <= ?)
+            GROUP BY game
+            ORDER BY COUNT(*) DESC
+            LIMIT 1;
+        `, [companyRegisterNumber, startMonth, endMonth]);
+    }
+
+    async getAllTopGamesOfPeriod(companyRegisterNumber, continent, period) {
+        const date = new Date();
+        date.setDate(date.getDate() - period);
+
+        const startMonth = date.getMonth() + 1;
+        const endMonth = new Date().getMonth();
+
+        if(continent) {
+            return await database.executar(`
                 SELECT game, COUNT(*) AS total_connections
                 FROM
                     connection_capturing
@@ -116,12 +138,60 @@ class AnaliticConnectionModel {
                 WHERE
                     company.registration_number = ?
                   AND (MONTH(connection_capturing.date_time) >= ? AND
-                       MONTH(connection_capturing.date_time) <= ?)
+                       MONTH(connection_capturing.date_time) <= ?) AND
+                    connection_capturing.continent_code = ?
                 GROUP BY
                     game
                 ORDER BY COUNT(*) DESC
-                LIMIT 1;
-            `, [companyRegisterNumber, startMonth, endMonth]);
+            `, [companyRegisterNumber, startMonth, endMonth, continent]);
+        }
+
+        return database.executar(`
+            SELECT game, COUNT(*) AS total_connections
+            FROM connection_capturing
+                     JOIN server ON id_server = fk_server
+                     JOIN company ON company.id_company = server.fk_company
+            WHERE company.registration_number = ?
+              AND (MONTH(connection_capturing.date_time) >= ? AND
+                   MONTH(connection_capturing.date_time) <= ?)
+            GROUP BY game
+            ORDER BY COUNT(*) DESC
+        `, [companyRegisterNumber, startMonth, endMonth]);
+    }
+
+    async getTopContinentsOfPeriod(companyRegisterNumber, continent, period) {
+        const date = new Date();
+        date.setDate(date.getDate() - period);
+
+        const startMonth = date.getMonth() + 1;
+        const endMonth = new Date().getMonth();
+
+        if(continent) {
+            return database.executar(`
+            SELECT country AS continent, COUNT(*) AS total_connections
+            FROM connection_capturing
+                     JOIN server ON id_server = fk_server
+                     JOIN company ON company.id_company = server.fk_company
+            WHERE company.registration_number = ?
+              AND (MONTH(connection_capturing.date_time) >= ? AND
+                   MONTH(connection_capturing.date_time) <= ?) AND
+                connection_capturing.continent_code = ?
+            GROUP BY country
+            ORDER BY COUNT(*) DESC
+        `, [companyRegisterNumber, startMonth, endMonth, continent]);
+        }
+
+        return database.executar(`
+            SELECT continent_code AS continent, COUNT(*) AS total_connections
+            FROM connection_capturing
+                     JOIN server ON id_server = fk_server
+                     JOIN company ON company.id_company = server.fk_company
+            WHERE company.registration_number = ?
+              AND (MONTH(connection_capturing.date_time) >= ? AND
+                   MONTH(connection_capturing.date_time) <= ?)
+            GROUP BY continent_code
+            ORDER BY COUNT(*) DESC
+        `, [companyRegisterNumber, startMonth, endMonth]);
     }
 }
 

@@ -33,6 +33,26 @@ class AnaliticConnectionController {
 
         return res.json({ result });
     }
+
+    async getAllTopGamesOfPeriod(req, res) {
+        const companyRegisterNumber = req.params["registerNumber"];
+        const period = req.params["period"];
+        const continent = req.query.continent;
+
+        const result = await service.getAllTopGamesOfPeriod(companyRegisterNumber, continent, period);
+
+        return res.json({ result });
+    }
+
+    async getTopContinentsOfPeriod(req, res) {
+        const companyRegisterNumber = req.params["registerNumber"];
+        const period = req.params["period"];
+        const continent = req.query.continent;
+
+        const result = await service.getTopContinentsOfPeriod(companyRegisterNumber, continent, period);
+
+        return res.json({ result });
+    }
 }
 
 module.exports = AnaliticConnectionController;

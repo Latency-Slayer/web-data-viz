@@ -3,8 +3,8 @@ import {
     executeNowAndRepeatWithInterval,
     initKpi,
     insertElement,
-    observeElementAttributeChange,
-    loader
+    loader,
+    observeElementAttributeChange
 } from "./functions.js";
 import MapBox from "./classes/MapBox.js";
 import "https://cdn.jsdelivr.net/npm/apexcharts"
@@ -114,7 +114,7 @@ function loadKpis() {
 
     const kpi01 = insertElement(kpisDiv,"kpi-card", {
         "icon-name": "bi-wifi",
-        "kpi-title": !filters.period ? "Quantidade de conexões" : "Média de quantidade de conexões",
+        "kpi-title": !filters.period ? "Quantidade de conexões" : "Quantidade diária média de conexões",
         value: 0,
         hint: hints.kpi1Hint,
         id: "kpi01"
@@ -244,8 +244,8 @@ async function loadTopGamesChart() {
 
     let options = {
         series: [{
-            name: "Quantidade de jogadores",
-            data: await getAllTopGames(),
+            name: "Quantidade de conexões",
+            data: !filters.period ? await getAllTopGames() : await getAllTopGamesOfPeriod(),
         }],
         chart: {
             type: 'bar',
@@ -289,9 +289,17 @@ async function loadTopGamesChart() {
     let chart = new ApexCharts(chartdiv, options);
     chart.render();
 
+    if(filters.period) {
+        return {
+            destroy: () => {
+                chart.destroy();
+            }
+        };
+    }
+
     const interval = setInterval(async () => {
         chart.updateSeries([{
-            data: await getAllTopGames(),
+            data: !filters.period ? await getAllTopGames() : await getAllTopGamesOfPeriod(),
         }]);
     }, 2000);
 
@@ -340,12 +348,27 @@ async function loadTopContinentsChart() {
         title = "Países com mais jogadores no momento";
     }
 
+    else if(!filters.continent && filters.period) {
+        title = `Continentes com mais conexões nos últimos ${filters.period} dias)`;
+    }
+
     document.getElementById("title-chart2").innerHTML = title;
+
+    let func = getTopContinents;
+
+    if(filters.continent && !filters.period) {
+        func = getTopCountries;
+    }
+
+    if (filters.period) {
+        func = getTopContinentsOfPeriod
+    }
+
 
     let options = {
         series: [{
             name: "Quantidade de jogadores",
-            data: !filters.continent ? await getTopContinents() : await getTopCountries(),
+            data: await func(),
         }],
         chart: {
             type: 'bar',
@@ -388,9 +411,17 @@ async function loadTopContinentsChart() {
     let chart = new ApexCharts(chartdiv, options);
     chart.render();
 
+    if(filters.period) {
+        return {
+            destroy: () => {
+                chart.destroy();
+            }
+        };
+    }
+
     const interval = setInterval(async () => {
         chart.updateSeries([{
-            data: !filters.continent ? await getTopContinents() : await getTopCountries()
+            data: await func(),
         }]);
     }, 2000)
 
@@ -401,8 +432,6 @@ async function loadTopContinentsChart() {
         }
     };
 }
-
-
 
 async function getTopContinents() {
     const request = await fetch(`/bi/dashboard/real-time/top-continents/${sessionStorage.REGISTRATION_NUMBER}`);
@@ -516,6 +545,14 @@ async function loadConnectionsVariationChart() {
 
     let chart = new ApexCharts(chartdiv, options);
     chart.render();
+
+    if(filters.period) {
+        return {
+            destroy: () => {
+                chart.destroy();
+            }
+        };
+    }
 
     const data = [];
 
@@ -650,6 +687,61 @@ async function getTopGameOfPeriod() {
     const request = await fetch(url);
     const json = await request.json();
 
-    return json.result.game;
+    if(json.hasOwnProperty("result")) {
+        return json.result.game;
+    }
+
+    return "N/A"
 }
 
+
+async function getAllTopGamesOfPeriod () {
+    let url = `/bi/dashboard/analitic/all-top-game-of-period/${sessionStorage.REGISTRATION_NUMBER}/${filters.period}`;
+
+    if(filters.continent) {
+        url = `/bi/dashboard/analitic/all-top-game-of-period/${sessionStorage.REGISTRATION_NUMBER}/${filters.period}?continent=${filters.continent}`;
+    }
+
+    const request = await fetch(url);
+    const json = await request.json();
+
+
+    if(json.result.length > 0) {
+        return json.result.map(v => {
+            return {
+                x: v.game,
+                y: v.total_connections
+            }
+        });
+    }
+
+    return [{
+        x: "Nenhum jogo acessado durante este periodo",
+        y: 0
+    }];
+}
+
+async function getTopContinentsOfPeriod () {
+    let url = `/bi/dashboard/analitic/top-continents-of-period/${sessionStorage.REGISTRATION_NUMBER}/${filters.period}`;
+
+    if(filters.continent) {
+        url = `/bi/dashboard/analitic/top-continents-of-period/${sessionStorage.REGISTRATION_NUMBER}/${filters.period}?continent=${filters.continent}`;
+    }
+
+    let request = await fetch(url);
+    const json = await request.json();
+
+    if(json.hasOwnProperty("result")) {
+        return json.result.map(v => {
+            return {
+                x: !filters.continent ? continentName(v.continent) : v.continent,
+                y: v.total_connections
+            }
+        });
+    }
+
+    return [{
+        x: "Nenhum jogo acessado no periodo selecionado",
+        y: 0
+    }];
+}

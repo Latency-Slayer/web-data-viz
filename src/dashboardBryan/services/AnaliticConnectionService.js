@@ -36,14 +36,21 @@ class AnaliticConnectionService {
         return game[0];
     }
 
-    async getTopGamesOfPeriod(companyRegisterNumber, continent, period) {
+    async getAllTopGamesOfPeriod(companyRegisterNumber, continent, period) {
         if(!companyRegisterNumber || !period) {
             return null;
         }
 
-        return await model.getTopGameOfPeriod(companyRegisterNumber, continent, period);
+        return await model.getAllTopGamesOfPeriod(companyRegisterNumber, continent, period);
+    }
+
+    async getTopContinentsOfPeriod(companyRegisterNumber, continent, period) {
+        if(!companyRegisterNumber || !period) {
+            return null;
+        }
+
+        return await model.getTopContinentsOfPeriod(companyRegisterNumber, continent, period);
     }
 }
-
 
 module.exports = AnaliticConnectionService;
