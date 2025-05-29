@@ -22,37 +22,38 @@
                 <div class="kpi-content">
                     <div class="kpi">
                         <div class="linha1">
-                            <img src="./img/cifrao.svg" height="50px">
+                            <img src="./img/cifrao.svg">
                             <div class="titulo">Taxa de custo do mês atual</div>
                         </div>
                         <div class="linha1">
-                            <div class="valor" style="padding-left: 10px; color: #3A2E5D;">R$125.00 <img
-                                    src="./img/seta-vermelha.svg"></div>
-                            <div style="color: #DC2626;">37.8%</div>
-                            <div style="padding-left: 5px;">este mês</div>
+                            <div class="valor" style="padding-left: 1vh;">R$125.00</div>
+                            <img class="seta" src="./img/seta-vermelha.svg">
+                            <div class="porcentagem" style="color: #DC2626;">37.8%</div>
+                            <div class="porcentagem" style="padding-left: 5px;">este mês</div>
                         </div>
                     </div>
                     <div class="kpi">
                         <div class="linha1">
-                            <img src="./img/relogio.svg" height="50px">
+                            <img src="./img/relogio.svg">
                             <div class="titulo">Previsão de custo para o final do mês atual</div>
                         </div>
                         <div class="linha1">
-                            <div class="valor" style="padding-left: 10px; color: #3A2E5D;">R$160.00 <img
-                                    src="./img/seta-vermelha.svg"></div>
-                            <div style="color: #DC2626;">67.8%</div>
-                            <div style="padding-left: 5px;">este mês</div>
+                            <div class="valor" style="padding-left: 10px;">R$160.00</div>
+                            <img class="seta" src="./img/seta-vermelha.svg">
+                            <div class="porcentagem" style="color: #DC2626;">67.8%</div>
+                            <div class="porcentagem" style="padding-left: 5px;">este mês</div>
                         </div>
                     </div>
                     <div class="kpi">
                         <div class="linha1">
-                            <img src="./img/barras.svg" height="50px">
+                            <img src="./img/barras.svg">
                             <div class="titulo">Meta de gasto mensal</div>
                         </div>
                         <div class="linha1">
-                            <div class="valor" style="padding-left: 5px; font-size: 20px; color: #3A2E5D;">R$125.00/R$250.00 <img style="height: 30px;" src="./img/seta-verde.svg"></div>
-                            <div style="color: #00D207;">16.6%</div>
-                            <div style="padding-left: 5px;">este mês</div>
+                            <div class="valor2">R$125.00/R$250.00</div>
+                                <img class="seta" src="./img/seta-verde.svg">
+                            <div class="porcentagem" style="color: #00D207;">16.6%</div>
+                            <div class="porcentagem" style="padding-left: 5px;">este mês</div>
                         </div>
                     </div>
                 </div>
@@ -87,44 +88,41 @@
             <div class="operacional">
                 <div class="kpi-lista">
                     <div class="list-content">
-                        <div class="kpi" style="width: 93%;">
+                        <div class="kpi" style="width: 93.5%;">
                             <div class="linha1">
                                 <img src="./img/escada.svg" height="50px">
-                                <div class="titulo">Quantidade de requisições HTTP no sistema web</div>
+                                <div class="titulo-grande">Quantidade de requisições HTTP no sistema web</div>
                             </div>
                             <div class="linha1">
-                                <div class="valor" style="padding-left: 10px; font-size: 40px; color: #3A2E5D;">20.000
-                                </div>
-                                <div style="padding-left: 5px; color: #3A2E5D; padding-top: 10px;">essa semana</div>
+                                <div class="valor">20.000</div><div class="porcentagem" style="padding-left: 3px;">essa semana</div>
                             </div>
                         </div>
-                        <div class="kpi" style="width: 93%; height: 170px;">
-                            <div class="titulo" style="padding-left: 20px; padding-bottom: 10px; font-size: 18px;">
-                                Monitoramento de containers</div>
+                        <div class="lista">
+                            <div class="titulo-lista">Monitoramento de containers</div>
                             <table style="color: #3A2E5D;">
                                 <thead style="color:#B69CF6;">
-                                    <th>ALERTA</th>
+                                    <th></th>
                                     <th>CONTAINER</th>
                                     <th>STATUS</th>
                                     <th>PORTA</th>
                                     <th>LOGS</th>
                                 </thead>
                                 <tr>
-                                    <th><img src="./img/check_circle.svg" style="height: 24px;"></th>
+                                    <th><img src="./img/check_circle.svg" style="height: 25px;"></th>
                                     <th>aplicação web</th>
                                     <th>Em execução</th>
                                     <th>80</th>
                                     <th><a href="#">ver logs</a></th>
                                 </tr>
                                 <tr>
-                                    <th><img src="./img/check_circle.svg" style="height: 24px;"></th>
+                                    <th><img src="./img/check_circle.svg" style="height: 25px;"></th>
                                     <th>Mysql</th>
                                     <th>Em execução</th>
                                     <th>3306</th>
                                     <th><a href="#">ver logs</a></th>
                                 </tr>
                                 <tr>
-                                    <th><img src="./img/check_circle.svg" style="height: 24px;"></th>
+                                    <th><img src="./img/check_circle.svg" style="height: 25px;"></th>
                                     <th>Data Transfer API</th>
                                     <th>Em execução</th>
                                     <th>5000</th>
@@ -148,7 +146,7 @@
                     </div>
                 </div>
             </div>
-            <br><br><br>
+            <br><br><br><br><br><br>
         </div>
     </main>
 </body>
@@ -242,6 +240,7 @@
             series: [55, 30, 15],
             labels: ["EC2", "S3", "Lambda"],
             legend: {
+                fontSize: '15px',
                 position: 'bottom'
             },
             colors: ["#523b8f", "#0F5FC2", "#FF83E8"],
@@ -304,6 +303,10 @@
             },
             dataLabels: {
                 enabled: false,
+            },
+            legend: {
+                fontSize: '15px',
+                position: 'bottom'
             },
             stroke: {
                 width: [4, 4],
