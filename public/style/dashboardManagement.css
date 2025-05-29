@@ -146,6 +146,7 @@ main {
     main {
         height: 100%;
         flex-direction: column;
+        padding-bottom: 10vh;
     }
 
     .graficos {
@@ -154,13 +155,13 @@ main {
         margin-top: 60px;
         width: 100% !important;
         height: 100%;
-        gap: 60px;
+        gap: 30px;
     }
     
     .graficos-linha-1, .graficos-linha-2 {
         flex-direction: column;
         height: 150vw !important;
-        gap: 60px;
+        gap: 30px;
     }
 
 
@@ -200,6 +201,10 @@ main {
     .tooltip {
         height: 3vw;
         width: 3vw;
+    }
+
+    .titulo-first-grafico-linha-1 {
+        font-size: 3vw !important;
     }
 }
 
@@ -243,10 +248,36 @@ main {
 .first-grafico-linha-2,
 .second-grafico-linha-2 {
     display: flex;
+    justify-content: center;
+    align-items: center;
     border: solid #C4B5FD 2px;
     background: white;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 1vh;
     height: 100%;
     width: calc(50% - 2.5vh);
+}
+
+.box-first-grafico-linha-1 {
+    /* border: solid; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 94%;
+    height: 90%;
+}
+
+.titulo-first-grafico-linha-1 {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    color: #4C1D95;
+    font-weight: 500;
+    font-size: 1vw;
+}
+
+#chart {
+    width: 100% !important;
 }
