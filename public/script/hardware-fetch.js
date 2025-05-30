@@ -37,36 +37,36 @@ function getData() {
 
             if (cpuValue >= limitesMaximos.cpu) {
                 container_cpu.classList.add("Crítico");
-                registerAlert('cpu', cpuValue, limitesMaximos.cpu, "Crítico")
-                abrirChamadoJira('cpu', cpuValue, limitesMaximos.cpu, "Crítico");
+                registerAlert('cpu', cpuValue, limitesMaximos.cpu,cpuValue, "Crítico")
+                // abrirChamadoJira('cpu', cpuValue, limitesMaximos.cpu,cpuValue, "Crítico");
             } else if (cpuValue <= limitesMaximos.cpu && cpuValue >= 65) {
                 container_cpu.classList.add("Atenção");
-                registerAlert('cpu', cpuValue, limitesMaximos.cpu, "Atenção")
-                abrirChamadoJira('cpu', cpuValue, limitesMaximos.cpu, "Atenção");
+                registerAlert('cpu', cpuValue, limitesMaximos.cpu,cpuValue, "Atenção")
+                // abrirChamadoJira('cpu', cpuValue, limitesMaximos.cpu,cpuValue, "Atenção");
             } else {
                 container_cpu.classList.add("Normal");
             }
 
             if (ramValue >= limitesMaximos.ram) {
                 container_ram.classList.add("Crítico");
-                registerAlert('ram', ramValue, limitesMaximos.ram, "Crítico")
-                abrirChamadoJira('ram', ramValue, limitesMaximos.ram, "Crítico")
+                registerAlert('ram', ramValue, limitesMaximos.ram,ramValue, "Crítico")
+                // abrirChamadoJira('ram', ramValue, limitesMaximos.ram,ramValue, "Crítico")
             } else if (ramValue <= limitesMaximos.ram && ramValue >= 65) {
                 container_ram.classList.add("Atenção");
-                registerAlert('ram', ramValue, limitesMaximos.ram, "Atenção")
-                abrirChamadoJira('ram', ramValue, limitesMaximos.ram, "Atenção")
+                registerAlert('ram', ramValue, limitesMaximos.ram,ramValue, "Atenção")
+                // abrirChamadoJira('ram', ramValue, limitesMaximos.ram,ramValue, "Atenção")
             } else {
                 container_ram.classList.add("Normal");
             }
 
             if (discoValue >= limitesMaximos.storage) {
                 container_disco.classList.add("Crítico");
-                registerAlert('storage', discoValue, limitesMaximos.storage, "Crítico")
-                abrirChamadoJira('storage', discoValue, limitesMaximos.storage, "Crítico")
+                registerAlert('storage', discoValue, limitesMaximos.storage,discoValue, "Crítico")
+                // abrirChamadoJira('storage', discoValue, limitesMaximos.storage,discoValue, "Crítico")
             } else if (discoValue <= limitesMaximos.storage && discoValue >= 60) {
                 container_disco.classList.add("Atenção");
-                registerAlert('storage', discoValue, limitesMaximos.storage, "Atenção")
-                abrirChamadoJira('storage', discoValue, limitesMaximos.storage, "Atenção")
+                registerAlert('storage', discoValue, limitesMaximos.storage,discoValue, "Atenção")
+                // abrirChamadoJira('storage', discoValue, limitesMaximos.storage,discoValue, "Atenção")
             } else {
                 container_disco.classList.add("Normal");
             }
@@ -148,6 +148,7 @@ function registerAlert(component, value, limite, nivel, fk_Metric) {
             dateAlert: date,
             mensage: mensagem,
             exceeded_limit: limite,
+            valor: value,
             fk_Metric: fk_Metric,
             nivel: nivel
         })
