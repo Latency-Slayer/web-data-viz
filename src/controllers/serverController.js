@@ -19,7 +19,28 @@ async function getServerComponentsData(req, res) {
     }
 }
 
+function getServerBytagName(req, res){
+
+    var tagName = req.body.tagName
+    serverModel.getServerBytagName.then((resultado) => {
+        res.status(200).json(resultado);
+    })
+}
+function listarServer(req, res){
+    serverModel.listarServer().then((resultado) => {
+        res.status(200).json(resultado);
+    })
+}
+function getLimitComponent(req, res){
+    serverModel.getLimitComponent().then((resultado) => {
+        res.status(200).json(resultado);
+    })
+}
+
 module.exports = {
     registerServer,
-    getServerComponentsData
+    getServerComponentsData,
+    getServerBytagName,
+    listarServer,
+    getLimitComponent
 };

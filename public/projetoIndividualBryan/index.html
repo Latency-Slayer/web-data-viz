@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif !important;
+        }
+    </style>
+    <!-- Tailwind   -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!-- Bootstrap icons-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.min.js" integrity="sha384-RuyvpeZCxMJCqVUGFI0Do1mQrods/hhxYlcVfGPOfQtPJh0JCw12tUAZ/Mv10S7D" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+
+    <!-- JSuites   -->
+    <script src="https://jsuites.net/v5/jsuites.js"></script>
+    <link rel="stylesheet" href="https://jsuites.net/v5/jsuites.css" type="text/css" />
+
+    <!-- Manipulação de Mapa  -->
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf/turf.min.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.12.0/mapbox-gl.css" rel="stylesheet">
+
+    <!--    Import de componentes-->
+    <script src="../script/components/navBar.js"></script>
+    <script src="./components/Kpi.js"></script>
+    <script src="./components/Filter.js"></script>
+
+    <!-- Imports  Scripts  -->
+    <script defer type="module" src="scripts/realTimeDashboard.js"></script>
+
+    <title>Dashboard - Business Intelligence</title>
+</head>
+<body class="bg-gray-200">
+    <nav-bar></nav-bar>
+    <div id="modal">
+        <div class="bg-white rounded-lg shadow-sm">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h2 class="text-lg font-semibold text-gray-900">Jogadores e Servidores Conectados</h2>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            IP do Jogador
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Continente do Jogador
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Tag Name do Servidor
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            IP do Servidor
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Continente do Servidor
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200" id="far-players-table">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <main class="w-[96%] m-auto">
+        <div class="flex gap-5">
+            <div class="h-fit w-fit flex my-5 gap-2">
+                <filter-select id="continent-filter"
+                               options="[
+                    {
+                        text: 'América_do_Norte',
+                        value: 'NA'
+                    },
+                    {
+                        text: 'América_do_Sul',
+                        value: 'SA'
+                    },
+                    {
+                        text: 'Europa',
+                        value: 'EU'
+                    },
+                    {
+                        text: 'Oceania',
+                        value: 'OC'
+                    },
+                    {
+                        text: 'Asia',
+                        value: 'AS'
+                    },
+                    {
+                        text: 'África',
+                        value: 'AF'
+                    }
+                ]"
+                               filter-name="Continente"
+                               icon="bi-globe2"
+                >
+                </filter-select>
+
+                <filter-select
+                        options="
+                    [
+                        {
+                            text: 'Minecraft',
+                            value: 'minecraft'
+                        },
+                        {
+                            text: 'Halo Infinite',
+                            value: 'halo_infinite'
+                        },
+                        {
+                            text: 'Forza Horizon 5',
+                            value: 'forza_horizon_5'
+                        },
+                        {
+                            text: 'Starfield',
+                            value: 'starfield'
+                        },
+                        {
+                            text: 'The Elder Scrolls V: Skyrim',
+                            value: 'skyrim'
+                        },
+                        {
+                            text: 'DOOM Eternal',
+                            value: 'doom_eternal'
+                        },
+                        {
+                            text: 'Fallout 4',
+                            value: 'fallout_4'
+                        },
+                        {
+                            text: 'Sea of Thieves',
+                            value: 'sea_of_thieves'
+                        },
+                        {
+                            text: 'Call of Duty',
+                            value: 'call_of_duty'
+                        },
+                        {
+                            text: 'Gears 5',
+                            value: 'gears_5'
+                        }
+                    ]
+
+                "
+                        filter-name="Jogo"
+                        icon="bi-controller"
+                >
+                </filter-select>
+                <filter-select
+                        options="
+                    [
+                        {
+                            text: 'Minecraft',
+                            value: 'minecraft'
+                        },
+                        {
+                            text: 'Halo Infinite',
+                            value: 'halo_infinite'
+                        },
+                        {
+                            text: 'Forza Horizon 5',
+                            value: 'forza_horizon_5'
+                        },
+                        {
+                            text: 'Starfield',
+                            value: 'starfield'
+                        },
+                        {
+                            text: 'The Elder Scrolls V: Skyrim',
+                            value: 'skyrim'
+                        },
+                        {
+                            text: 'DOOM Eternal',
+                            value: 'doom_eternal'
+                        },
+                        {
+                            text: 'Fallout 4',
+                            value: 'fallout_4'
+                        },
+                        {
+                            text: 'Sea of Thieves',
+                            value: 'sea_of_thieves'
+                        },
+                        {
+                            text: 'Call of Duty',
+                            value: 'call_of_duty'
+                        },
+                        {
+                            text: 'Gears 5',
+                            value: 'gears_5'
+                        }
+                    ]
+
+                "
+                        filter-name="Periodo"
+                        icon="bi-calendar-event"
+                >
+                </filter-select>
+
+            </div>
+            <div class="flex items-center">
+                <i class="bi bi-exclamation-triangle-fill text-5xl text-yellow-500 cursor-pointer invisible animate-bounce transition-all" id="warning"></i>
+            </div>
+        </div>
+
+        <section class="flex justify-between h-[600px]">
+            <div class="flex flex-col w-[53%] gap-3">
+                <div class="flex justify-between gap-3" id="kpisDiv">
+                    <!-- KPIS serão renderizadas de forma dinamica aqui... -->
+                </div>
+
+                <div class="h-full bg-white rounded-md p-2">
+                    <h2 class="font-bold text-purple-900 text-xl flex items-center ml-5" id="title-chart1"> <i class="bi-question-circle cursor-pointer text-2xl" id="hint-chart1"></i></h2>
+                    <div id="chart1"></div>
+                </div>
+            </div>
+
+
+            <div class="w-[45%] h-[600px] bg-white rounded-xl flex flex-col pb-15 px-5 gap-3">
+                <h1 class="text-purple-900 font-bold text-3xl text-center">Mapa de atividade dos jogadores</h1>
+                <div id="map" class="flex-1 rounded-xl"></div>
+
+                <div class="">
+                    <i class="bi bi-geo-alt-fill text-purple-900 text-3xl"></i>
+                </div>
+            </div>
+        </section>
+
+        <section class="flex justify-between h-[400px] mt-3">
+            <div class="h-full bg-white rounded-md p-2 w-[53%]">
+                <h2 class="font-bold text-purple-900 text-xl flex items-center ml-5" id="title-chart2"> <i class="bi-question-circle cursor-pointer text-2xl"></i></h2>
+                <div id="chart2"></div>
+            </div>
+
+            <div class="w-[45%] h-full bg-white rounded-md">
+                <h2 class="font-bold text-purple-900 text-xl flex items-center ml-5" id="title-chart3"><i class="bi-question-circle cursor-pointer text-2xl" id="hint-chart3"></i></h2>
+                <div id="chart3"></div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

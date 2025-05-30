@@ -74,6 +74,23 @@ function registerComponent(componentData, serverId) {
     });
  }
 
+ function getServerBytagName(tagName){
+    var instrucaoSql = `SELECT * FROM server WHERE server.tag_name = ${tagName};`
+            
+    return database.executar(instrucaoSql);
+ }
+function listarServer(){
+    var instrucaoSql = `SELECT * FROM server;`
+            
+    return database.executar(instrucaoSql);
+ }
+
+ function getLimitComponent(){
+    var instrucaoSql = `SELECT c.type,m.max_limit,m.min_limit from component as c INNER JOIN metric as m ON m.fk_component = id_component WHERE m.metric = "%";`
+
+    return database.executar(instrucaoSql)
+ }
+
 
 async function getServerComponentsData(motherBoardId) {
         const [server] = await database.executar(
@@ -105,5 +122,8 @@ async function getServerComponentsData(motherBoardId) {
 
 module.exports = {
     registerServer,
-    getServerComponentsData
+    getServerComponentsData,
+    getServerBytagName,
+    listarServer,
+    getLimitComponent
 };
