@@ -9,13 +9,9 @@ class AnaliticConnectionService {
             return null;
         }
 
-        const avarageMonth = await model.getDailyAverageConnectionsInPeriod(companyRegisterNumber, continent, period);
+        const dailyConnections = await model.getDailyAverageConnectionsInPeriod(companyRegisterNumber, continent, period);
 
-
-
-        return Math.round(avarageMonth.reduce((accumulator, currentValue) => {
-            return accumulator + Number(currentValue.media_mensal)
-        }, 0) / avarageMonth.length, 0) || 0;
+        return (dailyConnections.reduce((acc, v) => acc += v.total_connections, 0) / dailyConnections.length).toFixed(0);
     }
 
 

@@ -15,7 +15,13 @@ map.onload(() => {
     map.loadClusters();
 
     executeNowAndRepeatWithInterval(async () => {
-        const playerLocations = await fetch(`/bi/dashboard/real-time/player-locations/${sessionStorage.REGISTRATION_NUMBER}`)
+        let url = `/bi/dashboard/real-time/player-locations/${sessionStorage.REGISTRATION_NUMBER}`;
+
+        if(filters.continent) {
+            url = `/bi/dashboard/real-time/player-locations/${sessionStorage.REGISTRATION_NUMBER}?continent=${filters.continent}`;
+        }
+
+        const playerLocations = await fetch(url);
         const json = await playerLocations.json();
 
         map.loadData(json.playerLocations);
@@ -130,7 +136,7 @@ function loadKpis() {
 
     const kpi03 = insertElement(kpisDiv,"kpi-card", {
         "icon-name": "bi-controller",
-        "kpi-title": !filters.period ? "Jogo mais acessado no momento" : "Jogo mais acessado durante o periodo selecionado",
+        "kpi-title": !filters.period ? "Jogo mais acessado no momento" : `Jogo mais acessado durante ${filters.period} dias`,
         value: 0,
         hint: hints.kpi3Hint,
         id: "kpi03"
@@ -173,14 +179,14 @@ async function getQuantPlayers() {
             const request = await fetch(url);
             const json = await request.json();
 
-            return json.avarage;
+            return json.result;
     }
     else if(filters.continent && filters.period) {
         url =`/bi/dashboard/analitic/daily-avarage-connections/${sessionStorage.REGISTRATION_NUMBER}/${filters.period}?continent=${filters.continent}`;
         const request = await fetch(url);
         const json = await request.json();
 
-        return json.avarage;
+        return json.result;
     }
 
     const request = await fetch(url);
@@ -260,7 +266,7 @@ async function loadTopGamesChart() {
             labels: {
                 style: {
                     colors: ["#56408C"],
-                    fontSize: '14px',
+                    fontSize: '18px',
                     fontFamily: 'Helvetica, Arial, sans-serif',
                     fontWeight: 600,
 
@@ -271,9 +277,9 @@ async function loadTopGamesChart() {
             labels: {
                 style: {
                     colors: ["#56408C"],
-                    fontSize: '14px',
+                    fontSize: '18px',
                     fontFamily: 'Helvetica, Arial, sans-serif',
-                    fontWeight: 400
+                    fontWeight: 600
                 },
                 formatter: (val) => {
                     return Intl.NumberFormat("en-US").format(val);
@@ -283,6 +289,13 @@ async function loadTopGamesChart() {
         fill: {
             colors: ['#B69CF6']
         },
+        dataLabels: {
+            enabled: true,
+            style: {
+                fontSize: "24px",
+                colors: ["#00"]
+            },
+        }
 
     };
 
@@ -349,7 +362,7 @@ async function loadTopContinentsChart() {
     }
 
     else if(!filters.continent && filters.period) {
-        title = `Continentes com mais conexões nos últimos ${filters.period} dias)`;
+        title = `Continentes com mais conexões nos últimos ${filters.period} dias`;
     }
 
     document.getElementById("title-chart2").innerHTML = title;
@@ -383,9 +396,9 @@ async function loadTopContinentsChart() {
             labels: {
                 style: {
                     colors: ["#56408C"],
-                    fontSize: '14px',
+                    fontSize: '18px',
                     fontFamily: 'Helvetica, Arial, sans-serif',
-                    fontWeight: 600,
+                    fontWeight: 600
 
                 }
             }
@@ -394,14 +407,21 @@ async function loadTopContinentsChart() {
             labels: {
                 style: {
                     colors: ["#56408C"],
-                    fontSize: '14px',
+                    fontSize: '18px',
                     fontFamily: 'Helvetica, Arial, sans-serif',
-                    fontWeight: 400
+                    fontWeight: 600
                 },
                 formatter: (val) => {
                     return Intl.NumberFormat("en-US").format(val);
                 }
             }
+        },
+        dataLabels: {
+            enabled: true,
+            style: {
+                fontSize: "22px",
+                colors: ["#00"],
+            },
         },
         fill: {
             colors: ['#B69CF6']
@@ -541,7 +561,7 @@ async function loadConnectionsVariationChart() {
                 labels: {
                     style: {
                         colors: ["#56408C"],
-                        fontSize: '14px',
+                        fontSize: '18px',
                         fontFamily: 'Helvetica, Arial, sans-serif',
                         fontWeight: 400
                     },
@@ -622,12 +642,12 @@ async function loadConnectionsVariationChart() {
             labels: {
                 style: {
                     colors: ["#56408C"],
-                    fontSize: '14px',
+                    fontSize: '18px',
                     fontFamily: 'Helvetica, Arial, sans-serif',
                     fontWeight: 400
                 },
                 formatter: (val) => {
-                    return Intl.NumberFormat("en-US").format(val);
+                    return Intl.NumberFormat("PT-BR").format(val);
                 }
             }
         },
@@ -765,6 +785,7 @@ async function getPeakOfConnections() {
         };
     }
 
+
     return {
         value: json.peak.total_conexoes,
         subvalue: new Date(json.peak.horario).toLocaleDateString("pt-BR")
@@ -860,8 +881,6 @@ async function getConnectionsVariationOfPeriod() {
             };
         })
 
-
-        console.log(data)
         return data;
     }
 

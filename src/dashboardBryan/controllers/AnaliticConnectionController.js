@@ -10,7 +10,7 @@ class AnaliticConnectionController {
 
         const result = await service.getDailyAverageConnectionsInPeriod(companyRegisterNumber, continent, period);
 
-        return res.json({ avarage: result });
+        return res.json({ result });
     }
 
 
@@ -50,6 +50,8 @@ class AnaliticConnectionController {
         const continent = req.query.continent;
 
         const result = await service.getTopContinentsOfPeriod(companyRegisterNumber, continent, period);
+
+        console.log(result)
 
         return res.json({ result });
     }

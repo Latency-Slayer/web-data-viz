@@ -65,13 +65,13 @@ export function continentName(continentCode) {
     }
 
     const continents = {
-        SA: "América do Sul",
-        NA: "América do Norte",
-        AF: "África",
-        EU: "Europa",
-        OC: "Oceânia",
-        AN: "Antártida",
-        AS: "Ásia"
+        SA: "South America",
+        NA: "North America",
+        AF: "Africa",
+        EU: "Europe",
+        OC: "Oceania",
+        AN: "Antarctica",
+        AS: "Asia"
     }
 
     return continents[continentCode];
