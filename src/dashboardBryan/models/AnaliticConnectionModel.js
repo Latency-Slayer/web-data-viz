@@ -24,7 +24,7 @@ class AnaliticConnectionModel {
                                           company.registration_number = ?
                                         AND (MONTH(connection_capturing.date_time) >= ? AND
                                              MONTH(connection_capturing.date_time) <= ?) AND
-                                        connection_capturing.continent_code = ?
+                                          connection_capturing.continent_code = ?
                                       GROUP BY horario
                                       ORDER BY total_conexoes DESC
                                       LIMIT 1;
@@ -171,7 +171,7 @@ class AnaliticConnectionModel {
 
         if(continent) {
             return database.executar(`
-                SELECT country AS continent, COUNT(*) AS total_connections
+                SELECT COUNT(*) AS total_connections, DATE_FORMAT(date_time, '%Y-%m-%d') AS date
                 FROM connection_capturing
                          JOIN server ON id_server = fk_server
                          JOIN company ON company.id_company = server.fk_company
@@ -194,6 +194,39 @@ class AnaliticConnectionModel {
                        MONTH(connection_capturing.date_time) <= ?)
                 GROUP BY DATE_FORMAT(date_time, '%Y-%m-%d')
                 ORDER BY DATE_FORMAT(date_time, '%Y-%m-%d')
+            `, [companyRegisterNumber, startMonth, endMonth]);
+    }
+
+    async getConnectionLocations(companyRegisterNumber, continent, period) {
+        const date = new Date();
+        date.setDate(date.getDate() - period);
+
+        const startMonth = date.getMonth() + 1;
+        const endMonth = new Date().getMonth();
+
+        if(continent) {
+            return database.executar(`
+                SELECT latitude AS lat, longitude AS lon
+                FROM connection_capturing
+                         JOIN server ON id_server = fk_server
+                         JOIN company ON company.id_company = server.fk_company
+                WHERE company.registration_number = ?
+                  AND (MONTH(connection_capturing.date_time) >= ? AND
+                       MONTH(connection_capturing.date_time) <= ?) AND
+                    connection_capturing.continent_code = ?
+                ORDER BY DATE_FORMAT(date_time, '%Y-%m-%d')
+            `, [companyRegisterNumber, startMonth, endMonth, continent]);
+        }
+
+        return database.executar(`
+            SELECT latitude AS lat, longitude AS lon
+            FROM connection_capturing
+                     JOIN server ON id_server = fk_server
+                     JOIN company ON company.id_company = server.fk_company
+            WHERE company.registration_number = ?
+              AND (MONTH(connection_capturing.date_time) >= 2 AND
+                   MONTH(connection_capturing.date_time) <= 4)
+            ORDER BY DATE_FORMAT(date_time, '%Y-%m-%d');
             `, [companyRegisterNumber, startMonth, endMonth]);
     }
 }

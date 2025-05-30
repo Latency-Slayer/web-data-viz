@@ -13,7 +13,6 @@ class AnaliticConnectionController {
         return res.json({ result });
     }
 
-
     async getPeakOfSimultaneousConnections (req, res) {
         const companyRegisterNumber = req.params["registerNumber"];
         const period = req.params["period"];
@@ -51,8 +50,6 @@ class AnaliticConnectionController {
 
         const result = await service.getTopContinentsOfPeriod(companyRegisterNumber, continent, period);
 
-        console.log(result)
-
         return res.json({ result });
     }
 
@@ -64,6 +61,16 @@ class AnaliticConnectionController {
         const result = await service.getConnectionsVariation(companyRegisterNumber, continent, period);
 
         return res.json({ result });
+    }
+
+    async getConnectionLocations(req, res) {
+        const companyRegisterNumber = req.params["registerNumber"];
+        const period = req.params["period"];
+        const continent = req.query.continent;
+
+        const result = await service.getConnectionLocations(companyRegisterNumber, continent, period);
+
+        return res.json({ playerLocations: result });
     }
 }
 

@@ -11,6 +11,7 @@ router.get("/analitic/top-game-of-period/:registerNumber/:period", controller.ge
 router.get("/analitic/all-top-game-of-period/:registerNumber/:period", controller.getAllTopGamesOfPeriod);
 router.get("/analitic/top-continents-of-period/:registerNumber/:period", controller.getTopContinentsOfPeriod);
 router.get("/analitic/get-connections-variations/:registerNumber/:period", controller.getConnectionsVariation);
+router.get("/analitic/get-connections-locations/:registerNumber/:period", controller.getConnectionLocations);
 
 router.use(ErrorHandler);
 

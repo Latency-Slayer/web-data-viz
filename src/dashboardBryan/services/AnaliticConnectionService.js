@@ -56,6 +56,14 @@ class AnaliticConnectionService {
 
         return await model.getConnectionsVariation(companyRegisterNumber, continent, period);
     }
+
+    async getConnectionLocations(companyRegisterNumber, continent, period) {
+        if(!companyRegisterNumber || !period) {
+            return null;
+        }
+
+        return await model.getConnectionLocations(companyRegisterNumber, continent, period);
+    }
 }
 
 module.exports = AnaliticConnectionService;

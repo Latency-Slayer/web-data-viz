@@ -9,15 +9,41 @@ import {
 import MapBox from "./classes/MapBox.js";
 import "https://cdn.jsdelivr.net/npm/apexcharts"
 
+const filters = {
+    continent: null,
+    period: null
+}
+
 const map = new MapBox("map");
+let mapUpdateInterval;
 
-map.onload(() => {
+map.onload(async () => {
     map.loadClusters();
+    await laodMapLocations();
+});
 
-    executeNowAndRepeatWithInterval(async () => {
+
+
+async function laodMapLocations() {
+    if(filters.period) {
+        let url = `/bi/dashboard/analitic/get-connections-locations/${sessionStorage.REGISTRATION_NUMBER}/${filters.period}`;
+        if(filters.continent) {
+            url = `/bi/dashboard/analitic/get-connections-locations/${sessionStorage.REGISTRATION_NUMBER}/${filters.period}?continent=${filters.continent}`;
+        }
+
+        const playerLocations = await fetch(url);
+        const json = await playerLocations.json();
+
+        map.loadData(json.playerLocations);
+        map.updateMapPoints();
+
+        return;
+    }
+
+    mapUpdateInterval = executeNowAndRepeatWithInterval(async () => {
         let url = `/bi/dashboard/real-time/player-locations/${sessionStorage.REGISTRATION_NUMBER}`;
 
-        if(filters.continent) {
+        if(filters.continent && !filters.period) {
             url = `/bi/dashboard/real-time/player-locations/${sessionStorage.REGISTRATION_NUMBER}?continent=${filters.continent}`;
         }
 
@@ -27,14 +53,9 @@ map.onload(() => {
         map.loadData(json.playerLocations);
         map.updateMapPoints();
     }, 2000);
-});
+}
 
 window.onload = renderDashboard;
-
-const filters = {
-    continent: null,
-    period: null
-}
 
 let kpis;
 let chart1;
@@ -53,34 +74,50 @@ function destroyDashboard() {
 
 
 observeElementAttributeChange(document.getElementById("continent-filter"), async (filter) => {
-    filters.continent = filter;
-
-    destroyDashboard();
-    await renderDashboard();
-});
-
-observeElementAttributeChange(document.getElementById("period-filter"), async (filter) => {
-    filters.period = filter;
-
-    destroyDashboard();
-    await renderDashboard();
-});
-
-
-async function renderDashboard () {
     const initLoader = loader();
 
-    kpis = loadKpis();
 
-    chart1 = await loadTopGamesChart();
-    chart2 = await loadTopContinentsChart();
-    chart3 = await loadConnectionsVariationChart();
+    filters.continent = filter;
+
+    clearInterval(mapUpdateInterval);
+    await laodMapLocations();
+
+    destroyDashboard();
+    await renderDashboard();
 
     if(filters.period) {
         setTimeout(() => initLoader.remove(), 3000);
     } else {
         initLoader.remove();
     }
+});
+
+observeElementAttributeChange(document.getElementById("period-filter"), async (filter) => {
+    const initLoader = loader();
+
+    filters.period = filter;
+
+    clearInterval(mapUpdateInterval);
+    await laodMapLocations();
+
+
+    destroyDashboard();
+    await renderDashboard();
+
+    if(filters.period) {
+        setTimeout(() => initLoader.remove(), 3000);
+    } else {
+        initLoader.remove();
+    }
+});
+
+
+async function renderDashboard () {
+    kpis = loadKpis();
+
+    chart1 = await loadTopGamesChart();
+    chart2 = await loadTopContinentsChart();
+    chart3 = await loadConnectionsVariationChart();
 }
 
 function loadKpis() {
@@ -186,7 +223,7 @@ async function getQuantPlayers() {
         const request = await fetch(url);
         const json = await request.json();
 
-        return json.result;
+        return !isNaN(json.result) ? json.result : 0;
     }
 
     const request = await fetch(url);
@@ -874,15 +911,13 @@ async function getConnectionsVariationOfPeriod() {
 
     if(json.hasOwnProperty("result")) {
 
-        const data =  json.result.map(v => {
+        return json.result.map(v => {
             return {
                 x: new Date(v.date).getTime(),
                 y: v.total_connections
             };
-        })
-
-        return data;
+        });
     }
 
-    return [{}]
+    return [{}];
 }
