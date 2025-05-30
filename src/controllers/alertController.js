@@ -2,7 +2,7 @@ var alertModel = require("../models/alertModel")
 
 async function registerAlert(req, res) {
     try {
-        await alertModel.registerAlert(req.body.status, req.body.dateAlert,req.body.mensage, req.body.exceeded_limit,req.body.fk_Metric,req.body.nivel)
+        await alertModel.registerAlert(req.body.status, req.body.dateAlert,req.body.mensage, req.body.exceeded_limit,req.body.valor,req.body.fk_Metric,req.body.nivel)
 
         res.status(201).json({ message: "Alert successfully register." })
     } catch (err) {
