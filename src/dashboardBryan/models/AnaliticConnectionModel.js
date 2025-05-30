@@ -224,8 +224,8 @@ class AnaliticConnectionModel {
                      JOIN server ON id_server = fk_server
                      JOIN company ON company.id_company = server.fk_company
             WHERE company.registration_number = ?
-              AND (MONTH(connection_capturing.date_time) >= 2 AND
-                   MONTH(connection_capturing.date_time) <= 4)
+              AND (MONTH(connection_capturing.date_time) >= ? AND
+                   MONTH(connection_capturing.date_time) <= ?)
             ORDER BY DATE_FORMAT(date_time, '%Y-%m-%d');
             `, [companyRegisterNumber, startMonth, endMonth]);
     }

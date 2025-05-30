@@ -921,3 +921,11 @@ async function getConnectionsVariationOfPeriod() {
 
     return [{}];
 }
+
+
+const modalGamesInsights = jSuites.modal(document.getElementById("modal-games-insights"), {
+    title: `Engajamento nos jogos nos últimos ${filters.period} dias`,
+    width: "80vw",
+    height: "80vh",
+});
+
