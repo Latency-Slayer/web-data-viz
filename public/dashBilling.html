@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latency Slayer | Dashboard Billing e Forcasting</title>
+    <script src="./script/components/navBar.js"></script>
+    <link rel="stylesheet" href="./style/dashBilling.css">
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+</head>
+
+<body>
+    <nav-bar></nav-bar>
+    <main>
+        <div class="container">
+            <div class="titulo-principal">Observability - FinOps</div>
+            <header>
+                <h1>Billing & Forcasting</h1>
+            </header>
+            <div class="kpis">
+                <div class="kpi-content">
+                    <div class="kpi">
+                        <div class="linha1">
+                            <img src="./img/cifrao.svg">
+                            <div class="titulo">Taxa de custo do mês atual</div>
+                        </div>
+                        <div class="linha1">
+                            <div class="valor" style="padding-left: 1vh;">R$125.00</div>
+                            <img class="seta" src="./img/seta-vermelha.svg">
+                            <div class="porcentagem" style="color: #DC2626;">37.8%</div>
+                            <div class="porcentagem" style="padding-left: 5px;">este mês</div>
+                        </div>
+                    </div>
+                    <div class="kpi">
+                        <div class="linha1">
+                            <img src="./img/relogio.svg">
+                            <div class="titulo">Previsão de custo para o final do mês atual</div>
+                        </div>
+                        <div class="linha1">
+                            <div class="valor" style="padding-left: 10px;">R$160.00</div>
+                            <img class="seta" src="./img/seta-vermelha.svg">
+                            <div class="porcentagem" style="color: #DC2626;">67.8%</div>
+                            <div class="porcentagem" style="padding-left: 5px;">este mês</div>
+                        </div>
+                    </div>
+                    <div class="kpi">
+                        <div class="linha1">
+                            <img src="./img/barras.svg">
+                            <div class="titulo">Meta de gasto mensal</div>
+                        </div>
+                        <div class="linha1">
+                            <div class="valor2">R$125.00/R$250.00</div>
+                                <img class="seta" src="./img/seta-verde.svg">
+                            <div class="porcentagem" style="color: #00D207;">16.6%</div>
+                            <div class="porcentagem" style="padding-left: 5px;">este mês</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="graficos">
+                <div class="plot-content">
+                    <div class="grafico1">
+                        <div class="titulo">Visualização de Custos</div>
+                        <div class="subtitulo">custo mensal</div>
+                        <div id="grafico-01"></div>
+                        <div class="legenda">
+                            <div class="indicador-cor-1"></div>
+                            <div>mês anterior</div>
+                            <div class="indicador-cor-2"></div>
+                            <div>mês atual</div>
+                            <div class="indicador-cor-3"></div>
+                            <div>previsão mês futuro</div>
+                        </div>
+                    </div>
+                    <div class="grafico2">
+                        <div class="titulo">Porcentagem de custos por serviço</div>
+                        <div class="plot-grafico">
+                            <div id="grafico-02"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <header>
+                <h1>Operacional</h1>
+            </header>
+            <div class="operacional">
+                <div class="kpi-lista">
+                    <div class="list-content">
+                        <div class="kpi" style="width: 95%;">
+                            <div class="linha1">
+                                <img src="./img/escada.svg" height="50px">
+                                <div class="titulo-grande">Quantidade de requisições HTTP no sistema web</div>
+                            </div>
+                            <div class="linha1">
+                                <div class="valor">20.000</div><div class="porcentagem" style="padding-left: 3px;">essa semana</div>
+                            </div>
+                        </div>
+                        <div class="lista">
+                            <div class="titulo-lista">Monitoramento de containers</div>
+                            <table style="color: #3A2E5D;">
+                                <thead style="color:#B69CF6;">
+                                    <th></th>
+                                    <th>CONTAINER</th>
+                                    <th>STATUS</th>
+                                    <th>PORTA</th>
+                                    <th>LOGS</th>
+                                </thead>
+                                <tr>
+                                    <th><img src="./img/check_circle.svg" style="height: 25px;"></th>
+                                    <th>aplicação web</th>
+                                    <th>Em execução</th>
+                                    <th>80</th>
+                                    <th><a href="#">ver logs</a></th>
+                                </tr>
+                                <tr>
+                                    <th><img src="./img/check_circle.svg" style="height: 25px;"></th>
+                                    <th>Mysql</th>
+                                    <th>Em execução</th>
+                                    <th>3306</th>
+                                    <th><a href="#">ver logs</a></th>
+                                </tr>
+                                <tr>
+                                    <th><img src="./img/check_circle.svg" style="height: 25px;"></th>
+                                    <th>Data Transfer API</th>
+                                    <th>Em execução</th>
+                                    <th>5000</th>
+                                    <th><a href="#">ver logs</a></th>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="plot-grafico3">
+                    <div class="grafico3">
+                        <div class="select-componentes">
+                            <div class="titulo">Uso de componentes durante a semana</div>
+                            <select name="" id="">
+                                <option value="">CPU</option>
+                                <option value="">RAM</option>
+                            </select>
+                        </div>
+                        <div class="subtitulo">Semanal</div>
+                        <div id="grafico-03"></div>
+                    </div>
+                </div>
+            </div>
+            <br><br><br><br><br><br>
+        </div>
+    </main>
+</body>
+<script>
+    new ApexCharts(
+        document.querySelector("#grafico-01"),
+        {
+            chart: {
+                type: 'bar',
+                height: "75%",
+                toolbar: {
+                    show: false
+                }
+            },
+            grid: {
+                show: false
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    borderRadius: 10
+                }
+            },
+            yaxis: {
+                labels: {
+                    formatter: function (val) {
+                        return "R$" + val;
+                    },
+                    style: {
+                        colors: ['#3d1b91'],
+                        fontSize: 16,
+                    }
+                }
+            },
+            xaxis: {
+                labels: {
+                    style: {
+                        colors: ['#000000', '#000000', '#000000', '#000000', '#000000', '#000000', '#000000'],
+                        fontSize: 16,
+                    }
+                },
+                axisBorder: {
+                    show: false,
+                },
+                axisTicks: {
+                    show: false,
+                },
+            },
+            series: [{
+                name: "gasto",
+                data: [{
+                    x: 'fev',
+                    y: 60,
+                    fillColor: '#f803bb'
+                }, {
+                    x: 'mar',
+                    y: 75,
+                    fillColor: '#f803bb'
+                }, {
+                    x: 'abr',
+                    y: 80,
+                    fillColor: '#f803bb'
+                }, {
+                    x: 'mai',
+                    y: 125,
+                    fillColor: '#3d1b91'
+                }, {
+                    x: 'jun',
+                    y: 125,
+                    fillColor: '#3a2e5d57'
+                }, {
+                    x: 'jul',
+                    y: 120,
+                    fillColor: '#3a2e5d57'
+                }, {
+                    x: 'ago',
+                    y: 115,
+                    fillColor: '#3a2e5d57'
+                }]
+            }]
+        }
+    ).render();
+
+    new ApexCharts(
+        document.querySelector("#grafico-02"),
+        {
+            chart: {
+                type: 'donut',
+                width: '100%',
+            },
+            series: [55, 30, 15],
+            labels: ["EC2", "S3", "Lambda"],
+            legend: {
+                fontSize: '15px',
+                position: 'bottom'
+            },
+            colors: ["#523b8f", "#0F5FC2", "#FF83E8"],
+            plotOptions: {
+                pie: {
+                    donut: {
+                        size: '60%'
+                    }
+                }
+            },
+            yaxis: {
+                labels: {
+                    formatter: function (val) {
+                        return val + "%";
+                    },
+                    style: {
+                        fontSize: 16,
+                    }
+                }
+            },
+            dataLabels: {
+                enabled: true,
+            },
+            states: {
+                hover: {
+                    filter: {
+                        type: 'darken', // ou 'lighten'
+                        value: 0.1 // intensidade do efeito
+                    }
+                }
+            }
+        }
+    ).render()
+
+    new ApexCharts(
+        document.querySelector("#grafico-03"),
+        {
+            series: [
+                {
+                    name: "semana atual",
+                    data: [
+                        15, 35, 35, 35, 50, 70, 50
+                    ],
+                    color: "#B69CF6"
+                },
+                {
+                    name: "previsão para a próxima semana",
+                    data: [
+                        15, 45, 45, 45, 70, 100, 70
+                    ],
+                    color: "#56408C",
+                }
+            ],
+            labels: ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'],
+            chart: {
+                height: 300,
+                toolbar: {
+                    show: false,
+                },
+            },
+            dataLabels: {
+                enabled: false,
+            },
+            legend: {
+                fontSize: '15px',
+                position: 'bottom'
+            },
+            stroke: {
+                width: [4, 4],
+                dashArray: [0,5]
+            },
+            grid: {
+                show: false,
+            },
+            xaxis: {
+                labels: {
+                    style: {
+                        colors: ['#000000', '#000000', '#000000', '#000000', '#000000', '#000000', '#000000'],
+                        fontSize: 16,
+                    }
+                },
+                axisBorder: {
+                    show: false,
+                },
+                axisTicks: {
+                    show: false,
+                },
+            },
+            yaxis: {
+                min: 0,
+                max: 100,
+                labels: {
+                    formatter: function (val) {
+                        return val + "%";
+                    },
+                    style: {
+                        colors: ['#3d1b91'],
+                        fontSize: 16,
+                    }
+                }
+            },
+        }
+    ).render();
+</script>
+
+</html>
