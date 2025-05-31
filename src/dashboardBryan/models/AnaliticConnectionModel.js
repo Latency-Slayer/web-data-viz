@@ -9,8 +9,8 @@ class AnaliticConnectionModel {
         const date = new Date();
         date.setDate(date.getDate() - period);
 
-        const startMonth = date.getMonth() + 1;
-        const endMonth = new Date().getMonth();
+        const startMonth = date.getMonth();
+        const endMonth = new Date().getMonth() + 1;
 
         if (continent) {
             return database.executar(`SELECT
@@ -52,8 +52,8 @@ class AnaliticConnectionModel {
         const date = new Date();
         date.setDate(date.getDate() - period);
 
-        const startMonth = date.getMonth() + 1;
-        const endMonth = new Date().getMonth();
+        const startMonth = date.getMonth();
+        const endMonth = new Date().getMonth() + 1;
 
         if(continent) {
             return await database.executar(`
@@ -92,8 +92,8 @@ class AnaliticConnectionModel {
         const date = new Date();
         date.setDate(date.getDate() - period);
 
-        const startMonth = date.getMonth() + 1;
-        const endMonth = new Date().getMonth();
+        const startMonth = date.getMonth();
+        const endMonth = new Date().getMonth() + 1;
 
         if(continent) {
             return await database.executar(`
@@ -130,8 +130,8 @@ class AnaliticConnectionModel {
         const date = new Date();
         date.setDate(date.getDate() - period);
 
-        const startMonth = date.getMonth() + 1;
-        const endMonth = new Date().getMonth();
+        const startMonth = date.getMonth();
+        const endMonth = new Date().getMonth() + 1;
 
         if(continent) {
             return database.executar(`
@@ -166,8 +166,8 @@ class AnaliticConnectionModel {
         const date = new Date();
         date.setDate(date.getDate() - period);
 
-        const startMonth = date.getMonth() + 1;
-        const endMonth = new Date().getMonth();
+        const startMonth = date.getMonth();
+        const endMonth = new Date().getMonth() + 1;
 
         if(continent) {
             return database.executar(`
@@ -201,8 +201,8 @@ class AnaliticConnectionModel {
         const date = new Date();
         date.setDate(date.getDate() - period);
 
-        const startMonth = date.getMonth() + 1;
-        const endMonth = new Date().getMonth();
+        const startMonth = date.getMonth();
+        const endMonth = new Date().getMonth() + 1;
 
         if(continent) {
             return database.executar(`

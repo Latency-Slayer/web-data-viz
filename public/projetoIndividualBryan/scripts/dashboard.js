@@ -216,7 +216,7 @@ async function getQuantPlayers() {
             const request = await fetch(url);
             const json = await request.json();
 
-            return json.result;
+            return !isNaN(json.result) ? json.result : 0;
     }
     else if(filters.continent && filters.period) {
         url =`/bi/dashboard/analitic/daily-avarage-connections/${sessionStorage.REGISTRATION_NUMBER}/${filters.period}?continent=${filters.continent}`;
@@ -253,6 +253,8 @@ async function getQuantServersActive() {
 
     const request = await fetch(url);
     const json = await request.json();
+
+    console.log(json)
 
     return json.quantActiveServers;
 }
@@ -303,7 +305,7 @@ async function loadTopGamesChart() {
             labels: {
                 style: {
                     colors: ["#56408C"],
-                    fontSize: '18px',
+                    fontSize: '14px',
                     fontFamily: 'Helvetica, Arial, sans-serif',
                     fontWeight: 600,
 
@@ -922,10 +924,10 @@ async function getConnectionsVariationOfPeriod() {
     return [{}];
 }
 
-
-const modalGamesInsights = jSuites.modal(document.getElementById("modal-games-insights"), {
-    title: `Engajamento nos jogos nos últimos ${filters.period} dias`,
-    width: "80vw",
-    height: "80vh",
-});
+//
+// const modalGamesInsights = jSuites.modal(document.getElementById("modal-games-insights"), {
+//     title: `Engajamento nos jogos nos últimos ${filters.period} dias`,
+//     width: "80vw",
+//     height: "80vh",
+// });
 

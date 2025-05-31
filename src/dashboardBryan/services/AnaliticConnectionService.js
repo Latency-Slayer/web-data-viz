@@ -14,7 +14,6 @@ class AnaliticConnectionService {
         return (dailyConnections.reduce((acc, v) => acc += v.total_connections, 0) / dailyConnections.length).toFixed(0);
     }
 
-
     async getPeakOfSimultaneousConnections (companyRegisterNumber, continent, period) {
         if(!companyRegisterNumber || !period) {
             return null;
