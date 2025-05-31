@@ -28,7 +28,6 @@
             <div id="porcentagemKpiSemAtribuicao"></div> do total de chamados (total de <div id="kpi-chamados-abertos">
             </div>)
           </div>
-          <img class="tooltip" src="img/tooltip.png" />
         </div>
       </div>
 
@@ -41,7 +40,6 @@
 
         <div class="rodape">
           <div class="label">60% do total de chamados (total de 20)</div>
-          <img class="tooltip" src="img/tooltip.png" />
         </div>
       </div>
 
@@ -50,7 +48,9 @@
           Top servidores com mais ocorrências (em 7 dias)
         </div>
         <div class="kpi-infos-col">
-          <div class="label"><div id="sv_ocorrencias"></div> ocorrências em <div id="sv_tag_name"></div></div>
+          <div class="label">
+            <div id="sv_ocorrencias"></div> ocorrências em <div id="sv_tag_name"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -172,7 +172,7 @@
 
   }
 
-function alertasPorServidor() {
+  function alertasPorServidor() {
     fetch('/server/getAlertsPerServer')
       .then(response => response.json())
       .then(data => {
@@ -187,27 +187,27 @@ function alertasPorServidor() {
 
         data.forEach(servidor => {
 
-            qtd_ocorrencias.textContent = servidor.total_alertas;
-            tag_name.textContent = servidor.tag_name;
+          qtd_ocorrencias.textContent = servidor.total_alertas;
+          tag_name.textContent = servidor.tag_name;
 
-            const row = document.createElement("tr");
-            row.innerHTML = `
+          const row = document.createElement("tr");
+          row.innerHTML = `
                 <td>${servidor.id}</td>
                 <td>${servidor.tag_name}</td>
                 <td>${servidor.total_alertas}</td>
                 <td>${servidor.game}</td>
             `;
-            tbody.appendChild(row);
+          tbody.appendChild(row);
         });
       })
       .catch(error => {
         console.error("Erro ao buscar alertas por servidor:", error);
       });
-}
+  }
 
 
-  function getChamadosSemReponsavel(){
-     fetch('/server/getChamadosSemResponsavel')
+  function getChamadosSemReponsavel() {
+    fetch('/server/getChamadosSemResponsavel')
       .then(response => response.json())
       .then(data => {
         console.log("Chamados por servidor:", data);
@@ -216,16 +216,16 @@ function alertasPorServidor() {
 
         tbody.innerHTML = "";
 
-          data.forEach(servidor => {
-            const row = document.createElement("tr");
-            row.innerHTML = `
+        data.forEach(servidor => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
             <td>${servidor.idJira}</td>
             <td>${servidor.tag_name}</td>
             <td>${servidor.id}</td>
             <td>${servidor.nivel}</td>
           `;
-            tbody.appendChild(row);
-          });
+          tbody.appendChild(row);
+        });
       })
       .catch(error => {
         console.error("Erro ao buscar alertas por servidor:", error);

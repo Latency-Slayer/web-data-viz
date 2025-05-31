@@ -76,12 +76,15 @@ main {
 }
 
 .label {
+    display: flex;
+    gap: 5px;
     font-size: 1vw;
     background: #FECACA;
     border-radius: 20px;
     width: fit-content;
     padding: 0 1vw;
     color: #991B1B;
+    width: fit-content;
 }
 
 .tooltip {
@@ -211,7 +214,7 @@ main {
         width: 3vw;
     }
 
-    .titulo-first-grafico-linha-1, .titulo-second-grafico-linha-1 {
+    .titulo-first-grafico-linha-1, .titulo-second-grafico-linha-1, .titulo-first-grafico-linha-2, .lista-second-grafico-linha-2, .first-grafico-linha-2, .lista-second-grafico-linha-1 {
         font-size: 3vw !important;
     }
 }
@@ -308,7 +311,7 @@ th {
     flex-direction: column;
     /* width: 100%; */
     align-items: center;
-    color: #4C1D95;
+    color: #4C1D95; 
     font-weight: 500;
     font-size: 1.3vw;
 }
@@ -332,6 +335,9 @@ th {
     /* display: flex; */
     height: 100%;
     width: 100%;
+    color: #4C1D95;
+    font-size: 1vw;
+    font-weight: 500;
 }
 
 table {
@@ -340,7 +346,7 @@ table {
 
 thead th,
 tbody td {
-    border: 1px solid #ddd;
+    border: 2px solid #ddd;
     text-align: center;
 }
 
