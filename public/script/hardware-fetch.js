@@ -3,7 +3,7 @@ let limitesMinimos = {}
 
 let ultimaChamadaJira = {
     cpu: 0,
-    ram: 0, 
+    ram: 0,
     storage: 0
 };
 
@@ -37,24 +37,25 @@ function getData() {
 
             if (cpuValue >= limitesMaximos.cpu) {
                 container_cpu.classList.add("Crítico");
-                registerAlert('cpu', cpuValue, limitesMaximos.cpu, "Crítico") // CORRIGIDO: "Crítico"
-                // abrirChamadoJira('cpu', cpuValue, limitesMaximos.cpu,cpuValue, "Crítico");
+                registerAlert('cpu', cpuValue, limitesMaximos.cpu, "Crítico")
+                abrirChamadoJira('cpu', cpuValue, limitesMaximos.cpu, "Crítico");
             } else if (cpuValue <= limitesMaximos.cpu && cpuValue >= 65) {
                 container_cpu.classList.add("Atenção");
                 registerAlert('cpu', cpuValue, limitesMaximos.cpu, "Atenção")
-                // abrirChamadoJira('cpu', cpuValue, limitesMaximos.cpu,cpuValue, "Atenção");
+                abrirChamadoJira('cpu', cpuValue, limitesMaximos.cpu, "Atenção");
             } else {
                 container_cpu.classList.add("Normal");
             }
 
             if (ramValue >= limitesMaximos.ram) {
                 container_ram.classList.add("Crítico");
-                registerAlert('ram', ramValue, limitesMaximos.ram, "Crítico") // CORRIGIDO: "Crítico"
-                // abrirChamadoJira('ram', ramValue, limitesMaximos.ram,ramValue, "Crítico")
+                registerAlert('ram', ramValue, limitesMaximos.ram, "Crítico")
+                abrirChamadoJira('ram', ramValue, limitesMaximos.ram, "Crítico")
             } else if (ramValue <= limitesMaximos.ram && ramValue >= 65) {
                 container_ram.classList.add("Atenção");
                 registerAlert('ram', ramValue, limitesMaximos.ram, "Atenção")
-                // abrirChamadoJira('ram', ramValue, limitesMaximos.ram,ramValue, "Atenção")
+                abrirChamadoJira('ram', ramValue, limitesMaximos.ram, "Atenção")
+                console.log("Passou")
             } else {
                 container_ram.classList.add("Normal");
             }
@@ -62,11 +63,11 @@ function getData() {
             if (discoValue >= limitesMaximos.storage) {
                 container_disco.classList.add("Crítico");
                 registerAlert('storage', discoValue, limitesMaximos.storage, "Crítico")
-                // abrirChamadoJira('storage', discoValue, limitesMaximos.storage,discoValue, "Crítico")
+                abrirChamadoJira('storage', discoValue, limitesMaximos.storage, "Crítico")
             } else if (discoValue <= limitesMaximos.storage && discoValue >= 60) {
                 container_disco.classList.add("Atenção");
                 registerAlert('storage', discoValue, limitesMaximos.storage, "Atenção")
-                // abrirChamadoJira('storage', discoValue, limitesMaximos.storage,discoValue, "Atenção")
+                abrirChamadoJira('storage', discoValue, limitesMaximos.storage, "Atenção")
             } else {
                 container_disco.classList.add("Normal");
             }
@@ -141,7 +142,7 @@ function registerAlert(component, value, limite, nivel) {
     const payload = {
         status: "aberto",
         dateAlert: date,
-        mensage: mensagem,  
+        mensage: mensagem,
         exceeded_limit: limite,
         valor: value,
         fk_Metric: fk_Metric,
@@ -153,9 +154,9 @@ function registerAlert(component, value, limite, nivel) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
     })
-    .then(res => res.json())
-    .then(json => console.log("Alerta registrado:", json))
-    .catch(err => console.error("Erro ao registrar alerta:", err));
+        .then(res => res.json())
+        .then(json => console.log("Alerta registrado:", json))
+        .catch(err => console.error("Erro ao registrar alerta:", err));
 }
 
 function formatData(date) {
@@ -185,7 +186,7 @@ function getAlertsPorDia() {
         .then(data => {
 
             const semana = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
-            const contagemPorDia = [0, 0, 0, 0, 0, 0, 0]; 
+            const contagemPorDia = [0, 0, 0, 0, 0, 0, 0];
 
             data.forEach(item => {
                 const dataObj = new Date(item.data_criacao);
@@ -228,17 +229,30 @@ function abrirChamadoJira(component, value, limite, nivel) {
             description: mensagem,
             assignee: "712020:46bc3ab4-b0da-4a73-9cd5-8b395c3e3678"
         })
+    }).then(res => {
+        if (!res.ok) {
+            console.error(`Erro HTTP: ${res.status}`);
+            return res.text().then(text => {
+                console.error('Detalhes do erro:', text);
+            });
+        }
+        if (res.status === 204) {
+            console.log('Chamado criado, mas sem conteúdo.');
+            return;
+        }
+        return res.json();
     })
-        .then(res => res.json())
         .then(data => {
-            console.log('Chamado criado:', data);
+            if (data) {
+                console.log('Chamado criado:', data);
+            }
         })
         .catch(err => console.error('Erro ao criar chamado:', err));
 }
 
 function canOpenJiraCall(component) {
     const now = Date.now();
-    return (now - ultimaChamadaJira[component]) >= 10000; // 10 segundos - CORRIGIDO: ultimaChamadaJira
+    return (now - ultimaChamadaJira[component]) >= 10000;
 }
 
 setInterval(getData, 2000);
