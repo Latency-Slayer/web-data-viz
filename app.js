@@ -25,6 +25,7 @@ var alertRouter = require("./src/routes/alert");
 var jiraRouter = require("./src/routes/jira.js");
 let businessInteligenceDashboardRouter = require("./src/dashboardBryan/routes/realTimeRouter.js");
 var billingRouter = require("./src/routes/billing")
+var abandonoRouter = require("./src/routes/abandonoRoutes.js")
 
 app.use(express.json({ limit: '50mb' }));
 
@@ -42,6 +43,7 @@ app.use("/process", processRouter);
 app.use("/alert", alertRouter);
 app.use("/jira", jiraRouter);
 app.use("/bi/dashboard", businessInteligenceDashboardRouter);
+app.use("/abandono", abandonoRouter)
 
 app.listen(PORTA_APP, function () {
     console.log(`

@@ -8,7 +8,7 @@
     <script src="script/components/navBar.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
+<body onload="KPI3()">
     <nav-bar></nav-bar>
 
     <div class="dashNegocio">
@@ -47,6 +47,20 @@
 </body>
 </html>
 <script>
+
+    function KPI3() {
+        fetch("/abandono/buscarKPI3", {
+            method:"GET", 
+            headers:{
+                "Content-Type": "application/json"
+            }
+        }).then((res) => {
+            return res.json()
+        })
+        .then((res) => {
+            console.log(res)
+        })
+    }
 
     const ctx = document.getElementById('chartBar');
 
