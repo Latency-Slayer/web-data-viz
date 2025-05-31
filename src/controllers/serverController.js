@@ -42,11 +42,18 @@ function getAlertsPerServer(req, res){
     })
 }
 
+function getChamadosSemResponsavel(req, res){
+    serverModel.getChamadosSemResponsavel().then((resultado) => {
+        res.status(200).json(resultado);
+    })
+}
+
 module.exports = {
     registerServer,
     getServerComponentsData,
     getServerBytagName,
     listarServer,
     getLimitComponent,
-    getAlertsPerServer
+    getAlertsPerServer,
+    getChamadosSemResponsavel
 };

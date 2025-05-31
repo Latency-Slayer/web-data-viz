@@ -11,7 +11,7 @@
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
 
-<body onload="atualizarChamados(), alertasPorServidor()">
+<body onload="atualizarChamados(), alertasPorServidor(), getChamadosSemReponsavel()">
   <nav-bar></nav-bar>
 
   <main>
@@ -50,9 +50,7 @@
           Top servidores com mais ocorrências (em 7 dias)
         </div>
         <div class="kpi-infos-col">
-          <div class="label">20 ocorrências em sv01-farcry-primal</div>
-          <div class="label">20 ocorrências em sv01-farcry-primal</div>
-          <div class="label">20 ocorrências em sv01-farcry-primal</div>
+          <div class="label"><div id="sv_ocorrencias"></div> ocorrências em <div id="sv_tag_name"></div></div>
         </div>
       </div>
     </div>
@@ -77,12 +75,17 @@
 
             <div class="lista-second-grafico-linha-1">
               <table>
-                <tr>
-                  <th>ID</th>
-                  <th>Nome</th>
-                  <th>Chamado</th>
-                  <th>Status</th>
-                </tr>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Chamado</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
               </table>
             </div>
           </div>
@@ -169,23 +172,57 @@
 
   }
 
-  function alertasPorServidor() {
+function alertasPorServidor() {
     fetch('/server/getAlertsPerServer')
       .then(response => response.json())
       .then(data => {
         console.log("Alertas por servidor:", data);
 
         const tbody = document.querySelector(".lista-second-grafico-linha-2 table tbody");
+        const qtd_ocorrencias = document.getElementById("sv_ocorrencias");
+        const tag_name = document.getElementById("sv_tag_name");
+
+
+        tbody.innerHTML = "";
+
+        data.forEach(servidor => {
+
+            qtd_ocorrencias.textContent = servidor.total_alertas;
+            tag_name.textContent = servidor.tag_name;
+
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${servidor.id}</td>
+                <td>${servidor.tag_name}</td>
+                <td>${servidor.total_alertas}</td>
+                <td>${servidor.game}</td>
+            `;
+            tbody.appendChild(row);
+        });
+      })
+      .catch(error => {
+        console.error("Erro ao buscar alertas por servidor:", error);
+      });
+}
+
+
+  function getChamadosSemReponsavel(){
+     fetch('/server/getChamadosSemResponsavel')
+      .then(response => response.json())
+      .then(data => {
+        console.log("Chamados por servidor:", data);
+
+        const tbody = document.querySelector(".lista-second-grafico-linha-1 table tbody");
 
         tbody.innerHTML = "";
 
           data.forEach(servidor => {
             const row = document.createElement("tr");
             row.innerHTML = `
-            <td>${servidor.id}</td>
+            <td>${servidor.idJira}</td>
             <td>${servidor.tag_name}</td>
-            <td>${servidor.total_alertas}</td>
-            <td>${servidor.game}</td>
+            <td>${servidor.id}</td>
+            <td>${servidor.nivel}</td>
           `;
             tbody.appendChild(row);
           });
@@ -194,11 +231,6 @@
         console.error("Erro ao buscar alertas por servidor:", error);
       });
   }
-
-
-
-
-
 
   const diasDoMes = Array.from({ length: 30 }, (_, i) => `${i + 1}`);
 
