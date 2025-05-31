@@ -37,11 +37,11 @@ function getData() {
 
             if (cpuValue >= limitesMaximos.cpu) {
                 container_cpu.classList.add("Crítico");
-                registerAlert('cpu', cpuValue, limitesMaximos.cpu,cpuValue, "Crítico")
+                registerAlert('cpu', cpuValue, limitesMaximos.cpu, "Crítico") // CORRIGIDO: "Crítico"
                 // abrirChamadoJira('cpu', cpuValue, limitesMaximos.cpu,cpuValue, "Crítico");
             } else if (cpuValue <= limitesMaximos.cpu && cpuValue >= 65) {
                 container_cpu.classList.add("Atenção");
-                registerAlert('cpu', cpuValue, limitesMaximos.cpu,cpuValue, "Atenção")
+                registerAlert('cpu', cpuValue, limitesMaximos.cpu, "Atenção")
                 // abrirChamadoJira('cpu', cpuValue, limitesMaximos.cpu,cpuValue, "Atenção");
             } else {
                 container_cpu.classList.add("Normal");
@@ -49,11 +49,11 @@ function getData() {
 
             if (ramValue >= limitesMaximos.ram) {
                 container_ram.classList.add("Crítico");
-                registerAlert('ram', ramValue, limitesMaximos.ram,ramValue, "Crítico")
+                registerAlert('ram', ramValue, limitesMaximos.ram, "Crítico") // CORRIGIDO: "Crítico"
                 // abrirChamadoJira('ram', ramValue, limitesMaximos.ram,ramValue, "Crítico")
             } else if (ramValue <= limitesMaximos.ram && ramValue >= 65) {
                 container_ram.classList.add("Atenção");
-                registerAlert('ram', ramValue, limitesMaximos.ram,ramValue, "Atenção")
+                registerAlert('ram', ramValue, limitesMaximos.ram, "Atenção")
                 // abrirChamadoJira('ram', ramValue, limitesMaximos.ram,ramValue, "Atenção")
             } else {
                 container_ram.classList.add("Normal");
@@ -61,11 +61,11 @@ function getData() {
 
             if (discoValue >= limitesMaximos.storage) {
                 container_disco.classList.add("Crítico");
-                registerAlert('storage', discoValue, limitesMaximos.storage,discoValue, "Crítico")
+                registerAlert('storage', discoValue, limitesMaximos.storage, "Crítico")
                 // abrirChamadoJira('storage', discoValue, limitesMaximos.storage,discoValue, "Crítico")
             } else if (discoValue <= limitesMaximos.storage && discoValue >= 60) {
                 container_disco.classList.add("Atenção");
-                registerAlert('storage', discoValue, limitesMaximos.storage,discoValue, "Atenção")
+                registerAlert('storage', discoValue, limitesMaximos.storage, "Atenção")
                 // abrirChamadoJira('storage', discoValue, limitesMaximos.storage,discoValue, "Atenção")
             } else {
                 container_disco.classList.add("Normal");
@@ -118,11 +118,10 @@ function getLimitComponent() {
         });
 }
 
-function registerAlert(component, value, limite, nivel, fk_Metric) {
-
+function registerAlert(component, value, limite, nivel) {
     let mensagem = "";
     const dateAlert = new Date();
-    const date = formatData(dateAlert)
+    const date = formatData(dateAlert);
 
     if (nivel === "Crítico") {
         mensagem = `O componente ${component.toUpperCase()} ultrapassou o limite. Valor atual: ${value}%, Limite: ${limite}%`;
@@ -130,38 +129,33 @@ function registerAlert(component, value, limite, nivel, fk_Metric) {
         mensagem = `O componente ${component.toUpperCase()} está próximo do limite. Valor atual: ${value}%, Limite: ${limite}%`;
     }
 
-    if (component == "cpu") {
+    let fk_Metric;
+    if (component === "cpu") {
         fk_Metric = 5;
-    } else if (component == "ram") {
+    } else if (component === "ram") {
         fk_Metric = 3;
-    } else {
+    } else if (component === "storage") {
         fk_Metric = 2;
     }
 
+    const payload = {
+        status: "aberto",
+        dateAlert: date,
+        mensage: mensagem,  
+        exceeded_limit: limite,
+        valor: value,
+        fk_Metric: fk_Metric,
+        nivel: nivel
+    };
+
     fetch("/alert/registerAlert", {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            status: "aberto",
-            dateAlert: date,
-            mensage: mensagem,
-            exceeded_limit: limite,
-            valor: value,
-            fk_Metric: fk_Metric,
-            nivel: nivel
-        })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
     })
-        .then(function (resposta) {
-            return resposta.json();
-        })
-        .then(function (json) {
-            console.log("Alerta registrado:", json);
-        })
-        .catch(function (erro) {
-            console.error("Erro ao registrar alerta:", erro);
-        });
+    .then(res => res.json())
+    .then(json => console.log("Alerta registrado:", json))
+    .catch(err => console.error("Erro ao registrar alerta:", err));
 }
 
 function formatData(date) {
@@ -184,6 +178,38 @@ function getAlerts() {
         .catch(err => console.error('Erro ao buscar total de alertas:', err));
 }
 
+function getAlertsPorDia() {
+    fetch("/alert/getAlertsPorDia", {
+        method: "GET",
+    }).then(res => res.json())
+        .then(data => {
+
+            const semana = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
+            const contagemPorDia = [0, 0, 0, 0, 0, 0, 0]; 
+
+            data.forEach(item => {
+                const dataObj = new Date(item.data_criacao);
+                const diaSemana = dataObj.getDay(); // 0 (Dom) a 6 (Sab)
+                contagemPorDia[diaSemana] += item.total_criados;
+            });
+
+            console.log("Contagem por dia da semana:", contagemPorDia);
+
+            const totalAlertas = contagemPorDia.reduce((sum, qtd) => sum + qtd, 0);
+            document.getElementById('qtd_alerts').textContent = totalAlertas;
+
+            // Atualiza o gráfico
+            barAlert.updateSeries([{
+                name: "Quantidade de Alertas",
+                data: contagemPorDia,
+                color: "#44395F"
+            }]);
+
+        })
+        .catch(err => console.error('Erro ao buscar total de alertas:', err));
+}
+
+
 function abrirChamadoJira(component, value, limite, nivel) {
     let mensagem = "";
     if (nivel === "Crítico") {
@@ -193,7 +219,6 @@ function abrirChamadoJira(component, value, limite, nivel) {
     } else {
         mensagem = `O componente ${component.toUpperCase()} está em situação anormal. Valor atual: ${value}%, Limite: ${limite}%`;
     }
-
 
     fetch('/jira/criar-chamado', {
         method: 'POST',
@@ -213,7 +238,7 @@ function abrirChamadoJira(component, value, limite, nivel) {
 
 function canOpenJiraCall(component) {
     const now = Date.now();
-    return (now - lastJiraCall[component]) >= 10000; // 10 segundos
+    return (now - ultimaChamadaJira[component]) >= 10000; // 10 segundos - CORRIGIDO: ultimaChamadaJira
 }
 
 setInterval(getData, 2000);

@@ -11,4 +11,8 @@ router.get("/getAlerts", function (req, res) {
     alertController.getAlerts(req, res)
 })
 
+router.get("/getAlertsPorDia", function (req, res) {
+    alertController.getAlertsPorDia(req, res)
+})
+
 module.exports = router;

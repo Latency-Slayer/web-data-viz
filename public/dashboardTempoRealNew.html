@@ -16,7 +16,7 @@
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
 
-<body onload="getData(),getProcess(),getLimitComponent(), getAlerts()">
+<body onload="getData(),getProcess(),getLimitComponent(), getAlerts(), getAlertsPorDia()">
     <main>
         <nav-bar></nav-bar>
 
@@ -141,45 +141,6 @@
                 getProcess();
             });
         });
-
-
-        // Barra de Alertas
-        const barAlert = "";
-        new ApexCharts(
-            document.querySelector("#grafico-alerta"),
-            {
-                series: [
-                    {
-                        name: "Quantidade de Alertas",
-                        type: "bar",
-                        data: [12, 20, 10, 5, 30, 40, 35],
-                        color: "#44395F",
-                    },
-                ],
-                chart: {
-                    height: 200,
-                    toolbar: {
-                        show: true,
-                    },
-                },
-                dataLabels: {
-                    enabled: false,
-                },
-                xaxis: {
-                    categories: ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"]
-                },
-                grid: {
-                    show: false,
-                },
-
-                yaxis: {
-
-                },
-
-            }
-        ).render();
-
-        //barAlert.render()
 
         function dateTimeCategories() {
             const dates = new Array();
@@ -311,6 +272,42 @@
         )
 
         chartRAM.render();
+
+        // Barra de Alertas
+        const barAlert = new ApexCharts(
+            document.querySelector("#grafico-alerta"),
+            {
+                series: [
+                    {
+                        name: "Quantidade de Alertas",
+                        type: "bar",
+                        data: [0, 0, 0, 0, 0, 0, 0],
+                        color: "#44395F",
+                    },
+                ],
+                chart: {
+                    height: 200,
+                    toolbar: {
+                        show: true,
+                    },
+                },
+                dataLabels: {
+                    enabled: false,
+                },
+                xaxis: {
+                    categories: ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado", "Domingo"]
+                },
+                grid: {
+                    show: false,
+                },
+
+                yaxis: {
+                    min: 0
+                },
+
+            }
+        )
+        barAlert.render()
     </script>
     <script src="./script/hardware-fetch.js"></script>
     <script src="./script/process-fetch.js"></script>
