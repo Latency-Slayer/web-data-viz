@@ -1,358 +1,204 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard | Latency Slayer</title>
-    <script src="script/components/navBar.js"></script>
-    <script src="script/components/kpi.js"></script>
-    <link rel="stylesheet" href="style/dashboardManagement.css" />
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-  </head>
-  <body onload="getChamados()">
-    <nav-bar></nav-bar>
 
-    <main>
-      <div class="kpis">
-        <div class="kpi">
-          <div class="titulo-kpi">Chamados abertos sem responsável</div>
-          <div class="kpi-infos">
-            <div class="kpi-numeros" id="kpi-chamados-abertos"></div>
-            <div class="kpi-mensagem">Chamados em aberto sem responsável</div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard | Latency Slayer</title>
+  <script src="script/components/navBar.js"></script>
+  <script src="script/components/kpi.js"></script>
+  <link rel="stylesheet" href="style/dashboardManagement.css" />
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+</head>
+
+<body onload="atualizarChamados(), alertasPorServidor()">
+  <nav-bar></nav-bar>
+
+  <main>
+    <div class="kpis">
+      <div class="kpi">
+        <div class="titulo-kpi">Chamados abertos sem responsável</div>
+        <div class="kpi-infos">
+          <div class="kpi-numeros" id="kpi-chamados-abertos-sem-atribuicao"></div>
+          <div class="kpi-mensagem">Chamados em aberto sem responsável</div>
+        </div>
+
+        <div class="rodape">
+          <div class="label">
+            <div id="porcentagemKpiSemAtribuicao"></div> do total de chamados (total de <div id="kpi-chamados-abertos">
+            </div>)
           </div>
+          <img class="tooltip" src="img/tooltip.png" />
+        </div>
+      </div>
 
-          <div class="rodape">
-            <div class="label">60% do total de chamados (total de 20)</div>
-            <img class="tooltip" src="img/tooltip.png" />
+      <div class="kpi">
+        <div class="titulo-kpi">Colaboradores sem chamados atribuídos</div>
+        <div class="kpi-infos">
+          <div class="kpi-numeros">20</div>
+          <div class="kpi-mensagem">colaboradores estão sem atribuição</div>
+        </div>
+
+        <div class="rodape">
+          <div class="label">60% do total de chamados (total de 20)</div>
+          <img class="tooltip" src="img/tooltip.png" />
+        </div>
+      </div>
+
+      <div class="kpi">
+        <div class="titulo-kpi">
+          Top servidores com mais ocorrências (em 7 dias)
+        </div>
+        <div class="kpi-infos-col">
+          <div class="label">20 ocorrências em sv01-farcry-primal</div>
+          <div class="label">20 ocorrências em sv01-farcry-primal</div>
+          <div class="label">20 ocorrências em sv01-farcry-primal</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="graficos">
+      <div class="graficos-linha-1">
+        <div class="first-grafico-linha-1">
+          <div class="box-first-grafico-linha-1">
+            <div class="titulo-first-grafico-linha-1">
+              Número de chamados do mês
+            </div>
+
+            <div id="chart"></div>
           </div>
         </div>
 
-        <div class="kpi">
-          <div class="titulo-kpi">Colaboradores sem chamados atribuídos</div>
-          <div class="kpi-infos">
-            <div class="kpi-numeros">1212</div>
-            <div class="kpi-mensagem">colaboradores estão sem atribuição</div>
-          </div>
+        <div class="second-grafico-linha-1">
+          <div class="box-second-grafico-linha-1">
+            <div class="titulo-second-grafico-linha-1">
+              Lista de chamados sem responsável
+            </div>
 
-          <div class="rodape">
-            <div class="label">60% do total de chamados (total de 20)</div>
-            <img class="tooltip" src="img/tooltip.png" />
-          </div>
-        </div>
-
-        <div class="kpi">
-          <div class="titulo-kpi">
-            Top servidores com mais ocorrências (em 7 dias)
-          </div>
-          <div class="kpi-infos-col">
-            <div class="label">40% do total de colaboradores (total de 50)</div>
-            <div class="label">40% do total de colaboradores (total de 50)</div>
-            <div class="label">40% do total de colaboradores (total de 50)</div>
+            <div class="lista-second-grafico-linha-1">
+              <table>
+                <tr>
+                  <th>ID</th>
+                  <th>Nome</th>
+                  <th>Chamado</th>
+                  <th>Status</th>
+                </tr>
+              </table>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="graficos">
-        <div class="graficos-linha-1">
-          <div class="first-grafico-linha-1">
-            <div class="box-first-grafico-linha-1">
-              <div class="titulo-first-grafico-linha-1">
-                Número de chamados do mês
-              </div>
-
-              <div id="chart"></div>
+      <div class="graficos-linha-2">
+        <div class="first-grafico-linha-2">
+          <div class="box-first-grafico-linha-2">
+            <div class="titulo-first-grafico-linha-2">
+              Lista de responsável sem atribuição
             </div>
-          </div>
 
-          <div class="second-grafico-linha-1">
-            <div class="box-second-grafico-linha-1">
-              <div class="titulo-second-grafico-linha-1">
-                Lista de chamados sem responsável
-              </div>
-
-              <div class="lista-second-grafico-linha-1">
-                <table>
-                  <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Chamado</th>
-                    <th>Status</th>
-                  </tr>
-
-                  <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Chamado</th>
-                    <th>Status</th>
-                  </tr>
-
-                  <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Chamado</th>
-                    <th>Status</th>
-                  </tr>
-
-                  <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Chamado</th>
-                    <th>Status</th>
-                  </tr>
-
-                  <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Chamado</th>
-                    <th>Status</th>
-                  </tr>
-
-                  <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Chamado</th>
-                    <th>Status</th>
-                  </tr>
-
-                  <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Chamado</th>
-                    <th>Status</th>
-                  </tr>
-
-                  <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Chamado</th>
-                    <th>Status</th>
-                  </tr>
-
-                  <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Chamado</th>
-                    <th>Status</th>
-                  </tr>
-
-                  <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Chamado</th>
-                    <th>Status</th>
-                  </tr>
-
-                  <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Chamado</th>
-                    <th>Status</th>
-                  </tr>
-                </table>
-              </div>
+            <div class="lista-first-grafico-linha-2">
+              <table>
+                <tr>
+                  <th>ID</th>
+                  <th>Nome</th>
+                  <th>Email</th>
+                  <th>Grupo</th>
+                </tr>
+              </table>
             </div>
           </div>
         </div>
-
-        <div class="graficos-linha-2">
-          <div class="first-grafico-linha-2">
-            <div class="box-first-grafico-linha-2">
-              <div class="titulo-first-grafico-linha-2">
-                Lista de responsável sem atribuição
-              </div>
-
-              <div class="lista-first-grafico-linha-2">
-                <table>
-                  <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Email</th>
-                    <th>Grupo</th>
-                  </tr>
-
-                  <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Chamado</th>
-                    <th>Status</th>
-                  </tr>
-
-                  <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Chamado</th>
-                    <th>Status</th>
-                  </tr>
-
-                  <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Chamado</th>
-                    <th>Status</th>
-                  </tr>
-
-                  <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Chamado</th>
-                    <th>Status</th>
-                  </tr>
-
-                  <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Chamado</th>
-                    <th>Status</th>
-                  </tr>
-
-                  <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Chamado</th>
-                    <th>Status</th>
-                  </tr>
-
-                  <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Chamado</th>
-                    <th>Status</th>
-                  </tr>
-
-                  <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Chamado</th>
-                    <th>Status</th>
-                  </tr>
-
-                  <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Chamado</th>
-                    <th>Status</th>
-                  </tr>
-
-                  <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Chamado</th>
-                    <th>Status</th>
-                  </tr>
-                </table>
-              </div>
+        <div class="second-grafico-linha-2">
+          <div class="box-second-grafico-linha-2">
+            <div class="titulo-second-grafico-linha-2">
+              Lista de qtd. de ocorrências dos servidores
             </div>
-          </div>
-          <div class="second-grafico-linha-2">
-            <div class="box-second-grafico-linha-2">
-              <div class="titulo-second-grafico-linha-2">
-                Lista de qtd. de ocorrências dos servidores
-              </div>
-                            
-              <div class="lista-second-grafico-linha-2">
-                <table>
+
+            <div class="lista-second-grafico-linha-2">
+              <table>
+                <thead>
                   <tr>
                     <th>ID</th>
                     <th>Tagname</th>
                     <th>Qtd.Ocorrências</th>
                     <th>Jogo</th>
                   </tr>
+                </thead>
+                <tbody>
 
-                  <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Chamado</th>
-                    <th>Status</th>
-                  </tr>
-
-                  <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Chamado</th>
-                    <th>Status</th>
-                  </tr>
-
-                  <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Chamado</th>
-                    <th>Status</th>
-                  </tr>
-
-                  <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Chamado</th>
-                    <th>Status</th>
-                  </tr>
-
-                  <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Chamado</th>
-                    <th>Status</th>
-                  </tr>
-
-                  <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Chamado</th>
-                    <th>Status</th>
-                  </tr>
-
-                  <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Chamado</th>
-                    <th>Status</th>
-                  </tr>
-
-                  <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Chamado</th>
-                    <th>Status</th>
-                  </tr>
-
-                  <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Chamado</th>
-                    <th>Status</th>
-                  </tr>
-
-                  <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Chamado</th>
-                    <th>Status</th>
-                  </tr>
-                </table>
-              </div>
+                </tbody>
+              </table>
             </div>
-
-
           </div>
+
+
         </div>
       </div>
-    </main>
-  </body>
+    </div>
+  </main>
+</body>
+
 </html>
 
 <script>
 
-   function getChamados() {
-        fetch('/jira/chamados-abertos')
-            .then(res => res.json())
-            .then(data => {
-                const kpiAbertos = document.getElementById('kpi-chamados-abertos');
-                kpiAbertos.textContent = data.length;
-            })
-            .catch(err => {
-                console.error('Erro ao buscar chamados:', err);
-                document.getElementById('chamados-container').innerHTML = '<p>Erro ao buscar chamados.</p>';
-            });
-    }
+  function atualizarChamados() {
+    fetch('/jira/chamados-abertos')
+      .then(res => res.json())
+      .then(chamados => {
+        atualizarChamadosAbertos(chamados);
+        atualizarChamadosSemAtribuicao(chamados);
+      })
+      .catch(err => console.error('Erro ao buscar chamados:', err));
+  }
+
+  function atualizarChamadosAbertos(chamados) {
+    document.getElementById('kpi-chamados-abertos').textContent = chamados.length;
+  }
+
+  function atualizarChamadosSemAtribuicao(chamados) {
+    const totalAbertos = chamados.length;
+    const chamadosSemAtribuicao = chamados.filter(c => c.fields.assignee == null).length; // pega os chamados que são nulos
+
+    document.getElementById('kpi-chamados-abertos-sem-atribuicao').textContent = chamadosSemAtribuicao;
+    const porcentagem = ((chamadosSemAtribuicao / totalAbertos) * 100).toFixed(0); // coloco em porcentagem sobre o total
+    document.getElementById('porcentagemKpiSemAtribuicao').textContent = porcentagem + "%";
+  }
+
+  function totalChamadosNoMes() {
+
+  }
+
+  function alertasPorServidor() {
+    fetch('/server/getAlertsPerServer')
+      .then(response => response.json())
+      .then(data => {
+        console.log("Alertas por servidor:", data);
+
+        const tbody = document.querySelector(".lista-second-grafico-linha-2 table tbody");
+
+        tbody.innerHTML = "";
+
+          data.forEach(servidor => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+            <td>${servidor.id}</td>
+            <td>${servidor.tag_name}</td>
+            <td>${servidor.total_alertas}</td>
+            <td>${servidor.game}</td>
+          `;
+            tbody.appendChild(row);
+          });
+      })
+      .catch(error => {
+        console.error("Erro ao buscar alertas por servidor:", error);
+      });
+  }
+
+
+
+
+
 
   const diasDoMes = Array.from({ length: 30 }, (_, i) => `${i + 1}`);
 

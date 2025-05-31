@@ -23,6 +23,10 @@ router.get("/getLimitComponent", (req, res) => {
     serverController.getLimitComponent(req, res);
 });
 
+router.get("/getAlertsPerServer", (req, res) => {
+    serverController.getAlertsPerServer(req, res);
+});
+
 router.get("/getLimitComponent/:motherboardid", (req, res) => {
     serverController.getLimitComponent(req.params.motherboardid, res);
 });

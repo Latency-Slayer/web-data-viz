@@ -91,6 +91,17 @@ function listarServer(){
     return database.executar(instrucaoSql)
  }
 
+  function getAlertsPerServer(){
+    var instrucaoSql = 
+    `SELECT s.id_server as id,s.tag_name as tag_name,COUNT(a.id_alert) AS total_alertas,s.game as game FROM server s
+    JOIN component c ON s.id_server = c.fk_server
+    JOIN metric m ON c.id_component = m.fk_component
+    JOIN alert a ON m.id_metric = a.fk_metric
+    GROUP BY s.id_server, s.tag_name, s.game;`
+
+    return database.executar(instrucaoSql)
+ }
+
 
 async function getServerComponentsData(motherBoardId) {
         const [server] = await database.executar(
@@ -125,5 +136,6 @@ module.exports = {
     getServerComponentsData,
     getServerBytagName,
     listarServer,
-    getLimitComponent
+    getLimitComponent,
+    getAlertsPerServer
 };

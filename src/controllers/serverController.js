@@ -36,11 +36,17 @@ function getLimitComponent(req, res){
         res.status(200).json(resultado);
     })
 }
+function getAlertsPerServer(req, res){
+    serverModel.getAlertsPerServer().then((resultado) => {
+        res.status(200).json(resultado);
+    })
+}
 
 module.exports = {
     registerServer,
     getServerComponentsData,
     getServerBytagName,
     listarServer,
-    getLimitComponent
+    getLimitComponent,
+    getAlertsPerServer
 };

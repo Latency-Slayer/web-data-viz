@@ -338,6 +338,13 @@ table {
     width: 100%;
 }
 
+thead th,
+tbody td {
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+
   * {
     scrollbar-width: thin;
     scrollbar-color: #4c1d95 #ffffff;
