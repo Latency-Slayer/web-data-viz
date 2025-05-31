@@ -9,7 +9,9 @@ async function registerAlert(req, res) {
             req.body.exceeded_limit,
             req.body.valor,
             req.body.fk_Metric,
-            req.body.nivel)
+            req.body.nivel,
+            req.body.idJira
+        )
 
         res.status(201).json({ message: "Alert successfully register." })
     } catch (err) {

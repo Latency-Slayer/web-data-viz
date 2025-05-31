@@ -1,12 +1,12 @@
 var database = require("../database/config")
 
-function registerAlert(status, dateAlert, mensage, exceeded_limit, valor, fk_Metric, nivel) {
+function registerAlert(status, dateAlert, mensage, exceeded_limit, valor, fk_Metric, nivel, idJira) {
     var instrucaoSql = `
-    INSERT INTO alert (status, dateAlert, mensage, exceeded_limit, valor, fk_Metric, nivel)
-    VALUES (?, ?, ?, ?, ?, ?, ?);
+    INSERT INTO alert (status, dateAlert, mensage, exceeded_limit, valor, fk_Metric, nivel, idJira)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?);
 `;
 
-    return database.executar(instrucaoSql, [status, dateAlert, mensage, exceeded_limit, valor, fk_Metric, nivel]);
+    return database.executar(instrucaoSql, [status, dateAlert, mensage, exceeded_limit, valor, fk_Metric, nivel, idJira]);
 }
 
 
