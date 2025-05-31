@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="style/dashboardManagement.css" />
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
   </head>
-  <body>
+  <body onload="getChamados()">
     <nav-bar></nav-bar>
 
     <main>
@@ -17,7 +17,7 @@
         <div class="kpi">
           <div class="titulo-kpi">Chamados abertos sem responsável</div>
           <div class="kpi-infos">
-            <div class="kpi-numeros">12</div>
+            <div class="kpi-numeros" id="kpi-chamados-abertos"></div>
             <div class="kpi-mensagem">Chamados em aberto sem responsável</div>
           </div>
 
@@ -28,10 +28,10 @@
         </div>
 
         <div class="kpi">
-          <div class="titulo-kpi">Colaboradores sem atribuição</div>
+          <div class="titulo-kpi">Colaboradores sem chamados atribuídos</div>
           <div class="kpi-infos">
             <div class="kpi-numeros">1212</div>
-            <div class="kpi-mensagem">Chamados em aberto sem responsável</div>
+            <div class="kpi-mensagem">colaboradores estão sem atribuição</div>
           </div>
 
           <div class="rodape">
@@ -248,15 +248,14 @@
               <div class="titulo-second-grafico-linha-2">
                 Lista de qtd. de ocorrências dos servidores
               </div>
-              
-              
+                            
               <div class="lista-second-grafico-linha-2">
                 <table>
                   <tr>
                     <th>ID</th>
-                    <th>Nome</th>
-                    <th>Email</th>
-                    <th>Grupo</th>
+                    <th>Tagname</th>
+                    <th>Qtd.Ocorrências</th>
+                    <th>Jogo</th>
                   </tr>
 
                   <tr>
@@ -341,6 +340,20 @@
 </html>
 
 <script>
+
+   function getChamados() {
+        fetch('/jira/chamados-abertos')
+            .then(res => res.json())
+            .then(data => {
+                const kpiAbertos = document.getElementById('kpi-chamados-abertos');
+                kpiAbertos.textContent = data.length;
+            })
+            .catch(err => {
+                console.error('Erro ao buscar chamados:', err);
+                document.getElementById('chamados-container').innerHTML = '<p>Erro ao buscar chamados.</p>';
+            });
+    }
+
   const diasDoMes = Array.from({ length: 30 }, (_, i) => `${i + 1}`);
 
   const chamadosPorDia = [
@@ -423,4 +436,6 @@
 
   const chart = new ApexCharts(document.querySelector("#chart"), options);
   chart.render();
+
+
 </script>
