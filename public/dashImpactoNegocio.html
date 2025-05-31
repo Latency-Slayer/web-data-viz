@@ -60,7 +60,7 @@
       }],
     },
     options: {
-        backgroundColor: ['#8e73d2', '#56408C', '#8e73d2', '#8e73d2', '#8e73d2', '#8e73d2', '#8e73d2'],
+        backgroundColor: ['#a589eec1', '#56408C', '#a589eec1', '#a589eec1', '#a589eec1', '#a589eec1', '#a589eec1'],
         borderRadius: 5,
         plugins: {
             legend: {
@@ -102,12 +102,11 @@
   const ctx2 = document.getElementById('chartArea');
 
   const data = {
-            labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+            labels: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100],
             datasets: [{
-                label: 'Vendas (R$)',
-                data: [4000, 3500, 5000, 4500, 6000, 5500, 7000, 6500, 8000, 7500, 9000, 8500],
-                backgroundColor: 'rgba(54, 162, 235, 0.3)',
-                borderColor: 'rgba(54, 162, 235, 1)',
+                data: [0, 1, 2, 3, 4, 6, 8, 11, 15, 20, 26, 33, 42, 52, 63, 75, 86, 94, 98, 99.5, 100],
+                backgroundColor: '#a589eec1',
+                borderColor: '#56408C',
                 borderWidth: 2,
                 fill: true,
                 tension: 0.4
@@ -130,20 +129,50 @@
                         beginAtZero: true,
                         ticks: {
                             callback: function(value) {
-                                return 'R$ ' + value.toLocaleString();
+                                return value.toLocaleString();
+                            },
+                            color: 'black',
+                            font: {
+                                weight: 'bold'
+                            },
+                        },
+                        title: {
+                            display: true,
+                            text: 'Abandono de Jogos',
+                            color: 'black',
+                            font: {
+                                size: 18,
+                                weight: 'bold'
                             }
                         }
-                    }
+                    },
+                     x: {
+                        ticks: {
+                            color: 'black',
+                            font: {
+                                size: 13.7,
+                                weight: 'bolder' 
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Sobrecarga de Servidores',
+                            color: 'black',
+                            font: {
+                                size: 18,
+                                weight: 'bold'
+                            }
+                        }
+                    },
                 },
                 elements: {
                     point: {
-                        radius: 5,
-                        hoverRadius: 8
+                        radius: 0,
+                        hoverRadius: 0
                     }
                 }
             }
         };
-
         // Criar o gráfico
         const areaChart = new Chart(ctx2, config);
-</script>
+</script>            
