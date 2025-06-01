@@ -140,22 +140,22 @@
 
                     card.innerHTML = `
                         <div class="linha1">
-                            <span>${chamado.key} - ${chamado.fields.summary}</span>
+                            <span><strong>${chamado.key}</strong> - &nbsp; ${chamado.fields.summary}</span>
                         </div>
                         <div class="linha2">    
                             <div class="coluna_esquerda">
-                                <span><strong>ID: </strong>${chamado.id}</span>
+                                <span><strong>ID:</strong>&nbsp;${chamado.id}</span>
                             </div>
                             <div class="coluna_direita">
-                                <span><strong>Data de Criação:</strong> ${criado}</span>
+                                <span><strong>Data de Criação:</strong>&nbsp;${criado}</span>
                             </div>
                         </div>
                         <div class="linha3">    
                             <div class="coluna_esquerda">
-                                <span><strong>Responsável:</strong> ${chamado.fields.assignee ? chamado.fields.assignee.displayName : 'Não atribuído'}</span>
+                                <span><strong>Responsável:</strong>&nbsp;${chamado.fields.assignee ? chamado.fields.assignee.displayName : 'Não atribuído'}</span>
                             </div>
                             <div class="coluna_direita">
-                                <span><strong>Status:</strong> <span class="status">${chamado.fields.status.name}
+                                <span><strong>Status:</strong> <span class="status">&nbsp;${chamado.fields.status.name}
                                     - ${chamadosForaDoTempo.includes(chamado) ? 'Fora do Tempo' : 'Em Tempo'}</span></span>
                             </div>
                         </div>
