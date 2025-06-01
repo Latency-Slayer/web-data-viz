@@ -16,7 +16,7 @@
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
 
-<body onload="getData(),getProcess(),getLimitComponent(), getAlerts(), getAlertsPorDia()">
+<body>
     <main>
         <nav-bar></nav-bar>
 
@@ -105,10 +105,13 @@
     </main>
 
     <script>
-        const params = new URLSearchParams(window.location.search);
-        const tagName = params.get("tag");
 
         document.addEventListener("DOMContentLoaded", () => {
+            const params = new URLSearchParams(window.location.search);
+            const tagName = params.get("tag");
+            console.log("motherboard: ", tagName)
+            window.motherboard_id = tagName;
+
             const h1 = document.getElementById("titulo");
             h1.textContent = "Servidor " + tagName;
             const cpuHeader = document.getElementById("cpu-desc");
@@ -140,6 +143,12 @@
                 }
                 getProcess();
             });
+
+            getData();
+            getProcess();
+            getLimitComponent();
+            getAlerts();
+            getAlertsPorDia();
         });
 
         function dateTimeCategories() {

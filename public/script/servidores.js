@@ -72,6 +72,8 @@ function getLimitComponent(motherboard_id) {
                 const el = document.getElementById(item.type + "_limit");
                 if (el) {
                     el.textContent = item.max_limit + "%";
+                } else {
+                    console.log("Erro de chamada")
                 }
             });
         })

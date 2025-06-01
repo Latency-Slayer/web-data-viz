@@ -127,12 +127,17 @@ function getLimitComponent() {
 function registerAlert(component, value, limite, nivel, idJira) {
     let mensagem = "";
     const dateAlert = new Date();
+
+    const params = new URLSearchParams(window.location.search);
+    const tagName = params.get("tag");
+    console.log("motherboard: ", tagName)
+    
     const date = formatData(dateAlert);
 
     if (nivel === "Crítico") {
-        mensagem = `O componente ${component.toUpperCase()} ultrapassou o limite. Valor atual: ${value}%, Limite: ${limite}%`;
+        mensagem = `O componente ${component.toUpperCase()} ultrapassou o limite. Valor atual: ${value}%, Limite: ${limite}% no servidor ${tagName}`;
     } else if (nivel === "Atenção") {
-        mensagem = `O componente ${component.toUpperCase()} está próximo do limite. Valor atual: ${value}%, Limite: ${limite}%`;
+        mensagem = `O componente ${component.toUpperCase()} está próximo do limite. Valor atual: ${value}%, Limite: ${limite}% no servidor ${tagName}`;
     }
 
     let fk_Metric;
@@ -218,53 +223,54 @@ function getAlertsPorDia() {
 
 
 function abrirChamadoJira(component, value, limite, nivel) {
+    const params = new URLSearchParams(window.location.search);
+    const tagName = params.get("tag");
+    console.log("motherboard: ", tagName)
+
     let mensagem = "";
     if (nivel === "Crítico") {
-        mensagem = `O componente ${component.toUpperCase()} ultrapassou o limite. Valor atual: ${value}%, Limite: ${limite}%`;
+        mensagem = `O componente ${component.toUpperCase()} ultrapassou o limite. Valor atual: ${value}%, Limite: ${limite}% no Servidor ${tagName}`;
     } else if (nivel === "Atenção") {
-        mensagem = `O componente ${component.toUpperCase()} está próximo do limite. Valor atual: ${value}%, Limite: ${limite}%`;
-    } else {
-        mensagem = `O componente ${component.toUpperCase()} está em situação anormal. Valor atual: ${value}%, Limite: ${limite}%`;
+        mensagem = `O componente ${component.toUpperCase()} está próximo do limite. Valor atual: ${value}%, Limite: ${limite}% no Servidor ${tagName}`;
     }
 
     return fetch('/jira/criar-chamado', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            summary: `Alerta : ${component.toUpperCase()} - ${value}% ${nivel}`,
+            summary: `Alerta : ${component.toUpperCase()} - ${value}% ${nivel} no Servidor ${tagName}`,
             description: mensagem,
             assignee: "712020:46bc3ab4-b0da-4a73-9cd5-8b395c3e3678"
         })
     })
-    .then(res => {
-        if (!res.ok) {
-            console.error(`Erro HTTP: ${res.status}`);
-            return res.text().then(text => {
-                console.error('Detalhes do erro:', text);
-                throw new Error(text);
-            });
-        }
-        if (res.status === 204) {
-            console.log('Chamado criado, mas sem conteúdo.');
+        .then(res => {
+            if (!res.ok) {
+                console.error(`Erro HTTP: ${res.status}`);
+                return res.text().then(text => {
+                    console.error('Detalhes do erro:', text);
+                    throw new Error(text);
+                });
+            }
+            if (res.status === 204) {
+                console.log('Chamado criado, mas sem conteúdo.');
+                return null;
+            }
+            return res.json();
+        })
+        .then(data => {
+            if (data) {
+                console.log('Chamado criado com ID:', data.data.id);
+                return data.data.id;
+            } else {
+                console.warn('Nenhum ID retornado do JIRA:', data);
+                return null;
+            }
+        })
+        .catch(err => {
+            console.error('Erro ao criar chamado:', err);
             return null;
-        }
-        return res.json();
-    })
-    .then(data => {
-        if (data) { 
-            console.log('Chamado criado com ID:', data.data.id);
-            return data.data.id;
-        } else {
-            console.warn('Nenhum ID retornado do JIRA:', data);
-            return null;
-        }
-    })
-    .catch(err => {
-        console.error('Erro ao criar chamado:', err);
-        return null;
-    });
+        });
 }
-
 
 
 function canOpenJiraCall(component) {
