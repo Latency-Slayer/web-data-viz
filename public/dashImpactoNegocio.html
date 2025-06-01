@@ -10,12 +10,14 @@
     <script src="https://unpkg.com/slim-select@latest/dist/slimselect.min.js"></script>
     <link href="https://unpkg.com/slim-select@latest/dist/slimselect.css" rel="stylesheet"></link>
 </head>
-<body onload="KPI3()">
+<body>
     <nav-bar></nav-bar>
 
     <div class="dashNegocio">
         <div class="filtros">
-            <select id="iptpesquisa" onchange="pesquisaJogo()"></select>
+            <div class="filtroPesquisa">
+                <select id="iptpesquisa" onchange="pesquisaJogo()"></select>
+            </div>
             <h1 id="titulo">Jogo</h1>
         </div>
 
@@ -30,7 +32,8 @@
                     </div>
                     <div class="container">
                         <span>Incidentes nos Últimos 30 dias</span>
-                        <span id="incidente"></span>
+                        <span class="valor" id="incidente"></span>
+                        <div class="legenda" id="legendaincidente"></div>
                     </div>
                 </div>
             </div>
@@ -41,7 +44,7 @@
                     <canvas id="chartBar"></canvas>
                 </div>
                 <div id="chart2" class="Grafico">
-                     <h1>Impacto da Sobrecarga de Servidores na Retenção de Jogadores</h1>
+                     <h1>Impacto da Qtd. de Incidentes na Retenção de Jogadores</h1>
                     <canvas id="chartArea"></canvas>
                 </div>
             </div>
@@ -62,6 +65,7 @@
             return res.json()
         }).then((res) => {
             const vetorLista = [];
+            console.log(res)
             for (let i = 0; i < res.length; i++) {
                 console.log(res[i])
                 vetorLista.push({
@@ -72,22 +76,6 @@
             selectLista.setData(vetorLista) 
         })
         console.log('a')
-    }
-
-    function KPI3() {
-        fetch("/abandono/buscarKPI3", {
-            method:"GET", 
-            headers:{
-                "Content-Type": "application/json"
-            }
-        }).then((res) => {
-            return res.json()
-        })
-        .then((res) => {
-            console.log(res)
-            titulo.innerHTML = res[0].game
-            incidente.innerHTML = res[0].qtd
-        })
     }
 
     function pesquisaJogo() {
@@ -106,6 +94,11 @@
             }
             titulo.innerHTML = res.select[0].game
             incidente.innerHTML = res.select[0].qtd
+            let mensagem = "&#8593"
+            if((((res.select[0].qtd - res.selectmespass[0].qtd) / res.selectmespass[0].qtd) * 100) < 0) {
+                mensagem = "&#8595"
+            }
+            legendaincidente.innerHTML = `<span style="display:flex; text-align:center"> ${mensagem} ${Math.abs((((res.select[0].qtd - res.selectmespass[0].qtd) / res.selectmespass[0].qtd) * 100)).toFixed(2)}% em relação ao mês passado </span>`
         })
     }
 
@@ -217,7 +210,7 @@
                         },
                         title: {
                             display: true,
-                            text: 'Sobrecarga de Servidores',
+                            text: 'Qtd. de Incidentes',
                             color: 'black',
                             font: {
                                 size: 18,

@@ -11,26 +11,24 @@
 }
 
 .filtros {
-    width: 50%;
+    width: 650px;
     margin: 15px;
+    height: 25px;
     display: flex;
     justify-content: space-between;
 }
 
-.filtros input {
-    border: none;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.50);
-    width: 15rem;
-    height: 35px;
+.filtroPesquisa {
+    width: 400px;
+    height: 15px;
     font-size: 18px;
-    border-radius: 5px;
     color: #56408C;
     padding: 0 0 0 5px;
 }
 
 .filtros h1 {
     font-size: 25px;
-     color: #56408C;
+    color: #56408C;
 }
 
 .metricas {
@@ -63,6 +61,18 @@
 .container span {
     display: flex;
     justify-content: center;
+    font-weight: 600;
+}
+
+.container .valor {
+    color: #56408C;
+    font-weight: 700;
+    font-size: 50px;
+}
+
+.container .legenda {
+    font-size: 20px;
+    margin-top: 10px;
 }
 
 .Graficos {

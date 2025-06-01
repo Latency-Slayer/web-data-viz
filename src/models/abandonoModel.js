@@ -42,11 +42,38 @@ order by qtd desc;`
 }
 
 function listaJogos(id_company) {
-    const instrucaoSql = `select server.game from server
+    const instrucaoSql = `select server.game, count(id_alert) AS qtd from alert
+join metric on fk_metric = id_metric
+join component on fk_component = id_component
+join server on fk_server = id_server
 join company on fk_company = id_company
-where company.id_company = ${id_company}
+where company.id_company like ${id_company}
 group by game
-order by game;`
+order by qtd desc;`
+
+    return database.executar(instrucaoSql)
+}
+
+function buscarKPI2() {
+    const instrucaoSql = ``
+
+    return database.executar(instrucaoSql)
+}
+
+function buscarKPI1() {
+    const instrucaoSql = ``
+
+    return database.executar(instrucaoSql)
+}
+
+function grafico1() {
+    const instrucaoSql = ``
+
+    return database.executar(instrucaoSql)
+}
+
+function grafico2() {
+    const instrucaoSql = ``
 
     return database.executar(instrucaoSql)
 }
@@ -55,5 +82,9 @@ module.exports = {
     buscarKPI3, 
     pesquisaJogo,
     legendaIncidente,
-    listaJogos
+    listaJogos,
+    buscarKPI2,
+    buscarKPI1,
+    grafico1,
+    grafico2
 }
