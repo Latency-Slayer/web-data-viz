@@ -9,6 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://unpkg.com/slim-select@latest/dist/slimselect.min.js"></script>
     <link href="https://unpkg.com/slim-select@latest/dist/slimselect.css" rel="stylesheet"></link>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 </head>
 <body>
     <nav-bar></nav-bar>
@@ -94,11 +95,15 @@
             }
             titulo.innerHTML = res.select[0].game
             incidente.innerHTML = res.select[0].qtd
-            let mensagem = "&#8593"
+            let mensagemIcone = '<i class="bi bi-arrow-up"></i>'
+            let mensagemCor = "red"
+
             if((((res.select[0].qtd - res.selectmespass[0].qtd) / res.selectmespass[0].qtd) * 100) < 0) {
-                mensagem = "&#8595"
+                mensagemIcone = '<i class="bi bi-arrow-down"></i>'
+                mensagemCor = "green"
             }
-            legendaincidente.innerHTML = `<span style="display:flex; text-align:center"> ${mensagem} ${Math.abs((((res.select[0].qtd - res.selectmespass[0].qtd) / res.selectmespass[0].qtd) * 100)).toFixed(2)}% em relação ao mês passado </span>`
+            
+            legendaincidente.innerHTML = `<span style="color:${mensagemCor}">${mensagemIcone} ${Math.abs((((res.select[0].qtd - res.selectmespass[0].qtd) / res.selectmespass[0].qtd) * 100)).toFixed(2)}% em relação ao mês passado </span>`
         })
     }
 
