@@ -155,23 +155,13 @@
                                 <span><strong>Responsável:</strong>&nbsp;${chamado.fields.assignee ? chamado.fields.assignee.displayName : 'Não atribuído'}</span>
                             </div>
                             <div class="coluna_direita">
-                                <span><strong>Status:</strong> <span class="status">&nbsp;${chamado.fields.status.name}
-                                    - ${chamadosForaDoTempo.includes(chamado) ? 'Fora do Tempo' : 'Em Tempo'}</span></span>
+                                <span><strong>Status:</strong><span class="status">&nbsp;${chamado.fields.status.name}
+                                    - &nbsp;${chamadosForaDoTempo.includes(chamado) ? '<strong><span style="color: red;">Fora do Tempo</span></strong>' : '<strong><span style="color: blue;">Em Tempo</span></strong>'}</span></span>
                             </div>
                         </div>
                         <div class="linha4">
                             <span><strong>Descrição:</strong> ${descricao}</span>
                         </div>`;
-
-                    const statusSpan = card.querySelector(".status");
-                    if (chamadosForaDoTempo.includes(chamado)) {
-                        statusSpan.style.color = "red";
-                        statusSpan.style.fontWeight = "bold";
-                    } else if (status === "em análise") {
-                        statusSpan.style.color = "gold";
-                    } else if (status === "pendente") {
-                        statusSpan.style.color = "orange";
-                    }
 
                     if (chamadosForaDoTempo.includes(chamado)) {
                         container.appendChild(card); // Coluna da esquerda
