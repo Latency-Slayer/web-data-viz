@@ -95,7 +95,7 @@ main {
 }
 
 .kpi-vermelha {
-    background-color: firebrick;
+    background-color: red;
     color: white;
     border: #56408c solid 1px;
 }
