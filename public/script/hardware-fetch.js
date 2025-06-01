@@ -7,7 +7,15 @@ let ultimaChamadaJira = {
     storage: 0
 };
 
+function getMotherboardId() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("tag");
+}
+
 function getData() {
+
+    const motherboardId = getMotherboardId();
+
     fetch("/hardware/api/real-time", {
         method: 'GET'
     }).then(function (resposta) {
@@ -17,8 +25,18 @@ function getData() {
         }
         return resposta.json();
     }).then(function (json) {
+        console.log("JSON completo recebido:", json);
+        console.log("Tipo do JSON:", typeof json);
+
+        const metricas = new Map(json);
+        console.log("Métricas processadas:", metricas);
+        var dadosServidor = metricas.get(motherboardId);
+        
+        console.log("Dados do servidor encontrados:", dadosServidor);
+
         if (json) {
-            console.log("Dados recebidos:", json.metrics);
+            console.log(dadosServidor)
+            console.log("Dados recebidos:", dadosServidor);
             const container_cpu = document.querySelector(".first");
             const container_ram = document.querySelector(".second");
             const container_disco = document.querySelector(".third");
@@ -27,9 +45,9 @@ function getData() {
             container_ram.classList.remove("Crítico", "Atenção", "Normal");
             container_disco.classList.remove("Crítico", "Atenção", "Normal");
 
-            const cpuValue = parseFloat(json.metrics.cpu_percent);
-            const ramValue = parseFloat(json.metrics.ram_percent);
-            const discoValue = parseFloat(json.metrics.disk_percent);
+            const cpuValue = parseFloat(dadosServidor.metrics.cpu_percent);
+            const ramValue = parseFloat(dadosServidor.metrics.ram_percent);
+            const discoValue = parseFloat(dadosServidor.metrics.disk_percent);
 
             document.getElementById('cpuUsage').textContent = cpuValue + '%';
             document.getElementById('ramUsage').textContent = ramValue + '%';
@@ -105,7 +123,10 @@ function getData() {
 }
 
 function getLimitComponent() {
-    fetch("/server/getLimitComponent", {
+
+    const motherboardId = getMotherboardId();
+
+    fetch(`/server/getLimitComponent/${encodeURIComponent(motherboardId)}`, {
         method: 'GET',
     })
         .then(function (resposta) {
@@ -131,7 +152,7 @@ function registerAlert(component, value, limite, nivel, idJira) {
     const params = new URLSearchParams(window.location.search);
     const tagName = params.get("tag");
     console.log("motherboard: ", tagName)
-    
+
     const date = formatData(dateAlert);
 
     if (nivel === "Crítico") {
