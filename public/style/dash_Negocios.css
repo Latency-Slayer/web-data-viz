@@ -11,7 +11,7 @@
 }
 
 .filtros {
-    width: 25%;
+    width: 45%;
     margin: 15px;
     display: flex;
     justify-content: space-between;
@@ -44,6 +44,11 @@
     background-color: #56408C;
     color: white;
     cursor: pointer;
+}
+
+.filtros h1 {
+    font-size: 25px;
+     color: #56408C;
 }
 
 .metricas {
