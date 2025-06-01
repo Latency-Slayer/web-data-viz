@@ -7,14 +7,15 @@
     <title>Latency Slayer | Impacto de Negócio</title>
     <script src="script/components/navBar.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/slim-select@latest/dist/slimselect.min.js"></script>
+    <link href="https://unpkg.com/slim-select@latest/dist/slimselect.css" rel="stylesheet"></link>
 </head>
 <body onload="KPI3()">
     <nav-bar></nav-bar>
 
     <div class="dashNegocio">
         <div class="filtros">
-            <input id="iptpesquisa" type="text" placeholder="Digite o nome do Jogo">
-            <button onclick="pesquisaJogo()">Pesquisar</button>
+            <select id="iptpesquisa" onchange="pesquisaJogo()"></select>
             <h1 id="titulo">Jogo</h1>
         </div>
 
@@ -50,6 +51,29 @@
 </html>
 <script>
 
+    window.onload = () => {
+        const iptpesquisa = document.getElementById("iptpesquisa")
+        const selectLista = new SlimSelect({
+            select: iptpesquisa
+        })
+        fetch(`/abandono/listaJogos/${sessionStorage.ID_COMPANY}`, {
+            method:"GET",
+        }).then((res) => {
+            return res.json()
+        }).then((res) => {
+            const vetorLista = [];
+            for (let i = 0; i < res.length; i++) {
+                console.log(res[i])
+                vetorLista.push({
+                    text: res[i].game,
+                    value: res[i].game
+                })
+            }
+            selectLista.setData(vetorLista) 
+        })
+        console.log('a')
+    }
+
     function KPI3() {
         fetch("/abandono/buscarKPI3", {
             method:"GET", 
@@ -80,8 +104,8 @@
             if(res.length == 0) {
                 titulo.innerHTML = "Resultado não encontrado"
             }
-            titulo.innerHTML = res[0].game
-            incidente.innerHTML = res[0].qtd
+            titulo.innerHTML = res.select[0].game
+            incidente.innerHTML = res.select[0].qtd
         })
     }
 
