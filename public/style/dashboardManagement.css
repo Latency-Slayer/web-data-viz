@@ -159,6 +159,15 @@ main {
     width: 130px !important;
     }
 
+    thead th,
+tbody td {
+    border: 2px solid #ddd;
+    text-align: center;
+    color: #4C1D95;
+    font-size: 2vw!important;
+}
+
+
 
     .graficos {
         flex-direction: column;
@@ -306,7 +315,7 @@ th {
     color: #4C1D95;
 }
 
-.second-grafico-linha-1 {
+.second-grafico-linha-1, .first-grafico-linha-2 {
     display: flex;
     flex-direction: column;
     /* width: 100%; */
@@ -348,6 +357,8 @@ thead th,
 tbody td {
     border: 2px solid #ddd;
     text-align: center;
+    color: #4C1D95;
+    font-size: 1vw;
 }
 
 

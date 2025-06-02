@@ -113,7 +113,7 @@ function getRelatorioDeChamadosDoMesPassado() {
     WHERE dia + INTERVAL 1 DAY <= LAST_DAY(CURDATE() - INTERVAL 1 MONTH)
 )
     SELECT 
-    DATE_FORMAT(dias.dia, '%d') AS dia,  -- Mostra só o número do dia (ex: '01', '15', etc.)
+    DATE_FORMAT(dias.dia, '%d') AS dia,
     COUNT(alert.id_Alert) AS total_alertas
     FROM dias
     LEFT JOIN alert ON DATE(alert.dateAlert) = dias.dia
