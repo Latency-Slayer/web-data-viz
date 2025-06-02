@@ -9,8 +9,8 @@ class AnaliticConnectionModel {
         const date = new Date();
         date.setDate(date.getDate() - period);
 
-        const startMonth = date.getMonth();
-        const endMonth = new Date().getMonth() + 1;
+        const startMonth = date.toISOString().split('T')[0];
+        const endMonth = new Date().toISOString().split('T')[0];
 
         if (continent) {
             return database.executar(`SELECT
@@ -22,8 +22,8 @@ class AnaliticConnectionModel {
                                               JOIN company ON id_company = fk_company
                                       WHERE
                                           company.registration_number = ?
-                                        AND (MONTH(connection_capturing.date_time) >= ? AND
-                                             MONTH(connection_capturing.date_time) <= ?) AND
+                                        AND connection_capturing.date_time >= ? AND
+                                          (connection_capturing.date_time <= ?) AND
                                           connection_capturing.continent_code = ?
                                       GROUP BY horario
                                       ORDER BY total_conexoes DESC
@@ -37,8 +37,8 @@ class AnaliticConnectionModel {
                                            JOIN server ON id_server = fk_server
                                            JOIN company ON id_company = fk_company
                                   WHERE company.registration_number = ?
-                                    AND (MONTH(connection_capturing.date_time) >= ? AND
-                                         MONTH(connection_capturing.date_time) <= ?)
+                                    AND connection_capturing.date_time >= ? AND
+                                      (connection_capturing.date_time <= ?)
                                   GROUP BY horario
                                   ORDER BY total_conexoes DESC
                                   LIMIT 1;
@@ -49,8 +49,8 @@ class AnaliticConnectionModel {
         const date = new Date();
         date.setDate(date.getDate() - period);
 
-        const startMonth = date.getMonth();
-        const endMonth = new Date().getMonth() + 1;
+        const startMonth = date.toISOString().split('T')[0];
+        const endMonth = new Date().toISOString().split('T')[0];
 
         if(continent) {
             return await database.executar(`
@@ -61,8 +61,8 @@ class AnaliticConnectionModel {
                         JOIN company ON company.id_company = server.fk_company
                 WHERE
                     company.registration_number = ?
-                  AND (MONTH(connection_capturing.date_time) >= ? AND
-                       MONTH(connection_capturing.date_time) <= ?) AND
+                  AND connection_capturing.date_time >= ? AND
+                    (connection_capturing.date_time <= ?) AND
                     connection_capturing.continent_code = ?
                 GROUP BY
                     game
@@ -77,8 +77,8 @@ class AnaliticConnectionModel {
                      JOIN server ON id_server = fk_server
                      JOIN company ON company.id_company = server.fk_company
             WHERE company.registration_number = ?
-              AND (MONTH(connection_capturing.date_time) >= ? AND
-                   MONTH(connection_capturing.date_time) <= ?)
+              AND connection_capturing.date_time >= ? AND
+                       (connection_capturing.date_time <= ?)
             GROUP BY game
             ORDER BY COUNT(*) DESC
             LIMIT 1;
@@ -89,8 +89,8 @@ class AnaliticConnectionModel {
         const date = new Date();
         date.setDate(date.getDate() - period);
 
-        const startMonth = date.getMonth();
-        const endMonth = new Date().getMonth() + 1;
+        const startMonth = date.toISOString().split('T')[0];
+        const endMonth = new Date().toISOString().split('T')[0];
 
         if(continent) {
             return await database.executar(`
@@ -101,8 +101,8 @@ class AnaliticConnectionModel {
                         JOIN company ON company.id_company = server.fk_company
                 WHERE
                     company.registration_number = ?
-                  AND (MONTH(connection_capturing.date_time) >= ? AND
-                       MONTH(connection_capturing.date_time) <= ?) AND
+                  AND connection_capturing.date_time >= ? AND
+                    (connection_capturing.date_time <= ?) AND
                     connection_capturing.continent_code = ?
                 GROUP BY
                     game
@@ -116,8 +116,8 @@ class AnaliticConnectionModel {
                      JOIN server ON id_server = fk_server
                      JOIN company ON company.id_company = server.fk_company
             WHERE company.registration_number = ?
-              AND (MONTH(connection_capturing.date_time) >= ? AND
-                   MONTH(connection_capturing.date_time) <= ?)
+              AND connection_capturing.date_time >= ? AND
+                       (connection_capturing.date_time <= ?)
             GROUP BY game
             ORDER BY COUNT(*) DESC
         `, [companyRegisterNumber, startMonth, endMonth]);
@@ -127,8 +127,8 @@ class AnaliticConnectionModel {
         const date = new Date();
         date.setDate(date.getDate() - period);
 
-        const startMonth = date.getMonth();
-        const endMonth = new Date().getMonth() + 1;
+        const startMonth = date.toISOString().split('T')[0];
+        const endMonth = new Date().toISOString().split('T')[0];
 
         if(continent) {
             return database.executar(`
@@ -137,8 +137,8 @@ class AnaliticConnectionModel {
                      JOIN server ON id_server = fk_server
                      JOIN company ON company.id_company = server.fk_company
             WHERE company.registration_number = ?
-              AND (MONTH(connection_capturing.date_time) >= ? AND
-                   MONTH(connection_capturing.date_time) <= ?) AND
+              AND connection_capturing.date_time >= ? AND
+                       (connection_capturing.date_time <= ?) AND
                 connection_capturing.continent_code = ?
             GROUP BY country
             ORDER BY COUNT(*) DESC
@@ -151,8 +151,8 @@ class AnaliticConnectionModel {
                      JOIN server ON id_server = fk_server
                      JOIN company ON company.id_company = server.fk_company
             WHERE company.registration_number = ?
-              AND (MONTH(connection_capturing.date_time) >= ? AND
-                   MONTH(connection_capturing.date_time) <= ?)
+              AND connection_capturing.date_time >= ? AND
+                       (connection_capturing.date_time <= ?)
             GROUP BY continent_code
             ORDER BY COUNT(*) DESC
         `, [companyRegisterNumber, startMonth, endMonth]);
@@ -163,8 +163,8 @@ class AnaliticConnectionModel {
         const date = new Date();
         date.setDate(date.getDate() - period);
 
-        const startMonth = date.getMonth();
-        const endMonth = new Date().getMonth() + 1;
+        const startMonth = date.toISOString().split('T')[0];
+        const endMonth = new Date().toISOString().split('T')[0];
 
         if(continent) {
             return database.executar(`
@@ -173,8 +173,8 @@ class AnaliticConnectionModel {
                          JOIN server ON id_server = fk_server
                          JOIN company ON company.id_company = server.fk_company
                 WHERE company.registration_number = ?
-                  AND (MONTH(connection_capturing.date_time) >= ? AND
-                       MONTH(connection_capturing.date_time) <= ?) AND
+                  AND connection_capturing.date_time >= ? AND
+                    (connection_capturing.date_time <= ?) AND
                     connection_capturing.continent_code = ?
                 GROUP BY DATE_FORMAT(date_time, '%Y-%m-%d')
                 ORDER BY DATE_FORMAT(date_time, '%Y-%m-%d')
@@ -187,8 +187,8 @@ class AnaliticConnectionModel {
                          JOIN server ON id_server = fk_server
                          JOIN company ON company.id_company = server.fk_company
                 WHERE company.registration_number = ?
-                  AND (MONTH(connection_capturing.date_time) >= ? AND
-                       MONTH(connection_capturing.date_time) <= ?)
+                  AND connection_capturing.date_time >= ? AND
+                    (connection_capturing.date_time <= ?)
                 GROUP BY DATE_FORMAT(date_time, '%Y-%m-%d')
                 ORDER BY DATE_FORMAT(date_time, '%Y-%m-%d')
             `, [companyRegisterNumber, startMonth, endMonth]);
@@ -198,8 +198,8 @@ class AnaliticConnectionModel {
         const date = new Date();
         date.setDate(date.getDate() - period);
 
-        const startMonth = date.getMonth();
-        const endMonth = new Date().getMonth() + 1;
+        const startMonth = date.toISOString().split('T')[0];
+        const endMonth = new Date().toISOString().split('T')[0];
 
         if(continent) {
             return database.executar(`
@@ -208,8 +208,8 @@ class AnaliticConnectionModel {
                          JOIN server ON id_server = fk_server
                          JOIN company ON company.id_company = server.fk_company
                 WHERE company.registration_number = ?
-                  AND (MONTH(connection_capturing.date_time) >= ? AND
-                       MONTH(connection_capturing.date_time) <= ?) AND
+                  AND connection_capturing.date_time >= ? AND
+                    (connection_capturing.date_time <= ?) AND
                     connection_capturing.continent_code = ?
                 ORDER BY DATE_FORMAT(date_time, '%Y-%m-%d')
             `, [companyRegisterNumber, startMonth, endMonth, continent]);
@@ -221,8 +221,8 @@ class AnaliticConnectionModel {
                      JOIN server ON id_server = fk_server
                      JOIN company ON company.id_company = server.fk_company
             WHERE company.registration_number = ?
-              AND (MONTH(connection_capturing.date_time) >= ? AND
-                   MONTH(connection_capturing.date_time) <= ?)
+              AND connection_capturing.date_time >= ? AND
+                       (connection_capturing.date_time <= ?)
             ORDER BY DATE_FORMAT(date_time, '%Y-%m-%d');
             `, [companyRegisterNumber, startMonth, endMonth]);
     }
@@ -231,9 +231,8 @@ class AnaliticConnectionModel {
         const date = new Date();
         date.setDate(date.getDate() - period);
 
-        const startMonth = date.getMonth();
-        const endMonth = new Date().getMonth() + 1;
-
+        const startMonth = date.toISOString().split('T')[0];
+        const endMonth = new Date().toISOString().split('T')[0];
 
         if(continent) {
             return database.executar(`
@@ -241,9 +240,9 @@ class AnaliticConnectionModel {
                 FROM connection_capturing
                          JOIN server ON id_server = fk_server
                          JOIN company ON company.id_company = server.fk_company
-                WHERE company.registration_number = '00000000000000'
-                  AND (MONTH(connection_capturing.date_time) >= ? AND
-                       MONTH(connection_capturing.date_time) <= ?) AND
+                WHERE company.registration_number = ?
+                  AND connection_capturing.date_time >= ? AND
+                       (connection_capturing.date_time <= ?) AND
                     connection_capturing.continent_code = ?
                 GROUP BY DATE_FORMAT(date_time, '%Y-%m-%d'), game
                 ORDER BY DATE_FORMAT(date_time, '%Y-%m-%d');
@@ -256,8 +255,8 @@ class AnaliticConnectionModel {
                      JOIN server ON id_server = fk_server
                      JOIN company ON company.id_company = server.fk_company
             WHERE company.registration_number = ?
-              AND (MONTH(connection_capturing.date_time) >= ? AND
-                   MONTH(connection_capturing.date_time) <= ?)
+              AND connection_capturing.date_time >= ? AND
+                (connection_capturing.date_time <= ?)
             GROUP BY DATE_FORMAT(date_time, '%Y-%m-%d'), game
             ORDER BY DATE_FORMAT(date_time, '%Y-%m-%d');
             `, [companyRegisterNumber, startMonth, endMonth]);

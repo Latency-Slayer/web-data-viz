@@ -10,6 +10,13 @@ import {
 import MapBox from "./classes/MapBox.js";
 import "https://cdn.jsdelivr.net/npm/apexcharts"
 
+
+document.addEventListener("DOMContentLoaded", () => {
+    if(!sessionStorage.REGISTRATION_NUMBER) {
+        window.location.href = "/index.html";
+    }
+});
+
 const filters = {
     continent: null,
     period: null
@@ -70,6 +77,10 @@ function destroyDashboard() {
     chart1.destroy();
     chart2.destroy();
     chart3.destroy();
+
+    if(gameVariationChart) {
+        gameVariationChart.destroy();
+    }
 }
 
 
@@ -961,22 +972,31 @@ async function loadGameVariationChart() {
 
     let gamesData = await getGameConnectionsVariation();
 
+    console.log(gamesData);
+
+    if(gamesData.result.length === 0) {
+        return;
+    }
+
     const labels = [];
     const series = [];
+
+    const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD'];
+
+    const strokeWidths = [3, 2, 3, 2, 3, 2];
 
     for(let date of gamesData.result[0].dates) {
         labels.push(new Date(date).getTime());
     }
 
-
-
-    for(let gameData of gamesData.result) {
+    for(let i = 0; i < gamesData.result.length; i++) {
+        let gameData = gamesData.result[i];
         series.push({
             name: gameData.game,
-            data: gameData.connections
-        })
+            data: gameData.connections,
+            color: colors[i % colors.length]
+        });
     }
-
 
     let options = {
         series: series,
@@ -992,21 +1012,71 @@ async function loadGameVariationChart() {
             },
             zoom: {
                 enabled: true
+            },
+            toolbar: {
+                show: true,
+                tools: {
+                    selection: true,
+                    zoom: true,
+                    zoomin: true,
+                    zoomout: true,
+                    pan: true,
+                    reset: true
+                }
             }
         },
+        colors: colors,
         stroke: {
-            curve: 'smooth'
+            curve: 'smooth',
+            width: strokeWidths,
+            dashArray: [0, 0, 5, 0, 8, 3]
+        },
+        markers: {
+            size: 4,
+            hover: {
+                size: 6
+            },
+            strokeWidth: 2,
+            strokeColors: '#fff'
         },
         labels: labels,
         title: {
-            text: 'Missing data (null values)'
+            text: 'Variação de Conexões por Jogo',
+            style: {
+                fontSize: '16px',
+                fontWeight: 'bold',
+                color: '#333'
+            }
+        },
+        // Legenda interativa
+        legend: {
+            show: true,
+            position: 'top',
+            horizontalAlign: 'center',
+            floating: false,
+            fontSize: '14px',
+            fontFamily: 'Helvetica, Arial, sans-serif',
+            fontWeight: 600,
+            // Permite clicar para mostrar/ocultar séries
+            onItemClick: {
+                toggleDataSeries: true
+            },
+            onItemHover: {
+                highlightDataSeries: true
+            },
+            markers: {
+                width: 12,
+                height: 12,
+                strokeWidth: 0,
+                radius: 12
+            }
         },
         xaxis: {
             type: "datetime",
             labels: {
                 style: {
                     colors: ["#56408C"],
-                    fontSize: '14px',
+                    fontSize: '12px',
                     fontFamily: 'Helvetica, Arial, sans-serif',
                     fontWeight: 600,
                 },
@@ -1017,14 +1087,85 @@ async function loadGameVariationChart() {
                         month: '2-digit'
                     }).replace(".", "").replace(",", "");
                 }
-
             },
             datetimeUTC: false,
+        },
+        yaxis: {
+            title: {
+                text: 'Número de Conexões',
+                style: {
+                    color: '#666',
+                    fontSize: '12px',
+                    fontWeight: 600
+                }
+            },
+            labels: {
+                style: {
+                    colors: '#666',
+                    fontSize: '11px'
+                }
+            }
+        },
+        tooltip: {
+            shared: true,
+            intersect: false,
+            theme: 'light',
+            style: {
+                fontSize: '12px'
+            },
+            x: {
+                format: 'dd/MM/yyyy'
+            },
+            y: {
+                formatter: function(value, { seriesIndex, series }) {
+                    return value?.toLocaleString('pt-BR') + ' conexões';
+                }
+            }
+        },
+        // Grid mais sutil
+        grid: {
+            show: true,
+            borderColor: '#e0e0e0',
+            strokeDashArray: 3,
+            position: 'back',
+            xaxis: {
+                lines: {
+                    show: false
+                }
+            },
+            yaxis: {
+                lines: {
+                    show: true
+                }
+            }
+        },
+        // Estados de hover e seleção
+        states: {
+            hover: {
+                filter: {
+                    type: 'lighten',
+                    value: 0.15
+                }
+            },
+            active: {
+                allowMultipleDataPointsSelection: false,
+                filter: {
+                    type: 'darken',
+                    value: 0.35
+                }
+            }
         }
     };
 
-    gameVariationChart = new ApexCharts(document.getElementById("chart-variance-games"), options);
+    const chart = new ApexCharts(document.getElementById("chart-variance-games"), options);
     chart.render();
+
+
+    return {
+        destroy: () => {
+            chart.destroy();
+        }
+    }
 }
 
 
