@@ -45,7 +45,7 @@
                     <canvas id="chartBar"></canvas>
                 </div>
                 <div id="chart2" class="Grafico">
-                     <h1>Impacto da Qtd. de Incidentes na Retenção de Jogadores</h1>
+                     <h1>Impacto de Incidentes na Retenção de Jogadores</h1>
                     <canvas id="chartArea"></canvas>
                 </div>
             </div>
@@ -66,9 +66,7 @@
             return res.json()
         }).then((res) => {
             const vetorLista = [];
-            console.log(res)
             for (let i = 0; i < res.length; i++) {
-                console.log(res[i])
                 vetorLista.push({
                     text: res[i].game,
                     value: res[i].game
@@ -76,7 +74,6 @@
             }
             selectLista.setData(vetorLista) 
         })
-        console.log('a')
     }
 
     function pesquisaJogo() {
@@ -89,7 +86,6 @@
         }).then((res) => {
             return res.json()
         }).then((res) => {
-            console.log(res)
             if(res.length == 0) {
                 titulo.innerHTML = "Resultado não encontrado"
             }
@@ -120,8 +116,7 @@
       }],
     },
     options: {
-        backgroundColor: ['#a589eec1', '#56408C', '#a589eec1', '#a589eec1', '#a589eec1', '#a589eec1', '#a589eec1'],
-        borderRadius: 5,
+     borderRadius: 5,
         plugins: {
             legend: {
                 display: false
@@ -138,7 +133,7 @@
           },
           title: {
             display: true,
-            text: 'Abandono de Jogo',
+            text: 'Retenção de Jogadores',
             color: 'black',
             font: {
                 size: 18,
@@ -161,12 +156,11 @@
 
   function grafico1(nomeJogo) {
         fetch(`/abandono/grafico1/${nomeJogo}`).then((res) => {
-            console.log(res)
             return res.json()
         }).then((res) => {
-            console.log(res)
             const vetorData = []
             const vetorLabel = []
+            const vetorCor = []
 
             const continentMap = {
                 'EU': 'Europe',
@@ -177,14 +171,24 @@
                 'OC': 'Oceania'
             };
 
+            
             for (let i = 0; i < res.length; i++) {
                 vetorData.push(res[i].media_abandono)
                 const continente = continentMap[res[i].continent]
                 vetorLabel.push(continente)
+
+                vetorCor.push('#a589eec1')
             }
+
+            const valorMaximo = Math.max(...vetorData)
+            const indiceMaiorValor = vetorData.indexOf(valorMaximo)
+
+
+            vetorCor[indiceMaiorValor] = "#56408C"
 
             chart1.data.datasets[0].data = vetorData
             chart1.data.labels = vetorLabel
+            chart1.data.datasets[0].backgroundColor = vetorCor
             chart1.update()
         })
     }
@@ -229,7 +233,7 @@
                         },
                         title: {
                             display: true,
-                            text: 'Abandono de Jogo',
+                            text: 'Retenção de Jogadores',
                             color: 'black',
                             font: {
                                 size: 18,
