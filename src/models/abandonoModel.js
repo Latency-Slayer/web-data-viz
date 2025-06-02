@@ -66,10 +66,35 @@ function buscarKPI1() {
     return database.executar(instrucaoSql)
 }
 
-function grafico1() {
-    const instrucaoSql = ``
+async function grafico1(nomeJogo) {
+    const instrucaoSql = `SELECT dados_diarios.continent_code as continente,
+ROUND(AVG(total_jogadores), 0) as media_jogadores_sem_alerta
+FROM (SELECT cc.fk_server, cc.continent_code, DATE(cc.date_time) as dia,
+COUNT(*) as total_jogadores FROM connection_capturing cc
+WHERE DAYOFWEEK(cc.date_time) IN (1, 6, 7)
+AND DATE(cc.date_time) IN (SELECT DISTINCT DATE(dateAlert) 
+FROM alert) GROUP BY cc.fk_server, cc.continent_code, DATE(cc.date_time)) as dados_diarios
+INNER JOIN server s ON dados_diarios.fk_server = s.id_server
+where game like '${nomeJogo}'
+GROUP BY dados_diarios.continent_code
+ORDER BY dados_diarios.continent_code;`
 
-    return database.executar(instrucaoSql)
+    const instrucaoSql2 = `SELECT dados_diarios.continent_code as continente,
+ROUND(AVG(total_jogadores), 0) as media_jogadores_com_alerta
+FROM (SELECT cc.fk_server, cc.continent_code, DATE(cc.date_time) as dia,
+COUNT(*) as total_jogadores FROM connection_capturing cc
+WHERE DAYOFWEEK(cc.date_time) IN (1, 6, 7) 
+AND DATE(cc.date_time) NOT IN (SELECT DISTINCT DATE(dateAlert) 
+FROM alert) GROUP BY cc.fk_server, cc.continent_code, DATE(cc.date_time)) as dados_diarios
+INNER JOIN server s ON dados_diarios.fk_server = s.id_server
+where game like '${nomeJogo}'
+GROUP BY dados_diarios.continent_code
+ORDER BY dados_diarios.continent_code;`
+
+    const result1 = await database.executar(instrucaoSql)
+    const result2 = await database.executar(instrucaoSql2)
+
+    return {result1, result2}
 }
 
 function grafico2() {

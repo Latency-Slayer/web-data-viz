@@ -27,7 +27,7 @@ router.get("/buscarKPI1", function(req,res){
     abandonocontroller.buscarKPI1(req,res)
 });
 
-router.get("/grafico1", function(req,res){
+router.get("/grafico1/:nomeJogo", function(req,res){
     abandonocontroller.grafico1(req,res)
 });
 

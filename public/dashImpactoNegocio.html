@@ -105,16 +105,17 @@
             
             legendaincidente.innerHTML = `<span style="color:${mensagemCor}">${mensagemIcone} ${Math.abs((((res.select[0].qtd - res.selectmespass[0].qtd) / res.selectmespass[0].qtd) * 100)).toFixed(2)}% em relação ao mês passado </span>`
         })
+        grafico1(pesquisa)
     }
 
     const ctx = document.getElementById('chartBar');
 
-  new Chart(ctx, {
+  const chart1 = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: ['North America', 'South America', 'Asia', 'Europe', 'Oceania', 'Antarctica', 'Africa'],
+      labels: [],
       datasets: [{
-        data: [12, 19, 3, 5, 2, 3, 5],
+        data: [],
         borderWidth: 0
       }],
     },
@@ -157,6 +158,28 @@
       }
     }
   });
+
+  function grafico1(nomeJogo) {
+        fetch(`/abandono/grafico1/${nomeJogo}`).then((res) => {
+            console.log(res)
+            return res.json()
+        }).then((res) => {
+            console.log(res)
+            const vetorData = []
+            const vetorLabel = []
+
+            for (let i = 0; i < res.length; i++) {
+                vetorLabel.push(res[i].continent)
+                vetorData.push(res[i].media_abandono)
+            }
+            chart1.data.datasets[0].data = vetorData
+            chart1.data.labels = vetorLabel
+
+            console.log('vetorData:', vetorData);
+            console.log('vetorLabel:', vetorLabel);
+        })
+    }
+
 
   const ctx2 = document.getElementById('chartArea');
 
