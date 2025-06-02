@@ -31,16 +31,21 @@ function listarServer(req, res){
         res.status(200).json(resultado);
     })
 }
-function getLimitComponent(req, res){
-    serverModel.getLimitComponent().then((resultado) => {
+async function getLimitComponent(req, res) {
+    try {
+        const resultado = await serverModel.getLimitComponent(req.body.motherboardid);
         res.status(200).json(resultado);
-    })
+    } catch (erro) {
+        console.error("Erro ao buscar limites:", erro);
+        res.status(500).json({ erro: "Erro ao buscar limites" });
+    }
 }
+
 
 module.exports = {
     registerServer,
     getServerComponentsData,
     getServerBytagName,
-    listarServer,
-    getLimitComponent
+    getLimitComponent,
+    listarServer
 };

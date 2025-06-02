@@ -26,9 +26,7 @@ function getAlerts(req, res) {
     alertModel.getAlerts(motherboard)
         .then((resultado) => {
             console.log("Resultado da query getAlerts:", resultado);
-
-            const total = resultado[0]["COUNT(id_Alert)"];
-            res.status(200).json({ total_criados: total_criados });
+            res.status(200).json(resultado);
         })
         .catch((erro) => {
             console.error("Erro no getAlerts:", erro);
@@ -39,8 +37,10 @@ function getAlerts(req, res) {
 
 function getAlertsPorDia(req, res) {
     const motherboard = req.params.motherboard
+
     alertModel.getAlertsPorDia(motherboard)
         .then((resultado) => {
+            console.log("Resultado da query getAlertsPorSemana:", resultado);
             res.status(200).json(resultado);  
         })
         .catch((erro) => {

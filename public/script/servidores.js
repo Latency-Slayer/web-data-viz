@@ -23,7 +23,6 @@ async function getServers() {
     }
 }
 
-// busca os dados do Map
 async function getDataFromMap() {
     try {
         const resposta = await fetch("/hardware/api/real-time", { method: 'GET' });
@@ -44,16 +43,15 @@ async function getDataFromMap() {
 
 function updateServerCard(motherboard_id, data) {
     const card = document.querySelector(`alert-card[motherboardid="${motherboard_id}"]`);
-    const limiteMax = limitesMaximos[motherboard_id];
     
     card.updateMetrics({
         cpu: data.metrics.cpu_percent ,
         ram: data.metrics.ram_percent,
         disco: data.metrics.disk_percent,
         datetime: data.metrics.timestamp,
-        limiteCPU: limiteMax.cpu,
-        limiteRAM: limiteMax.ram,
-        limiteDisco: limiteMax.storage,
+        limiteCPU: data.limites.cpu,
+        limiteRAM: data.limites.ram,
+        limiteDisco: data.limites.storage,
     });
 }
 

@@ -85,9 +85,12 @@ function listarServer(){
     return database.executar(instrucaoSql);
  }
 
- function getLimitComponent(){
-    var instrucaoSql = `SELECT c.type,m.max_limit,m.min_limit from component as c INNER JOIN metric as m ON m.fk_component = id_component WHERE m.metric = "%";`
-
+ function getLimitComponent(motherboard){
+    var instrucaoSql = `
+    SELECT s.motherboard_id as motherboardid,c.type, m.max_limit, m.min_limit FROM server AS s
+    JOIN component AS c ON c.fk_server = s.id_server JOIN metric AS m ON m.fk_component = c.id_component
+	WHERE s.motherboard_id = '${motherboard}' AND m.metric = '%';
+    `
     return database.executar(instrucaoSql)
  }
 
