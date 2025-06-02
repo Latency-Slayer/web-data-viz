@@ -33,6 +33,7 @@
     <script src="./components/Kpi.js"></script>
     <script src="./components/Filter.js"></script>
     <script src="components/Loader.js"></script>
+    <script src="./components/LoaderMap.js"></script>
 
     <!-- Imports  Scripts  -->
     <script defer type="module" src="scripts/dashboard.js"></script>
@@ -77,11 +78,21 @@
         </div>
     </div>
 
-<!--    <div id="modal-games-insights">-->
-<!--        <div class="border">-->
+    <div id="modal-games-insights">
+        <div class="h-full w-full flex">
+            <div class="w-6/8 h-full flex flex-col gap-3">
+                <div class="w-full h-1/2 bg-white rounded-md p-5">
+                    <h2 class="font-bold text-purple-900 text-2xl flex items-center ml-5" id="title-chart-games-modal"><i class="bi-question-circle cursor-pointer text-2xl" id="hint-chart3"></i></h2>
+                    <div id="chart-top-games-modal"></div>
+                </div>
+                <div class="w-full h-1/2 bg-white rounded-md p-5">
+                    <div id="chart-variance-games"></div>
+                </div>
+            </div>
 
-<!--        </div>-->
-<!--    </div>-->
+            <div class="border h-full w-2/8"></div>
+        </div>
+    </div>
 
     <main class="w-[96%] m-auto">
         <div class="flex gap-5">
@@ -151,14 +162,14 @@
                 <div class="h-full bg-white rounded-md p-2">
                     <div class="flex justify-around items-center">
                         <h2 class="font-bold text-purple-900 text-2xl flex items-center ml-5" id="title-chart1"> <i class="bi-question-circle cursor-pointer text-2xl" id="hint-chart1"></i></h2>
-                        <h4 id="view-more" class="text-purple-900 cursor-pointer text-xl invisible"><i class="bi bi-plus-circle-fill "></i> Mais Informações</h4>
+                        <h4 id="view-more" class="text-purple-900 cursor-pointer text-xl invisible"><i class="bi bi-plus-circle-fill"></i> Mais Informações</h4>
                     </div>
                     <div id="chart1"></div>
                 </div>
             </div>
 
 
-            <div class="w-[45%] h-[600px] bg-white rounded-xl flex flex-col pb-15 px-5 gap-3">
+            <div class="w-[45%] h-[600px] bg-white rounded-xl flex flex-col pb-15 px-5 gap-3 relative" id="map-container">
                 <h1 class="text-purple-900 font-bold text-2xl text-center">Mapa de atividade dos jogadores</h1>
                 <div id="map" class="flex-1 rounded-xl"></div>
 

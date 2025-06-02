@@ -63,6 +63,39 @@ class AnaliticConnectionService {
 
         return await model.getConnectionLocations(companyRegisterNumber, continent, period);
     }
+
+    async getGameVariationOnPeriod(companyRegisterNumber, continent, period){
+        if(!companyRegisterNumber || !period) {
+            return null;
+        }
+
+        const result = await model.getGameVariationOnPeriod(companyRegisterNumber, continent, period);
+
+        const orderedValues = new Map();
+
+        result.forEach((v) => {
+           if(!orderedValues.has(v.game)) {
+               orderedValues.set(v.game, {
+                   game: v.game,
+                   connections: [],
+                   dates: []
+               });
+           }
+
+           const gameData = orderedValues.get(v.game);
+
+           gameData.connections.push(v.total_connections)
+           gameData.dates.push(v.date);
+        });
+
+        const dataJson = [];
+
+        orderedValues.forEach(v => {
+            dataJson.push(v);
+        });
+
+        return dataJson;
+    }
 }
 
 module.exports = AnaliticConnectionService;

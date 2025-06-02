@@ -4,6 +4,7 @@ import {
     initKpi,
     insertElement,
     loader,
+    mapLoader,
     observeElementAttributeChange
 } from "./functions.js";
 import MapBox from "./classes/MapBox.js";
@@ -21,8 +22,6 @@ map.onload(async () => {
     map.loadClusters();
     await laodMapLocations();
 });
-
-
 
 async function laodMapLocations() {
     if(filters.period) {
@@ -61,6 +60,7 @@ let kpis;
 let chart1;
 let chart2;
 let chart3;
+let gameVariationChart;
 
 function destroyDashboard() {
     kpis.kpi01.destroy();
@@ -75,40 +75,45 @@ function destroyDashboard() {
 
 observeElementAttributeChange(document.getElementById("continent-filter"), async (filter) => {
     const initLoader = loader();
-
+    const initMapLoader = mapLoader();
 
     filters.continent = filter;
-
-    clearInterval(mapUpdateInterval);
-    await laodMapLocations();
 
     destroyDashboard();
     await renderDashboard();
 
     if(filters.period) {
-        setTimeout(() => initLoader.remove(), 3000);
+        setTimeout(() => initLoader.remove(), 1000);
     } else {
         initLoader.remove();
     }
+
+    clearInterval(mapUpdateInterval);
+    await laodMapLocations();
+
+    initMapLoader.remove();
 });
 
 observeElementAttributeChange(document.getElementById("period-filter"), async (filter) => {
     const initLoader = loader();
+    const initMapLoader = mapLoader();
 
     filters.period = filter;
-
-    clearInterval(mapUpdateInterval);
-    await laodMapLocations();
-
 
     destroyDashboard();
     await renderDashboard();
 
     if(filters.period) {
-        setTimeout(() => initLoader.remove(), 3000);
+        setTimeout(() => initLoader.remove(), 1000);
     } else {
         initLoader.remove();
     }
+
+    clearInterval(mapUpdateInterval);
+    await laodMapLocations();
+
+    initMapLoader.remove();
+
 });
 
 
@@ -118,6 +123,8 @@ async function renderDashboard () {
     chart1 = await loadTopGamesChart();
     chart2 = await loadTopContinentsChart();
     chart3 = await loadConnectionsVariationChart();
+    gameVariationChart = await loadGameVariationChart();
+
 }
 
 function loadKpis() {
@@ -254,8 +261,6 @@ async function getQuantServersActive() {
     const request = await fetch(url);
     const json = await request.json();
 
-    console.log(json)
-
     return json.quantActiveServers;
 }
 
@@ -342,12 +347,23 @@ async function loadTopGamesChart() {
     chart.render();
 
     if(filters.period) {
+        document.getElementById("title-chart-games-modal").innerHTML = title;
+
+        let chartModalDiv = document.getElementById("chart-top-games-modal");
+        let chartModal = new ApexCharts(chartModalDiv, options);
+        chartModal.render();
+
+        document.getElementById("view-more").classList.remove("invisible");
+
         return {
             destroy: () => {
                 chart.destroy();
+                chartModal.destroy();
             }
         };
     }
+
+    document.getElementById("view-more").classList.add("invisible");
 
     const interval = setInterval(async () => {
         chart.updateSeries([{
@@ -924,10 +940,107 @@ async function getConnectionsVariationOfPeriod() {
     return [{}];
 }
 
-//
-// const modalGamesInsights = jSuites.modal(document.getElementById("modal-games-insights"), {
-//     title: `Engajamento nos jogos nos últimos ${filters.period} dias`,
-//     width: "80vw",
-//     height: "80vh",
-// });
 
+const modalGamesInsights = jSuites.modal(document.getElementById("modal-games-insights"), {
+    width: "80vw",
+    height: "90vh",
+    closed: true
+});
+
+modalGamesInsights.content.style.background = "#e5e7eb";
+
+
+document.getElementById("view-more").addEventListener("click", () => {
+   modalGamesInsights.open();
+});
+
+async function loadGameVariationChart() {
+    if(!filters.period) {
+        return;
+    }
+
+    let gamesData = await getGameConnectionsVariation();
+
+    const labels = [];
+    const series = [];
+
+    for(let date of gamesData.result[0].dates) {
+        labels.push(new Date(date).getTime());
+    }
+
+
+
+    for(let gameData of gamesData.result) {
+        series.push({
+            name: gameData.game,
+            data: gameData.connections
+        })
+    }
+
+
+    let options = {
+        series: series,
+        chart: {
+            type: 'line',
+            height: '90%',
+            animations: {
+                enabled: true,
+                easing: 'linear',
+                dynamicAnimation: {
+                    speed: 1000
+                }
+            },
+            zoom: {
+                enabled: true
+            }
+        },
+        stroke: {
+            curve: 'smooth'
+        },
+        labels: labels,
+        title: {
+            text: 'Missing data (null values)'
+        },
+        xaxis: {
+            type: "datetime",
+            labels: {
+                style: {
+                    colors: ["#56408C"],
+                    fontSize: '14px',
+                    fontFamily: 'Helvetica, Arial, sans-serif',
+                    fontWeight: 600,
+                },
+                formatter: function (value) {
+                    return new Date(value).toLocaleDateString("pt-BR", {
+                        weekday: 'short',
+                        day: '2-digit',
+                        month: '2-digit'
+                    }).replace(".", "").replace(",", "");
+                }
+
+            },
+            datetimeUTC: false,
+        }
+    };
+
+    gameVariationChart = new ApexCharts(document.getElementById("chart-variance-games"), options);
+    chart.render();
+}
+
+
+async function getGameConnectionsVariation() {
+    let url = `/bi/dashboard/analitic/get-game-variation/${sessionStorage.REGISTRATION_NUMBER}/${filters.period}`;
+
+    if(filters.continent) {
+        url = `/bi/dashboard/analitic/get-game-variation/${sessionStorage.REGISTRATION_NUMBER}/${filters.period}?continent=${filters.continent}`;
+    }
+
+    const request = await fetch(url);
+    const json = await request.json();
+
+    if(!json.hasOwnProperty("result")) {
+        return [];
+    }
+
+    return json;
+}

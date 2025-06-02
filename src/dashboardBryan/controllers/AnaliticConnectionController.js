@@ -72,6 +72,18 @@ class AnaliticConnectionController {
 
         return res.json({ playerLocations: result });
     }
+
+    async getGameVariationOnPeriod(req, res) {
+        const companyRegisterNumber = req.params["registerNumber"];
+        const period = req.params["period"];
+        const continent = req.query.continent;
+
+        console.log(period);
+
+        const result = await service.getGameVariationOnPeriod(companyRegisterNumber, continent, period);
+
+        return res.json({ result });
+    }
 }
 
 module.exports = AnaliticConnectionController;

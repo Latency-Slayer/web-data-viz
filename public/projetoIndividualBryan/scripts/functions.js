@@ -89,3 +89,15 @@ export function loader() {
         remove: () => loaderElement.remove()
     }
 }
+
+export function mapLoader() {
+    const htmlBody = document.getElementById("map");
+
+    const loaderElement = document.createElement("map-loader");
+
+    htmlBody.appendChild(loaderElement);
+
+    return {
+        remove: () => loaderElement.remove()
+    }
+}
