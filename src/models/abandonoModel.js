@@ -60,8 +60,13 @@ function buscarKPI2() {
     return database.executar(instrucaoSql)
 }
 
-function buscarKPI1() {
-    const instrucaoSql = ``
+function buscarKPI1(nomeJogo) {
+    const instrucaoSql = `select s.game as jogo, count(*) as qtd_abandonos from connection_capturing as cc
+inner join server as s on cc.fk_server = s.id_server
+where date_time between date_add(curdate(), interval - 30 day) and curdate()
+and game like '${nomeJogo}'
+group by s.game
+order by qtd_abandonos desc;`
 
     return database.executar(instrucaoSql)
 }

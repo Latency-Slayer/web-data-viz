@@ -23,7 +23,7 @@ router.get("/buscarKPI2", function(req,res){
     abandonocontroller.buscarKPI2(req,res)
 });
 
-router.get("/buscarKPI1", function(req,res){
+router.get("/buscarKPI1/:nomeJogo", function(req,res){
     abandonocontroller.buscarKPI1(req,res)
 });
 

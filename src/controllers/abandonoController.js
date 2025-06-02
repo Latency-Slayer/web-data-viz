@@ -49,9 +49,19 @@ const grafico1 = async(req,res) => {
     }
 }
 
+const buscarKPI1 = async(req,res) => {
+    try {
+        const select = await abandonoModel.buscarKPI1(nomeJogo)
+        return res.status(200).json(select);
+    } catch(error) {
+        return res.status(404).json(error.message);
+    }
+}
+
 module.exports = {
     buscarKPI3, 
     pesquisaJogo,
     listaJogos, 
-    grafico1
+    grafico1,
+    buscarKPI1
 }
