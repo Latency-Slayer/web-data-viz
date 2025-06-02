@@ -2,6 +2,7 @@ let ultimaMetrica = new Map() // guardar os ultimos dados advindos do python
 let ultimaChamadaJira = new Map()
 
 const serverModel = require("../models/serverModel")
+const alertModel = require("../models/alertModel")
 
 //Função para receber os dados do Python via POST
 async function receberDados(req, res) {
@@ -9,13 +10,26 @@ async function receberDados(req, res) {
     const metrics = req.body.metrics;
 
     const limites = await serverModel.getLimitComponent(id);
+
+    const alertas = await alertModel.getAlerts(id);
+    const alertasPorDia = await alertModel.getAlertsPorDia(id);
+
+    console.log("Alertas: " + alertas)
+    console.log("Alertas por Dia: " + alertasPorDia)
     const limitesMap = {};
 
     limites.forEach(item => {
         limitesMap[item.type] = item.max_limit;
     });
 
-    ultimaMetrica.set(id, { metrics, limites: limitesMap });
+    const alertasMap = {};
+    alertas.forEach(alerta => {
+        alertasMap[alerta.motherboard] = alerta.total_criados;
+    })
+
+    console.log("Map ALERTAS: " + JSON.stringify(alertasMap));
+
+    ultimaMetrica.set(id, { metrics, limites: limitesMap,  alertas: alertasMap,});
 
     console.log("Métricas recebidas:", ultimaMetrica);
 
@@ -144,7 +158,6 @@ async function registrarAlerta({ componente, valorAtual, limite, nivel, idJira, 
         console.error("Erro ao registrar alerta:", err);
     }
 }
-
 
 function formatData(date) {
     return date.getFullYear() + '-' +

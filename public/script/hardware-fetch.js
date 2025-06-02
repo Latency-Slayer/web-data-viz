@@ -53,8 +53,6 @@ function getData() {
             document.getElementById('ramUsage').textContent = ramValue + '%';
             document.getElementById('diskUsage').textContent = discoValue + '%';
 
-            
-
             if (cpuValue >= dadosServidor.limites.cpu) {
                 container_cpu.classList.add("Crítico");
                 abrirChamadoJira('cpu', cpuValue, dadosServidor.limites.cpu, "Crítico").then(idJira => {
@@ -181,74 +179,6 @@ function formatData(date) {
         String(date.getSeconds()).padStart(2, '0');
 }
 
-function getLimitComponent() {
-    const motherboardId = getMotherboardId();
-    const cleanId = motherboardId.replace(/^\/|\/$/g, '');  // remove barras do começo e do fim
-
-    fetch(`/server/getLimitComponent/${encodeURIComponent(cleanId)}`, {
-        method: 'GET',
-    })
-        .then(function (resposta) {
-            return resposta.json();
-        })
-        .then(function (json) {
-            console.log("Limites Recebidos:", json);
-            const limites = {}
-            json.forEach(item => {
-                limites[item.type] = item.max_limit;
-                document.getElementById(item.type + "_limit").textContent = item.max_limit + "%";
-            });
-        })
-        .catch(function (erro) {
-            console.error("Erro ao buscar limites:", erro);
-        });
-}
-
-function getAlerts() {
-    const motherboardId = getMotherboardId();
-
-    fetch(`/alert/getAlerts/${encodeURIComponent(motherboardId)}`, {
-        method: "GET",
-    }).then(res => res.json())
-        .then(data => {
-            console.log("Total de alertas:", data);
-            document.getElementById('qtd_alerts').textContent = data.total_criados;
-        })
-        .catch(err => console.error('Erro ao buscar total de alertas:', err));
-}
-
-function getAlertsPorDia() {
-    const motherboardId = getMotherboardId();
-
-    fetch(`/alert/getAlertsPorDia/${encodeURIComponent(motherboardId)}`, {
-        method: "GET",
-    }).then(res => res.json())
-        .then(data => {
-
-            const semana = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
-            const contagemPorDia = [0, 0, 0, 0, 0, 0, 0];
-
-            data.forEach(item => {
-                const dataObj = new Date(item.data_criacao);
-                const semana = dataObj.getDay(); // 0 (Dom) a 6 (Sab)
-                contagemPorDia[semana] += item.total_criados;
-            });
-
-            console.log("Contagem por dia da semana:", contagemPorDia);
-
-            const totalAlertas = contagemPorDia.reduce((sum, qtd) => sum + qtd, 0);
-            document.getElementById('qtd_alerts').textContent = totalAlertas;
-
-            barAlert.updateSeries([{
-                name: "Quantidade de Alertas",
-                data: contagemPorDia,
-                color: "#44395F"
-            }]);
-
-        })
-        .catch(err => console.error('Erro ao buscar total de alertas:', err));
-}
-
 
 function abrirChamadoJira(component, value, limite, nivel) {
     const params = new URLSearchParams(window.location.search);
@@ -299,6 +229,25 @@ function abrirChamadoJira(component, value, limite, nivel) {
             return null;
         });
 }
+
+function getAlerts() {
+    const motherboardId = getMotherboardId();
+    fetch(`/alert/getAlerts?tag=${motherboardId}`)
+        .then(res => {
+            if (!res.ok) {
+                throw new Error('Erro ao buscar alertas');
+            }
+            return res.json();
+        })
+        .then(alertas => {
+            console.log('Alertas recebidos:', alertas);
+            document.getElementById('qtd_alertas').textContent = alertas.total_criados ?? 0;
+        })
+        .catch(err => {
+            console.error('Erro ao buscar alertas:', err);
+        });
+}
+
 
 
 function canOpenJiraCall(component) {
