@@ -30,10 +30,10 @@ const listaJogos = async(req,res) => {
     }
 }
 
-const grafico1 = async(req,res) => {
+const dados_abandono = async(req,res) => {
     try {
         const nomeJogo = req.params.nomeJogo
-        const selects = await abandonoModel.grafico1(nomeJogo)
+        const selects = await abandonoModel.dados_abandono(nomeJogo)
         const resultFinal = []
         for (let i = 0; i < selects.result1.length; i++) {
             const semAlerta = selects.result1[i].media_jogadores_sem_alerta
@@ -62,6 +62,6 @@ module.exports = {
     buscarKPI3, 
     pesquisaJogo,
     listaJogos, 
-    grafico1,
+    dados_abandono,
     buscarKPI1
 }

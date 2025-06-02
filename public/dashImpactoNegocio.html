@@ -101,7 +101,7 @@
             
             legendaincidente.innerHTML = `<span style="color:${mensagemCor}">${mensagemIcone} ${Math.abs((((res.select[0].qtd - res.selectmespass[0].qtd) / res.selectmespass[0].qtd) * 100)).toFixed(2)}% em relação ao mês passado </span>`
         })
-        grafico1(pesquisa)
+        dados_abandono(pesquisa)
     }
 
     const ctx = document.getElementById('chartBar');
@@ -154,8 +154,8 @@
     }
   });
 
-  function grafico1(nomeJogo) {
-        fetch(`/abandono/grafico1/${nomeJogo}`).then((res) => {
+  function dados_abandono(nomeJogo) {
+        fetch(`/abandono/dados_abandono/${nomeJogo}`).then((res) => {
             return res.json()
         }).then((res) => {
             const vetorData = []
