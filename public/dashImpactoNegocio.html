@@ -27,6 +27,8 @@
                 <div class="containers">
                     <div class="container">
                         <span>Abandono por Baixa Performance</span>
+                        <span class="valor" id="abandono"></span>
+                        <div class="legenda" id="legendaAbandono"></div>
                     </div>
                     <div class="container">
                         <span>Estabilidade das Sessões de Jogos</span>
@@ -102,6 +104,7 @@
             legendaincidente.innerHTML = `<span style="color:${mensagemCor}">${mensagemIcone} ${Math.abs((((res.select[0].qtd - res.selectmespass[0].qtd) / res.selectmespass[0].qtd) * 100)).toFixed(2)}% em relação ao mês passado </span>`
         })
         dados_abandono(pesquisa)
+        dados_abandono_kpi(pesquisa)
     }
 
     const ctx = document.getElementById('chartBar');
@@ -155,7 +158,9 @@
   });
 
   function dados_abandono(nomeJogo) {
-        fetch(`/abandono/dados_abandono/${nomeJogo}`).then((res) => {
+        fetch(`/abandono/dados_abandono/${nomeJogo}`, {
+            method: "GET"
+        }).then((res) => {
             return res.json()
         }).then((res) => {
             const vetorData = []
@@ -170,7 +175,6 @@
                 'SA': 'South America',
                 'OC': 'Oceania'
             };
-
             
             for (let i = 0; i < res.length; i++) {
                 vetorData.push(res[i].media_abandono)
@@ -190,6 +194,35 @@
             chart1.data.labels = vetorLabel
             chart1.data.datasets[0].backgroundColor = vetorCor
             chart1.update()
+        })
+    }
+
+    function dados_abandono_kpi(nomeJogo) {
+        fetch(`/abandono/dados_abandono_kpi/${nomeJogo}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then((res) => {
+            console.log("LAAAAAAAAAAAAIZA", res)
+            return res.json()
+        }).then((res) => {
+            console.log(res)
+           if(res.length == 0) {
+                abandono.innerHTML = "Resultado não encontrado"
+            }
+            abandono.innerHTML = res.totalAbandono
+        //     let mensagemIcone = '<i class="bi bi-arrow-up"></i>'
+        //     let mensagemCor = "red"
+            
+            // if((((res.select[0].qtd - res.selectmespass[0].qtd) / res.selectmespass[0].qtd) * 100) < 0) {
+            //     mensagemIcone = '<i class="bi bi-arrow-down"></i>'
+            //     mensagemCor = "green"
+            // }
+
+            let mesPass
+            
+            legendaAbandono.innerHTML = `<span style="color:${mensagemCor}">${mensagemIcone} ${Math.abs(res.selectmespass[0])}% em relação ao mês passado </span>`
         })
     }
 

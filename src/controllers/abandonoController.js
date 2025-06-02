@@ -32,9 +32,11 @@ const listaJogos = async(req,res) => {
 
 const dados_abandono = async(req,res) => {
     try {
+        console.log("controller")
         const nomeJogo = req.params.nomeJogo
         const selects = await abandonoModel.dados_abandono(nomeJogo)
         const resultFinal = []
+        console.log(selects)
         for (let i = 0; i < selects.result1.length; i++) {
             const semAlerta = selects.result1[i].media_jogadores_sem_alerta
             const comAlerta = selects.result2[i].media_jogadores_com_alerta
@@ -43,18 +45,33 @@ const dados_abandono = async(req,res) => {
                 media_abandono: semAlerta - comAlerta
             })
         }
-        return res.json(resultFinal)
+        return res.status(200).json(resultFinal)
     } catch(error) {
-        return res.status(404).json(error.message);
+        return res.status(404).json(error.sqlMessage);
     }
 }
 
-const buscarKPI1 = async(req,res) => {
+const dados_abandono_kpi = async(req,res) => {
     try {
-        const select = await abandonoModel.buscarKPI1(nomeJogo)
-        return res.status(200).json(select);
+        console.log("controller")
+        const nomeJogo = req.params.nomeJogo
+        const selects = await abandonoModel.dados_abandono(nomeJogo);
+        const selectsMesAnterior = await abandonoModel.legendaAbandono(nomeJogo);
+        let totalAbandono = 0;
+        
+        for (let i = 0; i < selects.result1.length; i++) {
+            console.log("laiza", selects)
+            const semAlerta = selects.result1[i].media_jogadores_sem_alerta
+            const comAlerta = selects.result2[i].media_jogadores_com_alerta
+            
+            const abandono = semAlerta - comAlerta;
+
+            totalAbandono += abandono;
+        }
+
+        return res.json({totalAbandono, selectsMesAnterior})
     } catch(error) {
-        return res.status(404).json(error.message);
+        return res.status(404).json(error.sqlMessage);
     }
 }
 
@@ -63,5 +80,5 @@ module.exports = {
     pesquisaJogo,
     listaJogos, 
     dados_abandono,
-    buscarKPI1
+    dados_abandono_kpi,
 }

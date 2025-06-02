@@ -41,6 +41,37 @@ order by qtd desc;`
     return database.executar(instrucaoSql, [nomeJogo])
 }
 
+async function legendaAbandono(nomeJogo) {
+    const instrucaoSql = `SELECT dados_diarios.continent_code as continente,
+ROUND(AVG(total_jogadores), 0) as media_jogadores_sem_alerta
+FROM (SELECT cc.fk_server, cc.continent_code, DATE(cc.date_time) as dia,
+COUNT(*) as total_jogadores FROM connection_capturing cc
+WHERE DAYOFWEEK(cc.date_time) IN (1, 6, 7)
+AND DATE(cc.date_time) IN (SELECT DISTINCT DATE(dateAlert) 
+FROM alert) GROUP BY cc.fk_server, cc.continent_code, DATE(cc.date_time)) as dados_diarios
+INNER JOIN server s ON dados_diarios.fk_server = s.id_server
+where game like ? AND DATE(dia) >= DATE_SUB(CURDATE(), INTERVAL 60 DAY) AND DATE(dia) <= DATE_SUB(CURDATE(), INTERVAL 30 DAY) 
+GROUP BY dados_diarios.continent_code
+ORDER BY dados_diarios.continent_code;`
+
+    const instrucaoSql2 = `SELECT dados_diarios.continent_code as continente,
+ROUND(AVG(total_jogadores), 0) as media_jogadores_com_alerta
+FROM (SELECT cc.fk_server, cc.continent_code, DATE(cc.date_time) as dia,
+COUNT(*) as total_jogadores FROM connection_capturing cc
+WHERE DAYOFWEEK(cc.date_time) IN (1, 6, 7) 
+AND DATE(cc.date_time) NOT IN (SELECT DISTINCT DATE(dateAlert) 
+FROM alert) GROUP BY cc.fk_server, cc.continent_code, DATE(cc.date_time)) as dados_diarios
+INNER JOIN server s ON dados_diarios.fk_server = s.id_server
+where game like ? AND DATE(dia) >= DATE_SUB(CURDATE(), INTERVAL 60 DAY) AND DATE(dia) <= DATE_SUB(CURDATE(), INTERVAL 30 DAY) 
+GROUP BY dados_diarios.continent_code
+ORDER BY dados_diarios.continent_code;`
+
+    const result1 = await database.executar(instrucaoSql, [nomeJogo])
+    const result2 = await database.executar(instrucaoSql2, [nomeJogo])
+
+    return {result1, result2}
+}
+
 function listaJogos(id_company) {
     const instrucaoSql = `select server.game, count(id_alert) AS qtd from alert
 join metric on fk_metric = id_metric
@@ -61,6 +92,7 @@ function buscarKPI2() {
 }
 
 async function dados_abandono(nomeJogo) {
+        console.log('Nome do jogo recebido:', nomeJogo);
     const instrucaoSql = `SELECT dados_diarios.continent_code as continente,
 ROUND(AVG(total_jogadores), 0) as media_jogadores_sem_alerta
 FROM (SELECT cc.fk_server, cc.continent_code, DATE(cc.date_time) as dia,
@@ -69,7 +101,7 @@ WHERE DAYOFWEEK(cc.date_time) IN (1, 6, 7)
 AND DATE(cc.date_time) IN (SELECT DISTINCT DATE(dateAlert) 
 FROM alert) GROUP BY cc.fk_server, cc.continent_code, DATE(cc.date_time)) as dados_diarios
 INNER JOIN server s ON dados_diarios.fk_server = s.id_server
-where game like ?
+where game like 'Rainbow Six Siege' AND DATE(dia) >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
 GROUP BY dados_diarios.continent_code
 ORDER BY dados_diarios.continent_code;`
 
@@ -104,5 +136,6 @@ module.exports = {
     listaJogos,
     buscarKPI2,
     dados_abandono,
+    legendaAbandono,
     grafico2
 }

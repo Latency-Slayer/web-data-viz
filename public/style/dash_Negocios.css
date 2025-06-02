@@ -45,8 +45,7 @@
 .containers {
     width: 100%;
     display: flex;
-    justify-content: center;
-    gap: 10vw;
+    justify-content: space-around;
 }
 
 .containers .container {
