@@ -11,7 +11,7 @@
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
 
-<body onload="atualizarChamados(), alertasPorServidor(), getChamadosSemReponsavel()">
+<body onload="atualizarChamados(), alertasPorServidor(), getChamadosSemReponsavel(), getResponsavelSemAtribuicao(), getChamadosTotais()">
   <nav-bar></nav-bar>
 
   <main>
@@ -32,14 +32,14 @@
       </div>
 
       <div class="kpi">
-        <div class="titulo-kpi">Colaboradores sem chamados atribuídos</div>
+        <div class="titulo-kpi">Quantidade de chamados do mês</div>
         <div class="kpi-infos">
-          <div class="kpi-numeros">20</div>
-          <div class="kpi-mensagem">colaboradores estão sem atribuição</div>
+          <div class="kpi-numeros" id="kpi-chamados-totais"></div>
+          <div class="kpi-mensagem">chamados somente neste mês</div>
         </div>
 
         <div class="rodape">
-          <div class="label">60% do total de chamados (total de 20)</div>
+          <div class="label">20% acima (mês passado: 18)</div>
         </div>
       </div>
 
@@ -60,7 +60,7 @@
         <div class="first-grafico-linha-1">
           <div class="box-first-grafico-linha-1">
             <div class="titulo-first-grafico-linha-1">
-              Número de chamados do mês
+              Relatório de chamados do mês
             </div>
 
             <div id="chart"></div>
@@ -70,7 +70,7 @@
         <div class="second-grafico-linha-1">
           <div class="box-second-grafico-linha-1">
             <div class="titulo-second-grafico-linha-1">
-              Lista de chamados sem responsável
+              Lista de chamados por servidor
             </div>
 
             <div class="lista-second-grafico-linha-1">
@@ -96,17 +96,23 @@
         <div class="first-grafico-linha-2">
           <div class="box-first-grafico-linha-2">
             <div class="titulo-first-grafico-linha-2">
-              Lista de responsável sem atribuição
+              Lista de chamados sem atribuição
             </div>
 
             <div class="lista-first-grafico-linha-2">
               <table>
-                <tr>
-                  <th>ID</th>
-                  <th>Nome</th>
-                  <th>Email</th>
-                  <th>Grupo</th>
-                </tr>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Relator</th>
+                    <th>Status</th>
+                    <th>Grupo</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  
+                </tbody>
               </table>
             </div>
           </div>
@@ -168,9 +174,6 @@
     document.getElementById('porcentagemKpiSemAtribuicao').textContent = porcentagem + "%";
   }
 
-  function totalChamadosNoMes() {
-
-  }
 
   function alertasPorServidor() {
     fetch('/server/getAlertsPerServer')
@@ -205,6 +208,32 @@
       });
   }
 
+  function getResponsavelSemAtribuicao() {
+    fetch('/jira/chamados-abertos').then(response => response.json()).then(chamado => {
+      const tbody = document.querySelector(".lista-first-grafico-linha-2 table tbody");
+
+      tbody.innerHTML = "";
+
+      chamado.forEach(responsavel => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${responsavel.id}</td>
+            <td>${responsavel.fields.reporter.displayName}</td>
+            <td>${responsavel.fields.status.name}</td>
+            <td>${responsavel.key}</td>
+          `;
+        tbody.appendChild(row);
+      })
+    })
+  }
+
+  function getChamadosTotais() {
+    fetch('/jira/chamados-totais').then(response => response.json()).then(chamados => {
+      const total = document.getElementById("kpi-chamados-totais");
+
+      total.textContent = chamados.length;
+    })
+  }
 
   function getChamadosSemReponsavel() {
     fetch('/server/getChamadosSemResponsavel')
@@ -219,9 +248,9 @@
         data.forEach(servidor => {
           const row = document.createElement("tr");
           row.innerHTML = `
-            <td>${servidor.idJira}</td>
-            <td>${servidor.tag_name}</td>
             <td>${servidor.id}</td>
+            <td>${servidor.tag_name}</td>
+            <td>${servidor.idJira}</td>
             <td>${servidor.nivel}</td>
           `;
           tbody.appendChild(row);

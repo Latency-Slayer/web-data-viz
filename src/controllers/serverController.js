@@ -48,6 +48,7 @@ function getChamadosSemResponsavel(req, res){
     })
 }
 
+
 module.exports = {
     registerServer,
     getServerComponentsData,

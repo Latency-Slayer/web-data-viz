@@ -120,7 +120,6 @@ function getChamadosSemResponsavel() {
     return database.executar(instrucaoSql)
 }
 
-
 async function getServerComponentsData(motherBoardId) {
     const [server] = await database.executar(
         `SELECT server.motherboard_id, tag_name, type, game, port, legal_name, registration_number
