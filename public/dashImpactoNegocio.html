@@ -41,7 +41,7 @@
 
             <div class="Graficos">
                 <div id="chart" class="Grafico">
-                    <h1>Taxa de Abandono por Baixa Performance por Continente</h1>
+                    <h1>Abandono por Baixa Performance por Continente</h1>
                     <canvas id="chartBar"></canvas>
                 </div>
                 <div id="chart2" class="Grafico">
@@ -138,7 +138,7 @@
           },
           title: {
             display: true,
-            text: 'Abandono de Jogos',
+            text: 'Abandono de Jogo',
             color: 'black',
             font: {
                 size: 18,
@@ -168,15 +168,24 @@
             const vetorData = []
             const vetorLabel = []
 
+            const continentMap = {
+                'EU': 'Europe',
+                'AF': 'Africa',
+                'AS': 'Asia',
+                'NA': 'North America',
+                'SA': 'South America',
+                'OC': 'Oceania'
+            };
+
             for (let i = 0; i < res.length; i++) {
-                vetorLabel.push(res[i].continent)
                 vetorData.push(res[i].media_abandono)
+                const continente = continentMap[res[i].continent]
+                vetorLabel.push(continente)
             }
+
             chart1.data.datasets[0].data = vetorData
             chart1.data.labels = vetorLabel
-
-            console.log('vetorData:', vetorData);
-            console.log('vetorLabel:', vetorLabel);
+            chart1.update()
         })
     }
 
@@ -220,7 +229,7 @@
                         },
                         title: {
                             display: true,
-                            text: 'Abandono de Jogos',
+                            text: 'Abandono de Jogo',
                             color: 'black',
                             font: {
                                 size: 18,
