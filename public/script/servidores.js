@@ -17,7 +17,6 @@ async function getServers() {
         }
 
         await getDataFromMap();
-
         console.log("Todos os servidores processados!");
     } catch (erro) {
         console.log("Erro ao buscar servidores:", erro);
@@ -46,7 +45,7 @@ async function getDataFromMap() {
 function updateServerCard(motherboard_id, data) {
     const card = document.querySelector(`alert-card[motherboardid="${motherboard_id}"]`);
     const limiteMax = limitesMaximos[motherboard_id];
-
+    
     card.updateMetrics({
         cpu: data.metrics.cpu_percent ,
         ram: data.metrics.ram_percent,
@@ -101,6 +100,47 @@ function mostrarCards(servidores) {
     });
 }
 
+function obterValorCampo(card, campo) {
+    if (campo === 'criticality') {
+        const critEl = card.shadowRoot.querySelector('.criticality');
+        if (critEl) {
+            return critEl.textContent;
+        }
+        return null;
+    }
+    return card.getAttribute(campo);
+}
+
+function ordenarCardsPorCriticidade() {
+    const container = document.getElementById("server-container");
+    const cards = Array.from(container.querySelectorAll('alert-card'));
+
+    const prioridade = {
+        'Crítico': 3,
+        'Atenção': 2,
+        'Normal': 1
+    };
+
+    cards.sort((a, b) => {
+        const critA = obterValorCampo(a, 'criticality');
+        const critB = obterValorCampo(b, 'criticality');
+
+        const valA = prioridade[critA] || 0;
+        const valB = prioridade[critB] || 0;
+
+        return valB - valA;  // maior prioridade primeiro
+    });
+
+    // verifica se a posição dele mudou, para não ficar piscando toda hora, e mantem nessa opsição que ele ficou
+    cards.forEach((card, index) => {
+        if (container.children[index] !== card) {
+            container.insertBefore(card, container.children[index]);
+        }
+    });
+}
+
+
 setInterval(() => {
     getDataFromMap(); 
+    ordenarCardsPorCriticidade();
 }, 3000);

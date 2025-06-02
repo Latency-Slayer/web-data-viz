@@ -31,7 +31,7 @@ function getData() {
         const metricas = new Map(json);
         console.log("Métricas processadas:", metricas);
         var dadosServidor = metricas.get(motherboardId);
-        
+
         console.log("Dados do servidor encontrados:", dadosServidor);
 
         if (json) {
@@ -201,18 +201,22 @@ function formatData(date) {
 }
 
 function getAlerts() {
-    fetch("/alert/getAlerts", {
+    const motherboardId = getMotherboardId();
+
+    fetch(`/alert/getAlerts/${encodeURIComponent(motherboardId)}`, {
         method: "GET",
     }).then(res => res.json())
         .then(data => {
             console.log("Total de alertas:", data);
-            document.getElementById('qtd_alerts').textContent = data.total;
+            document.getElementById('qtd_alerts').textContent = data.total_criados;
         })
         .catch(err => console.error('Erro ao buscar total de alertas:', err));
 }
 
 function getAlertsPorDia() {
-    fetch("/alert/getAlertsPorDia", {
+    const motherboardId = getMotherboardId();
+
+    fetch(`/alert/getAlertsPorDia/${encodeURIComponent(motherboardId)}`, {
         method: "GET",
     }).then(res => res.json())
         .then(data => {

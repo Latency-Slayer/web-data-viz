@@ -20,19 +20,26 @@ async function registerAlert(req, res) {
 }
 
 function getAlerts(req, res) {
-    alertModel.getAlerts()
+    const motherboard = req.params.motherboard;
+    console.log("getAlerts chamado com motherboard:", motherboard);
+
+    alertModel.getAlerts(motherboard)
         .then((resultado) => {
+            console.log("Resultado da query getAlerts:", resultado);
+
             const total = resultado[0]["COUNT(id_Alert)"];
-            res.status(200).json({ total: total });
+            res.status(200).json({ total_criados: total_criados });
         })
         .catch((erro) => {
-            console.error(erro);
+            console.error("Erro no getAlerts:", erro);
             res.status(500).json({ error: "Erro ao buscar alertas" });
         });
 }
 
+
 function getAlertsPorDia(req, res) {
-    alertModel.getAlertsPorDia()
+    const motherboard = req.params.motherboard
+    alertModel.getAlertsPorDia(motherboard)
         .then((resultado) => {
             res.status(200).json(resultado);  
         })
