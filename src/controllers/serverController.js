@@ -48,6 +48,11 @@ function getChamadosSemResponsavel(req, res){
     })
 }
 
+function getRelatorioDeChamadosDoMesPassado(req, res){
+    serverModel.getRelatorioDeChamadosDoMesPassado().then((resultado) => {
+        res.status(200).json(resultado);
+    })
+}
 
 module.exports = {
     registerServer,
@@ -56,5 +61,6 @@ module.exports = {
     listarServer,
     getLimitComponent,
     getAlertsPerServer,
-    getChamadosSemResponsavel
+    getChamadosSemResponsavel,
+    getRelatorioDeChamadosDoMesPassado
 };

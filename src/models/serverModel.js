@@ -102,11 +102,33 @@ function getAlertsPerServer() {
     return database.executar(instrucaoSql)
 }
 
+function getRelatorioDeChamadosDoMesPassado() {
+    var instrucaoSql =
+    `
+    WITH RECURSIVE dias AS (
+    SELECT DATE_FORMAT(CURDATE() - INTERVAL 1 MONTH, '%Y-%m-01') AS dia
+    UNION ALL
+    SELECT dia + INTERVAL 1 DAY
+    FROM dias
+    WHERE dia + INTERVAL 1 DAY <= LAST_DAY(CURDATE() - INTERVAL 1 MONTH)
+)
+    SELECT 
+    DATE_FORMAT(dias.dia, '%d') AS dia,  -- Mostra só o número do dia (ex: '01', '15', etc.)
+    COUNT(alert.id_Alert) AS total_alertas
+    FROM dias
+    LEFT JOIN alert ON DATE(alert.dateAlert) = dias.dia
+    GROUP BY dias.dia
+    ORDER BY dias.dia;
+    `
+
+    return database.executar(instrucaoSql);
+}
+
 function getChamadosSemResponsavel() {
     var instrucaoSql =
         `
     SELECT 
-    MIN(a.idJira) AS idJira,
+    MIN(a.id_Alert) AS idJira,
     s.tag_name as tag_name,
     s.id_server as id,
     MIN(a.nivel) AS nivel
@@ -156,4 +178,5 @@ module.exports = {
     getLimitComponent,
     getAlertsPerServer,
     getChamadosSemResponsavel,
+    getRelatorioDeChamadosDoMesPassado
 };
