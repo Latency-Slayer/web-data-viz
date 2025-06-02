@@ -58,6 +58,17 @@ const dados_abandono_kpi = async(req,res) => {
         const selects = await abandonoModel.dados_abandono(nomeJogo);
         const selectsMesAnterior = await abandonoModel.legendaAbandono(nomeJogo);
         let totalAbandono = 0;
+        let totalAbandonoPass = 0;
+
+        for (let i = 0; i < selectsMesAnterior.result1.length; i++) {
+            const semAlerta = selectsMesAnterior.result1[i].media_jogadores_sem_alerta
+            const comAlerta = selectsMesAnterior.result2[i].media_jogadores_com_alerta
+
+            const abandono = semAlerta - comAlerta;
+
+            totalAbandonoPass += abandono;
+
+        }
         
         for (let i = 0; i < selects.result1.length; i++) {
             console.log("laiza", selects)
@@ -69,7 +80,7 @@ const dados_abandono_kpi = async(req,res) => {
             totalAbandono += abandono;
         }
 
-        return res.json({totalAbandono, selectsMesAnterior})
+        return res.json({totalAbandono, totalAbandonoPass})
     } catch(error) {
         return res.status(404).json(error.sqlMessage);
     }

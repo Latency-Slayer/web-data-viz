@@ -211,18 +211,18 @@
            if(res.length == 0) {
                 abandono.innerHTML = "Resultado não encontrado"
             }
-            abandono.innerHTML = res.totalAbandono
-        //     let mensagemIcone = '<i class="bi bi-arrow-up"></i>'
-        //     let mensagemCor = "red"
+            let totalMesPass = res.totalAbandonoPass
+            let totalMesAtual = res.totalAbandono
+            abandono.innerHTML = totalMesAtual +" Jogadores"
+            let mensagemIcone = '<i class="bi bi-arrow-up"></i>'
+            let mensagemCor = "red"
             
-            // if((((res.select[0].qtd - res.selectmespass[0].qtd) / res.selectmespass[0].qtd) * 100) < 0) {
-            //     mensagemIcone = '<i class="bi bi-arrow-down"></i>'
-            //     mensagemCor = "green"
-            // }
-
-            let mesPass
+            if((((totalMesAtual - totalMesPass) / totalMesPass) * 100) < 0) {
+                mensagemIcone = '<i class="bi bi-arrow-down"></i>'
+                mensagemCor = "green"
+            }
             
-            legendaAbandono.innerHTML = `<span style="color:${mensagemCor}">${mensagemIcone} ${Math.abs(res.selectmespass[0])}% em relação ao mês passado </span>`
+            legendaAbandono.innerHTML = `<span style="color:${mensagemCor}">${mensagemIcone} ${Math.abs((((totalMesAtual - totalMesPass) / totalMesPass)) * 100).toFixed(2)}% em relação ao mês passado </span>`
         })
     }
 
