@@ -167,7 +167,10 @@ tbody td {
     font-size: 2vw!important;
 }
 
-
+    .label {
+        padding: 0 4vw;
+        font-size: 2.3vw;
+    }
 
     .graficos {
         flex-direction: column;
