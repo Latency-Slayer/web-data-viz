@@ -124,6 +124,7 @@ function getTopTresServersComMaisOcorrencias() {
         JOIN metric m on a.fk_Metric = m.id_metric
         JOIN component c on m.fk_component = c.id_component
         JOIN server s on c.fk_server = s.id_server
+        WHERE a.dateAlert >= NOW() - INTERVAL 7 DAY
         GROUP BY s.tag_name ORDER BY COUNT(a.id_Alert) DESC LIMIT 3;
     `
 

@@ -57,15 +57,18 @@
         </div>
         <div class="kpi-infos-col">
           <div class="label" id="label_01">
-            <div id="sv_ocorrencias_01"></div> ocorrências em <div id="sv_tag_name_01"></div>
+            <div id="sv_ocorrencias_01"></div>
+            <div id="sv_tag_name_01"></div>
           </div>
 
           <div class="label" id="label_02">
-            <div id="sv_ocorrencias_02"></div> ocorrências em <div id="sv_tag_name_02"></div>
+            <div id="sv_ocorrencias_02"></div>
+            <div id="sv_tag_name_02"></div>
           </div>
 
           <div class="label" id="label_03">
-            <div id="sv_ocorrencias_03"></div> ocorrências em <div id="sv_tag_name_03"></div>
+            <div id="sv_ocorrencias_03"></div>
+            <div id="sv_tag_name_03"></div>
           </div>
         </div>
       </div>
@@ -243,82 +246,132 @@
   function getTopTresServersComMaisOcorrencias() {
     fetch('/server/getTopTresServersComMaisOcorrencias').then(response => response.json()).then(servers => {
 
-      const qtd_alertas_1 = servers[0]['qtd_alertas']
-      const qtd_alertas_2 = servers[1]['qtd_alertas']
-      const qtd_alertas_3 = servers[2]['qtd_alertas']
+      var div_ocorrencias_1 = document.getElementById('sv_ocorrencias_01')
+      var div_ocorrencias_2 = document.getElementById('sv_ocorrencias_02')
+      var div_ocorrencias_3 = document.getElementById('sv_ocorrencias_03')
 
-      const tag_name_1 = servers[0]['tag_name']
-      const tag_name_2 = servers[1]['tag_name']
-      const tag_name_3 = servers[2]['tag_name']
+      var first_label = document.getElementById("label_01");
+      var second_label = document.getElementById("label_02");
+      var third_label = document.getElementById("label_03");
 
-      const ocorrencias_1 = document.getElementById('sv_ocorrencias_01')
-      const ocorrencias_2 = document.getElementById('sv_ocorrencias_02')
-      const ocorrencias_3 = document.getElementById('sv_ocorrencias_03')
+      div_ocorrencias_1.textContent = "Sem ocorrências"
+      div_ocorrencias_2.textContent = "Sem ocorrências"
+      div_ocorrencias_3.textContent = "Sem ocorrências"
+
 
       const div_tag_name_1 = document.getElementById('sv_tag_name_01')
       const div_tag_name_2 = document.getElementById('sv_tag_name_02')
       const div_tag_name_3 = document.getElementById('sv_tag_name_03')
 
-      ocorrencias_1.textContent = qtd_alertas_1;
-      ocorrencias_2.textContent = qtd_alertas_2;
-      ocorrencias_3.textContent = qtd_alertas_3;
-
-      div_tag_name_1.textContent = tag_name_1
-      div_tag_name_2.textContent = tag_name_2
-      div_tag_name_3.textContent = tag_name_3
+      var tag_name_1 = ""
+      var tag_name_2 = ""
+      var tag_name_3 = ""
 
 
-      console.log(servers)
+      if (servers.length == 1) {
+        if ((!isNaN(servers[0]['qtd_alertas'])) && (typeof (servers[0]['tag_name']) === 'string')) {
+          var qtd_alertas_1 = servers[0]['qtd_alertas']
+          var tag_name_1 = servers[0]['tag_name']
+        }
+
+        div_ocorrencias_1.textContent = `${qtd_alertas_1} ocorrências em`;
+        div_tag_name_1.textContent = tag_name_1
+      }
+
+
+
+      if (servers.length == 2) {
+        if ((!isNaN(servers[0]['qtd_alertas'])) && (typeof (servers[0]['tag_name']) === 'string')) {
+          var qtd_alertas_1 = servers[0]['qtd_alertas']
+          var tag_name_1 = servers[0]['tag_name']
+        }
+
+        if ((!isNaN(servers[1]['qtd_alertas'])) && (typeof (servers[1]['tag_name']) === 'string')) {
+          var qtd_alertas_2 = servers[1]['qtd_alertas']
+          var tag_name_2 = servers[1]['tag_name']
+        }
+
+        div_ocorrencias_1.textContent = `${qtd_alertas_1} ocorrências em`;
+        div_tag_name_1.textContent = tag_name_1
+        div_ocorrencias_2.textContent = `${qtd_alertas_2} ocorrências em`;
+        div_tag_name_2.textContent = tag_name_2;
+      }
+
+
+
+      if (servers.length == 3) {
+        if ((!isNaN(servers[0]['qtd_alertas'])) && (typeof (servers[0]['tag_name']) === 'string')) {
+          var qtd_alertas_1 = servers[0]['qtd_alertas']
+          var tag_name_1 = servers[0]['tag_name']
+        }
+
+        if ((!isNaN(servers[1]['qtd_alertas'])) && (typeof (servers[1]['tag_name']) === 'string')) {
+          var qtd_alertas_2 = servers[1]['qtd_alertas']
+          var tag_name_2 = servers[1]['tag_name']
+        }
+
+        if ((!isNaN(servers[2]['qtd_alertas'])) && (typeof (servers[2]['tag_name']) === 'string')) {
+          var qtd_alertas_3 = servers[2]['qtd_alertas']
+          var tag_name_3 = servers[2]['tag_name']
+        }
+
+        div_ocorrencias_1.textContent = `${qtd_alertas_1} ocorrências em`;
+        div_tag_name_1.textContent = tag_name_1
+        div_ocorrencias_2.textContent = `${qtd_alertas_2} ocorrências em`;
+        div_tag_name_2.textContent = tag_name_2;
+        div_ocorrencias_3.textContent = `${qtd_alertas_3} ocorrências em`;
+        div_tag_name_2.textContent = tag_name_3;
+      }
     })
   }
 
 
- async function getChamadosTotais() {
-      const response = await fetch('/jira/chamados-totais')
-      const chamados = await response.json()
+  async function getChamadosTotais() {
+    const response = await fetch('/jira/chamados-totais')
+    const chamados = await response.json()
 
-      const total = document.getElementById("kpi-chamados-totais");
-      console.log("teste teste:", chamados.length)
-      total.textContent = chamados.length;
+    const total = document.getElementById("kpi-chamados-totais");
+    // console.log("teste teste:", chamados.length)
+    total.textContent = chamados.length;
 
-      return chamados.length
+    return chamados.length
 
   }
 
   async function getQuantidadeDeChamadosDoMesPassado() {
-      const response = await fetch('/server/getQuantidadeDeChamadosDoMesPassado')
-      const chamados = await response.json()
-      const qtd_chamados_mes_passado = chamados[0].total_alertas_mes_passado;
-      const div_pctg = document.getElementById("pctg")
-      const div_qtd_mes_anterior = document.getElementById("qtd_mes_passado");
-      const label_kpi_comparacao = document.getElementById("label-kpi-meio");
-      const kpi_chamados_totais = document.getElementById("kpi-chamados-totais");
-      const kpi_mensagem = document.getElementById("kpi-mensagem-kpi-2");
-      const kpi = document.getElementById("id-kpi-1")
-      var balizador = "acima";
+    const response = await fetch('/server/getQuantidadeDeChamadosDoMesPassado')
+    const chamados = await response.json()
+    const qtd_chamados_mes_passado = chamados[0].total_alertas_mes_passado;
+    const div_pctg = document.getElementById("pctg")
+    const div_qtd_mes_anterior = document.getElementById("qtd_mes_passado");
+    const label_kpi_comparacao = document.getElementById("label-kpi-meio");
+    const kpi_chamados_totais = document.getElementById("kpi-chamados-totais");
+    const kpi_mensagem = document.getElementById("kpi-mensagem-kpi-2");
+    const kpi = document.getElementById("id-kpi-1")
+    var balizador = "acima";
 
-      var calculo = (((await getChamadosTotais()) * 100) / qtd_chamados_mes_passado) - 100
+    var calculo = (((await getChamadosTotais()) * 100) / qtd_chamados_mes_passado) - 100
 
 
-      if(calculo < 0) {
-        balizador = "abaixo"
-        calculo = calculo * (-1)
+    if (calculo < 0) {
+      balizador = "abaixo"
+      calculo = calculo * (-1)
 
-        kpi.style.backgroundColor = "#bbf7d0"
-        kpi_chamados_totais.style.color = "#15803d";
-        kpi_mensagem.style.color = "#15803d";
-        label_kpi_comparacao.style.backgroundColor = "#4ade80";
-        label_kpi_comparacao.style.color = "#052e16";
-      } else if(calculo == 0) {
-        kpi.style.backgroundColor = "white"
-        kpi_chamados_totais.style.color = "#57534e";
-        kpi_mensagem.style.color = "#57534e";
-        label_kpi_comparacao.style.backgroundColor = "#d6d3d1";
-        label_kpi_comparacao.style.color = "#57534e";
-      }
+      kpi.style.backgroundColor = "#bbf7d0"
+      kpi_chamados_totais.style.color = "#15803d";
+      kpi_mensagem.style.color = "#15803d";
+      label_kpi_comparacao.style.backgroundColor = "#4ade80";
+      label_kpi_comparacao.style.color = "#052e16";
+    } else if (calculo == 0) {
+      kpi.style.backgroundColor = "white"
+      kpi_chamados_totais.style.color = "#57534e";
+      kpi_mensagem.style.color = "#57534e";
+      label_kpi_comparacao.style.backgroundColor = "#d6d3d1";
+      label_kpi_comparacao.style.color = "#57534e";
+    }
 
-      div_qtd_mes_anterior.textContent = qtd_chamados_mes_passado
-      div_pctg.textContent = `${calculo}% ${balizador}`
+    div_qtd_mes_anterior.textContent = qtd_chamados_mes_passado
+    div_pctg.textContent = `${calculo}% ${balizador}`
 
   }
 
@@ -374,7 +427,7 @@
       ],
       stroke: {
         width: 2,
-        colors: ["#4D1D95"], 
+        colors: ["#4D1D95"],
       },
       xaxis: {
         categories: categorias,
