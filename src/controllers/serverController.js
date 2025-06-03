@@ -40,12 +40,39 @@ async function getLimitComponent(req, res) {
         res.status(500).json({ erro: "Erro ao buscar limites" });
     }
 }
+function getAlertsPerServer(req, res){
+    serverModel.getAlertsPerServer().then((resultado) => {
+        res.status(200).json(resultado);
+    })
+}
+
+function getChamadosSemResponsavel(req, res){
+    serverModel.getChamadosSemResponsavel().then((resultado) => {
+        res.status(200).json(resultado);
+    })
+}
+
+function getRelatorioDeChamadosDoMesPassado(req, res){
+    serverModel.getRelatorioDeChamadosDoMesPassado().then((resultado) => {
+        res.status(200).json(resultado);
+    })
+}
+
+function getTopTresServersComMaisOcorrencias(req, res) {
+        serverModel.getTopTresServersComMaisOcorrencias().then((resultado) => {
+        res.status(200).json(resultado);
+    })
+}
 
 
 module.exports = {
     registerServer,
     getServerComponentsData,
     getServerBytagName,
+    listarServer,
     getLimitComponent,
-    listarServer
+    getAlertsPerServer,
+    getChamadosSemResponsavel,
+    getRelatorioDeChamadosDoMesPassado,
+    getTopTresServersComMaisOcorrencias
 };

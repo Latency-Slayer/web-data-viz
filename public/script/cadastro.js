@@ -450,8 +450,8 @@ function entrar() {
               
               setTimeout(() => {
                     if (json.id_opt_role == 1) {
-                        window.location = "../dashboardmanagement.html"
-                    } else if (json.id_opt_role == 2) {
+                        window.location = "./dashboardmanagement.html"
+\                    } else if (json.id_opt_role == 2) {
                         window.location = "../servidores.html"
                     } else if (json.id_opt_role == 3) {
                         window.location = "../servidores.html"

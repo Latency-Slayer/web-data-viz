@@ -106,7 +106,68 @@ function getMetric(motherboard) {
     return database.executar(instrucaoSql);
 }
 
+function getAlertsPerServer() {
+    var instrucaoSql =
+        `SELECT s.id_server as id,s.tag_name as tag_name,COUNT(a.id_alert) AS total_alertas,s.game as game FROM server s
+    JOIN component c ON s.id_server = c.fk_server
+    JOIN metric m ON c.id_component = m.fk_component
+    JOIN alert a ON m.id_metric = a.fk_metric
+    GROUP BY s.id_server, s.tag_name, s.game;`
 
+    return database.executar(instrucaoSql)
+}
+
+function getTopTresServersComMaisOcorrencias() {
+    var instrucaoSql =
+    `
+        SELECT COUNT(a.id_Alert) as qtd_alertas, s.tag_name as tag_name FROM alert a
+        JOIN metric m on a.fk_Metric = m.id_metric
+        JOIN component c on m.fk_component = c.id_component
+        JOIN server s on c.fk_server = s.id_server
+        GROUP BY s.tag_name ORDER BY COUNT(a.id_Alert) DESC LIMIT 3;
+    `
+
+    return database.executar(instrucaoSql);
+}
+
+function getRelatorioDeChamadosDoMesPassado() {
+    var instrucaoSql =
+    `
+    WITH RECURSIVE dias AS (
+    SELECT DATE_FORMAT(CURDATE() - INTERVAL 1 MONTH, '%Y-%m-01') AS dia
+    UNION ALL
+    SELECT dia + INTERVAL 1 DAY
+    FROM dias
+    WHERE dia + INTERVAL 1 DAY <= LAST_DAY(CURDATE() - INTERVAL 1 MONTH)
+)
+    SELECT 
+    DATE_FORMAT(dias.dia, '%d') AS dia,
+    COUNT(alert.id_Alert) AS total_alertas
+    FROM dias
+    LEFT JOIN alert ON DATE(alert.dateAlert) = dias.dia
+    GROUP BY dias.dia
+    ORDER BY dias.dia;
+    `
+    return database.executar(instrucaoSql);
+}
+
+function getChamadosSemResponsavel() {
+    var instrucaoSql =
+        `
+    SELECT 
+    MIN(a.id_Alert) AS idJira,
+    s.tag_name as tag_name,
+    s.id_server as id,
+    MIN(a.nivel) AS nivel
+    FROM server s
+    JOIN component c ON s.id_server = c.fk_server
+    JOIN metric m ON c.id_component = m.fk_component
+    JOIN alert a ON m.id_metric = a.fk_metric
+    GROUP BY s.tag_name, s.id_server;
+    `
+
+    return database.executar(instrucaoSql)
+}
 
 async function getServerComponentsData(motherBoardId) {
     const [server] = await database.executar(
@@ -142,5 +203,9 @@ module.exports = {
     getServerBytagName,
     listarServer,
     getLimitComponent,
-    getMetric
+    getMetric,
+    getAlertsPerServer,
+    getChamadosSemResponsavel,
+    getRelatorioDeChamadosDoMesPassado,
+    getTopTresServersComMaisOcorrencias
 };
