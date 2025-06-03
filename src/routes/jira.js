@@ -1,13 +1,10 @@
-var express = require('express');
-var cors = require("cors");
-var router = express.Router();
+const {Router} = require("express");
 
-const app = express();
+const router = Router();  
 
 const email = 'ana.latence.2025@gmail.com';
 const apiToken = process.env.TOKEN_ATLASSIAN;
 const domain = 'fernandolatence2025.atlassian.net';
-app.use(cors())
 
 const auth = Buffer.from(`${email}:${apiToken}`).toString('base64');
 
@@ -27,14 +24,11 @@ router.get('/chamados-abertos', async (req, res) => {
   res.json(data.issues);
 });
 
-router.post('/criar-chamado', async (req, res) => {
-  const { summary, description, assignee  } = req.body;
-
+const abrirChamado = async (summary, description) => {
   const issueData = {
     fields: {
       project: { key: "KANBAN" },
       summary,
-      assignee,
       description: {
         type: "doc",
         version: 1,
@@ -69,17 +63,21 @@ router.post('/criar-chamado', async (req, res) => {
 
     if (!response.ok) {
       console.error('Erro ao criar chamado:', data);
-      return res.status(response.status).json({ error: data });
+      return { error: data };
     }
 
     console.log('Chamado criado:', data);
-    res.json({ message: 'Chamado criado com sucesso!', data });
+    return data.id;
   } catch (error) {
     console.error('Erro ao criar chamado:', error);
-    res.status(500).json({ error: 'Erro interno ao criar chamado' });
+    return "Erro ao abrir chamado"
   }
-});
-module.exports = router;
+};
+
+module.exports = {
+  router,
+  abrirChamado
+};
 
 
 

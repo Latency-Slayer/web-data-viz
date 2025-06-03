@@ -8,7 +8,7 @@ async function registerServer(serverData) {
         throw new Error("Missing required fields: motherboard_id, tag_name, type, so, game, port city, auth, country_code");
     }
 
-    if (typeof motherboard_id !== 'string' || typeof tag_name !== 'string' || typeof type !== 'string' || typeof so !== 'string' || typeof game !== "string" || typeof port !== "number"|| typeof city !== 'string' || typeof email !== 'string' || typeof password !== "string" || typeof country_code !== 'string') {
+    if (typeof motherboard_id !== 'string' || typeof tag_name !== 'string' || typeof type !== 'string' || typeof so !== 'string' || typeof game !== "string" || typeof port !== "number" || typeof city !== 'string' || typeof email !== 'string' || typeof password !== "string" || typeof country_code !== 'string') {
         throw new Error("Invalid data types: motherboard_id, tag_name, type, so, city, country_code must be strings; fk_company must be a number");
     }
 
@@ -72,55 +72,68 @@ function registerComponent(componentData, serverId) {
                 [metric, max_limit, min_limit, total, componentInsert.insertId]);
         }
     });
- }
+}
 
- function getServerBytagName(tagName){
+function getServerBytagName(tagName) {
     var instrucaoSql = `SELECT * FROM server WHERE server.tag_name = ${tagName};`
-            
-    return database.executar(instrucaoSql);
- }
-function listarServer(){
-    var instrucaoSql = `SELECT * FROM server;`
-            
-    return database.executar(instrucaoSql);
- }
 
- function getLimitComponent(motherboard){
+    return database.executar(instrucaoSql);
+}
+function listarServer() {
+    var instrucaoSql = `SELECT * FROM server;`
+
+    return database.executar(instrucaoSql);
+}
+
+function getLimitComponent(motherboard) {
     var instrucaoSql = `
     SELECT s.motherboard_id as motherboardid,c.type, m.max_limit, m.min_limit FROM server AS s
     JOIN component AS c ON c.fk_server = s.id_server JOIN metric AS m ON m.fk_component = c.id_component
 	WHERE s.motherboard_id = '${motherboard}' AND m.metric = '%';
     `
     return database.executar(instrucaoSql)
- }
+}
+
+function getMetric(motherboard) {
+    const instrucaoSql = `
+        SELECT s.motherboard_id as motherboard, m.id_metric as fk_metric, m.max_limit, m.min_limit,c.tag_name as tag_name, c.type as type
+        FROM server AS s
+        JOIN component AS c ON c.fk_server = s.id_server
+        JOIN metric AS m ON m.fk_component = c.id_component
+        WHERE s.motherboard_id = '${motherboard}'
+        AND m.metric = '%';
+    `;
+    return database.executar(instrucaoSql);
+}
+
 
 
 async function getServerComponentsData(motherBoardId) {
-        const [server] = await database.executar(
-            `SELECT server.motherboard_id, tag_name, type, game, port, legal_name, registration_number
+    const [server] = await database.executar(
+        `SELECT server.motherboard_id, tag_name, type, game, port, legal_name, registration_number
                        FROM server JOIN latency_slayer.company c on c.id_company = server.fk_company 
                        WHERE motherboard_id = ?`, [motherBoardId]);
 
-        const component = await database.executar(
-            `SELECT c.id_component, c.tag_name, c.type, c.active, m.metric, m.max_limit, m.min_limit, m.total
+    const component = await database.executar(
+        `SELECT c.id_component, c.tag_name, c.type, c.active, m.metric, m.max_limit, m.min_limit, m.total
                     FROM server AS s JOIN component c on s.id_server = c.fk_server
                     JOIN metric m on c.id_component = m.fk_component
                     WHERE s.motherboard_id = ?`,
-            [motherBoardId]
-        );
+        [motherBoardId]
+    );
 
-        if(!server) {
-            throw new Error("No server found for motherboard");
-        }
+    if (!server) {
+        throw new Error("No server found for motherboard");
+    }
 
-        if(component.length === 0) {
-            throw new Error("Server Components not found");
-        }
+    if (component.length === 0) {
+        throw new Error("Server Components not found");
+    }
 
-        return {
-            server,
-            components: component,
-        };
+    return {
+        server,
+        components: component,
+    };
 }
 
 module.exports = {
@@ -128,5 +141,6 @@ module.exports = {
     getServerComponentsData,
     getServerBytagName,
     listarServer,
-    getLimitComponent
+    getLimitComponent,
+    getMetric
 };

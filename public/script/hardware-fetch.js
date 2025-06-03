@@ -9,7 +9,9 @@ let ultimaChamadaJira = {
 
 function getMotherboardId() {
     const params = new URLSearchParams(window.location.search);
-    return params.get("tag");
+    const tag = params.get("tag");
+    return tag ? tag.replace(/\//g, '') : null;
+
 }
 
 function getData() {
@@ -29,9 +31,12 @@ function getData() {
 
         console.log("Dados do servidor encontrados:", dadosServidor);
 
-        if (json) {
+        if (json && dadosServidor) {
             console.log(dadosServidor)
             console.log("Dados recebidos:", dadosServidor);
+            
+            updateAlertsCount(dadosServidor.alertas, motherboardId);
+            
             const container_cpu = document.querySelector(".first");
             const container_ram = document.querySelector(".second");
             const container_disco = document.querySelector(".third");
@@ -44,10 +49,13 @@ function getData() {
             const ramValue = parseFloat(dadosServidor.metrics.ram_percent);
             const discoValue = parseFloat(dadosServidor.metrics.disk_percent);
 
+            const fk_metricCPU = dadosServidor.fk_metrics.cpu
+            const fk_metricRAM = dadosServidor.fk_metrics.ram
+            const fk_metricStorage = dadosServidor.fk_metrics.storage
+
             document.getElementById("cpu_limit").textContent = dadosServidor.limites.cpu + "%";
             document.getElementById("ram_limit").textContent = dadosServidor.limites.ram + "%";
             document.getElementById("storage_limit").textContent = dadosServidor.limites.storage + "%";
-
 
             document.getElementById('cpuUsage').textContent = cpuValue + '%';
             document.getElementById('ramUsage').textContent = ramValue + '%';
@@ -55,42 +63,24 @@ function getData() {
 
             if (cpuValue >= dadosServidor.limites.cpu) {
                 container_cpu.classList.add("Crítico");
-                abrirChamadoJira('cpu', cpuValue, dadosServidor.limites.cpu, "Crítico").then(idJira => {
-                    registerAlert('cpu', cpuValue, dadosServidor.limites.cpu, "Crítico", idJira);
-                });
             } else if (cpuValue <= dadosServidor.limites.cpu && cpuValue >= 65) {
                 container_cpu.classList.add("Atenção");
-                abrirChamadoJira('cpu', cpuValue, dadosServidor.limites.cpu, "Atenção").then(idJira => {
-                    registerAlert('cpu', cpuValue, dadosServidor.limites.cpu, "Atenção", idJira)
-                })
             } else {
                 container_cpu.classList.add("Normal");
             }
 
             if (ramValue >= dadosServidor.limites.ram) {
                 container_ram.classList.add("Crítico");
-                abrirChamadoJira('ram', ramValue, dadosServidor.limites.ram, "Crítico").then(idJira => {
-                    registerAlert('ram', ramValue, dadosServidor.limites.ram, "Crítico", idJira)
-                })
             } else if (ramValue <= dadosServidor.limites.ram && ramValue >= 65) {
                 container_ram.classList.add("Atenção");
-                abrirChamadoJira('ram', ramValue, dadosServidor.limites.ram, "Atenção").then(idJira => {
-                    registerAlert('ram', ramValue, dadosServidor.limites.ram, "Atenção", idJira)
-                })
             } else {
                 container_ram.classList.add("Normal");
             }
 
             if (discoValue >= dadosServidor.limites.storage) {
                 container_disco.classList.add("Crítico");
-                abrirChamadoJira('storage', discoValue, dadosServidor.limites.storage, "Crítico").then(idJira => {
-                    registerAlert('storage', discoValue, dadosServidor.limites.storage, "Crítico", idJira)
-                })
             } else if (discoValue <= dadosServidor.limites.storage && discoValue >= 60) {
                 container_disco.classList.add("Atenção");
-                abrirChamadoJira('storage', discoValue, dadosServidor.limites.storage, "Atenção").then(idJira => {
-                    registerAlert('storage', discoValue, dadosServidor.limites.storage, "Atenção", idJira)
-                })
             } else {
                 container_disco.classList.add("Normal");
             }
@@ -114,60 +104,47 @@ function getData() {
                     data: [{ x: now, y: dadosServidor.limites.ram }]
                 }
             ]);
-
         }
-    })
-        .catch(function (erro) {
-            console.error("Erro ao buscar métricas:", erro);
-        });
+})
 }
 
 
 
-function registerAlert(component, value, limite, nivel, idJira) {
-    let mensagem = "";
-    const dateAlert = new Date();
+function updateAlertsCount(alertasObj, motherboardId) {
+    const qtdAlertsElement = document.getElementById('qtd_alerts');
+    
+    if (alertasObj && alertasObj[motherboardId] !== undefined) {
+        qtdAlertsElement.textContent = alertasObj[motherboardId];
+        console.log(`Alertas atualizados para ${motherboardId}: ${alertasObj[motherboardId]}`);
+    } else {
+        qtdAlertsElement.textContent = '0';
+        console.log(`Nenhum alerta encontrado para ${motherboardId}, definindo como 0`);
+    }
+}
 
-    const params = new URLSearchParams(window.location.search);
-    const tagName = params.get("tag");
-    console.log("motherboard: ", tagName)
+function getAlerts() {
+    const motherboardId = getMotherboardId();
 
-    const date = formatData(dateAlert);
-
-    if (nivel === "Crítico") {
-        mensagem = `O componente ${component.toUpperCase()} ultrapassou o limite. Valor atual: ${value}%, Limite: ${limite}% no servidor ${tagName}`;
-    } else if (nivel === "Atenção") {
-        mensagem = `O componente ${component.toUpperCase()} está próximo do limite. Valor atual: ${value}%, Limite: ${limite}% no servidor ${tagName}`;
+    if (!motherboardId) {
+        console.warn('ID da placa mãe não encontrado na URL.');
+        return;
     }
 
-    let fk_Metric;
-    if (component === "cpu") {
-        fk_Metric = 5;
-    } else if (component === "ram") {
-        fk_Metric = 3;
-    } else if (component === "storage") {
-        fk_Metric = 2;
-    }
-
-    const payload = {
-        status: "aberto",
-        dateAlert: date,
-        mensage: mensagem,
-        exceeded_limit: limite,
-        valor: value,
-        fk_Metric: fk_Metric,
-        nivel: nivel,
-        idJira: idJira,
-    };
-
-    fetch("/alert/registerAlert", {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-    })
-        .then(res => res.json())
-        .then(json => console.log("Alerta registrado:", json))
-        .catch(err => console.error("Erro ao registrar alerta:", err));
+    fetch(`/alert/getAlerts/${encodeURIComponent(motherboardId)}`)
+        .then(res => {
+            if (!res.ok) {
+                throw new Error(`Erro ao buscar alertas: ${res.status} ${res.statusText}`);
+            }
+            return res.json();
+        })
+        .then(alertas => {
+            console.log('Alertas recebidos via API específica:', alertas);
+            
+            document.getElementById('qtd_alerts').textContent = alertas[0].total_criados;
+        })
+        .catch(err => {
+            console.error('Erro ao buscar alertas via API específica:', err);
+        });
 }
 
 function formatData(date) {
@@ -179,81 +156,5 @@ function formatData(date) {
         String(date.getSeconds()).padStart(2, '0');
 }
 
-
-function abrirChamadoJira(component, value, limite, nivel) {
-    const params = new URLSearchParams(window.location.search);
-    const tagName = params.get("tag");
-    console.log("motherboard: ", tagName)
-
-    let mensagem = "";
-    if (nivel === "Crítico") {
-        mensagem = `O componente ${component.toUpperCase()} ultrapassou o limite. Valor atual: ${value}%, Limite: ${limite}% no Servidor ${tagName}`;
-    } else if (nivel === "Atenção") {
-        mensagem = `O componente ${component.toUpperCase()} está próximo do limite. Valor atual: ${value}%, Limite: ${limite}% no Servidor ${tagName}`;
-    }
-
-    return fetch('/jira/criar-chamado', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            summary: `Alerta : ${component.toUpperCase()} - ${value}% ${nivel} no Servidor ${tagName}`,
-            description: mensagem,
-            assignee: "712020:46bc3ab4-b0da-4a73-9cd5-8b395c3e3678"
-        })
-    })
-        .then(res => {
-            if (!res.ok) {
-                console.error(`Erro HTTP: ${res.status}`);
-                return res.text().then(text => {
-                    console.error('Detalhes do erro:', text);
-                    throw new Error(text);
-                });
-            }
-            if (res.status === 204) {
-                console.log('Chamado criado, mas sem conteúdo.');
-                return null;
-            }
-            return res.json();
-        })
-        .then(data => {
-            if (data) {
-                console.log('Chamado criado com ID:', data.data.id);
-                return data.data.id;
-            } else {
-                console.warn('Nenhum ID retornado do JIRA:', data);
-                return null;
-            }
-        })
-        .catch(err => {
-            console.error('Erro ao criar chamado:', err);
-            return null;
-        });
-}
-
-function getAlerts() {
-    const motherboardId = getMotherboardId();
-    fetch(`/alert/getAlerts?tag=${motherboardId}`)
-        .then(res => {
-            if (!res.ok) {
-                throw new Error('Erro ao buscar alertas');
-            }
-            return res.json();
-        })
-        .then(alertas => {
-            console.log('Alertas recebidos:', alertas);
-            document.getElementById('qtd_alertas').textContent = alertas.total_criados ?? 0;
-        })
-        .catch(err => {
-            console.error('Erro ao buscar alertas:', err);
-        });
-}
-
-
-
-function canOpenJiraCall(component) {
-    const now = Date.now();
-    return (now - ultimaChamadaJira[component]) >= 10000;
-}
-
-setInterval(getData, 2000);
-setInterval(getAlerts, 5000);
+setInterval(getData, 3000);
+setInterval(getAlerts, 3000);

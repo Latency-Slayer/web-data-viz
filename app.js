@@ -39,7 +39,7 @@ app.use("/server", cadastrarMaquinaRouter);
 app.use("/hardware", hardwareRouter);
 app.use("/process", processRouter);
 app.use("/alert", alertRouter);
-app.use("/jira", jiraRouter);
+app.use("/jira", jiraRouter.router);
 app.use("/bi/dashboard", businessInteligenceDashboardRouter);
 
 app.listen(PORTA_APP, function () {

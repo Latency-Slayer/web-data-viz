@@ -3,6 +3,7 @@ let ultimaChamadaJira = new Map()
 
 const serverModel = require("../models/serverModel")
 const alertModel = require("../models/alertModel")
+const { abrirChamado } = require("../routes/jira.js")
 
 //Função para receber os dados do Python via POST
 async function receberDados(req, res) {
@@ -10,72 +11,128 @@ async function receberDados(req, res) {
     const metrics = req.body.metrics;
 
     const limites = await serverModel.getLimitComponent(id);
+    const fk_metrics = await serverModel.getMetric(id);
 
     const alertas = await alertModel.getAlerts(id);
     const alertasPorDia = await alertModel.getAlertsPorDia(id);
 
     console.log("Alertas: " + alertas)
     console.log("Alertas por Dia: " + alertasPorDia)
+
     const limitesMap = {};
+    const fk_metricsMaps = {};
 
     limites.forEach(item => {
         limitesMap[item.type] = item.max_limit;
     });
 
-    const alertasMap = {};
-    alertas.forEach(alerta => {
-        alertasMap[alerta.motherboard] = alerta.total_criados;
+    fk_metrics.forEach(item => {
+        fk_metricsMaps[item.type] = item.fk_metric;
     })
+
+    const alertasMap = {};
+    if (alertas.length > 0) {
+        alertas.forEach(alerta => {
+            alertasMap[alerta.motherboard] = alerta.total_criados;
+        });
+    }
 
     console.log("Map ALERTAS: " + JSON.stringify(alertasMap));
 
-    ultimaMetrica.set(id, { metrics, limites: limitesMap,  alertas: alertasMap,});
+    ultimaMetrica.set(id, { metrics, limites: limitesMap, alertas: alertasMap, fk_metrics: fk_metricsMaps });
+    if (metrics.cpu_percent > limitesMap.cpu) {
+        const nivel = 'Crítico'
+        const idJira = await abrirChamadoJira('cpu', metrics.cpu_percent, limitesMap.cpu, nivel, id);
+
+        await registrarAlerta(
+            {
+                componente: 'cpu',
+                valorAtual: metrics.cpu_percent,
+                limite: limitesMap.cpu,
+                nivel: nivel,
+                idJira: idJira,
+                motherboardId: id
+            });
+    }
+
+    if (metrics.cpu_percent <= limitesMap.cpu && metrics.cpu_percent >= limitesMap.cpu - 20) {
+        const nivel = 'Atenção'
+        const idJira = await abrirChamadoJira('cpu', metrics.cpu_percent, limitesMap.cpu, nivel, id);
+
+        await registrarAlerta(
+            {
+                componente: 'cpu',
+                valorAtual: metrics.cpu_percent,
+                limite: limitesMap.cpu,
+                nivel: nivel,
+                idJira: idJira,
+                motherboardId: id
+            });
+    }
+
+    console.log(metrics.ram_percent, limitesMap.ram)
+    if (metrics.ram_percent > limitesMap.ram) {
+
+        const nivel = 'Crítico'
+        const idJira = await abrirChamadoJira('ram', metrics.ram_percent, limitesMap.ram, nivel, id);
+
+        await registrarAlerta(
+            {
+                componente: 'ram',
+                valorAtual: metrics.ram_percent,
+                limite: limitesMap.ram,
+                nivel: nivel,
+                idJira: idJira,
+                motherboardId: id
+            });
+    }
+
+    if (metrics.ram_percent <= limitesMap.ram && metrics.ram_percent >= limitesMap.ram - 20) {
+        const nivel = 'Atenção'
+        const idJira = await abrirChamadoJira('ram', metrics.ram_percent, limitesMap.ram, nivel, id);
+
+        await registrarAlerta(
+            {
+                componente: 'ram',
+                valorAtual: metrics.ram_percent,
+                limite: limitesMap.ram,
+                nivel: nivel,
+                idJira: idJira,
+                motherboardId: id
+            });
+    }
+
+    if (metrics.disk_percent > limitesMap.disk) {
+
+        const nivel = 'Crítico'
+        const idJira = await abrirChamadoJira('storage', metrics.disk_percent, limitesMap.storage, nivel, id);
+
+        await registrarAlerta({
+            componente: 'storage',
+            valorAtual: metrics.disk_percent,
+            limite: limitesMap.storage,
+            nivel: nivel,
+            idJira: idJira,
+            motherboardId: id
+        });
+    }
+
+    if (metrics.disk_percent <= limitesMap.storage && metrics.disk_percent >= limitesMap.storage - 20) {
+        const nivel = 'Atenção'
+        const idJira = await abrirChamadoJira('storage', metrics.disk_percent, limitesMap.storage, nivel, id);
+
+        await registrarAlerta(
+            {
+                componente: 'storage',
+                valorAtual: metrics.disk_percent,
+                limite: limitesMap.storage,
+                nivel: nivel,
+                idJira: idJira,
+                motherboardId: id
+            });
+    }
 
     console.log("Métricas recebidas:", ultimaMetrica);
-
-    const agora = new Date();
-    const date = formatData(agora);
-
-    for (const componente of ['cpu', 'ram', 'disk']) {
-        const valorAtual = parseFloat(metrics[`${componente}_percent`]);
-        const limite = limitesMap[componente];
-
-        if (valorAtual >= limite) {
-            if (podeAbrirChamado(id, componente, date)) {
-                const nivel = 'Crítico';
-
-                const idJira = await abrirChamadoJira(componente, valorAtual, limite, nivel, id);
-
-                await registrarAlerta({
-                    componente,
-                    valorAtual,
-                    limite,
-                    nivel,
-                    idJira,
-                    motherboardId: id
-                });
-
-                atualizarUltimaChamada(id, componente, date);
-            }
-        } else if (valorAtual >= 65) { // atenção padrão
-            if (podeAbrirChamado(id, componente, date)) {
-                const nivel = 'Atenção';
-
-                const idJira = await abrirChamadoJira(componente, valorAtual, limite, nivel, id);
-
-                await registrarAlerta({
-                    componente,
-                    valorAtual,
-                    limite,
-                    nivel,
-                    idJira,
-                    motherboardId: id
-                });
-
-                atualizarUltimaChamada(id, componente, date);
-            }
-        }
-    }
 
     console.log("Métricas recebidas e verificadas:", ultimaMetrica);
     res.status(200).json({ mensagem: "Métricas processadas com sucesso" });
@@ -103,26 +160,12 @@ async function abrirChamadoJira(componente, valor, limite, nivel, motherboardId)
     const mensagem = `O componente ${componente.toUpperCase()} atingiu nível ${nivel}: ${valor}% (Limite: ${limite}%) no servidor ${motherboardId}`;
 
     try {
-        const res = await fetch('/jira/criar-chamado', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                summary: `Alerta: ${componente.toUpperCase()} - ${valor}% ${nivel} no Servidor ${motherboardId}`,
-                description: mensagem,
-                assignee: "712020:46bc3ab4-b0da-4a73-9cd5-8b395c3e3678"
-            })
-        });
+        const chamado = await abrirChamado(
+            `Alerta: ${componente.toUpperCase()} - ${valor}% ${nivel} no Servidor ${motherboardId}`,
+            mensagem
+        )
 
-        if (!res.ok) {
-            console.error(`Erro HTTP: ${res.status}`);
-            const text = await res.text();
-            console.error('Detalhes do erro:', text);
-            return null;
-        }
-
-        const data = await res.json();
-        console.log('Chamado criado com ID:', data.data.id);
-        return data.data.id;
+        return chamado;
 
     } catch (err) {
         console.error('Erro ao criar chamado:', err);
@@ -130,34 +173,33 @@ async function abrirChamadoJira(componente, valor, limite, nivel, motherboardId)
     }
 }
 
-async function registrarAlerta({ componente, valorAtual, limite, nivel, idJira, motherboardId }) {
-    const fk_Metric = componente === "cpu" ? 5 : componente === "ram" ? 3 : 2;
-
-    const payload = {
-        status: "aberto",
-        dateAlert: new Date().toISOString(),
-        mensage: `O componente ${componente.toUpperCase()} ${nivel === "Crítico" ? "ultrapassou" : "está próximo do"} limite. Valor: ${valorAtual}%, Limite: ${limite}% no servidor ${motherboardId}`,
-        exceeded_limit: limite,
-        valor: valorAtual,
-        fk_Metric: fk_Metric,
-        nivel: nivel,
-        idJira: idJira,
-        motherboardId: motherboardId
-    };
-
+async function registrarAlerta({ componente, valorAtual, limite, nivel, idJira, motherboardId}) {
     try {
-        const res = await fetch('/alert/registerAlert', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
+        const metrics = await serverModel.getMetric(motherboardId);
 
-        const json = await res.json();
-        console.log("Alerta registrado:", json);
+        for (const metric of metrics) {
+            const fk_Metric = metric.fk_metric;
+
+            const res = await alertModel.registerAlert(
+                "aberto",
+                formatData(new Date()),
+                `O componente ${componente.toUpperCase()} ${nivel === "Crítico" ? "ultrapassou" : "está próximo do"} limite. Valor: ${valorAtual}%, Limite: ${limite}% no servidor ${motherboardId}`,
+                limite,
+                valorAtual,
+                fk_Metric,
+                nivel,
+                idJira,
+            )
+            console.log("Alerta: " + res)
+            return res;
+        }
+
     } catch (err) {
         console.error("Erro ao registrar alerta:", err);
     }
 }
+
+
 
 function formatData(date) {
     return date.getFullYear() + '-' +
