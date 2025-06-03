@@ -39,5 +39,9 @@ router.get("/getLimitComponent/:motherboardid", (req, res) => {
     serverController.getLimitComponent(req.params.motherboardid, res);
 });
 
+router.get("/getTopTresServersComMaisOcorrencias", (req, res) => {
+    serverController.getTopTresServersComMaisOcorrencias(req, res);
+});
+
 
 module.exports = router;

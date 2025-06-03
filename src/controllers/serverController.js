@@ -54,6 +54,12 @@ function getRelatorioDeChamadosDoMesPassado(req, res){
     })
 }
 
+function getTopTresServersComMaisOcorrencias(req, res) {
+        serverModel.getTopTresServersComMaisOcorrencias().then((resultado) => {
+        res.status(200).json(resultado);
+    })
+}
+
 module.exports = {
     registerServer,
     getServerComponentsData,
@@ -62,5 +68,6 @@ module.exports = {
     getLimitComponent,
     getAlertsPerServer,
     getChamadosSemResponsavel,
-    getRelatorioDeChamadosDoMesPassado
+    getRelatorioDeChamadosDoMesPassado,
+    getTopTresServersComMaisOcorrencias
 };

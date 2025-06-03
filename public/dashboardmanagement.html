@@ -11,7 +11,7 @@
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
 
-<body onload="getRelatorioDeChamadosDoMesPassado(), atualizarChamados(), alertasPorServidor(), getChamadosSemReponsavel(), getResponsavelSemAtribuicao(), getChamadosTotais()">
+<body onload="getTopTresServersComMaisOcorrencias(), getRelatorioDeChamadosDoMesPassado(), atualizarChamados(), alertasPorServidor(), getChamadosSemReponsavel(), getResponsavelSemAtribuicao(), getChamadosTotais()">
   <nav-bar></nav-bar>
 
   <main>
@@ -48,8 +48,16 @@
           Top servidores com mais ocorrências (em 7 dias)
         </div>
         <div class="kpi-infos-col">
-          <div class="label">
-            <div id="sv_ocorrencias"></div> ocorrências em <div id="sv_tag_name"></div>
+          <div class="label" id="label_01">
+            <div id="sv_ocorrencias_01"></div> ocorrências em <div id="sv_tag_name_01"></div>
+          </div>
+
+          <div class="label" id="label_02">
+            <div id="sv_ocorrencias_02"></div> ocorrências em <div id="sv_tag_name_02"></div>
+          </div>
+
+          <div class="label" id="label_03">
+            <div id="sv_ocorrencias_03"></div> ocorrências em <div id="sv_tag_name_03"></div>
           </div>
         </div>
       </div>
@@ -190,8 +198,8 @@
 
         data.forEach(servidor => {
 
-          qtd_ocorrencias.textContent = servidor.total_alertas;
-          tag_name.textContent = servidor.tag_name;
+          // qtd_ocorrencias.textContent = servidor.total_alertas;
+          // tag_name.textContent = servidor.tag_name;
 
           const row = document.createElement("tr");
           row.innerHTML = `
@@ -209,7 +217,7 @@
   }
 
   function getResponsavelSemAtribuicao() {
-    fetch('/jira/chamados-abertos').then(response => response.json()).then(chamado => {
+    fetch('/jira/chamados-abertos-sem-atribuicao').then(response => response.json()).then(chamado => {
       const tbody = document.querySelector(".lista-first-grafico-linha-2 table tbody");
 
       tbody.innerHTML = "";
@@ -224,6 +232,41 @@
           `;
         tbody.appendChild(row);
       })
+    })
+  }
+
+  function getTopTresServersComMaisOcorrencias() {
+    fetch('/server/getTopTresServersComMaisOcorrencias').then(response => response.json()).then(servers => {
+
+      const qtd_alertas_1 = servers[0]['qtd_alertas']
+      const qtd_alertas_2 = servers[1]['qtd_alertas']
+      const qtd_alertas_3 = servers[2]['qtd_alertas']
+
+      const tag_name_1 = servers[0]['tag_name']
+      const tag_name_2 = servers[1]['tag_name']
+      const tag_name_3 = servers[2]['tag_name']
+
+      const ocorrencias_1 = document.getElementById('sv_ocorrencias_01')
+      const ocorrencias_2 = document.getElementById('sv_ocorrencias_02')
+      const ocorrencias_3 = document.getElementById('sv_ocorrencias_03')
+
+      const div_tag_name_1 = document.getElementById('sv_tag_name_01')
+      const div_tag_name_2 = document.getElementById('sv_tag_name_02')
+      const div_tag_name_3 = document.getElementById('sv_tag_name_03')
+
+      ocorrencias_1.textContent = qtd_alertas_1;
+      ocorrencias_2.textContent = qtd_alertas_2;
+      ocorrencias_3.textContent = qtd_alertas_3;
+
+      div_tag_name_1.textContent = tag_name_1
+      div_tag_name_2.textContent = tag_name_2
+      div_tag_name_3.textContent = tag_name_3
+
+
+      // console.log(servers[0]['qtd_alertas'])
+      // console.log(servers[0]['tag_name'])
+
+      console.log(servers)
     })
   }
 

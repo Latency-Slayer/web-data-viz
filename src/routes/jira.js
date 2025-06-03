@@ -27,6 +27,22 @@ const jql = 'project=KANBAN AND statusCategory != Done';
   res.json(data.issues);
 });
 
+router.get('/chamados-abertos-sem-atribuicao', async (req, res) => {
+const jql = 'project=KANBAN AND assignee=null AND statusCategory != Done';
+
+  const response = await fetch(`https://${domain}/rest/api/3/search?jql=${encodeURIComponent(jql)}`, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Basic ${auth}`,
+      'Accept': 'application/json'
+    }
+  });
+
+  const data = await response.json();
+  console.log("Chamados do Jira:", data.issues);
+  res.json(data.issues);
+});
+
 router.get('/chamados-totais', async (req, res) => {
 const jql = 'project=KANBAN';
 

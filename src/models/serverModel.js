@@ -102,6 +102,19 @@ function getAlertsPerServer() {
     return database.executar(instrucaoSql)
 }
 
+function getTopTresServersComMaisOcorrencias() {
+    var instrucaoSql =
+    `
+        SELECT COUNT(a.id_Alert) as qtd_alertas, s.tag_name as tag_name FROM alert a
+        JOIN metric m on a.fk_Metric = m.id_metric
+        JOIN component c on m.fk_component = c.id_component
+        JOIN server s on c.fk_server = s.id_server
+        GROUP BY s.tag_name ORDER BY COUNT(a.id_Alert) DESC LIMIT 3;
+    `
+
+    return database.executar(instrucaoSql);
+}
+
 function getRelatorioDeChamadosDoMesPassado() {
     var instrucaoSql =
     `
@@ -178,5 +191,6 @@ module.exports = {
     getLimitComponent,
     getAlertsPerServer,
     getChamadosSemResponsavel,
-    getRelatorioDeChamadosDoMesPassado
+    getRelatorioDeChamadosDoMesPassado,
+    getTopTresServersComMaisOcorrencias
 };
