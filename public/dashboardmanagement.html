@@ -11,7 +11,8 @@
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
 
-<body onload="getTopTresServersComMaisOcorrencias(), getRelatorioDeChamadosDoMesPassado(), atualizarChamados(), alertasPorServidor(), getChamadosSemReponsavel(), getResponsavelSemAtribuicao(), getChamadosTotais()">
+<body
+  onload="getQuantidadeDeChamadosDoMesPassado(), getTopTresServersComMaisOcorrencias(), getRelatorioDeChamadosDoMesPassado(), atualizarChamados(), alertasPorServidor(), getChamadosSemReponsavel(), getResponsavelSemAtribuicao(), getChamadosTotais()">
   <nav-bar></nav-bar>
 
   <main>
@@ -31,15 +32,22 @@
         </div>
       </div>
 
-      <div class="kpi">
-        <div class="titulo-kpi">Quantidade de chamados do mês</div>
+      <div class="kpi" id="id-kpi-1">
+        <div class="titulo-kpi">Qtd. de chamados abertos do mês</div>
         <div class="kpi-infos">
           <div class="kpi-numeros" id="kpi-chamados-totais"></div>
-          <div class="kpi-mensagem">chamados somente neste mês</div>
+          <div class="kpi-mensagem" id="kpi-mensagem-kpi-2">chamados somente neste mês</div>
         </div>
 
         <div class="rodape">
-          <div class="label">20% acima (mês passado: 18)</div>
+          <div class="label" id="label-kpi-meio">
+            <!-- 20% acima (mês passado: 18) -->
+            <div id="pctg"></div>
+            <!-- <div id="balizador"></div> -->
+            <div>(mês passado:</div>
+            <div id="qtd_mes_passado"></div>
+            <div>)</div>
+          </div>
         </div>
       </div>
 
@@ -119,7 +127,7 @@
                 </thead>
 
                 <tbody>
-                  
+
                 </tbody>
               </table>
             </div>
@@ -175,10 +183,10 @@
 
   function atualizarChamadosSemAtribuicao(chamados) {
     const totalAbertos = chamados.length;
-    const chamadosSemAtribuicao = chamados.filter(c => c.fields.assignee == null).length; // pega os chamados que são nulos
+    const chamadosSemAtribuicao = chamados.filter(c => c.fields.assignee == null).length;
 
     document.getElementById('kpi-chamados-abertos-sem-atribuicao').textContent = chamadosSemAtribuicao;
-    const porcentagem = ((chamadosSemAtribuicao / totalAbertos) * 100).toFixed(0); // coloco em porcentagem sobre o total
+    const porcentagem = ((chamadosSemAtribuicao / totalAbertos) * 100).toFixed(0);
     document.getElementById('porcentagemKpiSemAtribuicao').textContent = porcentagem + "%";
   }
 
@@ -197,9 +205,6 @@
         tbody.innerHTML = "";
 
         data.forEach(servidor => {
-
-          // qtd_ocorrencias.textContent = servidor.total_alertas;
-          // tag_name.textContent = servidor.tag_name;
 
           const row = document.createElement("tr");
           row.innerHTML = `
@@ -263,19 +268,58 @@
       div_tag_name_3.textContent = tag_name_3
 
 
-      // console.log(servers[0]['qtd_alertas'])
-      // console.log(servers[0]['tag_name'])
-
       console.log(servers)
     })
   }
 
-  function getChamadosTotais() {
-    fetch('/jira/chamados-totais').then(response => response.json()).then(chamados => {
-      const total = document.getElementById("kpi-chamados-totais");
 
+ async function getChamadosTotais() {
+      const response = await fetch('/jira/chamados-totais')
+      const chamados = await response.json()
+
+      const total = document.getElementById("kpi-chamados-totais");
+      console.log("teste teste:", chamados.length)
       total.textContent = chamados.length;
-    })
+
+      return chamados.length
+
+  }
+
+  async function getQuantidadeDeChamadosDoMesPassado() {
+      const response = await fetch('/server/getQuantidadeDeChamadosDoMesPassado')
+      const chamados = await response.json()
+      const qtd_chamados_mes_passado = chamados[0].total_alertas_mes_passado;
+      const div_pctg = document.getElementById("pctg")
+      const div_qtd_mes_anterior = document.getElementById("qtd_mes_passado");
+      const label_kpi_comparacao = document.getElementById("label-kpi-meio");
+      const kpi_chamados_totais = document.getElementById("kpi-chamados-totais");
+      const kpi_mensagem = document.getElementById("kpi-mensagem-kpi-2");
+      const kpi = document.getElementById("id-kpi-1")
+      var balizador = "acima";
+
+      var calculo = (((await getChamadosTotais()) * 100) / qtd_chamados_mes_passado) - 100
+
+
+      if(calculo < 0) {
+        balizador = "abaixo"
+        calculo = calculo * (-1)
+
+        kpi.style.backgroundColor = "#bbf7d0"
+        kpi_chamados_totais.style.color = "#15803d";
+        kpi_mensagem.style.color = "#15803d";
+        label_kpi_comparacao.style.backgroundColor = "#4ade80";
+        label_kpi_comparacao.style.color = "#052e16";
+      } else if(calculo == 0) {
+        kpi.style.backgroundColor = "white"
+        kpi_chamados_totais.style.color = "#57534e";
+        kpi_mensagem.style.color = "#57534e";
+        label_kpi_comparacao.style.backgroundColor = "#d6d3d1";
+        label_kpi_comparacao.style.color = "#57534e";
+      }
+
+      div_qtd_mes_anterior.textContent = qtd_chamados_mes_passado
+      div_pctg.textContent = `${calculo}% ${balizador}`
+
   }
 
   function getChamadosSemReponsavel() {
@@ -304,9 +348,8 @@
       });
   }
 
-  // const diasDoMes = Array.from({ length: 30 }, (_, i) => `${i + 1}`);
 
-async function getRelatorioDeChamadosDoMesPassado() {
+  async function getRelatorioDeChamadosDoMesPassado() {
     const resposta = await fetch('server/getRelatorioDeChamadosDoMesPassado');
     const dados = await resposta.json()
 
@@ -314,81 +357,81 @@ async function getRelatorioDeChamadosDoMesPassado() {
     const valores = dados.map(item => item.total_alertas)
 
 
-  const options = {
-    chart: {
-      type: "line",
-      height: 230,
-      toolbar: { show: false },
-      animations: {
-        enabled: true,
-      },
-    },
-    series: [
-      {
-        name: "Chamados",
-        data: valores,
-      },
-    ],
-    stroke: {
-      width: 2, // grossura da linha diminuída
-      colors: ["#4D1D95"], // cor personalizada da linha
-    },
-    xaxis: {
-      categories: categorias,
-      labels: {
-        rotate: -45,
-        style: {
-          fontSize: "12px",
+    const options = {
+      chart: {
+        type: "line",
+        height: 230,
+        toolbar: { show: false },
+        animations: {
+          enabled: true,
         },
       },
-    },
-    yaxis: {
+      series: [
+        {
+          name: "Chamados",
+          data: valores,
+        },
+      ],
+      stroke: {
+        width: 2,
+        colors: ["#4D1D95"], 
+      },
+      xaxis: {
+        categories: categorias,
+        labels: {
+          rotate: -45,
+          style: {
+            fontSize: "12px",
+          },
+        },
+      },
+      yaxis: {
+        title: {
+          text: "Número de Chamados",
+        },
+      },
       title: {
-        text: "Número de Chamados",
+        text: "",
+        align: "center",
       },
-    },
-    title: {
-      text: "",
-      align: "center",
-    },
-    responsive: [
-      {
-        breakpoint: 1350,
-        options: {
-          chart: {
-            height: 300,
-          },
-          xaxis: {
-            labels: {
-              rotate: -30,
-              style: {
-                fontSize: "10px",
+      responsive: [
+        {
+          breakpoint: 1350,
+          options: {
+            chart: {
+              height: 300,
+            },
+            xaxis: {
+              labels: {
+                rotate: -30,
+                style: {
+                  fontSize: "10px",
+                },
               },
             },
           },
         },
-      },
-      {
-        breakpoint: 480,
-        options: {
-          chart: {
-            height: 180,
-          },
-          xaxis: {
-            labels: {
-              rotate: -20,
-              style: {
-                fontSize: "9px",
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              height: 180,
+            },
+            xaxis: {
+              labels: {
+                rotate: -20,
+                style: {
+                  fontSize: "9px",
+                },
               },
             },
           },
         },
-      },
-    ],
-  };
-  const chart = new ApexCharts(document.querySelector("#chart"), options);
-  chart.render();
-}
+      ],
+    };
+    const chart = new ApexCharts(document.querySelector("#chart"), options);
+    chart.render();
+  }
 
 
 </script>

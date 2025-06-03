@@ -40,8 +40,21 @@ function getAlertsPorDia(motherboard) {
     return database.executar(instrucaoSql, [motherboard]);
 }
 
+function getQuantidadeDeChamadosDoMesPassado() {
+    var instrucaoSql =
+    `
+    SELECT COUNT(*) AS total_alertas_mes_passado
+    FROM alert
+    WHERE dateAlert >= DATE_FORMAT(CURDATE() - INTERVAL 1 MONTH, '%Y-%m-01')
+    AND dateAlert < DATE_FORMAT(CURDATE(), '%Y-%m-01');
+    `
+
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     registerAlert,
     getAlerts,
+    getQuantidadeDeChamadosDoMesPassado,
     getAlertsPorDia
 }

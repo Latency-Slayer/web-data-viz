@@ -34,6 +34,12 @@ function getAlerts(req, res) {
         });
 }
 
+function getQuantidadeDeChamadosDoMesPassado(req, res) {
+        alertModel.getQuantidadeDeChamadosDoMesPassado().then((resultado) => {
+        res.status(200).json(resultado);
+    })
+}
+
 
 function getAlertsPorDia(req, res) {
     const motherboard = req.params.motherboard
@@ -53,5 +59,6 @@ function getAlertsPorDia(req, res) {
 module.exports = {
     registerAlert,
     getAlerts,
+    getQuantidadeDeChamadosDoMesPassado,
     getAlertsPorDia
 }

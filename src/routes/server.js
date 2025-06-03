@@ -39,5 +39,9 @@ router.get("/getTopTresServersComMaisOcorrencias", (req, res) => {
     serverController.getTopTresServersComMaisOcorrencias(req, res);
 });
 
+router.get("/getQuantidadeDeChamadosDoMesPassado", (req, res) => {
+    serverController.getQuantidadeDeChamadosDoMesPassado(req, res);
+});
+
 
 module.exports = router;
