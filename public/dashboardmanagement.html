@@ -17,15 +17,15 @@
 
   <main>
     <div class="kpis">
-      <div class="kpi">
+      <div class="kpi" id="id-kpi-0">
         <div class="titulo-kpi">Chamados abertos sem responsável</div>
         <div class="kpi-infos">
           <div class="kpi-numeros" id="kpi-chamados-abertos-sem-atribuicao"></div>
-          <div class="kpi-mensagem">Chamados em aberto sem responsável</div>
+          <div class="kpi-mensagem" id="kpi_chamados-abertos-texto">Chamados em aberto sem responsável</div>
         </div>
 
         <div class="rodape">
-          <div class="label">
+          <div class="label" id="label_kpi_1">
             <div id="porcentagemKpiSemAtribuicao"></div> do total de chamados (total de <div id="kpi-chamados-abertos">
             </div>)
           </div>
@@ -51,7 +51,7 @@
         </div>
       </div>
 
-      <div class="kpi">
+      <div class="kpi" id="id-kpi-2">
         <div class="titulo-kpi">
           Top servidores com mais ocorrências (em 7 dias)
         </div>
@@ -185,12 +185,35 @@
   }
 
   function atualizarChamadosSemAtribuicao(chamados) {
+    var kpi = document.getElementById('id-kpi-0');
+    var numeros = document.getElementById('kpi-chamados-abertos-sem-atribuicao');
+    var texto = document.getElementById('kpi_chamados-abertos-texto');
+    var label_kpi = document.getElementById('label_kpi_1')
+
     const totalAbertos = chamados.length;
     const chamadosSemAtribuicao = chamados.filter(c => c.fields.assignee == null).length;
 
     document.getElementById('kpi-chamados-abertos-sem-atribuicao').textContent = chamadosSemAtribuicao;
     const porcentagem = ((chamadosSemAtribuicao / totalAbertos) * 100).toFixed(0);
     document.getElementById('porcentagemKpiSemAtribuicao').textContent = porcentagem + "%";
+
+    if(Number(porcentagem < 60)) {
+      kpi.style.backgroundColor = "#facc15"; 
+      numeros.style.color = "#451a03";
+      texto.style.color = "#451a03";
+      label_kpi.style.backgroundColor = "#451a03";
+    }
+    
+    if(Number(porcentagem < 35)) {
+      kpi.style.backgroundColor = "#bbf7d0"; 
+      numeros.style.color = "#15803d";
+      texto.style.color = "#15803d";
+      label_kpi.style.backgroundColor = "#4ade80";
+      label_kpi.style.color = "#052e16"
+
+      // kpi_chamados_totais.style.color = "#15803d";
+      // kpi_mensagem.style.color = "#15803d";
+    }
   }
 
 
@@ -245,6 +268,8 @@
 
   function getTopTresServersComMaisOcorrencias() {
     fetch('/server/getTopTresServersComMaisOcorrencias').then(response => response.json()).then(servers => {
+
+      var kpi_3 = document.getElementById("id-kpi-2");
 
       var div_ocorrencias_1 = document.getElementById('sv_ocorrencias_01')
       var div_ocorrencias_2 = document.getElementById('sv_ocorrencias_02')
@@ -320,7 +345,7 @@
         div_ocorrencias_2.textContent = `${qtd_alertas_2} ocorrências em`;
         div_tag_name_2.textContent = tag_name_2;
         div_ocorrencias_3.textContent = `${qtd_alertas_3} ocorrências em`;
-        div_tag_name_2.textContent = tag_name_3;
+        div_tag_name_3.textContent = tag_name_3;
       }
     })
   }
