@@ -111,4 +111,3 @@ module.exports = {
   router,
   abrirChamado
 };
-module.exports = router;
