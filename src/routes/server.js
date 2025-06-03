@@ -19,10 +19,6 @@ router.get("/listarServidores", (req, res) => {
     serverController.listarServer(req, res);
 });
 
-router.get("/getLimitComponent", (req, res) => {
-    serverController.getLimitComponent(req, res);
-});
-
 router.get("/getAlertsPerServer", (req, res) => {
     serverController.getAlertsPerServer(req, res);
 });
