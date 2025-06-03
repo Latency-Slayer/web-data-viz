@@ -43,7 +43,7 @@ app.use("/process", processRouter);
 app.use("/alert", alertRouter);
 app.use("/jira", jiraRouter);
 app.use("/bi/dashboard", businessInteligenceDashboardRouter);
-app.use("/abandono", abandonoRouter)
+app.use("/abandono", abandonoRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`

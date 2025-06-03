@@ -86,10 +86,72 @@ const dados_abandono_kpi = async(req,res) => {
     }
 }
 
+const grafico2 = async(req,res) => {
+   try {
+        const nomeJogo = req.params.nomeJogo
+       const selects = await abandonoModel.grafico2(nomeJogo)
+       console.log('GustavoBaitola', selects)
+       let mesAtual = 0
+       let mesPass = 0
+       let mesPassPass = 0 
+       let mesPrevisao = 0
+       const a = []
+
+     for (let i = 0; i < selects.result1.length; i++) {
+            const semAlerta1 = selects.result1[i].media_jogadores_sem_alerta
+            const comAlerta2 = selects.result2[i].media_jogadores_com_alerta
+
+            const semAlerta3 = selects.result3[i].media_jogadores_sem_alerta
+            const comAlerta4 = selects.result4[i].media_jogadores_com_alerta
+
+            const semAlerta5 = selects.result5[i].media_jogadores_sem_alerta
+            const comAlerta6 = selects.result6[i].media_jogadores_com_alerta
+
+            if(selects.result1[i].mes + 1 > 12 ) {
+                mesPrevisao = 1
+            } else {
+                mesPrevisao = selects.result1[i].mes + 1
+            }
+
+            mesAtual = semAlerta1 - comAlerta2;
+            mesPass = semAlerta3 - comAlerta4;
+            mesPassPass = semAlerta5 - comAlerta6;
+            previsaoMes = ((mesPassPass * 1 + mesPass * 2 + mesAtual * 3) / 6).toFixed(0)
+
+            const jsonRetornar = {
+               mesPass : {
+                mes: selects.result3[i].mes,
+                valor: mesPass
+               },
+               mesPassPass: {
+                mes: selects.result5[i].mes,
+                valor: mesPassPass
+               },
+                mesAtual : {
+                mes: selects.result1[i].mes,
+                valor: mesAtual
+               },
+               previsaoMes: {
+                mes: mesPrevisao,
+                valor: previsaoMes
+               }
+            }
+
+            a.push(jsonRetornar)
+
+     }
+     return res.json(a)
+   } catch(error) {
+        console.log(error)
+        return res.status(500).json(error.message);
+    }
+}
+
 module.exports = {
     buscarKPI3, 
     pesquisaJogo,
     listaJogos, 
     dados_abandono,
     dados_abandono_kpi,
+    grafico2
 }

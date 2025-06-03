@@ -31,7 +31,9 @@
                         <div class="legenda" id="legendaAbandono"></div>
                     </div>
                     <div class="container">
-                        <span>Estabilidade das Sessões de Jogos</span>
+                        <span>Previsão de Abandono para o próximo mês</span>
+                        <span class="valor" id="previsao"></span>
+                        <div class="legenda" id="legendaPrevisao"></div>
                     </div>
                     <div class="container">
                         <span>Incidentes nos Últimos 30 dias</span>
@@ -105,6 +107,7 @@
         })
         dados_abandono(pesquisa)
         dados_abandono_kpi(pesquisa)
+        grafico2(pesquisa)
     }
 
     const ctx = document.getElementById('chartBar');
@@ -128,6 +131,9 @@
       scales: {
         y: {
           beginAtZero: true,
+          grid: {
+            display: false
+          },
           ticks: {
             color: 'black',
             font: {
@@ -145,6 +151,9 @@
           }
         },
           x: {
+            grid: {
+            display: false
+          },
         ticks: {
             color: 'black',
           font: {
@@ -204,16 +213,14 @@
                 "Content-Type": "application/json"
             }
         }).then((res) => {
-            console.log("LAAAAAAAAAAAAIZA", res)
             return res.json()
         }).then((res) => {
-            console.log(res)
            if(res.length == 0) {
                 abandono.innerHTML = "Resultado não encontrado"
             }
             let totalMesPass = res.totalAbandonoPass
             let totalMesAtual = res.totalAbandono
-            abandono.innerHTML = totalMesAtual +" Jogadores"
+            abandono.innerHTML = totalMesAtual + " Jogadores"
             let mensagemIcone = '<i class="bi bi-arrow-up"></i>'
             let mensagemCor = "red"
             
@@ -229,77 +236,109 @@
 
   const ctx2 = document.getElementById('chartArea');
 
-  const data = {
-            labels: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100],
-            datasets: [{
-                data: [0, 1, 2, 3, 4, 6, 8, 11, 15, 20, 26, 33, 42, 52, 63, 75, 86, 94, 98, 99.5, 100],
-                backgroundColor: '#a589eec1',
-                borderColor: '#56408C',
-                borderWidth: 2,
-                fill: true,
-                tension: 0.4
-            }]
-        };
-
-        const config = {
-            type: 'line',
-            data: data,
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    },
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            callback: function(value) {
-                                return value.toLocaleString();
-                            },
-                            color: 'black',
-                            font: {
-                                weight: 'bold'
-                            },
-                        },
-                        title: {
-                            display: true,
-                            text: 'Retenção de Jogadores',
-                            color: 'black',
-                            font: {
-                                size: 18,
-                                weight: 'bold'
-                            }
-                        }
-                    },
-                     x: {
-                        ticks: {
-                            color: 'black',
-                            font: {
-                                size: 13.7,
-                                weight: 'bolder' 
-                            }
-                        },
-                        title: {
-                            display: true,
-                            text: 'Qtd. de Incidentes',
-                            color: 'black',
-                            font: {
-                                size: 18,
-                                weight: 'bold'
-                            }
-                        }
-                    },
-                },
-                elements: {
-                    point: {
-                        radius: 0,
-                        hoverRadius: 0
-                    }
-                }
+  const chart2 = new Chart(ctx2, {
+    type: 'bar',
+    data: {
+      labels: [],
+      datasets: [{
+        data: [],
+        borderWidth: 0
+      }],
+    },
+    options: {
+     borderRadius: 5,
+        plugins: {
+            legend: {
+                display: false
+            },
+        },
+      scales: {
+        y: {
+          beginAtZero: true,
+          grid: {
+            display: false
+          },
+          ticks: {
+            color: 'black',
+            font: {
+                weight: 'bold'
+            },
+          },
+          title: {
+            display: true,
+            text: 'Retenção de Jogadores',
+            color: 'black',
+            font: {
+                size: 18,
+                weight: 'bold'
             }
-        };
-        const areaChart = new Chart(ctx2, config);
+          }
+        },
+          x: {
+            grid: {
+            display: false
+          },
+        ticks: {
+            color: 'black',
+          font: {
+            size: 13.7,
+            weight: 'bolder' 
+          }
+        }
+      },
+      }
+    }
+  });
+
+        function grafico2(nomeJogo) {
+            fetch(`/abandono/grafico2/${nomeJogo}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+            }).then((res) => {
+                console.log('GuiBaitola', res)
+                return res.json()
+            }).then((res) => {
+                console.log(res)
+                const vetorLabel = []
+                const vetorValores = [ res[0].mesPassPass.valor, res[0].mesPass.valor, res[0].mesAtual.valor, res[0].previsaoMes.valor]
+                const vetorMeses = [res[0].mesPassPass, res[0].mesPass, res[0].mesAtual, res[0].previsaoMes]
+
+                const vetorCor = []
+
+            const graficMes = {
+                1 : 'Janeiro',
+                2 : 'Fevereiro',
+                3 : 'Março',
+                4 : 'Abril',
+                5 : 'Maio',
+                6 : 'Junho',
+                7 : 'Julho',
+                8 : 'Agosto',
+                9 : 'Setembro',
+                10 : 'Outubro',
+                11 : 'Novembro',
+                12 : 'Dezembro'
+            };
+
+            for (let i = 0; i < vetorMeses.length; i++) {
+                const meses = graficMes[vetorMeses[i].mes]
+                vetorLabel.push(meses)
+                vetorCor.push('#a589eec1')
+            }
+
+            const valorMaximo = Math.max(...vetorValores)
+            const indiceMaiorValor = vetorValores.indexOf(valorMaximo)
+
+
+            vetorCor[indiceMaiorValor] = "#56408C"
+
+            chart2.data.datasets[0].data = vetorValores
+            chart2.data.labels = vetorLabel
+            chart2.data.datasets[0].backgroundColor = vetorCor
+            chart2.update()
+            })
+        }
+
 </script>            
