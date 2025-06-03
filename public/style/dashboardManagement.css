@@ -39,7 +39,7 @@ main {
     min-height: calc((100% / 3) - 80px);
     border: solid #C4B5FD 2px;
     padding: 3vh;
-    background: white;
+    background: #fee2e2;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
 }
@@ -79,11 +79,11 @@ main {
     display: flex;
     gap: 5px;
     font-size: 1vw;
-    background: #FECACA;
+    background: #b91c1c;
     border-radius: 20px;
     width: fit-content;
     padding: 0 1vw;
-    color: #991B1B;
+    color: white;
     width: fit-content;
 }
 

@@ -44,9 +44,10 @@ const jql = 'project=KANBAN AND assignee=null AND statusCategory != Done';
 });
 
 router.get('/chamados-totais', async (req, res) => {
-const jql = 'project=KANBAN';
+const jql = 'project = KANBAN AND statusCategory != Done AND created >= startOfMonth()';
+maxResults = 100;
 
-  const response = await fetch(`https://${domain}/rest/api/3/search?jql=${encodeURIComponent(jql)}`, {
+  const response = await fetch(`https://${domain}/rest/api/3/search?jql=${encodeURIComponent(jql)}&maxResults=${maxResults}`, {
     method: 'GET',
     headers: {
       'Authorization': `Basic ${auth}`,
@@ -57,6 +58,10 @@ const jql = 'project=KANBAN';
   const data = await response.json();
   console.log("Chamados do Jira:", data.issues);
   res.json(data.issues);
+});
+
+router.get("/getQuantidadeDeChamadosDoMesPassado", (req, res) => {
+    serverController.getQuantidadeDeChamadosDoMesPassado(req, res);
 });
 
 module.exports = router;

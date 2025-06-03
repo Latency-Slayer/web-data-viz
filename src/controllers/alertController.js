@@ -22,8 +22,15 @@ function getAlerts(req, res){
         });
 }
 
+function getQuantidadeDeChamadosDoMesPassado(req, res) {
+        alertModel.getQuantidadeDeChamadosDoMesPassado().then((resultado) => {
+        res.status(200).json(resultado);
+    })
+}
+
 
 module.exports = {
     registerAlert,
-    getAlerts
+    getAlerts,
+    getQuantidadeDeChamadosDoMesPassado
 }
