@@ -34,9 +34,9 @@ function getData() {
         if (json && dadosServidor) {
             console.log(dadosServidor)
             console.log("Dados recebidos:", dadosServidor);
-            
+
             updateAlertsCount(dadosServidor.alertas, motherboardId);
-            
+
             const container_cpu = document.querySelector(".first");
             const container_ram = document.querySelector(".second");
             const container_disco = document.querySelector(".third");
@@ -105,14 +105,14 @@ function getData() {
                 }
             ]);
         }
-})
+    })
 }
 
 
 
 function updateAlertsCount(alertasObj, motherboardId) {
     const qtdAlertsElement = document.getElementById('qtd_alerts');
-    
+
     if (alertasObj && alertasObj[motherboardId] !== undefined) {
         qtdAlertsElement.textContent = alertasObj[motherboardId];
         console.log(`Alertas atualizados para ${motherboardId}: ${alertasObj[motherboardId]}`);
@@ -139,13 +139,47 @@ function getAlerts() {
         })
         .then(alertas => {
             console.log('Alertas recebidos via API específica:', alertas);
-            
+
             document.getElementById('qtd_alerts').textContent = alertas[0].total_criados;
         })
         .catch(err => {
             console.error('Erro ao buscar alertas via API específica:', err);
         });
 }
+
+function getAlertsPorDia() {
+    const motherboardId = getMotherboardId();
+
+    fetch(`/alert/getAlertsPorDia/${encodeURIComponent(motherboardId)} `, {
+        method: "GET",
+    }).then(res => res.json())
+        .then(data => {
+
+            const semana = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
+            const contagemPorDia = [0, 0, 0, 0, 0, 0, 0];
+
+            data.forEach(item => {
+                const dataObj = new Date(item.data_criacao);
+                const diaSemana = dataObj.getDay();
+                contagemPorDia[diaSemana] += item.total_criados;
+            });
+
+            console.log("Contagem por dia da semana:", contagemPorDia);
+
+            const totalAlertas = contagemPorDia.reduce((sum, qtd) => sum + qtd, 0);
+            document.getElementById('qtd_alerts').textContent = totalAlertas;
+
+            barAlert.updateSeries([{
+                name: "Quantidade de Alertas",
+                data: contagemPorDia,
+                color: "#44395F"
+            }]);
+
+        })
+        .catch(err => console.error('Erro ao buscar total de alertas:', err));
+}
+
+
 
 function formatData(date) {
     return date.getFullYear() + '-' +
@@ -158,3 +192,4 @@ function formatData(date) {
 
 setInterval(getData, 3000);
 setInterval(getAlerts, 3000);
+setInterval(getAlertsPorDia, 3000);

@@ -144,18 +144,6 @@ function enviarDados(req, res) {
     res.json([...ultimaMetrica])
 }
 
-
-function podeAbrirChamado(id, componente, agora) {
-    const chave = `${id}_${componente}`;
-    const ultima = ultimaChamadaJira.get(chave) || 0;
-    return (agora - ultima) >= 30000; // 30 segundos
-}
-
-function atualizarUltimaChamada(id, componente, agora) {
-    const chave = `${id}_${componente}`;
-    ultimaChamadaJira.set(chave, agora);
-}
-
 async function abrirChamadoJira(componente, valor, limite, nivel, motherboardId) {
     const mensagem = `O componente ${componente.toUpperCase()} atingiu nível ${nivel}: ${valor}% (Limite: ${limite}%) no servidor ${motherboardId}`;
 
