@@ -85,10 +85,25 @@ function listarServer() {
     return database.executar(instrucaoSql);
 }
 
-function getLimitComponent() {
-    var instrucaoSql = `SELECT c.type,m.max_limit,m.min_limit from component as c INNER JOIN metric as m ON m.fk_component = id_component WHERE m.metric = "%";`
-
+function getLimitComponent(motherboard) {
+    var instrucaoSql = `
+    SELECT s.motherboard_id as motherboardid,c.type, m.max_limit, m.min_limit FROM server AS s
+    JOIN component AS c ON c.fk_server = s.id_server JOIN metric AS m ON m.fk_component = c.id_component
+	WHERE s.motherboard_id = '${motherboard}' AND m.metric = '%';
+    `
     return database.executar(instrucaoSql)
+}
+
+function getMetric(motherboard) {
+    const instrucaoSql = `
+        SELECT s.motherboard_id as motherboard, m.id_metric as fk_metric, m.max_limit, m.min_limit,c.tag_name as tag_name, c.type as type
+        FROM server AS s
+        JOIN component AS c ON c.fk_server = s.id_server
+        JOIN metric AS m ON m.fk_component = c.id_component
+        WHERE s.motherboard_id = '${motherboard}'
+        AND m.metric = '%';
+    `;
+    return database.executar(instrucaoSql);
 }
 
 function getAlertsPerServer() {
@@ -133,7 +148,6 @@ function getRelatorioDeChamadosDoMesPassado() {
     GROUP BY dias.dia
     ORDER BY dias.dia;
     `
-
     return database.executar(instrucaoSql);
 }
 
@@ -189,6 +203,7 @@ module.exports = {
     getServerBytagName,
     listarServer,
     getLimitComponent,
+    getMetric,
     getAlertsPerServer,
     getChamadosSemResponsavel,
     getRelatorioDeChamadosDoMesPassado,
