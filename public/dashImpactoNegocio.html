@@ -31,7 +31,7 @@
                         <div class="legenda" id="legendaAbandono"></div>
                     </div>
                     <div class="container">
-                        <span>Previsão de Abandono para o próximo mês</span>
+                        <span id="proximoMes">Previsão de Abandono para</span>
                         <span class="valor" id="previsao"></span>
                         <div class="legenda" id="legendaPrevisao"></div>
                     </div>
@@ -304,6 +304,7 @@
                 const vetorLabel = []
                 const vetorValores = [ res[0].mesPassPass.valor, res[0].mesPass.valor, res[0].mesAtual.valor, res[0].previsaoMes.valor]
                 const vetorMeses = [res[0].mesPassPass, res[0].mesPass, res[0].mesAtual, res[0].previsaoMes]
+                previsao.innerHTML = res[0].previsaoMes.valor + ' Jogadores'
 
                 const vetorCor = []
 
@@ -330,9 +331,19 @@
 
             const valorMaximo = Math.max(...vetorValores)
             const indiceMaiorValor = vetorValores.indexOf(valorMaximo)
-
+            proximoMes.innerHTML = `Previsão de Abandono para ${graficMes[res[0].previsaoMes.mes]}`
 
             vetorCor[indiceMaiorValor] = "#56408C"
+
+            let mensagemIcone = '<i class="bi bi-arrow-up"></i>'
+            let mensagemCor = "red"
+            
+            if((((res[0].previsaoMes.valor - res[0].mesAtual.valor)/ res[0].mesAtual.valor) * 100) < 0) {
+                mensagemIcone = '<i class="bi bi-arrow-down"></i>'
+                mensagemCor = "green"
+            }
+
+             legendaPrevisao.innerHTML = `<span style="color:${mensagemCor}">${mensagemIcone} ${(Math.abs(((res[0].previsaoMes.valor - res[0].mesAtual.valor)/ res[0].mesAtual.valor) * 100).toFixed(2))}% em relação ao mês passado </span>`
 
             chart2.data.datasets[0].data = vetorValores
             chart2.data.labels = vetorLabel
