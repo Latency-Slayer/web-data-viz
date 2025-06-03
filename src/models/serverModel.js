@@ -8,7 +8,7 @@ async function registerServer(serverData) {
         throw new Error("Missing required fields: motherboard_id, tag_name, type, so, game, port city, auth, country_code");
     }
 
-    if (typeof motherboard_id !== 'string' || typeof tag_name !== 'string' || typeof type !== 'string' || typeof so !== 'string' || typeof game !== "string" || typeof port !== "number"|| typeof city !== 'string' || typeof email !== 'string' || typeof password !== "string" || typeof country_code !== 'string') {
+    if (typeof motherboard_id !== 'string' || typeof tag_name !== 'string' || typeof type !== 'string' || typeof so !== 'string' || typeof game !== "string" || typeof port !== "number" || typeof city !== 'string' || typeof email !== 'string' || typeof password !== "string" || typeof country_code !== 'string') {
         throw new Error("Invalid data types: motherboard_id, tag_name, type, so, city, country_code must be strings; fk_company must be a number");
     }
 
@@ -72,52 +72,115 @@ function registerComponent(componentData, serverId) {
                 [metric, max_limit, min_limit, total, componentInsert.insertId]);
         }
     });
- }
+}
 
- function getServerBytagName(tagName){
+function getServerBytagName(tagName) {
     var instrucaoSql = `SELECT * FROM server WHERE server.tag_name = ${tagName};`
-            
-    return database.executar(instrucaoSql);
- }
-function listarServer(){
-    var instrucaoSql = `SELECT * FROM server;`
-            
-    return database.executar(instrucaoSql);
- }
 
- function getLimitComponent(){
+    return database.executar(instrucaoSql);
+}
+function listarServer() {
+    var instrucaoSql = `SELECT * FROM server;`
+
+    return database.executar(instrucaoSql);
+}
+
+function getLimitComponent() {
     var instrucaoSql = `SELECT c.type,m.max_limit,m.min_limit from component as c INNER JOIN metric as m ON m.fk_component = id_component WHERE m.metric = "%";`
 
     return database.executar(instrucaoSql)
- }
+}
 
+function getAlertsPerServer() {
+    var instrucaoSql =
+        `SELECT s.id_server as id,s.tag_name as tag_name,COUNT(a.id_alert) AS total_alertas,s.game as game FROM server s
+    JOIN component c ON s.id_server = c.fk_server
+    JOIN metric m ON c.id_component = m.fk_component
+    JOIN alert a ON m.id_metric = a.fk_metric
+    GROUP BY s.id_server, s.tag_name, s.game;`
+
+    return database.executar(instrucaoSql)
+}
+
+function getTopTresServersComMaisOcorrencias() {
+    var instrucaoSql =
+    `
+        SELECT COUNT(a.id_Alert) as qtd_alertas, s.tag_name as tag_name FROM alert a
+        JOIN metric m on a.fk_Metric = m.id_metric
+        JOIN component c on m.fk_component = c.id_component
+        JOIN server s on c.fk_server = s.id_server
+        GROUP BY s.tag_name ORDER BY COUNT(a.id_Alert) DESC LIMIT 3;
+    `
+
+    return database.executar(instrucaoSql);
+}
+
+function getRelatorioDeChamadosDoMesPassado() {
+    var instrucaoSql =
+    `
+    WITH RECURSIVE dias AS (
+    SELECT DATE_FORMAT(CURDATE() - INTERVAL 1 MONTH, '%Y-%m-01') AS dia
+    UNION ALL
+    SELECT dia + INTERVAL 1 DAY
+    FROM dias
+    WHERE dia + INTERVAL 1 DAY <= LAST_DAY(CURDATE() - INTERVAL 1 MONTH)
+)
+    SELECT 
+    DATE_FORMAT(dias.dia, '%d') AS dia,
+    COUNT(alert.id_Alert) AS total_alertas
+    FROM dias
+    LEFT JOIN alert ON DATE(alert.dateAlert) = dias.dia
+    GROUP BY dias.dia
+    ORDER BY dias.dia;
+    `
+
+    return database.executar(instrucaoSql);
+}
+
+function getChamadosSemResponsavel() {
+    var instrucaoSql =
+        `
+    SELECT 
+    MIN(a.id_Alert) AS idJira,
+    s.tag_name as tag_name,
+    s.id_server as id,
+    MIN(a.nivel) AS nivel
+    FROM server s
+    JOIN component c ON s.id_server = c.fk_server
+    JOIN metric m ON c.id_component = m.fk_component
+    JOIN alert a ON m.id_metric = a.fk_metric
+    GROUP BY s.tag_name, s.id_server;
+    `
+
+    return database.executar(instrucaoSql)
+}
 
 async function getServerComponentsData(motherBoardId) {
-        const [server] = await database.executar(
-            `SELECT server.motherboard_id, tag_name, type, game, port, legal_name, registration_number
+    const [server] = await database.executar(
+        `SELECT server.motherboard_id, tag_name, type, game, port, legal_name, registration_number
                        FROM server JOIN latency_slayer.company c on c.id_company = server.fk_company 
                        WHERE motherboard_id = ?`, [motherBoardId]);
 
-        const component = await database.executar(
-            `SELECT c.id_component, c.tag_name, c.type, c.active, m.metric, m.max_limit, m.min_limit, m.total
+    const component = await database.executar(
+        `SELECT c.id_component, c.tag_name, c.type, c.active, m.metric, m.max_limit, m.min_limit, m.total
                     FROM server AS s JOIN component c on s.id_server = c.fk_server
                     JOIN metric m on c.id_component = m.fk_component
                     WHERE s.motherboard_id = ?`,
-            [motherBoardId]
-        );
+        [motherBoardId]
+    );
 
-        if(!server) {
-            throw new Error("No server found for motherboard");
-        }
+    if (!server) {
+        throw new Error("No server found for motherboard");
+    }
 
-        if(component.length === 0) {
-            throw new Error("Server Components not found");
-        }
+    if (component.length === 0) {
+        throw new Error("Server Components not found");
+    }
 
-        return {
-            server,
-            components: component,
-        };
+    return {
+        server,
+        components: component,
+    };
 }
 
 module.exports = {
@@ -125,5 +188,9 @@ module.exports = {
     getServerComponentsData,
     getServerBytagName,
     listarServer,
-    getLimitComponent
+    getLimitComponent,
+    getAlertsPerServer,
+    getChamadosSemResponsavel,
+    getRelatorioDeChamadosDoMesPassado,
+    getTopTresServersComMaisOcorrencias
 };
