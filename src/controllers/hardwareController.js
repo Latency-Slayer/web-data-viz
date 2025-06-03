@@ -41,11 +41,10 @@ async function receberDados(req, res) {
 
     ultimaMetrica.set(id, { metrics, limites: limitesMap, alertas: alertasMap, fk_metrics: fk_metricsMaps });
     if (metrics.cpu_percent > limitesMap.cpu) {
-        const nivel = 'Crítico'
-        const idJira = await abrirChamadoJira('cpu', metrics.cpu_percent, limitesMap.cpu, nivel, id);
-
-        await registrarAlerta(
-            {
+        const nivel = 'Crítico';
+        if (podeAbrirChamado(id, 'cpu')) {
+            const idJira = await abrirChamadoJira('cpu', metrics.cpu_percent, limitesMap.cpu, nivel, id);
+            await registrarAlerta({
                 componente: 'cpu',
                 valorAtual: metrics.cpu_percent,
                 limite: limitesMap.cpu,
@@ -53,77 +52,67 @@ async function receberDados(req, res) {
                 idJira: idJira,
                 motherboardId: id
             });
+        }
     }
 
     if (metrics.cpu_percent <= limitesMap.cpu && metrics.cpu_percent >= limitesMap.cpu - 20) {
         const nivel = 'Atenção'
-        const idJira = await abrirChamadoJira('cpu', metrics.cpu_percent, limitesMap.cpu, nivel, id);
 
-        await registrarAlerta(
-            {
-                componente: 'cpu',
-                valorAtual: metrics.cpu_percent,
-                limite: limitesMap.cpu,
-                nivel: nivel,
-                idJira: idJira,
-                motherboardId: id
-            });
+        if(podeAbrirChamado(id, 'cpu')){
+            const idJira = await abrirChamadoJira('cpu', metrics.cpu_percent, limitesMap.cpu, nivel, id);
+            await registrarAlerta(
+                {
+                    componente: 'cpu',
+                    valorAtual: metrics.cpu_percent,
+                    limite: limitesMap.cpu,
+                    nivel: nivel,
+                    idJira: idJira,
+                    motherboardId: id
+                });
+        }
     }
 
-    console.log(metrics.ram_percent, limitesMap.ram)
     if (metrics.ram_percent > limitesMap.ram) {
-
         const nivel = 'Crítico'
-        const idJira = await abrirChamadoJira('ram', metrics.ram_percent, limitesMap.ram, nivel, id);
-
-        await registrarAlerta(
-            {
-                componente: 'ram',
-                valorAtual: metrics.ram_percent,
-                limite: limitesMap.ram,
-                nivel: nivel,
-                idJira: idJira,
-                motherboardId: id
-            });
+        if(podeAbrirChamado(id, 'ram')){
+            const idJira = await abrirChamadoJira('ram', metrics.ram_percent, limitesMap.ram, nivel, id);
+            await registrarAlerta(
+                {
+                    componente: 'ram',
+                    valorAtual: metrics.ram_percent,
+                    limite: limitesMap.ram,
+                    nivel: nivel,
+                    idJira: idJira,
+                    motherboardId: id
+                });
+        }
     }
 
     if (metrics.ram_percent <= limitesMap.ram && metrics.ram_percent >= limitesMap.ram - 20) {
         const nivel = 'Atenção'
 
-        const idJira = await abrirChamadoJira('ram', metrics.ram_percent, limitesMap.ram, nivel, id);
+        if(podeAbrirChamado(id, 'ram')){
+            const idJira = await abrirChamadoJira('ram', metrics.ram_percent, limitesMap.ram, nivel, id);
+    
+            await registrarAlerta(
+                {
+                    componente: 'ram',
+                    valorAtual: metrics.ram_percent,
+                    limite: limitesMap.ram,
+                    nivel: nivel,
+                    idJira: idJira,
+                    motherboardId: id
+                });
+        }
 
-        await registrarAlerta(
-            {
-                componente: 'ram',
-                valorAtual: metrics.ram_percent,
-                limite: limitesMap.ram,
-                nivel: nivel,
-                idJira: idJira,
-                motherboardId: id
-            });
     }
 
     if (metrics.disk_percent > limitesMap.disk) {
-
         const nivel = 'Crítico'
-        const idJira = await abrirChamadoJira('storage', metrics.disk_percent, limitesMap.storage, nivel, id);
-
-        await registrarAlerta({
-            componente: 'storage',
-            valorAtual: metrics.disk_percent,
-            limite: limitesMap.storage,
-            nivel: nivel,
-            idJira: idJira,
-            motherboardId: id
-        });
-    }
-
-    if (metrics.disk_percent <= limitesMap.storage && metrics.disk_percent >= limitesMap.storage - 20) {
-        const nivel = 'Atenção'
-        const idJira = await abrirChamadoJira('storage', metrics.disk_percent, limitesMap.storage, nivel, id);
-
-        await registrarAlerta(
-            {
+        if(podeAbrirChamado(id, 'storage')){
+            const idJira = await abrirChamadoJira('storage', metrics.disk_percent, limitesMap.storage, nivel, id);
+    
+            await registrarAlerta({
                 componente: 'storage',
                 valorAtual: metrics.disk_percent,
                 limite: limitesMap.storage,
@@ -131,6 +120,25 @@ async function receberDados(req, res) {
                 idJira: idJira,
                 motherboardId: id
             });
+        }
+
+    }
+
+    if (metrics.disk_percent <= limitesMap.storage && metrics.disk_percent >= limitesMap.storage - 20) {
+        const nivel = 'Atenção'
+        if(podeAbrirChamado(id, 'storage')){
+            const idJira = await abrirChamadoJira('storage', metrics.disk_percent, limitesMap.storage, nivel, id);
+    
+            await registrarAlerta(
+                {
+                    componente: 'storage',
+                    valorAtual: metrics.disk_percent,
+                    limite: limitesMap.storage,
+                    nivel: nivel,
+                    idJira: idJira,
+                    motherboardId: id
+                });
+        }
     }
 
     console.log("Métricas recebidas:", ultimaMetrica);
@@ -162,7 +170,19 @@ async function abrirChamadoJira(componente, valor, limite, nivel, motherboardId)
     }
 }
 
-async function registrarAlerta({ componente, valorAtual, limite, nivel, idJira, motherboardId}) {
+function podeAbrirChamado(motherboardId, componente) {
+    const chave = `${motherboardId}-${componente}`;
+    const agora = Date.now();
+    const ultimaChamada = ultimaChamadaJira.get(chave);
+
+    if (!ultimaChamada || (agora - ultimaChamada) > 15 * 60 * 1000) { // 15 minutos em ms
+        ultimaChamadaJira.set(chave, agora);
+        return true;
+    }
+    return false;
+}
+
+async function registrarAlerta({ componente, valorAtual, limite, nivel, idJira, motherboardId }) {
     try {
         const metrics = await serverModel.getMetric(motherboardId);
 
