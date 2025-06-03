@@ -255,13 +255,13 @@ class NavBarComponent extends HTMLElement {
                 </li>
 
                 <div class="profile">
-                     <div class="name toggleOptions">${sessionStorage.NAME_USER || 'Ghost'} <span class="arrowDown">ㅤ▼</span></div>
+                     <div class="name toggleOptions">${sessionStorage.NAME_USER || 'Guest'} <span class="arrowDown">ㅤ▼</span></div>
                 </div>
             </nav>
 
             <nav class="navMobile">
                 <div class="profile">
-                     <div class="name">${sessionStorage.NAME_USER || 'Ghost'}</div>
+                     <div class="name">${sessionStorage.NAME_USER || 'Guest'}</div>
                 </div>
 
                 <li>

@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard | Latency Slayer</title>
+  <script src="script/components/navBar.js"></script>
+  <script src="script/components/kpi.js"></script>
+  <link rel="stylesheet" href="style/dashboardManagement.css" />
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+</head>
+
+<body
+  onload="getQuantidadeDeChamadosDoMesPassado(), getTopTresServersComMaisOcorrencias(), getRelatorioDeChamadosDoMesPassado(), atualizarChamados(), alertasPorServidor(), getChamadosSemReponsavel(), getResponsavelSemAtribuicao(), getChamadosTotais()">
+  <nav-bar></nav-bar>
+
+  <main>
+    <div class="kpis">
+      <div class="kpi" id="id-kpi-0">
+        <div class="titulo-kpi">Chamados abertos sem responsável</div>
+        <div class="kpi-infos">
+          <div class="kpi-numeros" id="kpi-chamados-abertos-sem-atribuicao"></div>
+          <div class="kpi-mensagem" id="kpi_chamados-abertos-texto">Chamados em aberto sem responsável</div>
+        </div>
+
+        <div class="rodape">
+          <div class="label" id="label_kpi_1">
+            <div id="porcentagemKpiSemAtribuicao"></div> do total de chamados (total de <div id="kpi-chamados-abertos">
+            </div>)
+          </div>
+        </div>
+      </div>
+
+      <div class="kpi" id="id-kpi-1">
+        <div class="titulo-kpi">Qtd. de chamados abertos do mês</div>
+        <div class="kpi-infos">
+          <div class="kpi-numeros" id="kpi-chamados-totais"></div>
+          <div class="kpi-mensagem" id="kpi-mensagem-kpi-2">chamados somente neste mês</div>
+        </div>
+
+        <div class="rodape">
+          <div class="label" id="label-kpi-meio">
+            <!-- 20% acima (mês passado: 18) -->
+            <div id="pctg"></div>
+            <!-- <div id="balizador"></div> -->
+            <div>(mês passado:</div>
+            <div id="qtd_mes_passado"></div>
+            <div>)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="kpi" id="id-kpi-2">
+        <div class="titulo-kpi">
+          Top servidores com mais ocorrências (em 7 dias)
+        </div>
+        <div class="kpi-infos-col">
+          <div class="label" id="label_01">
+            <div id="sv_ocorrencias_01"></div>
+            <div id="sv_tag_name_01"></div>
+          </div>
+
+          <div class="label" id="label_02">
+            <div id="sv_ocorrencias_02"></div>
+            <div id="sv_tag_name_02"></div>
+          </div>
+
+          <div class="label" id="label_03">
+            <div id="sv_ocorrencias_03"></div>
+            <div id="sv_tag_name_03"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="graficos">
+      <div class="graficos-linha-1">
+        <div class="first-grafico-linha-1">
+          <div class="box-first-grafico-linha-1">
+            <div class="titulo-first-grafico-linha-1">
+              Relatório de chamados do mês
+            </div>
+
+            <div id="chart"></div>
+          </div>
+        </div>
+
+        <div class="second-grafico-linha-1">
+          <div class="box-second-grafico-linha-1">
+            <div class="titulo-second-grafico-linha-1">
+              Lista de chamados por servidor
+            </div>
+
+            <div class="lista-second-grafico-linha-1">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Chamado</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="graficos-linha-2">
+        <div class="first-grafico-linha-2">
+          <div class="box-first-grafico-linha-2">
+            <div class="titulo-first-grafico-linha-2">
+              Lista de chamados sem atribuição
+            </div>
+
+            <div class="lista-first-grafico-linha-2">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Relator</th>
+                    <th>Status</th>
+                    <th>Grupo</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="second-grafico-linha-2">
+          <div class="box-second-grafico-linha-2">
+            <div class="titulo-second-grafico-linha-2">
+              Lista de qtd. de ocorrências dos servidores
+            </div>
+
+            <div class="lista-second-grafico-linha-2">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Tagname</th>
+                    <th>Qtd.Ocorrências</th>
+                    <th>Jogo</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+
+</html>
+
+<script>
+
+  function atualizarChamados() {
+    fetch('/jira/chamados-abertos')
+      .then(res => res.json())
+      .then(chamados => {
+        atualizarChamadosAbertos(chamados);
+        atualizarChamadosSemAtribuicao(chamados);
+      })
+      .catch(err => console.error('Erro ao buscar chamados:', err));
+  }
+
+  function atualizarChamadosAbertos(chamados) {
+    document.getElementById('kpi-chamados-abertos').textContent = chamados.length;
+  }
+
+  function atualizarChamadosSemAtribuicao(chamados) {
+    var kpi = document.getElementById('id-kpi-0');
+    var numeros = document.getElementById('kpi-chamados-abertos-sem-atribuicao');
+    var texto = document.getElementById('kpi_chamados-abertos-texto');
+    var label_kpi = document.getElementById('label_kpi_1')
+
+    const totalAbertos = chamados.length;
+    const chamadosSemAtribuicao = chamados.filter(c => c.fields.assignee == null).length;
+
+    document.getElementById('kpi-chamados-abertos-sem-atribuicao').textContent = chamadosSemAtribuicao;
+    const porcentagem = ((chamadosSemAtribuicao / totalAbertos) * 100).toFixed(0);
+    document.getElementById('porcentagemKpiSemAtribuicao').textContent = porcentagem + "%";
+
+    if(Number(porcentagem < 60)) {
+      kpi.style.backgroundColor = "#facc15"; 
+      numeros.style.color = "#451a03";
+      texto.style.color = "#451a03";
+      label_kpi.style.backgroundColor = "#451a03";
+    }
+    
+    if(Number(porcentagem < 35)) {
+      kpi.style.backgroundColor = "#bbf7d0"; 
+      numeros.style.color = "#15803d";
+      texto.style.color = "#15803d";
+      label_kpi.style.backgroundColor = "#4ade80";
+      label_kpi.style.color = "#052e16"
+
+      // kpi_chamados_totais.style.color = "#15803d";
+      // kpi_mensagem.style.color = "#15803d";
+    }
+  }
+
+
+  function alertasPorServidor() {
+    fetch('/server/getAlertsPerServer')
+      .then(response => response.json())
+      .then(data => {
+        console.log("Alertas por servidor:", data);
+
+        const tbody = document.querySelector(".lista-second-grafico-linha-2 table tbody");
+        const qtd_ocorrencias = document.getElementById("sv_ocorrencias");
+        const tag_name = document.getElementById("sv_tag_name");
+
+
+        tbody.innerHTML = "";
+
+        data.forEach(servidor => {
+
+          const row = document.createElement("tr");
+          row.innerHTML = `
+                <td>${servidor.id}</td>
+                <td>${servidor.tag_name}</td>
+                <td>${servidor.total_alertas}</td>
+                <td>${servidor.game}</td>
+            `;
+          tbody.appendChild(row);
+        });
+      })
+      .catch(error => {
+        console.error("Erro ao buscar alertas por servidor:", error);
+      });
+  }
+
+  function getResponsavelSemAtribuicao() {
+    fetch('/jira/chamados-abertos-sem-atribuicao').then(response => response.json()).then(chamado => {
+      const tbody = document.querySelector(".lista-first-grafico-linha-2 table tbody");
+
+      tbody.innerHTML = "";
+
+      chamado.forEach(responsavel => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${responsavel.id}</td>
+            <td>${responsavel.fields.reporter.displayName}</td>
+            <td>${responsavel.fields.status.name}</td>
+            <td>${responsavel.key}</td>
+          `;
+        tbody.appendChild(row);
+      })
+    })
+  }
+
+  function getTopTresServersComMaisOcorrencias() {
+    fetch('/server/getTopTresServersComMaisOcorrencias').then(response => response.json()).then(servers => {
+
+      var kpi_3 = document.getElementById("id-kpi-2");
+
+      var div_ocorrencias_1 = document.getElementById('sv_ocorrencias_01')
+      var div_ocorrencias_2 = document.getElementById('sv_ocorrencias_02')
+      var div_ocorrencias_3 = document.getElementById('sv_ocorrencias_03')
+
+      var first_label = document.getElementById("label_01");
+      var second_label = document.getElementById("label_02");
+      var third_label = document.getElementById("label_03");
+
+      div_ocorrencias_1.textContent = "Sem ocorrências"
+      div_ocorrencias_2.textContent = "Sem ocorrências"
+      div_ocorrencias_3.textContent = "Sem ocorrências"
+
+
+      const div_tag_name_1 = document.getElementById('sv_tag_name_01')
+      const div_tag_name_2 = document.getElementById('sv_tag_name_02')
+      const div_tag_name_3 = document.getElementById('sv_tag_name_03')
+
+      var tag_name_1 = ""
+      var tag_name_2 = ""
+      var tag_name_3 = ""
+
+
+      if (servers.length == 1) {
+        if ((!isNaN(servers[0]['qtd_alertas'])) && (typeof (servers[0]['tag_name']) === 'string')) {
+          var qtd_alertas_1 = servers[0]['qtd_alertas']
+          var tag_name_1 = servers[0]['tag_name']
+        }
+
+        div_ocorrencias_1.textContent = `${qtd_alertas_1} ocorrências em`;
+        div_tag_name_1.textContent = tag_name_1
+      }
+
+
+
+      if (servers.length == 2) {
+        if ((!isNaN(servers[0]['qtd_alertas'])) && (typeof (servers[0]['tag_name']) === 'string')) {
+          var qtd_alertas_1 = servers[0]['qtd_alertas']
+          var tag_name_1 = servers[0]['tag_name']
+        }
+
+        if ((!isNaN(servers[1]['qtd_alertas'])) && (typeof (servers[1]['tag_name']) === 'string')) {
+          var qtd_alertas_2 = servers[1]['qtd_alertas']
+          var tag_name_2 = servers[1]['tag_name']
+        }
+
+        div_ocorrencias_1.textContent = `${qtd_alertas_1} ocorrências em`;
+        div_tag_name_1.textContent = tag_name_1
+        div_ocorrencias_2.textContent = `${qtd_alertas_2} ocorrências em`;
+        div_tag_name_2.textContent = tag_name_2;
+      }
+
+
+
+      if (servers.length == 3) {
+        if ((!isNaN(servers[0]['qtd_alertas'])) && (typeof (servers[0]['tag_name']) === 'string')) {
+          var qtd_alertas_1 = servers[0]['qtd_alertas']
+          var tag_name_1 = servers[0]['tag_name']
+        }
+
+        if ((!isNaN(servers[1]['qtd_alertas'])) && (typeof (servers[1]['tag_name']) === 'string')) {
+          var qtd_alertas_2 = servers[1]['qtd_alertas']
+          var tag_name_2 = servers[1]['tag_name']
+        }
+
+        if ((!isNaN(servers[2]['qtd_alertas'])) && (typeof (servers[2]['tag_name']) === 'string')) {
+          var qtd_alertas_3 = servers[2]['qtd_alertas']
+          var tag_name_3 = servers[2]['tag_name']
+        }
+
+        div_ocorrencias_1.textContent = `${qtd_alertas_1} ocorrências em`;
+        div_tag_name_1.textContent = tag_name_1
+        div_ocorrencias_2.textContent = `${qtd_alertas_2} ocorrências em`;
+        div_tag_name_2.textContent = tag_name_2;
+        div_ocorrencias_3.textContent = `${qtd_alertas_3} ocorrências em`;
+        div_tag_name_3.textContent = tag_name_3;
+      }
+    })
+  }
+
+
+  async function getChamadosTotais() {
+    const response = await fetch('/jira/chamados-totais')
+    const chamados = await response.json()
+
+    const total = document.getElementById("kpi-chamados-totais");
+    // console.log("teste teste:", chamados.length)
+    total.textContent = chamados.length;
+
+    return chamados.length
+
+  }
+
+  async function getQuantidadeDeChamadosDoMesPassado() {
+    const response = await fetch('/server/getQuantidadeDeChamadosDoMesPassado')
+    const chamados = await response.json()
+    const qtd_chamados_mes_passado = chamados[0].total_alertas_mes_passado;
+    const div_pctg = document.getElementById("pctg")
+    const div_qtd_mes_anterior = document.getElementById("qtd_mes_passado");
+    const label_kpi_comparacao = document.getElementById("label-kpi-meio");
+    const kpi_chamados_totais = document.getElementById("kpi-chamados-totais");
+    const kpi_mensagem = document.getElementById("kpi-mensagem-kpi-2");
+    const kpi = document.getElementById("id-kpi-1")
+    var balizador = "acima";
+
+    var calculo = (((await getChamadosTotais()) * 100) / qtd_chamados_mes_passado) - 100
+
+
+    if (calculo < 0) {
+      balizador = "abaixo"
+      calculo = calculo * (-1)
+
+      kpi.style.backgroundColor = "#bbf7d0"
+      kpi_chamados_totais.style.color = "#15803d";
+      kpi_mensagem.style.color = "#15803d";
+      label_kpi_comparacao.style.backgroundColor = "#4ade80";
+      label_kpi_comparacao.style.color = "#052e16";
+    } else if (calculo == 0) {
+      kpi.style.backgroundColor = "white"
+      kpi_chamados_totais.style.color = "#57534e";
+      kpi_mensagem.style.color = "#57534e";
+      label_kpi_comparacao.style.backgroundColor = "#d6d3d1";
+      label_kpi_comparacao.style.color = "#57534e";
+    }
+
+    div_qtd_mes_anterior.textContent = qtd_chamados_mes_passado
+    div_pctg.textContent = `${calculo}% ${balizador}`
+
+  }
+
+  function getChamadosSemReponsavel() {
+    fetch('/server/getChamadosSemResponsavel')
+      .then(response => response.json())
+      .then(data => {
+        console.log("Chamados por servidor:", data);
+
+        const tbody = document.querySelector(".lista-second-grafico-linha-1 table tbody");
+
+        tbody.innerHTML = "";
+
+        data.forEach(servidor => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${servidor.id}</td>
+            <td>${servidor.tag_name}</td>
+            <td>${servidor.idJira}</td>
+            <td>${servidor.nivel}</td>
+          `;
+          tbody.appendChild(row);
+        });
+      })
+      .catch(error => {
+        console.error("Erro ao buscar alertas por servidor:", error);
+      });
+  }
+
+
+  async function getRelatorioDeChamadosDoMesPassado() {
+    const resposta = await fetch('server/getRelatorioDeChamadosDoMesPassado');
+    const dados = await resposta.json()
+
+    const categorias = dados.map(item => item.dia)
+    const valores = dados.map(item => item.total_alertas)
+
+
+    const options = {
+      chart: {
+        type: "line",
+        height: 230,
+        toolbar: { show: false },
+        animations: {
+          enabled: true,
+        },
+      },
+      series: [
+        {
+          name: "Chamados",
+          data: valores,
+        },
+      ],
+      stroke: {
+        width: 2,
+        colors: ["#4D1D95"],
+      },
+      xaxis: {
+        categories: categorias,
+        labels: {
+          rotate: -45,
+          style: {
+            fontSize: "12px",
+          },
+        },
+      },
+      yaxis: {
+        title: {
+          text: "Número de Chamados",
+        },
+      },
+      title: {
+        text: "",
+        align: "center",
+      },
+      responsive: [
+        {
+          breakpoint: 1350,
+          options: {
+            chart: {
+              height: 300,
+            },
+            xaxis: {
+              labels: {
+                rotate: -30,
+                style: {
+                  fontSize: "10px",
+                },
+              },
+            },
+          },
+        },
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              height: 180,
+            },
+            xaxis: {
+              labels: {
+                rotate: -20,
+                style: {
+                  fontSize: "9px",
+                },
+              },
+            },
+          },
+        },
+      ],
+    };
+    const chart = new ApexCharts(document.querySelector("#chart"), options);
+    chart.render();
+  }
+
+
+</script>

@@ -3,21 +3,19 @@ class AlertCard extends HTMLElement {
         // Chamando construtor da classe HTMLElement
         super();
         // Encapsulando código no componente (Tudo o que for escrito aqui, não afeta outros componentes.)
-        this.attachShadow({mode: 'open'});
+        this.attachShadow({ mode: 'open' });
     }
 
     // Metodo chamado pelo navegador ao renderizar o componente.
     connectedCallback() {
         // Coletando atributos.
         const criticality = this.getAttribute("criticality");
-        const component = this.getAttribute("component");
-        const uuid = this.getAttribute("uuid");
         const tagName = this.getAttribute("tagName");
-        const desc = this.getAttribute("desc");
-        const capturing = this.getAttribute("capturing");
-        const limit = this.getAttribute("limit");
+        const motherboardid = this.getAttribute("motherboardid");
+        const cpu = this.getAttribute("cpu");
+        const ram = this.getAttribute("ram")
+        const disco = this.getAttribute("disco")
         const datetime = this.getAttribute("datetime");
-
 
         // Adicionando HTML no elemento.
         this.shadowRoot.innerHTML = `
@@ -40,7 +38,7 @@ class AlertCard extends HTMLElement {
                     box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
                     border-radius: 8px;
                     padding: 20px 20px;
-                    
+                    margin-bottom: 10px;
                     display: flex;
                     flex-direction: column;
                     justify-content: center;
@@ -51,44 +49,42 @@ class AlertCard extends HTMLElement {
                     display: flex;
                     align-items: center;
                     gap: 10px;
+                    justify-content: space-between;
                 }
                 
                 .label {
                     border-radius: 3px;            
                     height: 100%;
                     width: fit-content;
-                    padding: 0 20px;
-                    font-weight: 500;
+                    padding: 4px 10px;
+                    font-weight: 400;
                     font-size: 1.2rem;
-                    
                     display: flex;
                     align-items: center;
                     justify-content: center;            
                 }
-                
-                .component {
-                    background-color: #F0ECFB;
-                    color: #56408C;
-                }
+            
                 
                 .Crítico {
-                    background-color: #FBECEC;
-                    color: #F62821; 
+                    background-color: #c30a03;
+                    color: #fff; 
                 }
                 
                 .Atenção {
-                    background-color: #f6b321;
-                    color: #3a3804; 
+                    background-color: #ffa507;
+                    color: #fff; 
+                }
+                
+                .Normal {
+                    background-color: #F0ECFB;
+                    color: black;
                 }
                 
                 .identification {
-                    margin-top: 15px;
-                }
-                
-                .identification h1 {
-                    color: #3A2E5D;
-                    font-weight: 400;
-                    font-size: 1.6rem;
+                    background-color: #F0ECFB;
+                    color: #56408C;
+                    padding: 4px 10px;
+
                 }
                 
                 .identification span {
@@ -112,44 +108,21 @@ class AlertCard extends HTMLElement {
                     justify-content: space-between;
                 }
                 
-                .info-col {
-                    width: calc(97% / 2);
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: space-between;
-                    gap: 8px;
-                }
-                
                 .info {
                     border-radius: 3px;
                     padding: 4px 10px;
                     font-weight: 400;
-                    
+                    font-size: 1.2rem;
                     display: flex;
                     justify-content: center;
                     align-items: center;
                 }
-                
-                .info.capturing {
-                    color: #F62821;
-                    background: #fbecec;
-                }
-                
-                .info.limit {
-                    color: #56408C;
-                    background-color: #F0ECFB;
-                }
+            
                 
                 .info.date {
-                    color: #575757;
-                    background-color: #F7F7F7;
+                    color: #fff;
+                    background-color:rgb(138, 135, 135);
                     text-align: center;
-                }
-                
-                .info.more-info {
-                    text-align: center;
-                    background-color: #B69CF6;
-                    color: white;
                 }
                 
                  @media (max-width: 1050px) {
@@ -211,45 +184,99 @@ class AlertCard extends HTMLElement {
             </style>
             
             
-             <div class="card">
+             <div class="card" id="server-container">
                 <div class="labels">
-                    <div class="label criticality ${criticality}">${["Crítico", "Atenção"].includes(criticality) ? criticality : "Atributo 'criticality' inválido"}</div>    
-                    <div class="label component">${component}</div>
-                </div>
-                
-                <div class="identification">
-                    <h1>${uuid}</h1>
-                    <span>#${tagName}</span>
-                </div>
-                
-                <div class="desc">
-                    <span>${desc}</span>
-                </div>
-                
-                <div class="infos">
-                    <div class="info-col">
-                        <div class="info capturing">
-                            <span>Valor capturado: ${capturing}</span>
-                        </div>
-                    
-                        <div class="info limit">
-                            <span>Limite: ${limit}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="info-col">
-                        <div class="info date">
-                            <span>${datetime}</span>
-                        </div>
-                    
-                        <div class="info more-info">
-                            <span>Mais informações</span>
-                        </div>
-                    </div>
-                </div>
+                    <div class="label criticality "></div>    
+                    <div class="identification"><span class="titulo-tag"></span></div>
+                    <div class="info cpu"><span class="cpu-tag"></span></div>
+                    <div class="info ram"><span class="ram-tag"></span></div>
+                    <div class="info disco"><span class="disco-tag"></span></div>
+                     <div class="info date"><span class="datetime-tag"></span></div>
+                </div>                
              </div>
             
-        `
+        `;
+        this.shadowRoot.querySelector('.titulo-tag').textContent = tagName;
+
+        this.shadowRoot.querySelector('.card').addEventListener('click', () => {
+            window.location.href = `../../dashboardTempoRealNew.html?tag=${motherboardid}`;
+        });
+    }
+
+    updateMetrics({ cpu, ram, disco, datetime, limiteCPU, limiteRAM, limiteDisco }) {
+        this.shadowRoot.querySelector(".cpu-tag").textContent = `Uso CPU: ${cpu}%`;
+        this.shadowRoot.querySelector(".ram-tag").textContent = `Uso RAM: ${ram}%`;
+        this.shadowRoot.querySelector(".disco-tag").textContent = `Uso Disco: ${disco}%`;
+        this.shadowRoot.querySelector(".datetime-tag").textContent = `${this.formatarDataISO(datetime)}`;
+
+        const container_cpu = this.shadowRoot.querySelector(".info.cpu");
+        const container_ram = this.shadowRoot.querySelector(".info.ram");
+        const container_disco = this.shadowRoot.querySelector(".info.disco");
+        const criticalityTag = this.shadowRoot.querySelector(".criticality");
+
+        container_cpu.classList.remove("Normal", "Atenção", "Crítico");
+        container_ram.classList.remove("Normal", "Atenção", "Crítico");
+        container_disco.classList.remove("Normal", "Atenção", "Crítico");
+
+        let criticidadeGeral = "Normal";
+
+        if (cpu >= limiteCPU) {
+            container_cpu.classList.add("Crítico");
+            criticidadeGeral = "Crítico";
+        } else if (cpu >= 65) {
+            container_cpu.classList.add("Atenção");
+            if (criticidadeGeral !== "Crítico") criticidadeGeral = "Atenção";
+        } else {
+            container_cpu.classList.add("Normal");
+        }
+
+        if (ram >= limiteRAM) {
+            container_ram.classList.add("Crítico");
+            criticidadeGeral = "Crítico";
+        } else if (ram >= 65) {
+            container_ram.classList.add("Atenção");
+            if (criticidadeGeral !== "Crítico") criticidadeGeral = "Atenção";
+        } else {
+            container_ram.classList.add("Normal");
+        }
+
+        if (disco >= limiteDisco) {
+            container_disco.classList.add("Crítico");
+            criticidadeGeral = "Crítico";
+        } else if (disco >= 60) {
+            container_disco.classList.add("Atenção");
+            if (criticidadeGeral !== "Crítico") criticidadeGeral = "Atenção";
+        } else {
+            container_disco.classList.add("Normal");
+        }
+
+        criticalityTag.textContent = criticidadeGeral;
+        criticalityTag.className = `label criticality ${criticidadeGeral}`;
+    }
+
+    formatarDataISO(timestamp) {
+        return new Date(timestamp).toISOString().split('T')[0];
+    }
+
+    ordenarCardsPorCriticidade() {
+        const container = document.querySelector('.card');  // Coloque o seletor correto aqui
+        const cards = Array.from(container.querySelectorAll('alert-card'));
+
+        const prioridade = {
+            'Crítico': 3,
+            'Atenção': 2,
+            'Normal': 1
+        };
+
+        cards.sort((cardA, cardB) => {
+            const critA = cardA.shadowRoot.querySelector('.criticality').textContent;
+            const critB = cardB.shadowRoot.querySelector('.criticality').textContent;
+
+            return prioridade[critB] - prioridade[critA];  // Do mais crítico para o mais normal
+        });
+
+        // Reanexar na ordem correta
+        cards.forEach(card => container.appendChild(card));
     }
 }
 
