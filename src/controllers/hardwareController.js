@@ -89,6 +89,7 @@ async function receberDados(req, res) {
 
     if (metrics.ram_percent <= limitesMap.ram && metrics.ram_percent >= limitesMap.ram - 20) {
         const nivel = 'Atenção'
+
         const idJira = await abrirChamadoJira('ram', metrics.ram_percent, limitesMap.ram, nivel, id);
 
         await registrarAlerta(
