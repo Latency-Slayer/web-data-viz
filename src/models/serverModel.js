@@ -157,21 +157,27 @@ function getRelatorioDeChamadosDoMesPassado() {
 function getChamadosSemResponsavel() {
     var instrucaoSql =
         `
-SELECT
-    MIN(a.id_Alert) AS idJira,
-    s.motherboard_id AS motherboard,
-    s.id_server AS id,
-    CASE 
-        WHEN MIN(a.nivel) = 'medio' THEN 'Médio'
-        WHEN MIN(a.nivel) = 'alto' THEN 'Alto'
-        WHEN MIN(a.nivel) = 'critico' THEN 'Crítico'
-        ELSE MIN(a.nivel)
-    END AS nivel
-    FROM server s
-    JOIN component c ON s.id_server = c.fk_server
-    JOIN metric m ON c.id_component = m.fk_component
-    JOIN alert a ON m.id_metric = a.fk_metric
-    GROUP BY s.tag_name, s.id_server;
+        SELECT 
+          s.id_server AS id, 
+          s.motherboard_id AS motherboard, 
+          a.idJira, 
+          CASE a.nivel
+            WHEN 'medio' THEN 'Médio'
+            WHEN 'critico' THEN 'Crítico'
+            WHEN 'alto' THEN 'Alto'
+            ELSE a.nivel
+          END AS nivel
+        FROM alert a
+        JOIN metric ON fk_Metric = id_metric
+        JOIN component ON fk_component = id_component
+        JOIN server s ON fk_server = id_server
+        ORDER BY 
+          CASE a.nivel
+            WHEN 'critico' THEN 1
+            WHEN 'alto' THEN 2
+            WHEN 'medio' THEN 3
+            ELSE 4
+          END;
 
     `
 

@@ -97,7 +97,7 @@
                 <thead>
                   <tr>
                     <th>ID</th>
-                    <th>Nome</th>
+                    <th>Motherboard</th>
                     <th>Chamado</th>
                     <th>Status</th>
                   </tr>
@@ -147,8 +147,8 @@
                 <thead>
                   <tr>
                     <th>ID</th>
-                    <th>Tagname</th>
-                    <th>Qtd.Ocorrências</th>
+                    <th>Motherboard</th>
+                    <th>Qtd.</th>
                     <th>Jogo</th>
                   </tr>
                 </thead>
@@ -411,6 +411,13 @@
       kpi_mensagem.style.color = "#57534e";
       label_kpi_comparacao.style.backgroundColor = "#d6d3d1";
       label_kpi_comparacao.style.color = "#57534e";
+    } else {
+      titulo.style.color = "white"
+      kpi_chamados_totais.style.color = "white";
+      kpi.style.backgroundColor = "#dc2626";
+      kpi_mensagem.style.color = "white"
+      label_kpi_comparacao.style.backgroundColor = "#7f1d1e";
+      label_kpi_comparacao.style.color = "white";
     }
 
     div_qtd_mes_anterior.textContent = qtd_chamados_mes_passado
@@ -530,12 +537,11 @@
   }
 
 
-  setInterval(atualizarChamados, 2000)
-  setInterval(alertasPorServidor, 2000)
-  setInterval(getResponsavelSemAtribuicao, 2000)
-  setInterval(getTopTresServersComMaisOcorrencias, 2000)
-  setInterval(getChamadosTotais, 2000)
-  setInterval(getQuantidadeDeChamadosDoMesPassado, 2000)
-  setInterval()
+  setInterval(atualizarChamados, 1000)
+  setInterval(alertasPorServidor, 1000)
+  setInterval(getResponsavelSemAtribuicao, 1000)
+  setInterval(getTopTresServersComMaisOcorrencias, 1000)
+  setInterval(getChamadosTotais, 1000)
+  setInterval(getQuantidadeDeChamadosDoMesPassado, 1000)
 
 </script>
