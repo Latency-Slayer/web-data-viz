@@ -251,7 +251,7 @@ class NavBarComponent extends HTMLElement {
                     <ul class="registerServer"><a href="#">Registrar servidor</a></ul>
                     <ul class="alerts"><a href="#">Alertas</a></ul>
                     <ul class="manageUsers"><a href="#">Gerenciar usuários</a></ul>
-                    <ul class="support"><a href="#">Suporte</a></ul>
+                    <ul class="support"><a href="https://fernandolatence2025.atlassian.net/servicedesk/customer/portals">Suporte</a></ul>
                 </li>
 
                 <div class="profile">
