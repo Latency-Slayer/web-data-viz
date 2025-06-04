@@ -42,6 +42,7 @@ main {
     padding-right: 25px;
     padding-bottom: 15px;
     box-shadow: 0 2px 4px #56408c;
+    background-color: rgb(216, 213, 213);
 }
 
 .main-scroll {
@@ -102,6 +103,7 @@ main {
     width: 100%;
     box-shadow: 0 0 10px #56408c;
     border-radius: 10px;
+            background-color: white;
 }
 
  .linha1, .linha2, .linha3, .linha4 { 
@@ -125,6 +127,7 @@ main {
     display: flex;
     width: 100%;
     justify-content: space-evenly;
+            background-color: rgb(216, 213, 213);
 }
 
 .container1, .container2 {
