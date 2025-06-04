@@ -450,16 +450,16 @@ function entrar() {
                 
 
                 setTimeout(() => {
-                    if (json.id_opt_role == 1) {
-                        window.location = "./dashboardmanagement.html"
-                    } else if (json.id_opt_role == 2) {
-                        window.location = "../servidores.html"
-                    } else if (json.id_opt_role == 3) {
-                        window.location = "../projetoIndividualBryan/index.html"
-                    } else if (json.id_opt_role == 4) {
-                        window.location = "./dashboardJiraSlack.html"
-                    } else if (json.id_opt_role == 5) {
-                        window.location = "./dashBilling.html"
+                    if (json.id_opt_role === 1) {
+                        window.location = "/dashboardmanagement.html"
+                    } else if (json.id_opt_role === 2) {
+                        window.location = "/servidores.html"
+                    } else if (json.id_opt_role === 3) {
+                        window.location = "/connectionAnalitic"
+                    } else if (json.id_opt_role === 4) {
+                        window.location = "/dashboardJiraSlack.html"
+                    } else if (json.id_opt_role === 5) {
+                        window.location = "/dashBilling.html"
                     }
                 }, 2000);
 
