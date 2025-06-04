@@ -8,7 +8,7 @@ const awsRegiao = "us-east-1"; // região da sua conta
 const clienteBilling = new CostExplorerClient({ region: awsRegiao });
 
 // Função para puxar dados de billing (custos)
-async function pegarCustosAWS() {
+async function pegarCustosAWS(req, res) {
     const hoje = new Date();
     const mesPassado = new Date();
     mesPassado.setMonth(hoje.getMonth() - 3);
@@ -57,13 +57,15 @@ async function pegarCustosAWS() {
         console.log("Custo mensal resumido:", custoMensal);
         console.log("Resumo de custo por serviço por mês:");
         console.log(JSON.stringify(resumoPorMesEServico, null, 2));
+
+        res.json({ custoMensal, resumoPorMesEServico })
     } catch (erro) {
         console.error("Erro ao pegar custos:", erro);
     }
 }
 
 // Função para puxar dados de forecast (previsão)
-async function pegarCustosAWSForecast() {
+async function pegarCustosAWSForecast(req, res) {
     const hoje = new Date();
     const finalMes = new Date(hoje.getFullYear(), hoje.getMonth() + 1, 0); // pega o final do mês atual
     const mesFuturo = new Date();
@@ -89,8 +91,10 @@ async function pegarCustosAWSForecast() {
             custoMensal[mes] = valorConvertido.toFixed(2);
         }
         console.log("Custo mensal resumido:", custoMensal);
+        res.json(custoMensal)
     } catch (erro) {
         console.error("Erro ao pegar custos:", erro);
+        res.status(500).json(erro)
     }
 }
 

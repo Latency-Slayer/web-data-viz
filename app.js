@@ -24,7 +24,7 @@ var processRouter = require("./src/routes/process-real-time")
 var alertRouter = require("./src/routes/alert");
 var jiraRouter = require("./src/routes/jira.js");
 let businessInteligenceDashboardRouter = require("./src/dashboardBryan/routes/realTimeRouter.js");
-var billingRouter = require("./src/routes/billing")
+var billingRouter = require("./src/routes/billing.js")
 
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: false }));
