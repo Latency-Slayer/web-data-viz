@@ -31,9 +31,7 @@ class Filter extends HTMLElement {
     options () {
         let options = this.getAttribute('options');
         options = eval(options)
-        options = options.sort((a, b) => a.value > b.value ? 1 : -1)
 
-        // const icon = this.getAttribute('icon');
         const filterId = "filter-" + this.getAttribute('filter-name');
 
         const select = this.querySelector(`#${filterId} .options`);
@@ -45,7 +43,8 @@ class Filter extends HTMLElement {
             </div>
         `);
 
-        eval(options).forEach((option) => {
+
+        options.forEach((option) => {
             if(option.value === this.getAttribute("value")) return;
 
             select.insertAdjacentHTML('beforeend', `

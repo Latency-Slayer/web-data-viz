@@ -89,6 +89,9 @@ class RealTimeConnectionService {
         if(!continent) {
             return model.getPlayerLocations(companyRegisterNumber);
         }
+
+
+        return model.getPlayerLocationsContinent(companyRegisterNumber, continent);
     }
 }
 

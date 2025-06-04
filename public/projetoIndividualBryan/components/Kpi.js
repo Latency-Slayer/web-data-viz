@@ -7,19 +7,28 @@ class Kpi extends HTMLElement {
         this.setAttribute('value', value);
     }
 
+    set subvalue (subvalue) {
+        this.setAttribute('subvalue', subvalue);
+    }
+
     static get observedAttributes() {
-        return ["value"];
+        return ["value", "subvalue"];
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
         if(!oldValue) return;
 
-        if(!isNaN(Number(newValue))) {
-            this.querySelector("#value").textContent = Intl.NumberFormat("pt-br").format(newValue);
-            return;
+        if(name === "value") {
+            if(!isNaN(Number(newValue))) {
+                this.querySelector("#value").textContent = Intl.NumberFormat("pt-br").format(newValue);
+                return;
+            }
+
+            this.querySelector("#value").textContent = newValue;
+        } else if(name === "subvalue") {
+            this.querySelector("#subvalue").textContent = newValue;
         }
 
-        this.querySelector("#value").textContent = newValue;
     }
 
     connectedCallback() {
@@ -35,12 +44,15 @@ class Kpi extends HTMLElement {
                         <i class="bi ${this.getAttribute("icon-name")} text-4xl text-purple-900" id="icon"></i>
                     </div>
 
-                    <span class="text-purple-900 text-lg font-medium" id="title">${this.getAttribute("kpi-title")}</span>
+                    <span class="text-purple-900 text-2xl font-light" id="title">${this.getAttribute("kpi-title")}</span>
                     
                     <i class="bi bi-question-circle text-purple-900 text-3xl absolute top-1 right-2 cursor-pointer" id="${this.getAttribute("id")}"></i>
                 </div>
 
-                <span class="text-3xl text-purple-950 font-semibold" id="value">${this.getAttribute("value")}</span>
+                <div>
+                    <span class="text-3xl text-purple-950 font-semibold" id="value">${this.getAttribute("value")}</span>
+                    <span class="text-md text-purple-950 font-semibold" id="subvalue">${this.getAttribute("subvalue") || ""}</span>
+                </div>
             </div>
         `;
     }

@@ -247,11 +247,10 @@ class NavBarComponent extends HTMLElement {
 
             <nav class="navDesktop">
                 <li>
-                    <ul class="servers"><a href="#">Servidores</a></ul>
-                    <ul class="registerServer"><a href="#">Registrar servidor</a></ul>
-                    <ul class="alerts"><a href="#">Alertas</a></ul>
-                    <ul class="manageUsers"><a href="#">Gerenciar usuários</a></ul>
-                    <ul class="support"><a href="#">Suporte</a></ul>
+                    <ul class="servers" id="servers"><a href="../../servidores.html">Servidores</a></ul>
+                    <ul class="registerServer" id="registerServer"><a href="../../cadastroMaquina.html">Registrar servidor</a></ul>
+                    <ul class="manageUsers" id="manageUsers"><a href="../../cadastroCargo.html">Gerenciar usuários</a></ul>
+                    <ul class="support" id="support"><a href="#">Suporte</a></ul>
                 </li>
 
                 <div class="profile">
@@ -265,9 +264,8 @@ class NavBarComponent extends HTMLElement {
                 </div>
 
                 <li>
-                    <ul class="servers"><a href="#">Servidores</a></ul>
-                    <ul class="registerServer"><a href="#">Registrar servidor</a></ul>
-                    <ul class="alerts"><a href="#">Alertas</a></ul>
+                    <ul class="servers"><a href="../../servidores.html">Servidores</a></ul>
+                    <ul class="registerServer"><a href="../../cadastroMaquina.html">Registrar servidor</a></ul>
                 </li>
 
                 <div class="menu toggleOptions">
@@ -279,13 +277,12 @@ class NavBarComponent extends HTMLElement {
 
             <div class="moreOptions">
                 <li>
-                    <div class="servers" style="display: none;"><a href="#">Servidores</a></div>
-                    <div class="registerServer" style="display: none;"><a href="#">Registrar servidor</a></div>
-                    <div class="alerts" style="display: none;"><a href="#">Alertas</a></div>
-                    <div class="manageUsers" style="display: none;"><a href="#">Gerenciar usuários</a></div>
+                    <div class="servers" style="display: none;"><a href="../../servidores.html">Servidores</a></div>
+                    <div class="registerServer" style="display: none;"><a href="../../cadastroMaquina.html">Registrar servidor</a></div>
+                    <div class="manageUsers" style="display: none;"><a href="../../cadastroCargo.html">Gerenciar usuários</a></div>
                     <div class="support" style="display: none;"><a href="#">Suporte</a></div>
-                    <div class="editProfile"><a href="#">Editar perfil</a></div>
-                    <div class="exit"><a href="#">Encerrar sessão</a></div>
+                    <div class="editProfile"><a href="../../editarPerfil.html">Editar perfil</a></div>
+                    <div class="exit"><a href="../../index.html">Encerrar sessão</a></div>
                 </li>
             </div>
         `;
@@ -294,17 +291,17 @@ class NavBarComponent extends HTMLElement {
 
 customElements.define('nav-bar', NavBarComponent);
 
-var registrarServidor = document.getElementById("registrarServidor")
-var alertas = document.getElementById("alertas")
-var gerenciarUsuario = document.getElementById("gerenciarUsuario")
+var registrarServidor = document.getElementById("registerServer")
+var gerenciarUsuario = document.getElementById("manageUsers")
+var suporte = document.getElementById("support")
 
-if (sessionStorage.getItem('ROLE_USER') == 'Analista de Dados') {
+
+if (sessionStorage.getItem('ROLE_USER') === 'Analista de Dados') {
     gerenciarUsuario.style.display = "none"
     registrarServidor.style.display = "none"
-    alertas.style.display = "none"
 }
 
-if (sessionStorage.getItem('ROLE_USER') == 'Gerente') {
+if (sessionStorage.getItem('ROLE_USER') === 'Gerente') {
     gerenciarUsuario.style.display = "none"
     registrarServidor.style.display = "none"
 }

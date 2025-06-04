@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style/dash_Negocios.css">
+    <title>Latency Slayer | Impacto de Negócio</title>
+    <script src="script/components/navBar.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/slim-select@latest/dist/slimselect.min.js"></script>
+    <link href="https://unpkg.com/slim-select@latest/dist/slimselect.css" rel="stylesheet"></link>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+</head>
+<body>
+    <nav-bar></nav-bar>
+
+    <div class="dashNegocio">
+        <div class="filtros">
+            <div class="filtroPesquisa">
+                <select id="iptpesquisa" onchange="pesquisaJogo()"></select>
+            </div>
+            <h1 id="titulo">Jogo</h1>
+        </div>
+
+        <div class="metricas">
+            <div class="KPIs">
+                <div class="containers">
+                    <div class="container">
+                        <span>Incidentes nos Últimos 30 dias</span>
+                        <span class="valor" id="incidente"></span>
+                        <div class="legenda" id="legendaincidente"></div>
+                    </div>
+                    <div class="container">
+                        <span>Abandono por Baixa Performance</span>
+                        <span class="valor" id="abandono"></span>
+                        <div class="legenda" id="legendaAbandono"></div>
+                    </div>
+                    <div class="container">
+                        <span id="proximoMes">Previsão de Abandono para</span>
+                        <span class="valor" id="previsao"></span>
+                        <div class="legenda" id="legendaPrevisao"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="Graficos">
+                <div id="chart" class="Grafico">
+                    <h1>Abandono Regional por Performance</h1>
+                    <canvas id="chartBar"></canvas>
+                </div>
+                <div id="chart2" class="Grafico">
+                     <h1>Impacto de Incidentes na Retenção de Jogadores</h1>
+                    <canvas id="chartArea"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+
+    window.onload = () => {
+        carregarPagina()
+        const iptpesquisa = document.getElementById("iptpesquisa")
+        const selectLista = new SlimSelect({
+            select: iptpesquisa
+        })
+        fetch(`/abandono/listaJogos/${sessionStorage.ID_COMPANY}`, {
+            method:"GET",
+        }).then((res) => {
+            return res.json()
+        }).then((res) => {
+            const vetorLista = [];
+            for (let i = 0; i < res.length; i++) {
+                vetorLista.push({
+                    text: res[i].game,
+                    value: res[i].game
+                })
+            }
+            selectLista.setData(vetorLista) 
+        })  
+    }
+
+    function carregarPagina() {
+        pesquisaJogo()
+    }
+
+    function pesquisaJogo() {
+        const pesquisa = iptpesquisa.value
+        dados_abandono_kpi(pesquisa)
+        fetch(`/abandono/pesquisaJogo/${pesquisa}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then((res) => {
+            return res.json()
+        }).then((res) => {
+            if(res.length == 0) {
+                titulo.innerHTML = "Resultado não encontrado"
+            }
+            titulo.innerHTML = res.select[0].game
+            incidente.innerHTML = res.select[0].qtd
+            let mensagemIcone = '<i class="bi bi-arrow-up"></i>'
+            let mensagemCor = "red"
+
+            if((((res.select[0].qtd - res.selectmespass[0].qtd) / res.selectmespass[0].qtd) * 100) < 0) {
+                mensagemIcone = '<i class="bi bi-arrow-down"></i>'
+                mensagemCor = "green"
+            }
+            
+            legendaincidente.innerHTML = `<span style="color:${mensagemCor}">${mensagemIcone} ${Math.abs((((res.select[0].qtd - res.selectmespass[0].qtd) / res.selectmespass[0].qtd) * 100)).toFixed(2)}% em relação ao mês passado </span>`
+        })
+        dados_abandono(pesquisa)
+        grafico2(pesquisa)
+    }
+
+    let fonte = 16 
+    if(window.innerWidth <= 800) {
+        fonte = 10
+    }
+
+    const ctx = document.getElementById('chartBar');
+
+  const chart1 = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: [],
+      datasets: [{
+        data: [],
+        borderWidth: 0
+      }],
+    },
+    options: {
+     borderRadius: 5,
+        plugins: {
+            legend: {
+                display: false
+            },
+        },
+      scales: {
+        y: {
+          beginAtZero: true,
+          grid: {
+            display: false
+          },
+          ticks: {
+            color: 'black',
+            font: {
+                weight: 'bold',
+                size: fonte
+            },
+          },
+          title: {
+            display: true,
+            text: 'Taxa de Abandono',
+            color: 'black',
+            font: {
+                size: fonte,
+                weight: 'bold'
+            }
+          }
+        },
+          x: {
+            grid: {
+            display: false
+          },
+        ticks: {
+            color: 'black',
+          font: {
+            size: fonte,
+            weight: 'bolder' 
+          }
+        }
+      },
+      }
+    }
+  });
+
+  function dados_abandono(nomeJogo) {
+        fetch(`/abandono/dados_abandono/${nomeJogo}`, {
+            method: "GET"
+        }).then((res) => {
+            return res.json()
+        }).then((res) => {
+            const vetorData = []
+            const vetorLabel = []
+            const vetorCor = []
+
+            const continentMap = {
+                'EU': 'Europe',
+                'AF': 'Africa',
+                'AS': 'Asia',
+                'NA': 'North America',
+                'SA': 'South America',
+                'OC': 'Oceania'
+            };
+
+            const canvasElement = document.getElementById('chartBar')
+            const canvasContext = canvasElement.getContext('2d')
+
+            const gradiente = canvasContext.createLinearGradient(0, 0, 0, 400)
+            gradiente.addColorStop(0, '#a589eec1')
+            gradiente.addColorStop(1, '#56408C')
+            
+            for (let i = 0; i < res.length; i++) {
+                vetorData.push(res[i].media_abandono)
+                const continente = continentMap[res[i].continent]
+                vetorLabel.push(continente)
+
+                vetorCor.push(gradiente)
+            }
+
+            const valorMaximo = Math.max(...vetorData)
+            const indiceMaiorValor = vetorData.indexOf(valorMaximo)
+
+
+            vetorCor[indiceMaiorValor] = "#56408C"
+
+            chart1.data.datasets[0].data = vetorData
+            chart1.data.labels = vetorLabel
+            chart1.data.datasets[0].backgroundColor = vetorCor
+            chart1.update()
+        })
+    }
+
+    function dados_abandono_kpi(nomeJogo) {
+        fetch(`/abandono/dados_abandono_kpi/${nomeJogo}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then((res) => {
+            return res.json()
+        }).then((res) => {
+           if(res.length == 0) {
+                abandono.innerHTML = "Resultado não encontrado"
+            }
+            let totalMesPass = res.totalAbandonoPass
+            let totalMesAtual = res.totalAbandono
+            abandono.innerHTML = totalMesAtual + " Jogadores"
+            let mensagemIcone = '<i class="bi bi-arrow-up"></i>'
+            let mensagemCor = "red"
+            
+            if((((totalMesAtual - totalMesPass) / totalMesPass) * 100) < 0) {
+                mensagemIcone = '<i class="bi bi-arrow-down"></i>'
+                mensagemCor = "green"
+            }
+            
+            legendaAbandono.innerHTML = `<span style="color:${mensagemCor}">${mensagemIcone} ${Math.abs((((totalMesAtual - totalMesPass) / totalMesPass)) * 100).toFixed(2)}% em relação ao mês passado </span>`
+        })
+    }
+
+
+  const ctx2 = document.getElementById('chartArea');
+
+  const chart2 = new Chart(ctx2, {
+    type: 'bar',
+    data: {
+      labels: [],
+      datasets: [{
+        data: [],
+        borderWidth: 0
+      }],
+    },
+    options: {
+     borderRadius: 5,
+        plugins: {
+            legend: {
+                display: false
+            },
+        },
+      scales: {
+        y: {
+          beginAtZero: true,
+          grid: {
+            display: false
+          },
+          ticks: {
+            color: 'black',
+            font: {
+                weight: 'bold',
+                size: fonte
+            },
+          },
+          title: {
+            display: true,
+            text: 'Taxa de Abandono',
+            color: 'black',
+            font: {
+                size: fonte,
+                weight: 'bold'
+            }
+          }
+        },
+          x: {
+            grid: {
+            display: false
+          },
+        ticks: {
+            color: 'black',
+          font: {
+            size: fonte,
+            weight: 'bolder' 
+          }
+        }
+      },
+      }
+    }
+  });
+
+        function grafico2(nomeJogo) {
+            fetch(`/abandono/grafico2/${nomeJogo}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+            }).then((res) => {
+                return res.json()
+            }).then((res) => {
+                const vetorLabel = []
+                const vetorValores = [ res[0].mesPassPass.valor, res[0].mesPass.valor, res[0].mesAtual.valor, res[0].previsaoMes.valor]
+                const vetorMeses = [res[0].mesPassPass, res[0].mesPass, res[0].mesAtual, res[0].previsaoMes]
+                previsao.innerHTML = res[0].previsaoMes.valor + ' Jogadores'
+
+                const vetorCor = []
+
+            const graficMes = {
+                1 : 'Janeiro',
+                2 : 'Fevereiro',
+                3 : 'Março',
+                4 : 'Abril',
+                5 : 'Maio',
+                6 : 'Junho',
+                7 : 'Julho',
+                8 : 'Agosto',
+                9 : 'Setembro',
+                10 : 'Outubro',
+                11 : 'Novembro',
+                12 : 'Dezembro'
+            };
+
+            for (let i = 0; i < vetorMeses.length; i++) {
+                const meses = graficMes[vetorMeses[i].mes]
+                vetorLabel.push(meses)
+                vetorCor.push('#aaaaaa')
+            }
+            
+            vetorCor[vetorCor.length - 1] = "#4b29a1"
+            vetorCor[vetorCor.length - 2] = "#3A2E5D"
+    
+            proximoMes.innerHTML = `Previsão de Abandono para ${graficMes[res[0].previsaoMes.mes]}`
+
+            let mensagemIcone = '<i class="bi bi-arrow-up"></i>'
+            let mensagemCor = "red"
+            
+            if((((res[0].previsaoMes.valor - res[0].mesAtual.valor)/ res[0].mesAtual.valor) * 100) < 0) {
+                mensagemIcone = '<i class="bi bi-arrow-down"></i>'
+                mensagemCor = "green"
+            }
+
+             legendaPrevisao.innerHTML = `<span style="color:${mensagemCor}">${mensagemIcone} ${(Math.abs(((res[0].previsaoMes.valor - res[0].mesAtual.valor)/ res[0].mesAtual.valor) * 100).toFixed(2))}% em relação ao mês passado </span>`
+
+            chart2.data.datasets[0].data = vetorValores
+            chart2.data.labels = vetorLabel
+            chart2.data.datasets[0].backgroundColor = vetorCor
+            chart2.update()
+            })
+        }
+
+</script>            
