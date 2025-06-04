@@ -108,11 +108,13 @@ function getMetric(motherboard) {
 
 function getAlertsPerServer() {
     var instrucaoSql =
-        `SELECT s.id_server as id,s.tag_name as tag_name,COUNT(a.id_alert) AS total_alertas,s.game as game FROM server s
+        `
+	SELECT s.id_server as id, s.motherboard_id as motherboard,COUNT(a.id_alert) AS total_alertas,s.game as game FROM server s
     JOIN component c ON s.id_server = c.fk_server
     JOIN metric m ON c.id_component = m.fk_component
     JOIN alert a ON m.id_metric = a.fk_metric
-    GROUP BY s.id_server, s.tag_name, s.game;`
+    GROUP BY s.id_server, s.tag_name, s.game
+    ;`
 
     return database.executar(instrucaoSql)
 }
@@ -155,16 +157,22 @@ function getRelatorioDeChamadosDoMesPassado() {
 function getChamadosSemResponsavel() {
     var instrucaoSql =
         `
-    SELECT 
+SELECT
     MIN(a.id_Alert) AS idJira,
-    s.tag_name as tag_name,
-    s.id_server as id,
-    MIN(a.nivel) AS nivel
+    s.motherboard_id AS motherboard,
+    s.id_server AS id,
+    CASE 
+        WHEN MIN(a.nivel) = 'medio' THEN 'Médio'
+        WHEN MIN(a.nivel) = 'alto' THEN 'Alto'
+        WHEN MIN(a.nivel) = 'critico' THEN 'Crítico'
+        ELSE MIN(a.nivel)
+    END AS nivel
     FROM server s
     JOIN component c ON s.id_server = c.fk_server
     JOIN metric m ON c.id_component = m.fk_component
     JOIN alert a ON m.id_metric = a.fk_metric
     GROUP BY s.tag_name, s.id_server;
+
     `
 
     return database.executar(instrucaoSql)

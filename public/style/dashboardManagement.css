@@ -39,13 +39,14 @@ main {
     min-height: calc((100% / 3) - 80px);
     border: solid #C4B5FD 2px;
     padding: 3vh;
-    background: #fee2e2;
+    background: #dc2626;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
+    transition: linear .2s;
 }
 
 .titulo-kpi {
-    color: #4C1D95;
+    color: white;
     font-size: 1.3vw;
     font-weight: 500;
 }
@@ -57,13 +58,13 @@ main {
 }
 
 .kpi-numeros {
-    color: #EF4444;
+    color: white;
     font-size: 4vw;
     font-weight: bold;
 }
 
 .kpi-mensagem {
-    color: #EF4444;
+    color: white;
     font-size: 1.5vw;
     margin-left: 0.6vw;
     font-weight: 500;
@@ -79,7 +80,7 @@ main {
     display: flex;
     gap: 5px;
     font-size: 1vw;
-    background: #b91c1c;
+    background: #7f1d1d;
     border-radius: 20px;
     width: fit-content;
     padding: 0 1vw;
@@ -95,6 +96,10 @@ main {
     border: solid black;
     position: absolute;
     /* opacity: 0; */
+}
+
+.lista-second-grafico-linha-2 th, .lista-second-grafico-linha-2 td {
+    font-size: 0.8vw;
 }
 
 .box-tooltip-text {
