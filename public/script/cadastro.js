@@ -456,10 +456,10 @@ function entrar() {
                     } else if (json.id_opt_role == 3) {
                         window.location = "../servidores.html"
                     } else if (json.id_opt_role == 4) {
-                        window.location = "../dashboardJiraSlack.html"
-                    } else if(json.id_opt_role == 5){
-                        window.location = "../dashBilling.html"
-                    }
+                    window.location = "./dashboardJiraSlack.html"
+                  } else if(json.id_opt_role == 5){
+                    window.location = "./dashBilling.html"
+                   }
                 }, 2000);
               
             })
