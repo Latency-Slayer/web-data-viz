@@ -160,10 +160,9 @@
             const dates = new Array();
             const initialDate = new Date();
 
-            const timezoneOffset = -3 * 60;
+            const timezoneOffset = - 3 * 60;
 
             for (let i = 0; i < 60 / 3; i++) {
-
                 const newDate = new Date(initialDate.getTime() + i * 3000);
                 newDate.setMinutes(newDate.getMinutes() + timezoneOffset);
                 dates.push(newDate.getTime());
