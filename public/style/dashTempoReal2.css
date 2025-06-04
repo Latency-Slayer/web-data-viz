@@ -18,8 +18,8 @@ main {
 .container {
     height: 100vh;
     width: 100%;
-    overflow: auto;
-    overflow-x: hidden;
+    /* overflow: auto; */
+    /* overflow-x: hidden; */
 
 }
 
@@ -46,7 +46,8 @@ main {
     width: 23%;
     margin-right: 20px;
     border-radius: 1vh;
-    box-shadow: 0 0 0.9vh rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 10px #56408C;
+    border-radius: 10px;
     align-items: center;
     justify-content: center;
 }
@@ -72,7 +73,7 @@ main {
     /*border: 1px solid blue;*/
 }
 .kpi-content-alert h1 {
-    color: black;
+    color: #56408C;
 }
 
 .kpi-content span {
@@ -97,9 +98,10 @@ main {
     /* border: solid red 3px; */
     font-size: 1.3vw;
     font-weight: bold;
+    color: #56408C;
 }
 .text-kpi-alert h1 {
-    color: black;
+    color: #56408C;
 }
 
 .kpi h1 {
@@ -134,11 +136,12 @@ main {
 }
 
 .processos {
-    width: 50%;
+    width: 30%;
     height: 70vh;
     box-shadow: 0 0 0.9vh rgba(0, 0, 0, 0.2);
-    overflow-y: auto;
-    overflow-x: hidden;
+    /* overflow-y: auto; */
+    overflow-y: scroll;
+    /* overflow-x: hidden; */
 }
 .nome-processo{
     max-width: 100px; 
@@ -183,10 +186,14 @@ main {
 }
 
 .graficos-linhas {
-    height: 10vh;
+    /* height: 10vh; */
+    width: 70%;
 }
 
 .grafico-barra {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
     width: 97%;
     height: 31vh;
     box-shadow: 0 0 0.9vh rgba(0, 0, 0, 0.2);
@@ -323,8 +330,6 @@ thead th {
     font-size: 1.4vw;
     text-indent: 1vw;
 }
-
-
 /* Firefox (uncomment to work in Firefox, although other properties will not work!)  */
 /** {
   scrollbar-width: thin;
@@ -362,104 +367,73 @@ header h1 {
     margin-left: 2vh;
 }
 
-
 @media (max-width: 800px) {
     header h1 {
+        padding-top: 2vh;
+        padding-bottom: 5vh;
         font-size: 1.5rem;
         margin-left: 2vh;
+    }
+
+    .container {
+        height: 100%;
     }
 
     .kpis {
         display: flex;
         flex-direction: column;
+        justify-content: center;
+        align-items: center;
         width: 100%;
-        min-height: fit-content;
+        height: auto;
+        /* gap: 20px; */
     }
-
     .kpi {
-        width: 80%;
-        margin: 0 auto;
-    }
-
-    .text-kpi {
-        font-size: 1rem;
-        font-weight: bold;
-        color: #56408C;
-    }
-
-    .kpi h1 {
-        font-size: 1.4rem;
-        font-weight: bolder;
-        /* border: solid red; */
-    }
-
-    .kpi h2 {
-        font-size: 1.3rem;
-    }
-
-    .first-line-graphs {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 1.2rem;
-    }
-
-    .chart-use-cpu,
-    .graphs-monitoring-ram,
-    .graphs-ram,
-    .graphs-network,
-    .graphs-temperature-cpu,
-    .graphs-monitoring-storage {
         width: 90%;
-        border-radius: 1vh;
-        box-shadow: 0 0 0.9vh rgba(0, 0, 0, 0.2);
-    }
+        height: 100vh;
+        margin-bottom: 20px;
+        }
 
-    .graphs-monitoring-storage .text-kpi,
-    .graphs-monitoring-ram .text-kpi {
-        font-size: 1.4rem;
-        font-weight: bold;
-        text-align: center;
-
-        text-indent: 20px;
-    }
-
-
-    .storage-chart-container {
-        overflow-x: hidden;
-    }
-
-    .ram-chart-container {
+   .graficos {
         flex-direction: column;
+        align-items: center;
+        margin-left: 0;
+        height: 100%;
+    }
+    
+    .processos{
+        width: 90%;
+        height: 400px;
+        /* overflow-y: auto; */
     }
 
-    .donut-box {
+    .graficos-linhas {
+        width: 90%;
+    }
+
+    .container-graficos-linhas {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    #grafico-cpu-pctg{
+        width: 100% !important;
+    }
+
+    .chart-use-cpu, 
+    .graphs-ram, 
+    .grafico-barra {
         width: 100%;
-        flex-direction: column-reverse;
+        height: auto;
     }
+}
 
-    .ram-kpi {
-        text-align: center;
-    }
+.grafico-alerta {
+    width: 100% !important;
+}
 
-    .second-line-graphs {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 1.2rem;
-    }
-
-
-    .line-chart-title {
-        font-size: 1.2rem;
-    }
-
-
-    .third-line-graphs {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-top: .1rem;
-        gap: 1.2rem;
-    }
+.chart-grafico {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
 }

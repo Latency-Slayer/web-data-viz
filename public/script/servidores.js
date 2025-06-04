@@ -1,5 +1,4 @@
 let servidoresDatas = []
-
 let limitesMaximos = {}
 let limitesMinimos = {}
 
@@ -14,44 +13,54 @@ async function getServers() {
 
         for (const server of servidores) {
             console.log("Processando servidor:", server.motherboard_id);
-            //chama o getLimitComponent e por ser um await retorna uma Promisa, então ele espera retornar uma resposta antes de prosseguir
             await getLimitComponent(server.motherboard_id);
-            await getData(server.motherboard_id);
         }
 
+        await getDataFromMap();
         console.log("Todos os servidores processados!");
     } catch (erro) {
         console.log("Erro ao buscar servidores:", erro);
     }
 }
 
+async function getDataFromMap() {
+    try {
+        const resposta = await fetch("/hardware/api/real-time", { method: 'GET' });
+        const dadosArray = await resposta.json();
+        const metricas = new Map(dadosArray);
+        
+        console.log("Métricas do Map:", metricas);
+        
+        // Atualizar cada servidor com os dados do Map
+        metricas.forEach((data, motherboard_id) => {
+            updateServerCard(motherboard_id, data);
+        });
+        
+    } catch (erro) {
+        console.error("Erro ao buscar métricas do Map:", erro);
+    }
+}
+
+function updateServerCard(motherboard_id, data) {
+    const card = document.querySelector(`alert-card[motherboardid="${motherboard_id}"]`);
+    
+    card.updateMetrics({
+        cpu: data.metrics.cpu_percent ,
+        ram: data.metrics.ram_percent,
+        disco: data.metrics.disk_percent,
+        datetime: data.metrics.timestamp,
+        limiteCPU: data.limites.cpu,
+        limiteRAM: data.limites.ram,
+        limiteDisco: data.limites.storage,
+    });
+}
+
 function getData(motherboard_id) {
-    //Usar encodeURI por que alguns servidores começam com / e da problema na url
     fetch(`/hardware/api/real-time?tag=${encodeURIComponent(motherboard_id)}`, { method: 'GET' })
         .then(resposta => resposta.json())
         .then(data => {
-            console.log(data)
-            console.log(`Métricas do servidor ${motherboard_id}:`, data);
-
-            const card = document.querySelector(`alert-card[motherboardid="${motherboard_id}"]`);
-
-            const limiteMax = limitesMaximos[motherboard_id];
-
-            // Ver qual servidor ele está com problmeas na leitura dos limites
-            if (!limiteMax) {
-                console.warn(`Limites não encontrados para ${motherboard_id}`);
-                return;
-            }
-
-            card.updateMetrics({
-                cpu: data.metrics.cpu_percent,
-                ram: data.metrics.ram_percent,
-                disco: data.metrics.disk_percent,
-                datetime: data.metrics.timestamp,
-                limiteCPU: limiteMax.cpu,
-                limiteRAM: limiteMax.ram,
-                limiteDisco: limiteMax.storage,
-            });
+            console.log(`Métricas individuais do servidor ${motherboard_id}:`, data);
+            updateServerCard(motherboard_id, data.metrics);
         })
         .catch(erro => console.error(`Erro ao buscar métricas do servidor ${motherboard_id}:`, erro));
 }
@@ -60,7 +69,6 @@ function getLimitComponent(motherboard_id) {
     fetch(`/server/getLimitComponent/${encodeURIComponent(motherboard_id)}`, { method: 'GET' })
         .then(resposta => resposta.json())
         .then(data => {
-            console.log(data)
             console.log(`Limites do servidor ${motherboard_id}:`, data);
 
             limitesMaximos[motherboard_id] = {};
@@ -90,8 +98,47 @@ function mostrarCards(servidores) {
     });
 }
 
+function obterValorCampo(card, campo) {
+    if (campo === 'criticality') {
+        const critEl = card.shadowRoot.querySelector('.criticality');
+        if (critEl) {
+            return critEl.textContent;
+        }
+        return null;
+    }
+    return card.getAttribute(campo);
+}
+
+function ordenarCardsPorCriticidade() {
+    const container = document.getElementById("server-container");
+    const cards = Array.from(container.querySelectorAll('alert-card'));
+
+    const prioridade = {
+        'Crítico': 3,
+        'Atenção': 2,
+        'Normal': 1
+    };
+
+    cards.sort((a, b) => {
+        const critA = obterValorCampo(a, 'criticality');
+        const critB = obterValorCampo(b, 'criticality');
+
+        const valA = prioridade[critA] || 0;
+        const valB = prioridade[critB] || 0;
+
+        return valB - valA;  // maior prioridade primeiro
+    });
+
+    // verifica se a posição dele mudou, para não ficar piscando toda hora, e mantem nessa opsição que ele ficou
+    cards.forEach((card, index) => {
+        if (container.children[index] !== card) {
+            container.insertBefore(card, container.children[index]);
+        }
+    });
+}
+
+
 setInterval(() => {
-    servidoresDatas.forEach((server) => {
-        getData(server.motherboard_id)
-    })
-}, 2000);
+    getDataFromMap(); 
+    ordenarCardsPorCriticidade();
+}, 3000);

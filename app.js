@@ -19,13 +19,14 @@ var indexRouter = require("./src/routes/index");
 var usuarioRouter = require("./src/routes/usuarios");
 var empresaRouter = require("./src/routes/empresas");
 var cadastrarMaquinaRouter = require("./src/routes/server");
+let businessInteligenceDashboardRouter = require("./src/dashboardBryan/routes/index.js");
 var hardwareRouter = require("./src/routes/hardware-real-time")
 var processRouter = require("./src/routes/process-real-time")
 var alertRouter = require("./src/routes/alert");
-var jiraRouter = require("./src/routes/jira.js");
-let businessInteligenceDashboardRouter = require("./src/dashboardBryan/routes/realTimeRouter.js");
+var jiraRouter = require("./src/routes/jira");
 var billingRouter = require("./src/routes/billing")
 var abandonoRouter = require("./src/routes/abandonoRoutes.js")
+
 
 app.use(express.json({ limit: '50mb' }));
 
@@ -41,7 +42,7 @@ app.use("/server", cadastrarMaquinaRouter);
 app.use("/hardware", hardwareRouter);
 app.use("/process", processRouter);
 app.use("/alert", alertRouter);
-app.use("/jira", jiraRouter);
+app.use("/jira", jiraRouter.router);
 app.use("/bi/dashboard", businessInteligenceDashboardRouter);
 app.use("/abandono", abandonoRouter);
 

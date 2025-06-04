@@ -184,7 +184,7 @@ class AlertCard extends HTMLElement {
             </style>
             
             
-             <div class="card">
+             <div class="card" id="server-container">
                 <div class="labels">
                     <div class="label criticality "></div>    
                     <div class="identification"><span class="titulo-tag"></span></div>
@@ -196,14 +196,14 @@ class AlertCard extends HTMLElement {
              </div>
             
         `;
-        this.shadowRoot.querySelector('.titulo-tag').textContent = tagName;
+        this.shadowRoot.querySelector('.titulo-tag').textContent = motherboardid;
 
         this.shadowRoot.querySelector('.card').addEventListener('click', () => {
             window.location.href = `../../dashboardTempoRealNew.html?tag=${motherboardid}`;
         });
     }
-    
-    updateMetrics({ cpu, ram, disco, datetime, limiteCPU, limiteRAM, limiteDisco}) {
+
+    updateMetrics({ cpu, ram, disco, datetime, limiteCPU, limiteRAM, limiteDisco }) {
         this.shadowRoot.querySelector(".cpu-tag").textContent = `Uso CPU: ${cpu}%`;
         this.shadowRoot.querySelector(".ram-tag").textContent = `Uso RAM: ${ram}%`;
         this.shadowRoot.querySelector(".disco-tag").textContent = `Uso Disco: ${disco}%`;
@@ -217,45 +217,66 @@ class AlertCard extends HTMLElement {
         container_cpu.classList.remove("Normal", "Atenção", "Crítico");
         container_ram.classList.remove("Normal", "Atenção", "Crítico");
         container_disco.classList.remove("Normal", "Atenção", "Crítico");
-        
+
         let criticidadeGeral = "Normal";
-        
+
         if (cpu >= limiteCPU) {
             container_cpu.classList.add("Crítico");
             criticidadeGeral = "Crítico";
-        } else if (cpu >= 65) { 
+        } else if (cpu >= 65) {
             container_cpu.classList.add("Atenção");
             if (criticidadeGeral !== "Crítico") criticidadeGeral = "Atenção";
         } else {
             container_cpu.classList.add("Normal");
         }
-        
+
         if (ram >= limiteRAM) {
             container_ram.classList.add("Crítico");
             criticidadeGeral = "Crítico";
-        } else if (ram >= 65) { 
+        } else if (ram >= 65) {
             container_ram.classList.add("Atenção");
             if (criticidadeGeral !== "Crítico") criticidadeGeral = "Atenção";
         } else {
             container_ram.classList.add("Normal");
         }
-        
+
         if (disco >= limiteDisco) {
             container_disco.classList.add("Crítico");
             criticidadeGeral = "Crítico";
-        } else if (disco >= 60) { 
+        } else if (disco >= 60) {
             container_disco.classList.add("Atenção");
             if (criticidadeGeral !== "Crítico") criticidadeGeral = "Atenção";
         } else {
             container_disco.classList.add("Normal");
         }
-        
+
         criticalityTag.textContent = criticidadeGeral;
         criticalityTag.className = `label criticality ${criticidadeGeral}`;
     }
-    
+
     formatarDataISO(timestamp) {
         return new Date(timestamp).toISOString().split('T')[0];
+    }
+
+    ordenarCardsPorCriticidade() {
+        const container = document.querySelector('.card');  // Coloque o seletor correto aqui
+        const cards = Array.from(container.querySelectorAll('alert-card'));
+
+        const prioridade = {
+            'Crítico': 3,
+            'Atenção': 2,
+            'Normal': 1
+        };
+
+        cards.sort((cardA, cardB) => {
+            const critA = cardA.shadowRoot.querySelector('.criticality').textContent;
+            const critB = cardB.shadowRoot.querySelector('.criticality').textContent;
+
+            return prioridade[critB] - prioridade[critA];  // Do mais crítico para o mais normal
+        });
+
+        // Reanexar na ordem correta
+        cards.forEach(card => container.appendChild(card));
     }
 }
 

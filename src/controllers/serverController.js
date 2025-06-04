@@ -31,8 +31,41 @@ function listarServer(req, res){
         res.status(200).json(resultado);
     })
 }
-function getLimitComponent(req, res){
-    serverModel.getLimitComponent().then((resultado) => {
+async function getLimitComponent(req, res) {
+    try {
+        const resultado = await serverModel.getLimitComponent(req.body.motherboardid);
+        res.status(200).json(resultado);
+    } catch (erro) {
+        console.error("Erro ao buscar limites:", erro);
+        res.status(500).json({ erro: "Erro ao buscar limites" });
+    }
+}
+function getAlertsPerServer(req, res){
+    serverModel.getAlertsPerServer().then((resultado) => {
+        res.status(200).json(resultado);
+    })
+}
+
+function getChamadosSemResponsavel(req, res){
+    serverModel.getChamadosSemResponsavel().then((resultado) => {
+        res.status(200).json(resultado);
+    })
+}
+
+function getRelatorioDeChamadosDoMesPassado(req, res){
+    serverModel.getRelatorioDeChamadosDoMesPassado().then((resultado) => {
+        res.status(200).json(resultado);
+    })
+}
+
+function getTopTresServersComMaisOcorrencias(req, res) {
+        serverModel.getTopTresServersComMaisOcorrencias().then((resultado) => {
+        res.status(200).json(resultado);
+    })
+}
+
+function getQuantidadeDeChamadosDoMesPassado(req, res) {
+        serverModel.getQuantidadeDeChamadosDoMesPassado().then((resultado) => {
         res.status(200).json(resultado);
     })
 }
@@ -42,5 +75,10 @@ module.exports = {
     getServerComponentsData,
     getServerBytagName,
     listarServer,
-    getLimitComponent
+    getLimitComponent,
+    getAlertsPerServer,
+    getChamadosSemResponsavel,
+    getRelatorioDeChamadosDoMesPassado,
+    getTopTresServersComMaisOcorrencias,
+    getQuantidadeDeChamadosDoMesPassado
 };

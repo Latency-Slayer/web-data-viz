@@ -1,7 +1,21 @@
 let limitesMaximos = {}
 let limitesMinimos = {}
 
+let ultimaChamadaJira = {
+    cpu: 0,
+    ram: 0,
+    storage: 0
+};
+
+function getMotherboardId() {
+    const params = new URLSearchParams(window.location.search);
+    const tag = params.get("tag");
+    return tag ? tag.replace(/\//g, '') : null;
+
+}
+
 function getData() {
+    const motherboardId = getMotherboardId();
     fetch("/hardware/api/real-time", {
         method: 'GET'
     }).then(function (resposta) {
@@ -11,8 +25,18 @@ function getData() {
         }
         return resposta.json();
     }).then(function (json) {
-        if (json) {
-            console.log("Dados recebidos:", json.metrics);
+        const metricas = new Map(json);
+        console.log("Métricas processadas:", metricas);
+        var dadosServidor = metricas.get(motherboardId);
+
+        console.log("Dados do servidor encontrados:", dadosServidor);
+
+        if (json && dadosServidor) {
+            console.log(dadosServidor)
+            console.log("Dados recebidos:", dadosServidor);
+
+            updateAlertsCount(dadosServidor.alertas, motherboardId);
+
             const container_cpu = document.querySelector(".first");
             const container_ram = document.querySelector(".second");
             const container_disco = document.querySelector(".third");
@@ -21,42 +45,53 @@ function getData() {
             container_ram.classList.remove("Crítico", "Atenção", "Normal");
             container_disco.classList.remove("Crítico", "Atenção", "Normal");
 
-            const cpuValue = parseFloat(json.metrics.cpu_percent);
-            const ramValue = parseFloat(json.metrics.ram_percent);
-            const discoValue = parseFloat(json.metrics.disk_percent);
+            const cpuValue = parseFloat(dadosServidor.metrics.cpu_percent);
+            const ramValue = parseFloat(dadosServidor.metrics.ram_percent);
+            const discoValue = parseFloat(dadosServidor.metrics.disk_percent);
+
+            const fk_metricCPU = dadosServidor.fk_metrics.cpu
+            const fk_metricRAM = dadosServidor.fk_metrics.ram
+            const fk_metricStorage = dadosServidor.fk_metrics.storage
+
+            document.getElementById("cpu_limit").textContent = dadosServidor.limites.cpu + "%";
+            document.getElementById("ram_limit").textContent = dadosServidor.limites.ram + "%";
+            document.getElementById("storage_limit").textContent = dadosServidor.limites.storage + "%";
 
             document.getElementById('cpuUsage').textContent = cpuValue + '%';
             document.getElementById('ramUsage').textContent = ramValue + '%';
             document.getElementById('diskUsage').textContent = discoValue + '%';
 
-            if (cpuValue >= limitesMaximos.cpu) {
+            if (cpuValue >= dadosServidor.limites.cpu) {
                 container_cpu.classList.add("Crítico");
-                registerAlert('cpu', cpuValue, limitesMaximos.cpu, "Crítico")
-            } else if (cpuValue <= limitesMaximos.cpu && cpuValue >= 65) {
+                estadoCriticidadeHardware.cpu = "Crítico";
+            } else if (cpuValue <= dadosServidor.limites.cpu && cpuValue >= dadosServidor.limites.cpu - 25) {
                 container_cpu.classList.add("Atenção");
-                registerAlert('cpu', cpuValue, limitesMaximos.cpu, "Atenção")
+                estadoCriticidadeHardware.cpu = "Atenção";
             } else {
                 container_cpu.classList.add("Normal");
+                estadoCriticidadeHardware.cpu = 'Normal'
             }
 
-            if (ramValue >= limitesMaximos.ram) {
+            if (ramValue >= dadosServidor.limites.ram) {
                 container_ram.classList.add("Crítico");
-                registerAlert('ram', ramValue, limitesMaximos.ram, "Crítico")
-            } else if (ramValue <= limitesMaximos.ram && ramValue >= 65) {
+                estadoCriticidadeHardware.ram = "Crítico"
+            } else if (ramValue <= dadosServidor.limites.ram && ramValue >= dadosServidor.limites.ram - 25) {
                 container_ram.classList.add("Atenção");
-                registerAlert('ram', ramValue, limitesMaximos.ram, "Atenção")
+                estadoCriticidadeHardware.ram = "Atenção"
             } else {
                 container_ram.classList.add("Normal");
+                estadoCriticidadeHardware.ram = "Normal"
             }
 
-            if (discoValue >= limitesMaximos.storage) {
+            if (discoValue >= dadosServidor.limites.storage) {
                 container_disco.classList.add("Crítico");
-                registerAlert('storage', discoValue, limitesMaximos.storage, "Crítico")
-            } else if (discoValue <= limitesMaximos.storage && discoValue >= 60) {
+                estadoCriticidadeHardware.ram = "Crítico"
+            } else if (discoValue <= dadosServidor.limites.storage && discoValue >= dadosServidor.limites.storage - 25) {
                 container_disco.classList.add("Atenção");
-                registerAlert('storage', discoValue, limitesMaximos.storage, "Atenção")
+                estadoCriticidadeHardware.ram = "Atenção"
             } else {
                 container_disco.classList.add("Normal");
+                estadoCriticidadeHardware.storage = "Normal"
             }
 
             const now = new Date().getTime()
@@ -66,7 +101,7 @@ function getData() {
                     data: [{ x: now, y: cpuValue }]
                 },
                 {
-                    data: [{ x: now, y: limitesMaximos.cpu }]
+                    data: [{ x: now, y: dadosServidor.limites.cpu }]
                 }
             ]);
 
@@ -75,80 +110,82 @@ function getData() {
                     data: [{ x: now, y: ramValue }]
                 },
                 {
-                    data: [{ x: now, y: limitesMaximos.ram }]
+                    data: [{ x: now, y: dadosServidor.limites.ram }]
                 }
             ]);
-
         }
     })
-        .catch(function (erro) {
-            console.error("Erro ao buscar métricas:", erro);
-        });
 }
 
-function getLimitComponent() {
-    fetch("/server/getLimitComponent", {
-        method: 'GET',
-    })
-        .then(function (resposta) {
-            return resposta.json();
-        })
-        .then(function (json) {
-            console.log("Limites Recebidos:", json);
 
-            json.forEach(item => {
-                limitesMaximos[item.type] = item.max_limit;
-                document.getElementById(item.type + "_limit").textContent = item.max_limit + "%";
-            });
-        })
-        .catch(function (erro) {
-            console.error("Erro ao buscar limites:", erro);
-        });
-}
 
-function registerAlert(component, value, limite, nivel, fk_Metric) {
+function updateAlertsCount(alertasObj, motherboardId) {
+    const qtdAlertsElement = document.getElementById('qtd_alerts');
 
-    let mensagem = "";
-    const dateAlert = new Date();
-    const date = formatData(dateAlert)
-
-    if (nivel === "Crítico") {
-        mensagem = `O componente ${component.toUpperCase()} ultrapassou o limite. Valor atual: ${value}%, Limite: ${limite}%`;
-    } else if (nivel === "Atenção") {
-        mensagem = `O componente ${component.toUpperCase()} está próximo do limite. Valor atual: ${value}%, Limite: ${limite}%`;
-    }
-
-    if (component == "cpu") {
-        fk_Metric = 5;
-    } else if (component == "ram") {
-        fk_Metric = 3;
+    if (alertasObj && alertasObj[motherboardId] !== undefined) {
+        qtdAlertsElement.textContent = alertasObj[motherboardId];
+        console.log(`Alertas atualizados para ${motherboardId}: ${alertasObj[motherboardId]}`);
     } else {
-        fk_Metric = 2;
+        qtdAlertsElement.textContent = '0';
+        console.log(`Nenhum alerta encontrado para ${motherboardId}, definindo como 0`);
+    }
+}
+
+function getAlerts() {
+    const motherboardId = getMotherboardId();
+
+    if (!motherboardId) {
+        console.warn('ID da placa mãe não encontrado na URL.');
+        return;
     }
 
-    fetch("/alert/registerAlert", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            status: "aberto",
-            dateAlert: date,
-            mensage: mensagem,
-            exceeded_limit: limite,
-            fk_Metric: fk_Metric,
-            nivel: nivel
+    fetch(`/alert/getAlerts/${encodeURIComponent(motherboardId)}`)
+        .then(res => {
+            if (!res.ok) {
+                throw new Error(`Erro ao buscar alertas: ${res.status} ${res.statusText}`);
+            }
+            return res.json();
         })
-    })
-        .then(function (resposta) {
-            return resposta.json();
+        .then(alertas => {
+            console.log('Alertas recebidos via API específica:', alertas);
+
+            document.getElementById('qtd_alerts').textContent = alertas[0].total_criados;
         })
-        .then(function (json) {
-            console.log("Alerta registrado:", json);
-        })
-        .catch(function (erro) {
-            console.error("Erro ao registrar alerta:", erro);
+        .catch(err => {
+            console.error('Erro ao buscar alertas via API específica:', err);
         });
+}
+
+function getAlertsPorDia() {
+    const motherboardId = getMotherboardId();
+
+    fetch(`/alert/getAlertsPorDia/${encodeURIComponent(motherboardId)} `, {
+        method: "GET",
+    }).then(res => res.json())
+        .then(data => {
+
+            const semana = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
+            const contagemPorDia = [0, 0, 0, 0, 0, 0, 0];
+
+            data.forEach(item => {
+                const dataObj = new Date(item.data_criacao);
+                const diaSemana = dataObj.getDay();
+                contagemPorDia[diaSemana] += item.total_criados;
+            });
+
+            console.log("Contagem por dia da semana:", contagemPorDia);
+
+            const totalAlertas = contagemPorDia.reduce((sum, qtd) => sum + qtd, 0);
+            document.getElementById('qtd_alerts').textContent = totalAlertas;
+
+            barAlert.updateSeries([{
+                name: "Quantidade de Alertas",
+                data: contagemPorDia,
+                color: "#44395F"
+            }]);
+
+        })
+        .catch(err => console.error('Erro ao buscar total de alertas:', err));
 }
 
 function formatData(date) {
@@ -160,41 +197,6 @@ function formatData(date) {
         String(date.getSeconds()).padStart(2, '0');
 }
 
-function getAlerts() {
-    fetch("/alert/getAlerts", {
-        method: "GET",
-    }).then(res => res.json())
-        .then(data => {
-            console.log("Total de alertas:", data);
-            document.getElementById('qtd_alerts').textContent = data.total;
-        })
-        .catch(err => console.error('Erro ao buscar total de alertas:', err));
-}
-
-function abrirChamadoJira() {
-    fetch('http://localhost:8080/criar-chamado', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            summary: 'Chamado criado via contador',
-            description: 'Descrição criada pelo contador ao chegar em 5'
-        })
-    })
-        .then(res => res.json())
-        .then(data => {
-            console.log('Chamado criado:', data);
-        })
-        .catch(err => console.error('Erro ao criar chamado:', err));
-}
-
-// setInterval(() => {
-//     const numero = Math.floor(Math.random() * 100) + 1; // 1 a 100
-//     document.getElementById('contador').innerText = numero;
-
-//     if (numero > 80) {
-//         criarChamado();
-//     }
-// }, 1000);
-
-setInterval(getData, 2000);
-setInterval(getAlerts, 5000);
+setInterval(getData, 3000);
+setInterval(getAlerts, 3000);
+setInterval(getAlertsPorDia, 3000);

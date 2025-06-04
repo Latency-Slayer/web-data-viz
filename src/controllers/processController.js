@@ -1,17 +1,16 @@
-let ultimoProcesso = null; // guardar os ultimos dados advindos do python
+let ultimoProcesso = new Map(); // guardar os ultimos dados advindos do python
 
 function receberProcessos(req, res){
-    ultimoProcesso = req.body;
-     console.log("Processos recebidos:", ultimoProcesso);
-    res.status(200).json({ mensagem: "Processo recebidas com sucesso" });
+    const id = req.body.motherboardId;
+
+    ultimoProcesso.set(id, req.body);
+    console.log("Processos recebidas:", ultimoProcesso);
+    res.status(200).json({ mensagem: "Processos recebidos com sucesso" });
 }
 
 function enviarProcessos(req, res){
-    if(ultimoProcesso) {
-        res.status(200).json(ultimoProcesso);
-    } else {
-        res.status(204).send();
-    }
+    console.log([...ultimoProcesso])
+    res.json([...ultimoProcesso])
 }
 
 module.exports = {
