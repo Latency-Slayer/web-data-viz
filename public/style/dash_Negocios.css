@@ -112,3 +112,121 @@
     width: 100% !important;
     height: 92% !important;
 }
+
+@media (max-Width: 800px) {
+    .dashNegocio {
+    margin: 0px;
+}
+
+.filtros {
+    width: 300px;
+    margin: 10px;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+}
+
+.filtroPesquisa {
+    width: 300px;
+    height: 15px;
+    font-size: 18px;
+    color: #56408C;
+    padding: 0 0 0 5px;
+}
+
+.filtros h1 {
+    font-size: 25px;
+    color: #56408C;
+}
+
+.metricas {
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+}
+
+.KPIs {
+    width: 100%;
+    display: flex;
+}
+
+.containers {
+    width: 300px;
+    height: 600px;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+}
+
+.containers .container {
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.50);
+    width: 370px;
+    height: 10rem;
+    font-size: 18px;
+    border-radius: 5px;
+    color: #56408C;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.container span {
+    display: flex;
+    justify-content: center;
+    font-weight: 600;
+}
+
+.container .valor {
+    color: #56408C;
+    font-weight: 700;
+    font-size: 40px;
+}
+
+.container .legenda {
+    font-size: 15px;
+    margin-top: 10px;
+}
+
+.Graficos {
+    width: 375px;
+    height: 700px;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+}
+
+.Grafico {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.50);
+    width: 100%;
+    height: 28rem;
+    font-size: 23px;
+    border-radius: 5px;
+    color: #56408C;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.Grafico h1 {
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+}
+
+.Grafico {
+    display: flex;
+    justify-content: center;
+}
+
+.Grafico canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.Grafico #chartArea{
+    width: 100% !important;
+    height: 92% !important;
+}
+
+}

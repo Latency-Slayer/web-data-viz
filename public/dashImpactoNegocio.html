@@ -60,6 +60,7 @@
 <script>
 
     window.onload = () => {
+        carregarPagina()
         const iptpesquisa = document.getElementById("iptpesquisa")
         const selectLista = new SlimSelect({
             select: iptpesquisa
@@ -78,6 +79,10 @@
             }
             selectLista.setData(vetorLista) 
         })
+    }
+
+    function carregarPagina() {
+        pesquisaJogo()
     }
 
     function pesquisaJogo() {
@@ -110,6 +115,11 @@
         grafico2(pesquisa)
     }
 
+    let fonte = 16 
+    if(window.innerWidth <= 800) {
+        fonte = 10
+    }
+
     const ctx = document.getElementById('chartBar');
 
   const chart1 = new Chart(ctx, {
@@ -137,7 +147,8 @@
           ticks: {
             color: 'black',
             font: {
-                weight: 'bold'
+                weight: 'bold',
+                size: fonte
             },
           },
           title: {
@@ -145,7 +156,7 @@
             text: 'Taxa de Abandono',
             color: 'black',
             font: {
-                size: 18,
+                size: fonte,
                 weight: 'bold'
             }
           }
@@ -157,7 +168,7 @@
         ticks: {
             color: 'black',
           font: {
-            size: 16,
+            size: fonte,
             weight: 'bolder' 
           }
         }
@@ -268,7 +279,8 @@
           ticks: {
             color: 'black',
             font: {
-                weight: 'bold'
+                weight: 'bold',
+                size: fonte
             },
           },
           title: {
@@ -276,7 +288,7 @@
             text: 'Taxa de Abandono',
             color: 'black',
             font: {
-                size: 18,
+                size: fonte,
                 weight: 'bold'
             }
           }
@@ -288,7 +300,7 @@
         ticks: {
             color: 'black',
           font: {
-            size: 16,
+            size: fonte,
             weight: 'bolder' 
           }
         }
@@ -304,10 +316,8 @@
                 "Content-Type": "application/json"
             }
             }).then((res) => {
-                console.log('GuiBaitola', res)
                 return res.json()
             }).then((res) => {
-                console.log(res)
                 const vetorLabel = []
                 const vetorValores = [ res[0].mesPassPass.valor, res[0].mesPass.valor, res[0].mesAtual.valor, res[0].previsaoMes.valor]
                 const vetorMeses = [res[0].mesPassPass, res[0].mesPass, res[0].mesAtual, res[0].previsaoMes]
