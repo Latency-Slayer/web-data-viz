@@ -45,7 +45,7 @@
 
             <div class="Graficos">
                 <div id="chart" class="Grafico">
-                    <h1>Abandono por Baixa Performance por Continente</h1>
+                    <h1>Abandono Regional por Performance</h1>
                     <canvas id="chartBar"></canvas>
                 </div>
                 <div id="chart2" class="Grafico">
@@ -142,7 +142,7 @@
           },
           title: {
             display: true,
-            text: 'Retenção de Jogadores',
+            text: 'Taxa de Abandono',
             color: 'black',
             font: {
                 size: 18,
@@ -157,7 +157,7 @@
         ticks: {
             color: 'black',
           font: {
-            size: 13.7,
+            size: 16,
             weight: 'bolder' 
           }
         }
@@ -184,13 +184,20 @@
                 'SA': 'South America',
                 'OC': 'Oceania'
             };
+
+            const canvasElement = document.getElementById('chartBar')
+            const canvasContext = canvasElement.getContext('2d')
+
+            const gradiente = canvasContext.createLinearGradient(0, 0, 0, 400)
+            gradiente.addColorStop(0,  '#56408C')
+            gradiente.addColorStop(1,'#a589eec1')
             
             for (let i = 0; i < res.length; i++) {
                 vetorData.push(res[i].media_abandono)
                 const continente = continentMap[res[i].continent]
                 vetorLabel.push(continente)
 
-                vetorCor.push('#a589eec1')
+                vetorCor.push(gradiente)
             }
 
             const valorMaximo = Math.max(...vetorData)
@@ -266,7 +273,7 @@
           },
           title: {
             display: true,
-            text: 'Retenção de Jogadores',
+            text: 'Taxa de Abandono',
             color: 'black',
             font: {
                 size: 18,
@@ -281,7 +288,7 @@
         ticks: {
             color: 'black',
           font: {
-            size: 13.7,
+            size: 16,
             weight: 'bolder' 
           }
         }
@@ -326,14 +333,13 @@
             for (let i = 0; i < vetorMeses.length; i++) {
                 const meses = graficMes[vetorMeses[i].mes]
                 vetorLabel.push(meses)
-                vetorCor.push('#a589eec1')
+                vetorCor.push('#aaaaaa')
             }
-
-            const valorMaximo = Math.max(...vetorValores)
-            const indiceMaiorValor = vetorValores.indexOf(valorMaximo)
+            
+            vetorCor[vetorCor.length - 1] = "#4b29a1"
+            vetorCor[vetorCor.length - 2] = "#3A2E5D"
+    
             proximoMes.innerHTML = `Previsão de Abandono para ${graficMes[res[0].previsaoMes.mes]}`
-
-            vetorCor[indiceMaiorValor] = "#56408C"
 
             let mensagemIcone = '<i class="bi bi-arrow-up"></i>'
             let mensagemCor = "red"

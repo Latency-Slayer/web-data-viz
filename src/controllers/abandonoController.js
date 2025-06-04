@@ -53,7 +53,6 @@ const dados_abandono = async(req,res) => {
 
 const dados_abandono_kpi = async(req,res) => {
     try {
-        console.log("controller")
         const nomeJogo = req.params.nomeJogo
         const selects = await abandonoModel.dados_abandono(nomeJogo);
         const selectsMesAnterior = await abandonoModel.legendaAbandono(nomeJogo);
@@ -71,7 +70,6 @@ const dados_abandono_kpi = async(req,res) => {
         }
         
         for (let i = 0; i < selects.result1.length; i++) {
-            console.log("laiza", selects)
             const semAlerta = selects.result1[i].media_jogadores_sem_alerta
             const comAlerta = selects.result2[i].media_jogadores_com_alerta
             
@@ -90,12 +88,13 @@ const grafico2 = async(req,res) => {
    try {
         const nomeJogo = req.params.nomeJogo
        const selects = await abandonoModel.grafico2(nomeJogo)
-       console.log('GustavoBaitola', selects)
        let mesAtual = 0
        let mesPass = 0
        let mesPassPass = 0 
        let mesPrevisao = 0
        const a = []
+
+       console.log("SAAAAAAAAAA", selects)
 
      for (let i = 0; i < selects.result1.length; i++) {
             const semAlerta1 = selects.result1[i].media_jogadores_sem_alerta
