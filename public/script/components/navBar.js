@@ -247,7 +247,7 @@ class NavBarComponent extends HTMLElement {
 
             <nav class="navDesktop">
                 <li>
-                ${sessionStorage.ROLE_USER === "Analista de Dados" ? '<ul class="InsightsConexoes" id="InsightsConexoes"><a href="/projetoIndividualBryan">Insights de conexões</a></ul>' : ""}
+                ${sessionStorage.ROLE_USER === "Analista de Dados" ? '<ul class="InsightsConexoes" id="InsightsConexoes"><a href="/connectionAnalitic">Insights de conexões</a></ul>' : ""}
                 ${sessionStorage.ROLE_USER === "Analista de Dados" ? '<ul class="abandono" id="abandono"><a href="/dashImpactoNegocio.html">Análise de abandono e retenção</a></ul>' : ""}
                 ${sessionStorage.ROLE_USER === "Analista de Suporte" ? '<ul class="servers" id="servers"><a href="/servidores.html">Servidores</a></ul>' : ""}
                 
