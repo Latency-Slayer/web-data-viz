@@ -196,7 +196,7 @@ class AlertCard extends HTMLElement {
              </div>
             
         `;
-        this.shadowRoot.querySelector('.titulo-tag').textContent = tagName;
+        this.shadowRoot.querySelector('.titulo-tag').textContent = motherboardid;
 
         this.shadowRoot.querySelector('.card').addEventListener('click', () => {
             window.location.href = `../../dashboardTempoRealNew.html?tag=${motherboardid}`;

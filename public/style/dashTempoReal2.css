@@ -46,7 +46,8 @@ main {
     width: 23%;
     margin-right: 20px;
     border-radius: 1vh;
-    box-shadow: 0 0 0.9vh rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 10px #56408C;
+    border-radius: 10px;
     align-items: center;
     justify-content: center;
 }
@@ -72,7 +73,7 @@ main {
     /*border: 1px solid blue;*/
 }
 .kpi-content-alert h1 {
-    color: black;
+    color: #56408C;
 }
 
 .kpi-content span {
@@ -97,9 +98,10 @@ main {
     /* border: solid red 3px; */
     font-size: 1.3vw;
     font-weight: bold;
+    color: #56408C;
 }
 .text-kpi-alert h1 {
-    color: black;
+    color: #56408C;
 }
 
 .kpi h1 {
