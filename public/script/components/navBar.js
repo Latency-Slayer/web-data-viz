@@ -295,13 +295,12 @@ var registrarServidor = document.getElementById("registerServer")
 var gerenciarUsuario = document.getElementById("manageUsers")
 var suporte = document.getElementById("support")
 
-
-if (sessionStorage.getItem('ROLE_USER') === 'Analista de Dados') {
+if (sessionStorage.getItem('nameRole') == 'Analista de Dados') {
     gerenciarUsuario.style.display = "none"
     registrarServidor.style.display = "none"
 }
 
-if (sessionStorage.getItem('ROLE_USER') === 'Gerente') {
+if (sessionStorage.getItem('nameRole') == 'Gerente') {
     gerenciarUsuario.style.display = "none"
     registrarServidor.style.display = "none"
 }
