@@ -247,10 +247,12 @@ class NavBarComponent extends HTMLElement {
 
             <nav class="navDesktop">
                 <li>
-                    <ul class="servers" id="servers"><a href="../../servidores.html">Servidores</a></ul>
-                    <ul class="registerServer" id="registerServer"><a href="../../cadastroMaquina.html">Registrar servidor</a></ul>
-                    <ul class="manageUsers" id="manageUsers"><a href="../../cadastroCargo.html">Gerenciar usuários</a></ul>
-                    <ul class="support" id="support"><a href="#">Suporte</a></ul>
+                ${sessionStorage.ROLE_USER === "Analista de Dados" ? '<ul class="InsightsConexoes" id="InsightsConexoes"><a href="/projetoIndividualBryan">Insights de conexões</a></ul>' : ""}
+                ${sessionStorage.ROLE_USER === "Analista de Dados" ? '<ul class="abandono" id="abandono"><a href="/dashImpactoNegocio.html">Análise de abandono e retenção</a></ul>' : ""}
+                ${sessionStorage.ROLE_USER === "Analista de Suporte" ? '<ul class="servers" id="servers"><a href="/servidores.html">Servidores</a></ul>' : ""}
+                
+                ${sessionStorage.ROLE_USER === "Analista de Suporte" ? '<ul class="registerServer" id="registerServer"><a href="../../cadastroMaquina.html">Registrar servidor</a></ul>' : ""}
+                <ul class="support" id="support"><a href="#">Suporte</a></ul>
                 </li>
 
                 <div class="profile">
@@ -286,21 +288,11 @@ class NavBarComponent extends HTMLElement {
                 </li>
             </div>
         `;
+
+
     }
 }
 
 customElements.define('nav-bar', NavBarComponent);
 
-var registrarServidor = document.getElementById("registerServer")
-var gerenciarUsuario = document.getElementById("manageUsers")
-var suporte = document.getElementById("support")
 
-if (sessionStorage.getItem('nameRole') == 'Analista de Dados') {
-    gerenciarUsuario.style.display = "none"
-    registrarServidor.style.display = "none"
-}
-
-if (sessionStorage.getItem('nameRole') == 'Gerente') {
-    gerenciarUsuario.style.display = "none"
-    registrarServidor.style.display = "none"
-}
