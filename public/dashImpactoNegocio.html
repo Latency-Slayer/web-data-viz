@@ -26,6 +26,11 @@
             <div class="KPIs">
                 <div class="containers">
                     <div class="container">
+                        <span>Incidentes nos Últimos 30 dias</span>
+                        <span class="valor" id="incidente"></span>
+                        <div class="legenda" id="legendaincidente"></div>
+                    </div>
+                    <div class="container">
                         <span>Abandono por Baixa Performance</span>
                         <span class="valor" id="abandono"></span>
                         <div class="legenda" id="legendaAbandono"></div>
@@ -34,11 +39,6 @@
                         <span id="proximoMes">Previsão de Abandono para</span>
                         <span class="valor" id="previsao"></span>
                         <div class="legenda" id="legendaPrevisao"></div>
-                    </div>
-                    <div class="container">
-                        <span>Incidentes nos Últimos 30 dias</span>
-                        <span class="valor" id="incidente"></span>
-                        <div class="legenda" id="legendaincidente"></div>
                     </div>
                 </div>
             </div>
@@ -78,7 +78,7 @@
                 })
             }
             selectLista.setData(vetorLista) 
-        })
+        })  
     }
 
     function carregarPagina() {
@@ -87,6 +87,7 @@
 
     function pesquisaJogo() {
         const pesquisa = iptpesquisa.value
+        dados_abandono_kpi(pesquisa)
         fetch(`/abandono/pesquisaJogo/${pesquisa}`, {
             method: "GET",
             headers: {
@@ -111,7 +112,6 @@
             legendaincidente.innerHTML = `<span style="color:${mensagemCor}">${mensagemIcone} ${Math.abs((((res.select[0].qtd - res.selectmespass[0].qtd) / res.selectmespass[0].qtd) * 100)).toFixed(2)}% em relação ao mês passado </span>`
         })
         dados_abandono(pesquisa)
-        dados_abandono_kpi(pesquisa)
         grafico2(pesquisa)
     }
 
@@ -200,8 +200,8 @@
             const canvasContext = canvasElement.getContext('2d')
 
             const gradiente = canvasContext.createLinearGradient(0, 0, 0, 400)
-            gradiente.addColorStop(0,  '#56408C')
-            gradiente.addColorStop(1,'#a589eec1')
+            gradiente.addColorStop(0, '#a589eec1')
+            gradiente.addColorStop(1, '#56408C')
             
             for (let i = 0; i < res.length; i++) {
                 vetorData.push(res[i].media_abandono)

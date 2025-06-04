@@ -6,6 +6,10 @@
     font-family: 'Poppins', sans-serif;
 }
 
+body {
+    background-color: #d1d5db;
+}
+
 .dashNegocio {
     margin: 10px;
 }
@@ -56,6 +60,7 @@
     font-size: 24px;
     border-radius: 5px;
     color: #56408C;
+    background-color: white;
 }
 
 .container span {
@@ -90,6 +95,7 @@
     color: #56408C;
     display: flex;
     flex-direction: column;
+    background-color: white;
 }
 
 .Grafico h1 {
