@@ -233,7 +233,7 @@
     fetch('/server/getAlertsPerServer')
       .then(response => response.json())
       .then(data => {
-        console.log("Alertas por servidor:", data);
+        // console.log("Alertas por servidor:", data);
 
         const tbody = document.querySelector(".lista-second-grafico-linha-2 table tbody");
         const qtd_ocorrencias = document.getElementById("sv_ocorrencias");
@@ -432,7 +432,7 @@
     fetch('/server/getChamadosSemResponsavel')
       .then(response => response.json())
       .then(data => {
-        console.log("Chamados por servidor:", data);
+        // console.log("Chamados por servidor:", data);
 
         const tbody = document.querySelector(".lista-second-grafico-linha-1 table tbody");
 

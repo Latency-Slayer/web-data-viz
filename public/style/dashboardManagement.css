@@ -190,13 +190,13 @@ tbody td {
         /* border: solid; */
         margin-top: 60px;
         width: 100% !important;
-        height: 100;
+        height: 100%;
         gap: 30px;
     }
     
     .graficos-linha-1, .graficos-linha-2 {
         flex-direction: column;
-        height: 150vw !important;
+        /* height: 150vw !important; */
         gap: 30px;
     }
 
@@ -240,7 +240,7 @@ tbody td {
         width: 3vw;
     }
 
-    .titulo-first-grafico-linha-1, .titulo-second-grafico-linha-1, .titulo-first-grafico-linha-2, .lista-second-grafico-linha-2, .first-grafico-linha-2, .lista-second-grafico-linha-1 {
+    .titulo-first-grafico-linha-1, .titulo-second-grafico-linha-2, .titulo-second-grafico-linha-1, .titulo-first-grafico-linha-2, .lista-second-grafico-linha-2, .first-grafico-linha-2, .lista-second-grafico-linha-1 {
         font-size: 3vw !important;
     }
 }
