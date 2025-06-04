@@ -981,9 +981,9 @@ async function loadGameVariationChart() {
     const labels = [];
     const series = [];
 
-    const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD'];
+    const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#2505f5', '#f505bd'];
 
-    const strokeWidths = [3, 2, 3, 2, 3, 2];
+    const strokeWidths = [3, 3, 3, 3, 3, 3];
 
     for(let date of gamesData.result[0].dates) {
         labels.push(new Date(date).getTime());
@@ -1029,7 +1029,6 @@ async function loadGameVariationChart() {
         stroke: {
             curve: 'smooth',
             width: strokeWidths,
-            dashArray: [0, 0, 5, 0, 8, 3]
         },
         markers: {
             size: 4,
@@ -1041,14 +1040,12 @@ async function loadGameVariationChart() {
         },
         labels: labels,
         title: {
-            text: 'Variação de Conexões por Jogo',
             style: {
                 fontSize: '16px',
                 fontWeight: 'bold',
                 color: '#333'
             }
         },
-        // Legenda interativa
         legend: {
             show: true,
             position: 'top',
@@ -1057,7 +1054,6 @@ async function loadGameVariationChart() {
             fontSize: '14px',
             fontFamily: 'Helvetica, Arial, sans-serif',
             fontWeight: 600,
-            // Permite clicar para mostrar/ocultar séries
             onItemClick: {
                 toggleDataSeries: true
             },
