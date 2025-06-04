@@ -18,6 +18,7 @@ function pegarCustosAWS() {
         .then(function (json) {
             console.log("Dados Recebidos:", json);
 
+            // inserção das variaveis
             const valorMensal = document.getElementById("custo_mensal");
             const valorMensal2 = document.getElementById("custo_mensal2");
             var comparacao_custo_mensal_anterior = document.getElementById("comparacao_custo_mensal_anterior");
@@ -31,37 +32,39 @@ function pegarCustosAWS() {
 
             valoresAnteriores = mesesAnteriores.map(mes => json.custoMensal[mes]);
 
+            // porcentagem KPI 1
             const porcent1 = Object.entries(json.custoMensal)[3][1];
             const porcent2 = Object.entries(json.custoMensal)[2][1];
             const porcentTotal = (porcent2 / porcent1) * 100;
-
-            
-
-            // Custo por Serviço
-            const mesesDisponiveis = Object.keys(json.resumoPorMesEServico).sort();
-            const ultimoMes = mesesDisponiveis[mesesDisponiveis.length - 1];
-            const servicosUltimoMes = json.resumoPorMesEServico[ultimoMes];
 
             if (porcent2 <= porcent1) {
                 comparacao_custo_mensal_anterior.style.color = '#DC2626'
             } else {
                 comparacao_custo_mensal_anterior.style.color = '#00D207'
             }
-
+            
             comparacao_custo_mensal_anterior.textContent = porcentTotal.toFixed(2) + "%"
-
+            
+            
+            // porcentagem KPI 3
             const porcentagemTotal = (porcent1 / orcamento) * 100
-
+            
             if (orcamento <= porcent1) {
                 comparacao_custo_mensal_orcamento.style.color = '#DC2626'
             } else {
                 comparacao_custo_mensal_orcamento.style.color = '#00D207'
             }
-
+            
             comparacao_custo_mensal_orcamento.textContent = porcentagemTotal.toFixed(2) + "%"
-
+            
+            // inserção KPI's 1 e 3
             valorMensal.textContent = 'R$' + porcent1.toFixed(2);
             valorMensal2.textContent = 'R$' + porcent1.toFixed(2) + " /R$" + orcamento;
+            
+            // Custo por Serviço
+            const mesesDisponiveis = Object.keys(json.resumoPorMesEServico).sort();
+            const ultimoMes = mesesDisponiveis[mesesDisponiveis.length - 1];
+            const servicosUltimoMes = json.resumoPorMesEServico[ultimoMes];
 
             for (const [servico, valor] of Object.entries(servicosUltimoMes)) {
                 const valorAbsoluto = Math.round(Math.abs(valor),2);
@@ -106,6 +109,7 @@ function pegarCustosAWSForecast() {
         .then(json => {
             console.log("Previsões Recebidas:", json);
 
+            //variavel grafico de barra
             const mesAtual = new Date().toISOString().slice(0, 7);
 
             const previsaoCustoMes = document.getElementById("prev_custo_mes");
@@ -129,6 +133,7 @@ function pegarCustosAWSForecast() {
 
             comparacao_custo_mes_anterior.textContent = porcentTotal.toFixed(2) + "%"
             
+            // grafico de barra
             const todosMeses = [...mesesAnteriores, ...mesesForecast];
             const todosValores = [...valoresAnteriores, ...valoresForecast];
 
