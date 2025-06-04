@@ -1,0 +1,238 @@
+@import url('https://fonts.googleapis.com/css2?family=Asap:ital,wght@0,100..900;1,100..900&family=Edu+AU+VIC+WA+NT+Guides:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #d1d5db;
+}
+
+.dashNegocio {
+    margin: 10px;
+}
+
+.filtros {
+    width: 650px;
+    margin: 15px;
+    height: 25px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.filtroPesquisa {
+    width: 400px;
+    height: 15px;
+    font-size: 18px;
+    color: #56408C;
+    padding: 0 0 0 5px;
+}
+
+.filtros h1 {
+    font-size: 25px;
+    color: #56408C;
+}
+
+.metricas {
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+}
+
+.KPIs {
+    width: 100%;
+    display: flex;
+}
+
+.containers {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.containers .container {
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.50);
+    width: 33.1rem;
+    height: 10rem;
+    font-size: 24px;
+    border-radius: 5px;
+    color: #56408C;
+    background-color: white;
+}
+
+.container span {
+    display: flex;
+    justify-content: center;
+    font-weight: 600;
+}
+
+.container .valor {
+    color: #56408C;
+    font-weight: 700;
+    font-size: 50px;
+}
+
+.container .legenda {
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+.Graficos {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.Grafico {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.50);
+    width: 48%;
+    height: 28rem;
+    font-size: 23px;
+    border-radius: 5px;
+    color: #56408C;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+}
+
+.Grafico h1 {
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.Grafico {
+    display: flex;
+    justify-content: center;
+}
+
+.Grafico canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.Grafico #chartArea{
+    width: 100% !important;
+    height: 92% !important;
+}
+
+@media (max-Width: 800px) {
+    .dashNegocio {
+    margin: 0px;
+}
+
+.filtros {
+    width: 300px;
+    margin: 10px;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+}
+
+.filtroPesquisa {
+    width: 300px;
+    height: 15px;
+    font-size: 18px;
+    color: #56408C;
+    padding: 0 0 0 5px;
+}
+
+.filtros h1 {
+    font-size: 25px;
+    color: #56408C;
+}
+
+.metricas {
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+}
+
+.KPIs {
+    width: 100%;
+    display: flex;
+}
+
+.containers {
+    width: 300px;
+    height: 600px;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+}
+
+.containers .container {
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.50);
+    width: 370px;
+    height: 10rem;
+    font-size: 18px;
+    border-radius: 5px;
+    color: #56408C;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.container span {
+    display: flex;
+    justify-content: center;
+    font-weight: 600;
+}
+
+.container .valor {
+    color: #56408C;
+    font-weight: 700;
+    font-size: 40px;
+}
+
+.container .legenda {
+    font-size: 15px;
+    margin-top: 10px;
+}
+
+.Graficos {
+    width: 375px;
+    height: 700px;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+}
+
+.Grafico {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.50);
+    width: 100%;
+    height: 28rem;
+    font-size: 23px;
+    border-radius: 5px;
+    color: #56408C;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.Grafico h1 {
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+}
+
+.Grafico {
+    display: flex;
+    justify-content: center;
+}
+
+.Grafico canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.Grafico #chartArea{
+    width: 100% !important;
+    height: 92% !important;
+}
+
+}

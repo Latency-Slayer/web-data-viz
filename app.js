@@ -25,9 +25,11 @@ var processRouter = require("./src/routes/process-real-time")
 var alertRouter = require("./src/routes/alert");
 var jiraRouter = require("./src/routes/jira");
 var billingRouter = require("./src/routes/billing")
+var abandonoRouter = require("./src/routes/abandonoRoutes.js")
 
 
 app.use(express.json({ limit: '50mb' }));
+
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -42,6 +44,7 @@ app.use("/process", processRouter);
 app.use("/alert", alertRouter);
 app.use("/jira", jiraRouter.router);
 app.use("/bi/dashboard", businessInteligenceDashboardRouter);
+app.use("/abandono", abandonoRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`
