@@ -162,9 +162,9 @@ function getChamadosSemResponsavel() {
           s.motherboard_id AS motherboard, 
           a.idJira, 
           CASE a.nivel
-            WHEN 'medio' THEN 'Médio'
+            WHEN 'medio' THEN 'Normal'
             WHEN 'critico' THEN 'Crítico'
-            WHEN 'alto' THEN 'Alto'
+            WHEN 'alto' THEN 'Atenção'
             ELSE a.nivel
           END AS nivel
         FROM alert a

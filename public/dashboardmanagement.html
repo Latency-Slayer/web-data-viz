@@ -79,7 +79,7 @@
         <div class="first-grafico-linha-1">
           <div class="box-first-grafico-linha-1">
             <div class="titulo-first-grafico-linha-1">
-              Relatório de chamados do mês
+              Relatório de chamados do mês passado
             </div>
 
             <div id="chart"></div>
@@ -89,15 +89,15 @@
         <div class="second-grafico-linha-1">
           <div class="box-second-grafico-linha-1">
             <div class="titulo-second-grafico-linha-1">
-              Lista de chamados por servidor
+              Lista de chamados por servidor (em 7 dias)
             </div>
 
             <div class="lista-second-grafico-linha-1">
               <table>
                 <thead>
                   <tr>
-                    <th>ID</th>
-                    <th>Motherboard</th>
+                    <th>ID Servidor</th>
+                    <th>Nomenclatura servidor</th>
                     <th>Chamado</th>
                     <th>Status</th>
                   </tr>
@@ -147,7 +147,7 @@
                 <thead>
                   <tr>
                     <th>ID</th>
-                    <th>Motherboard</th>
+                    <th>Nomenclatura do servidor</th>
                     <th>Qtd.</th>
                     <th>Jogo</th>
                   </tr>
@@ -425,6 +425,9 @@
 
   }
 
+  classes_criticas = [];
+  classes_altas = [];
+
   function getChamadosSemReponsavel() {
     fetch('/server/getChamadosSemResponsavel')
       .then(response => response.json())
@@ -435,15 +438,42 @@
 
         tbody.innerHTML = "";
 
+        classes_criticas = [];
+
         data.forEach(servidor => {
+          
           const row = document.createElement("tr");
           row.innerHTML = `
-            <td>${servidor.id}</td>
-            <td>${servidor.motherboard}</td>
-            <td>${servidor.idJira}</td>
-            <td>${servidor.nivel}</td>
+          <td id="id_${servidor.idJira}">${servidor.id}</td>
+          <td id="mobo_id_${servidor.idJira}">${servidor.motherboard}</td>
+          <td id="chamado_id_${servidor.idJira}">${servidor.idJira}</td>
+          <td id="nivel_id_${servidor.idJira}">${servidor.nivel}</td>
           `;
           tbody.appendChild(row);
+          
+          if(servidor.nivel == "Crítico") {
+            classes_criticas.push(`id_${servidor.idJira}`)
+          }
+
+          if(servidor.nivel == "Atenção") {
+            classes_altas.push(`id_${servidor.idJira}`)
+          }
+
+          for (const item of classes_criticas) {
+            document.getElementById(item).classList.add("classe-critica")
+            document.getElementById(`mobo_${item}`).classList.add("classe-critica")
+            document.getElementById(`chamado_${item}`).classList.add("classe-critica")
+            document.getElementById(`nivel_${item}`).classList.add("classe-critica")
+          }
+
+          for (const item of classes_altas) {
+            document.getElementById(item).classList.add("classe-alta")
+            document.getElementById(`mobo_${item}`).classList.add("classe-alta")
+            document.getElementById(`chamado_${item}`).classList.add("classe-alta")
+            document.getElementById(`nivel_${item}`).classList.add("classe-alta")
+          }
+          
+
         });
       })
       .catch(error => {
