@@ -58,6 +58,22 @@ function mostrarProcessos(processos) {
             criticidadeClass = "warning";
         }
 
+        if (
+            estadoCriticidadeHardware.cpu === "Crítico" ||
+            estadoCriticidadeHardware.ram === "Crítico" ||
+            estadoCriticidadeHardware.storage === "Crítico"
+        ) {
+            criticidadeClass = "danger";
+        }
+
+        if (
+            estadoCriticidadeHardware.cpu === "Atenção" ||
+            estadoCriticidadeHardware.ram === "Atenção" ||
+            estadoCriticidadeHardware.storage === "Atenção"
+        ) {
+            criticidadeClass = "warning";
+        }
+
         const nome = proc.name || 'N/A';
         const pid = proc.pid || 0;
         const status = proc.status === "running" ? "Rodando" : "Parado";
@@ -74,6 +90,7 @@ function mostrarProcessos(processos) {
         tbody.appendChild(row);
     });
 }
+
 
 function ordenarProcessos(processos, campo, crescente = false) {
     return processos.sort((a, b) => {

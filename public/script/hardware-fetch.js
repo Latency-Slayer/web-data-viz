@@ -63,26 +63,35 @@ function getData() {
 
             if (cpuValue >= dadosServidor.limites.cpu) {
                 container_cpu.classList.add("Crítico");
-            } else if (cpuValue <= dadosServidor.limites.cpu && cpuValue >= 65) {
+                estadoCriticidadeHardware.cpu = "Crítico";
+            } else if (cpuValue <= dadosServidor.limites.cpu && cpuValue >= dadosServidor.limites.cpu - 25) {
                 container_cpu.classList.add("Atenção");
+                estadoCriticidadeHardware.cpu = "Atenção";
             } else {
                 container_cpu.classList.add("Normal");
+                estadoCriticidadeHardware.cpu = 'Normal'
             }
 
             if (ramValue >= dadosServidor.limites.ram) {
                 container_ram.classList.add("Crítico");
-            } else if (ramValue <= dadosServidor.limites.ram && ramValue >= 65) {
+                estadoCriticidadeHardware.ram = "Crítico"
+            } else if (ramValue <= dadosServidor.limites.ram && ramValue >= dadosServidor.limites.ram - 25) {
                 container_ram.classList.add("Atenção");
+                estadoCriticidadeHardware.ram = "Atenção"
             } else {
                 container_ram.classList.add("Normal");
+                estadoCriticidadeHardware.ram = "Normal"
             }
 
             if (discoValue >= dadosServidor.limites.storage) {
                 container_disco.classList.add("Crítico");
-            } else if (discoValue <= dadosServidor.limites.storage && discoValue >= 60) {
+                estadoCriticidadeHardware.ram = "Crítico"
+            } else if (discoValue <= dadosServidor.limites.storage && discoValue >= dadosServidor.limites.storage - 25) {
                 container_disco.classList.add("Atenção");
+                estadoCriticidadeHardware.ram = "Atenção"
             } else {
                 container_disco.classList.add("Normal");
+                estadoCriticidadeHardware.storage = "Normal"
             }
 
             const now = new Date().getTime()
@@ -178,8 +187,6 @@ function getAlertsPorDia() {
         })
         .catch(err => console.error('Erro ao buscar total de alertas:', err));
 }
-
-
 
 function formatData(date) {
     return date.getFullYear() + '-' +

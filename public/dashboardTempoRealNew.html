@@ -106,6 +106,12 @@
 
     <script>
 
+        let estadoCriticidadeHardware = {
+            cpu: 'Normal',
+            ram: 'Normal',
+            storage: 'Normal'
+        };
+
         document.addEventListener("DOMContentLoaded", () => {
             const params = new URLSearchParams(window.location.search);
             const tagName = params.get("tag");
