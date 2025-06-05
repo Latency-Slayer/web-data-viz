@@ -80,7 +80,7 @@ function getServerBytagName(tagName) {
     return database.executar(instrucaoSql);
 }
 function listarServer() {
-    var instrucaoSql = `SELECT * FROM server;`
+    var instrucaoSql = `SELECT * FROM server WHERE id_server != 6;`
 
     return database.executar(instrucaoSql);
 }
