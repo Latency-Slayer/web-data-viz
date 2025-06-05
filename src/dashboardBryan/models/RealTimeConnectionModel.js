@@ -4,7 +4,7 @@ class RealTimeConnectionModel {
     constructor() {
         this.#connectionsData = new Map();
 
-        setInterval(() => this.#removeInactiveServer(), 5000);
+        setInterval(() => this.#removeInactiveServer(), 10000);
     }
 
     get connectionsData() {
