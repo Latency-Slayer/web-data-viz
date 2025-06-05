@@ -30,7 +30,7 @@
                     <span>0</span>
                 </div>
                 <div class="kpi-3">
-                    <h2>Chamados em Tempo: 60 min</h2>
+                    <h2>Chamados em Tempo: 60 min</h2>     
                     <span id="kpi-chamados-em-analise">0</span>
                 </div>
                 <div class="kpi-4">
@@ -138,36 +138,33 @@
 
                     card.innerHTML = `
                         <div class="linha1">
-                            <span>${chamado.key} - ${chamado.fields.summary}</span>
+                            <span><strong>${chamado.key}</strong> - &nbsp; ${chamado.fields.summary}</span>
                         </div>
                         <div class="linha2">    
                             <div class="coluna_esquerda">
-                                <span><strong>ID: </strong>${chamado.id}</span>
+                                <span><strong>ID:</strong>&nbsp;${chamado.id}</span>
                             </div>
                             <div class="coluna_direita">
-                                <span><strong>Data de Criação:</strong> ${criado}</span>
+                                <span><strong>Data de Criação:</strong>&nbsp;${criado}</span>
                             </div>
                         </div>
                         <div class="linha3">    
                             <div class="coluna_esquerda">
-                                <span><strong>Responsável:</strong> ${chamado.fields.assignee ? chamado.fields.assignee.displayName : 'Não atribuído'}</span>
+                                <span><strong>Responsável:</strong>&nbsp;${chamado.fields.assignee ? chamado.fields.assignee.displayName : 'Não atribuído'}</span>
                             </div>
                             <div class="coluna_direita">
-                                <span><strong>Status:</strong> <span class="status">${chamado.fields.status.name}
-                                    - ${chamadosForaDoTempo.includes(chamado) ? 'Fora do Tempo' : 'Em Tempo'}</span></span>
+                                <span><strong>Status:</strong><span class="status">&nbsp;${chamado.fields.status.name}
+                                &nbsp; - &nbsp;${chamadosForaDoTempo.includes(chamado) ? '<strong><span style="color: red;">Fora do Tempo</strong></span>' : '<strong><span style="color: green;">Em Tempo</span></strong>'}</span></span>
                             </div>
                         </div>
                         <div class="linha4">
-                            <span><strong>Descrição:</strong> ${descricao}</span>
+                            <span><span><strong>Descrição:</strong></span>&nbsp;${descricao}</span>
                         </div>`;
 
                     const statusSpan = card.querySelector(".status");
-                    if (chamadosForaDoTempo.includes(chamado)) {
-                        statusSpan.style.color = "red";
-                        statusSpan.style.fontWeight = "bold";
-                    } else if (status === "em análise") {
-                        statusSpan.style.color = "gold";
-                    } else if (status === "pendente") {
+                    if (status === "em andamento") {
+                        statusSpan.style.color = "green";
+                    } else {
                         statusSpan.style.color = "orange";
                     }
 
