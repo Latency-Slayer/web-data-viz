@@ -122,12 +122,12 @@ function getAlertsPerServer() {
 function getTopTresServersComMaisOcorrencias() {
     var instrucaoSql =
     `
-        SELECT COUNT(a.id_Alert) as qtd_alertas, s.tag_name as tag_name FROM alert a
+        SELECT COUNT(a.id_Alert) as qtd_alertas, s.motherboard_id as tag_name FROM alert a
         JOIN metric m on a.fk_Metric = m.id_metric
         JOIN component c on m.fk_component = c.id_component
         JOIN server s on c.fk_server = s.id_server
         WHERE a.dateAlert >= NOW() - INTERVAL 7 DAY
-        GROUP BY s.tag_name ORDER BY COUNT(a.id_Alert) DESC LIMIT 3;
+        GROUP BY s.motherboard_id ORDER BY COUNT(a.id_Alert) DESC LIMIT 3;
     `
 
     return database.executar(instrucaoSql);
@@ -171,6 +171,7 @@ function getChamadosSemResponsavel() {
         JOIN metric ON fk_Metric = id_metric
         JOIN component ON fk_component = id_component
         JOIN server s ON fk_server = id_server
+        WHERE a.idJira IS NOT NULL
         ORDER BY 
           CASE a.nivel
             WHEN 'critico' THEN 1

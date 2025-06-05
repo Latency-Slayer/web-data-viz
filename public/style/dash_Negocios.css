@@ -11,15 +11,16 @@ body {
 }
 
 .dashNegocio {
-    margin: 10px;
+    padding: 10px 30px;
 }
 
 .filtros {
     width: 650px;
-    margin: 15px;
+    margin: 0 15px 15px 0;
     height: 25px;
     display: flex;
     justify-content: space-between;
+    margin-top: 20px;
 }
 
 .filtroPesquisa {
@@ -27,7 +28,6 @@ body {
     height: 15px;
     font-size: 18px;
     color: #56408C;
-    padding: 0 0 0 5px;
 }
 
 .filtros h1 {
@@ -38,6 +38,7 @@ body {
 .metricas {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 2vh;
 }
 
@@ -49,7 +50,8 @@ body {
 .containers {
     width: 100%;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
+    margin: 50px auto auto;
 }
 
 .containers .container {
@@ -83,13 +85,14 @@ body {
 .Graficos {
     width: 100%;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .Grafico {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.50);
     width: 48%;
-    height: 28rem;
+    height: fit-content;
     font-size: 23px;
     border-radius: 5px;
     color: #56408C;
