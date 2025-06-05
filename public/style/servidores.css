@@ -62,7 +62,7 @@ main {
 alert-card {
     flex-basis: calc((100% / 3) - 20px);
     margin-bottom: 20px;
-    transition: linear 0.3s;
+    transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 alert-card:hover {

@@ -247,27 +247,27 @@ class NavBarComponent extends HTMLElement {
 
             <nav class="navDesktop">
                 <li>
-                    <ul class="servers"><a href="#">Servidores</a></ul>
-                    <ul class="registerServer"><a href="#">Registrar servidor</a></ul>
-                    <ul class="alerts"><a href="#">Alertas</a></ul>
-                    <ul class="manageUsers"><a href="#">Gerenciar usuários</a></ul>
-                    <ul class="support"><a href="https://fernandolatence2025.atlassian.net/servicedesk/customer/portals">Suporte</a></ul>
+                ${sessionStorage.ROLE_USER === "Analista de Dados" ? '<ul class="InsightsConexoes" id="InsightsConexoes"><a href="/connectionAnalitic">Insights de conexões</a></ul>' : ""}
+                ${sessionStorage.ROLE_USER === "Analista de Dados" ? '<ul class="abandono" id="abandono"><a href="/dashImpactoNegocio.html">Análise de abandono e retenção</a></ul>' : ""}
+                ${sessionStorage.ROLE_USER === "Analista de Suporte" ? '<ul class="servers" id="servers"><a href="/servidores.html">Servidores</a></ul>' : ""}
+                
+                ${sessionStorage.ROLE_USER === "Analista de Suporte" ? '<ul class="registerServer" id="registerServer"><a href="../../cadastroMaquina.html">Registrar servidor</a></ul>' : ""}
+                <ul class="support" id="support"><a href="#">Suporte</a></ul>
                 </li>
 
                 <div class="profile">
-                     <div class="name toggleOptions">${sessionStorage.NAME_USER || 'Ghost'} <span class="arrowDown">ㅤ▼</span></div>
+                     <div class="name toggleOptions">${sessionStorage.NAME_USER || 'Guest'} <span class="arrowDown">ㅤ▼</span></div>
                 </div>
             </nav>
 
             <nav class="navMobile">
                 <div class="profile">
-                     <div class="name">${sessionStorage.NAME_USER || 'Ghost'}</div>
+                     <div class="name">${sessionStorage.NAME_USER || 'Guest'}</div>
                 </div>
 
                 <li>
-                    <ul class="servers"><a href="#">Servidores</a></ul>
-                    <ul class="registerServer"><a href="#">Registrar servidor</a></ul>
-                    <ul class="alerts"><a href="#">Alertas</a></ul>
+                    <ul class="servers"><a href="../../servidores.html">Servidores</a></ul>
+                    <ul class="registerServer"><a href="../../cadastroMaquina.html">Registrar servidor</a></ul>
                 </li>
 
                 <div class="menu toggleOptions">
@@ -279,32 +279,20 @@ class NavBarComponent extends HTMLElement {
 
             <div class="moreOptions">
                 <li>
-                    <div class="servers" style="display: none;"><a href="#">Servidores</a></div>
-                    <div class="registerServer" style="display: none;"><a href="#">Registrar servidor</a></div>
-                    <div class="alerts" style="display: none;"><a href="#">Alertas</a></div>
-                    <div class="manageUsers" style="display: none;"><a href="#">Gerenciar usuários</a></div>
+                    <div class="servers" style="display: none;"><a href="../../servidores.html">Servidores</a></div>
+                    <div class="registerServer" style="display: none;"><a href="../../cadastroMaquina.html">Registrar servidor</a></div>
+                    <div class="manageUsers" style="display: none;"><a href="../../cadastroCargo.html">Gerenciar usuários</a></div>
                     <div class="support" style="display: none;"><a href="#">Suporte</a></div>
-                    <div class="editProfile"><a href="#">Editar perfil</a></div>
-                    <div class="exit"><a href="#">Encerrar sessão</a></div>
+                    <div class="editProfile"><a href="../../editarPerfil.html">Editar perfil</a></div>
+                    <div class="exit"><a href="../../index.html">Encerrar sessão</a></div>
                 </li>
             </div>
         `;
+
+
     }
 }
 
 customElements.define('nav-bar', NavBarComponent);
 
-var registrarServidor = document.getElementById("registrarServidor")
-var alertas = document.getElementById("alertas")
-var gerenciarUsuario = document.getElementById("gerenciarUsuario")
 
-if (sessionStorage.getItem('ROLE_USER') == 'Analista de Dados') {
-    gerenciarUsuario.style.display = "none"
-    registrarServidor.style.display = "none"
-    alertas.style.display = "none"
-}
-
-if (sessionStorage.getItem('ROLE_USER') == 'Gerente') {
-    gerenciarUsuario.style.display = "none"
-    registrarServidor.style.display = "none"
-}

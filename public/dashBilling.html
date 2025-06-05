@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latency Slayer | Dashboard Billing e Forcasting</title>
+    <script src="./script/components/navBar.js"></script>
+    <link rel="stylesheet" href="./style/dashBilling.css">
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="./script/billing-script.js"></script>
+</head>
+
+<body>
+    <nav-bar></nav-bar>
+    <main>
+        <div class="container">
+            <div class="titulo-principal">Observability - FinOps</div>
+            <header>
+                <h1>Billing & Forcasting</h1>
+            </header>
+            <div class="kpis">
+                <div class="kpi-content">
+                    <div class="kpi">
+                        <div class="linha1">
+                            <img src="./img/cifrao.svg">
+                            <div class="titulo">Taxa de custo do mês atual</div>
+                        </div>
+                        <div class="linha1">
+                            <div class="valor" style="padding-left: 1vh;" id="custo_mensal" ></div>
+                            <div class="porcentagem" style=" margin-left: 10px;" id="comparacao_custo_mensal_anterior" ></div>
+                            <div class="porcentagem" style="padding-left: 10px;">este mês</div>
+                        </div>
+                    </div>
+                    <div class="kpi">
+                        <div class="linha1">
+                            <img src="./img/relogio.svg">
+                            <div class="titulo">Previsão de custo médio para o final do mês atual</div>
+                        </div>
+                        <div class="linha1">
+                            <div class="valor" style="padding-left: 10px;" id="prev_custo_mes"></div>
+                            <div class="porcentagem" style=" margin-left: 10px;" id="comparacao_custo_mes_anterior"></div>
+                            <div class="porcentagem" style="padding-left: 10px;">este mês</div>
+                        </div>
+                    </div>
+                    <div class="kpi">
+                        <div class="linha1">
+                            <img src="./img/barras.svg">
+                            <div class="titulo">Orçamento Mensal</div>
+                        </div>
+                        <div class="linha1">
+                            <div class="valor2" id="custo_mensal2"></div>
+                            <div class="porcentagem" style="margin-left: 10px;" id="comparacao_custo_mensal_orcamento"></div>
+                            <div class="porcentagem" style="padding-left: 10px;">este mês</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="graficos">
+                <div class="plot-content">
+                    <div class="grafico1">
+                        <div class="titulo">Visualização de Custos</div>
+                        <div class="subtitulo">custo mensal</div>
+                        <div id="grafico-01"></div>
+                        <div class="legenda">
+                            <div class="indicador-cor-1"></div>
+                            <div>mês anterior</div>
+                            <div class="indicador-cor-2"></div>
+                            <div>mês atual</div>
+                            <div class="indicador-cor-3"></div>
+                            <div>previsão mês futuro</div>
+                        </div>
+                    </div>
+                    <div class="grafico2">
+                        <div class="titulo">Porcentagem de custos por serviço</div>
+                        <div class="plot-grafico">
+                            <div id="grafico-02"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br><br><br><br><br><br>
+        </div>
+    </main>
+</body>
+<script>
+    const custosMensais = new ApexCharts(
+        document.querySelector("#grafico-01"),
+        {
+            chart: {
+                type: 'bar',
+                height: "75%",
+                toolbar: {
+                    show: false
+                }
+            },
+            grid: {
+                show: false
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    borderRadius: 10
+                }
+            },
+            yaxis: {
+                labels: {
+                    formatter: function (val) {
+                        return "$" + val;
+                    },
+                    style: {
+                        colors: ['#3d1b91'],
+                        fontSize: 16,
+                    }
+                }
+            },
+            xaxis: {
+                labels: {
+                    style: {
+                        colors: ['#000000', '#000000', '#000000', '#000000', '#000000', '#000000', '#000000'],
+                        fontSize: 16,
+                    }
+                },
+                axisBorder: {
+                    show: false,
+                },
+                axisTicks: {
+                    show: false,
+                },
+            },
+            series: [{
+                name: "gasto",
+                data: [{
+                    x: [],
+                    y: [],
+                    fillColor: '#f803bb'
+                }]
+            }]
+        }
+    )
+
+    custosMensais.render();
+
+    const custoServico = new ApexCharts(
+        document.querySelector("#grafico-02"),
+        {
+            chart: {
+                type: 'donut',
+                width: '100%',
+            },
+            series: [],
+            labels: [],
+            legend: {
+                fontSize: '15px',
+                position: 'bottom'
+            },
+            colors: ["#523b8f", "#0F5FC2", "#FF83E8"],
+            plotOptions: {
+                pie: {
+                    donut: {
+                        size: '60%'
+                    }
+                }
+            },
+            yaxis: {
+                min: 0,
+                max: 1,
+                labels: {
+                    formatter: function (val) {
+                        return "$" + val;
+                    },
+                    style: {
+                        fontSize: 16,
+                    }
+                }
+            },
+            dataLabels: {
+                enabled: true,
+            },
+            states: {
+                hover: {
+                    filter: {
+                        type: 'darken', // ou 'lighten'
+                        value: 0.1 // intensidade do efeito
+                    }
+                }
+            }
+        }
+    )
+    custoServico.render();
+</script>
+
+</html>

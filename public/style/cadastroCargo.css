@@ -7,7 +7,7 @@
 }
 
 body {
-    min-height: 100vh;
+    overflow: auto;
 }
 
 .titulo {
@@ -23,20 +23,7 @@ body {
 
 main {
     display: flex;
-    position: relative;
-    justify-content: center;
-    align-items: center;
-}
-
-.navbar {
-    display: flex;
     flex-direction: column;
-    width: 20vw;
-    height: 100vh;
-    gap: 4vh;
-    background-color: #44395F;
-    color: #EFEFEF;
-    align-items: center;
 }
 .profile{
     margin-top: 4vh;

@@ -32,14 +32,17 @@
     <script src="../script/components/navBar.js"></script>
     <script src="./components/Kpi.js"></script>
     <script src="./components/Filter.js"></script>
+    <script src="components/Loader.js"></script>
+    <script src="./components/LoaderMap.js"></script>
 
     <!-- Imports  Scripts  -->
-    <script defer type="module" src="scripts/realTimeDashboard.js"></script>
+    <script defer type="module" src="scripts/dashboard.js"></script>
 
     <title>Dashboard - Business Intelligence</title>
 </head>
-<body class="bg-gray-200">
+<body class="bg-gray-300">
     <nav-bar></nav-bar>
+
     <div id="modal">
         <div class="bg-white rounded-lg shadow-sm">
             <div class="px-6 py-4 border-b border-gray-200">
@@ -71,6 +74,21 @@
 
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-games-insights">
+        <div class="h-full w-full flex">
+            <div class="w-full h-full flex flex-col gap-3">
+                <div class="w-full h-1/2 bg-white rounded-md p-5">
+                    <h2 class="font-bold text-purple-900 text-2xl flex items-center ml-5" id="title-chart-games-modal"></h2>
+                    <div id="chart-top-games-modal"></div>
+                </div>
+                <div class="w-full h-1/2 bg-white rounded-md p-5">
+                    <h2 class="font-bold text-purple-900 text-2xl flex items-center ml-5" id="title-chart-games-modal">Variação de conexões por jogo</h2>
+                    <div id="chart-variance-games"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -109,99 +127,20 @@
                                icon="bi-globe2"
                 >
                 </filter-select>
-
-                <filter-select
+                <filter-select id="period-filter"
                         options="
                     [
                         {
-                            text: 'Minecraft',
-                            value: 'minecraft'
+                            text: '7_Dias',
+                            value: '7'
                         },
                         {
-                            text: 'Halo Infinite',
-                            value: 'halo_infinite'
+                            text: '30_Dias',
+                            value: '30'
                         },
                         {
-                            text: 'Forza Horizon 5',
-                            value: 'forza_horizon_5'
-                        },
-                        {
-                            text: 'Starfield',
-                            value: 'starfield'
-                        },
-                        {
-                            text: 'The Elder Scrolls V: Skyrim',
-                            value: 'skyrim'
-                        },
-                        {
-                            text: 'DOOM Eternal',
-                            value: 'doom_eternal'
-                        },
-                        {
-                            text: 'Fallout 4',
-                            value: 'fallout_4'
-                        },
-                        {
-                            text: 'Sea of Thieves',
-                            value: 'sea_of_thieves'
-                        },
-                        {
-                            text: 'Call of Duty',
-                            value: 'call_of_duty'
-                        },
-                        {
-                            text: 'Gears 5',
-                            value: 'gears_5'
-                        }
-                    ]
-
-                "
-                        filter-name="Jogo"
-                        icon="bi-controller"
-                >
-                </filter-select>
-                <filter-select
-                        options="
-                    [
-                        {
-                            text: 'Minecraft',
-                            value: 'minecraft'
-                        },
-                        {
-                            text: 'Halo Infinite',
-                            value: 'halo_infinite'
-                        },
-                        {
-                            text: 'Forza Horizon 5',
-                            value: 'forza_horizon_5'
-                        },
-                        {
-                            text: 'Starfield',
-                            value: 'starfield'
-                        },
-                        {
-                            text: 'The Elder Scrolls V: Skyrim',
-                            value: 'skyrim'
-                        },
-                        {
-                            text: 'DOOM Eternal',
-                            value: 'doom_eternal'
-                        },
-                        {
-                            text: 'Fallout 4',
-                            value: 'fallout_4'
-                        },
-                        {
-                            text: 'Sea of Thieves',
-                            value: 'sea_of_thieves'
-                        },
-                        {
-                            text: 'Call of Duty',
-                            value: 'call_of_duty'
-                        },
-                        {
-                            text: 'Gears 5',
-                            value: 'gears_5'
+                            text: '90_Dias',
+                            value: '90'
                         }
                     ]
 
@@ -217,37 +156,36 @@
             </div>
         </div>
 
-        <section class="flex justify-between h-[600px]">
-            <div class="flex flex-col w-[53%] gap-3">
-                <div class="flex justify-between gap-3" id="kpisDiv">
+        <section class="flex justify-between lg:h-[600px] lg:flex-row flex-col">
+            <div class="flex flex-col lg:w-[53%] w-full gap-3">
+                <div class="lg:flex justify-between gap-3" id="kpisDiv">
                     <!-- KPIS serão renderizadas de forma dinamica aqui... -->
                 </div>
 
-                <div class="h-full bg-white rounded-md p-2">
-                    <h2 class="font-bold text-purple-900 text-xl flex items-center ml-5" id="title-chart1"> <i class="bi-question-circle cursor-pointer text-2xl" id="hint-chart1"></i></h2>
+                <div class="lg:h-full h-[400px] bg-white rounded-md p-2 shadow-zinc-400 shadow-md">
+                    <div class="flex justify-around items-center">
+                        <h2 class="font-bold text-purple-900 text-2xl flex items-center ml-5" id="title-chart1"> <i class="bi-question-circle cursor-pointer text-2xl" id="hint-chart1"></i></h2>
+                        <h4 id="view-more" class="text-purple-900 cursor-pointer text-xl invisible"><i class="bi bi-plus-circle-fill"></i> Mais Informações</h4>
+                    </div>
                     <div id="chart1"></div>
                 </div>
             </div>
 
 
-            <div class="w-[45%] h-[600px] bg-white rounded-xl flex flex-col pb-15 px-5 gap-3">
+            <div class="lg:w-[45%] lg:mt-0 mt-5 w-full h-[600px] bg-white shadow-zinc-400 shadow-md rounded-xl flex flex-col pb-5 px-5 relative" id="map-container">
                 <h1 class="text-purple-900 font-bold text-3xl text-center">Mapa de atividade dos jogadores</h1>
                 <div id="map" class="flex-1 rounded-xl"></div>
-
-                <div class="">
-                    <i class="bi bi-geo-alt-fill text-purple-900 text-3xl"></i>
-                </div>
             </div>
         </section>
 
-        <section class="flex justify-between h-[400px] mt-3">
-            <div class="h-full bg-white rounded-md p-2 w-[53%]">
-                <h2 class="font-bold text-purple-900 text-xl flex items-center ml-5" id="title-chart2"> <i class="bi-question-circle cursor-pointer text-2xl"></i></h2>
+        <section class="flex justify-between lg:h-[400px] h-fit mt-3 lg:flex-row flex-col">
+            <div class="bg-white rounded-md p-2 lg:w-[53%] w-full lg:h-auto h-[400px] shadow-zinc-400 shadow-md">
+                <h2 class="font-bold text-purple-900 text-2xl flex items-center ml-5" id="title-chart2"> <i class="bi-question-circle cursor-pointer text-2xl"></i></h2>
                 <div id="chart2"></div>
             </div>
 
-            <div class="w-[45%] h-full bg-white rounded-md">
-                <h2 class="font-bold text-purple-900 text-xl flex items-center ml-5" id="title-chart3"><i class="bi-question-circle cursor-pointer text-2xl" id="hint-chart3"></i></h2>
+            <div class="lg:w-[45%] w-full lg:h-[400px] h-[400px] lg:mt-0 mt-5 bg-white rounded-md shadow-zinc-400 shadow-md">
+                <h2 class="font-bold text-purple-900 text-2xl flex items-center ml-5" id="title-chart3"><i class="bi-question-circle cursor-pointer text-2xl" id="hint-chart3"></i></h2>
                 <div id="chart3"></div>
             </div>
         </section>

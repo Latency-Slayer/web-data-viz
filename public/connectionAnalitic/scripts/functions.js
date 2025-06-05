@@ -24,9 +24,16 @@ export function executeNowAndRepeatWithInterval(callback, timeOut) {
     return setInterval(callback, timeOut);
 }
 
-export function initKpi(kpi, func, filters) {
+export function initKpi(kpi, func) {
     const interval = executeNowAndRepeatWithInterval(async () => {
-        kpi.value = await func(filters);
+        const values = await func();
+
+        if(values.hasOwnProperty("subvalue")) {
+            kpi.subvalue = values.subvalue;
+            kpi.value = values.value;
+        } else {
+            kpi.value = values;
+        }
     }, 2000);
 
     return {
@@ -58,14 +65,39 @@ export function continentName(continentCode) {
     }
 
     const continents = {
-        SA: "América do Sul",
-        NA: "América do Norte",
-        AF: "África",
-        EU: "Europa",
-        OC: "Oceânia",
-        AN: "Antártida",
-        AS: "Ásia"
+        SA: "South America",
+        NA: "North America",
+        AF: "Africa",
+        EU: "Europe",
+        OC: "Oceania",
+        AN: "Antarctica",
+        AS: "Asia"
     }
 
     return continents[continentCode];
+}
+
+
+export function loader() {
+    const htmlBody = document.querySelector("body");
+
+    const loaderElement = document.createElement("screen-loader");
+
+    htmlBody.appendChild(loaderElement);
+
+    return {
+        remove: () => loaderElement.remove()
+    }
+}
+
+export function mapLoader() {
+    const htmlBody = document.getElementById("map");
+
+    const loaderElement = document.createElement("map-loader");
+
+    htmlBody.appendChild(loaderElement);
+
+    return {
+        remove: () => loaderElement.remove()
+    }
 }

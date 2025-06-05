@@ -1,0 +1,555 @@
+@import url('https://fonts.googleapis.com/css2?family=Asap:ital,wght@0,100..900;1,100..900&family=Edu+AU+VIC+WA+NT+Guides:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+a {
+    color: #3A2E5D;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #8564db;
+}
+
+img {
+    height: 60px;
+}
+
+select {
+    width: 80px;
+    height: 30px;
+    border-color: #B69CF6;
+    color: #56408C;
+    border-radius: 5px;
+}
+
+body {
+    overflow: hidden;
+}
+
+main {
+    display: flex;
+    width: 100%;
+}
+
+.titulo-principal {
+    font-size: 4.3vh;
+    font-weight: 700;
+    color: #3A2E5D;
+    text-align: center;
+}
+
+.titulo {
+    padding-left: 10px;
+    font-size: 26px;
+    font-weight: bold;
+    color: #3A2E5D;
+}
+
+.titulo-grande {
+    padding-left: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #3A2E5D;
+}
+
+h1 {
+    font-size: 4vh;
+    font-weight: 600;
+    color: #3A2E5D;
+}
+
+header h1 {
+    padding-left: 5vh;
+    padding-bottom: 2vh;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+    overflow: auto;
+    overflow-x: hidden;
+    background-color: #e2e0e0;
+}
+
+
+.kpis {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    padding-left: 30px;
+    padding-bottom: 25px;
+}
+
+.operacional {
+    display: flex;
+    flex-direction: row;
+    width: 95%;
+    padding-right: 30px;
+    padding-left: 30px;
+}
+
+.kpi-lista {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 420px;
+    padding-bottom: 15px;
+}
+
+
+.kpi {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    height: 200px;
+    width: 30%;
+    border-radius: 1vh;
+    background-color: white;
+}
+
+.kpi2 {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    height: 150px;
+    width: 30%;
+    border-radius: 1vh;
+    background-color: white;
+}
+
+.valor {
+    color: #3A2E5D;
+}
+
+.valor2 {
+    color: #3A2E5D;
+    font-size: 30px;
+    font-weight: bolder;
+}
+
+.seta {
+    height: 4vh;
+}
+
+.graficos {
+    width: 100%;
+    padding-left: 30px;
+}
+
+.grafico1 {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    height: 100%;
+    width: 55%;
+    border-radius: 1vh;
+    background-color: white;
+}
+
+.grafico2 {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    height: 100%;
+    width: 40%;
+    border-radius: 1vh;
+    background-color: white;
+}
+
+.grafico3 {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    height: 357px;
+    width: 100%;
+    border-radius: 1vh;
+    background-color: white;
+}
+
+.select-componentes {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.plot-grafico {
+    height: 100%;
+    /* border: 1px solid red; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#grafico-02 {
+    width: 65%;
+    height: 65%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.kpi-content {
+    width: 95%;
+    height: 90%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.list-content {
+    /* width: 95%; */
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.plot-content {
+    width: 95%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.plot-grafico3 {
+    width: 100%;
+    height: 90%;
+    display: flex;
+}
+
+.linha1 {
+    padding-left: 10px;
+    display: flex;
+    align-items: center;
+    height: 50%;
+}
+
+.lista {
+    display: flex;
+    flex-direction: column;
+    padding: 1vh;
+    height: 27vh;
+    width: 96%;
+    border-radius: 1vh;
+    background-color: white;
+}
+
+.titulo-lista {
+    padding-left: 20px;
+    font-size: 18px;
+    padding-bottom: 10px;
+    font-weight: bold;
+    color: #3A2E5D;
+}
+
+.subtitulo {
+    padding-left: 12px;
+    font-size: 15px;
+    font-weight: bold;
+    color: #B69CF6;
+}
+
+.legenda {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.indicador-cor-1 {
+    height: 15px;
+    width: 15px;
+    border-radius: 10px;
+    margin-left: 10px;
+    margin-right: 5px;
+    background-color: #f803bb;
+}
+
+.indicador-cor-2 {
+    height: 15px;
+    width: 15px;
+    border-radius: 10px;
+    margin-left: 20px;
+    margin-right: 5px;
+    background-color: #3d1b91;
+}
+
+.indicador-cor-3 {
+    height: 15px;
+    width: 15px;
+    border-radius: 10px;
+    margin-left: 20px;
+    margin-right: 5px;
+    background-color: #3a2e5d57;
+}
+
+.valor {
+    font-size: 30px;
+    font-weight: bolder;
+}
+
+thead th{
+    color: #B69CF6;
+    border-bottom: 0.5px solid #B69CF6;
+}
+
+@media (max-width: 1044px) {
+    .container {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        width: 100%;
+        padding-left: 1%;
+        padding-right: 2%;
+        overflow: auto;
+        overflow-x: hidden;
+        background-color: #e2e0e0;
+    }
+    h1 {
+    font-size: 4vh;
+    font-weight: 500;
+    color: #3A2E5D;
+    }
+    header h1 {
+        padding-left: 3vh;
+        padding-bottom: 2vh;
+    }
+    select {
+        width: 8vh;
+        height: 3vh;
+        border-color: #B69CF6;
+        color: #56408C;
+        border-radius: 5px;
+    }
+    table {
+        font-size: 2vh;
+    }
+    table img {
+        height: 1vh;
+    }
+    .titulo-principal {
+        font-size: 4vh;
+        font-weight: 600;
+        color: #3A2E5D;
+        text-align: center;
+    }
+    .kpis {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+        padding-left: 1%;
+        padding-bottom: 1.5vh;
+    }
+    .kpi-content {
+        width: 95%;
+        height: 55vh;
+        display: flex;
+        flex-direction: column;
+    }
+    .kpi {
+        display: flex;
+        flex-direction: column;
+        padding: 1vh;
+        height: 15vh;
+        width: 95%;
+        border-radius: 1vh;
+        background-color: white;
+    }
+    img {
+        height: 5vh;
+    }
+    .seta {
+        height: 3vh;
+    }
+    .titulo {
+        padding-left: 1vh;
+        font-size: 2.5vh;
+        font-weight: bold;
+        color: #3A2E5D;
+    }
+    .plot-grafico {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    #grafico-02 {
+        width: 85%;
+        height: 85%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .titulo-grande {
+        padding-left: 1vh;
+        font-size: 2vh;
+        font-weight: bold;
+        color: #3A2E5D;
+    }
+    .subtitulo {
+        padding-left: 1vh;
+        font-size: 2vh;
+        font-weight: bold;
+        color: #B69CF6;
+    }
+    .valor {
+        font-size: 3vh;
+        font-weight: bolder;
+    }
+    .valor2 {
+        font-size: 2.25vh;
+        font-weight: bolder;
+    }
+    .porcentagem {
+        padding-left: 0.5vh;
+        padding-top: 0.5vh;
+        font-size: 1.5vh;
+    }
+    .graficos {
+        display: flex;
+        flex-direction: column;
+        width: 95%;
+        padding-left: 3.5%;
+        height: 90vh;
+    }
+    .plot-content {
+        width: 95%;
+        display: flex;
+        height: 90vh;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .grafico1 {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 1vh;
+        height: 40vh;
+        width: 100%;
+        border-radius: 1vh;
+        background-color: white;
+    }
+    .legenda {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: 1vh;
+        font-size: 1.5vh;
+        align-items: center;
+        justify-content: center;
+    }
+    .indicador-cor-1 {
+        height: 1.5vh;
+        width: 1.5vh;
+        border-radius: 1vh;
+        margin-left: 1vh;
+        margin-right: 0.5vh;
+        background-color: #f803bb;
+    }
+    .indicador-cor-2 {
+        height: 1.5vh;
+        width: 1.5vh;
+        border-radius: 1vh;
+        margin-left: 2vh;
+        margin-right: 0.5vh;
+        background-color: #3d1b91;
+    }
+    .indicador-cor-3 {
+        height: 1.5vh;
+        width: 1.5vh;
+        border-radius: 1vh;
+        margin-left: 1vh;
+        margin-right: 0.5vh;
+        background-color: #3a2e5d57;
+    }
+    .grafico2 {
+        display: flex;
+        flex-direction: column;
+        padding: 1vh;
+        height: 43vh;
+        width: 100%;
+        border-radius: 1vh;
+        background-color: white;
+    }
+    .operacional {
+        display: flex;
+        flex-direction: column;
+        width: 95%;
+        padding-left: 2vh;
+    }
+    .kpi-lista {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        height: 57vh;
+    }
+    .lista {
+        display: flex;
+        flex-direction: column;
+        padding: 1vh;
+        height: 28vh;
+        width: 95%;
+        border-radius: 1vh;
+        background-color: white;
+    }
+    .list-content {
+        width: 100%;
+        padding-left: 0.5vh;
+        display: flex;
+        flex-direction: column;
+    }
+    .plot-grafico3 {
+        display: flex;
+        width: 100%;
+        height: 60vh;
+    }
+    .grafico3 {
+        display: flex;
+        flex-direction: column;
+        padding: 1vh;
+        height: 60vh;
+        width: 95%;
+        border-radius: 1vh;
+        background-color: white;
+        margin-bottom: 0;
+    }
+    .select-componentes {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+@media (max-width: 1000px) and (min-width: 460px) {
+    #grafico-02 {
+        width: 55%;
+        height: 55%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.cores {
+    color: #3d1b91;
+    color: #f803bb;
+    color: #34333557;
+    color: #523b8f;
+    color: #000000
+}

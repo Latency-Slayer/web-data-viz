@@ -35,7 +35,6 @@ main {
 }
 
 .container-kpi{ 
-    flex-direction: row;
     display: flex;
     justify-content: space-between;
     padding-left: 20px;
@@ -159,6 +158,17 @@ alert-card:hover {
     }
 
     .card {
+        width: 100%;
+    }
+}
+
+@media (max-width: 1360px) {
+    .container-kpi {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .kpi-1, .kpi-2, .kpi-3, .kpi-4 {
         width: 100%;
     }
 }
