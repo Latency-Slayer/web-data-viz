@@ -35,7 +35,7 @@ function pegarCustosAWS() {
             // porcentagem KPI 1
             const porcent1 = Object.entries(json.custoMensal)[3][1];
             const porcent2 = Object.entries(json.custoMensal)[2][1];
-            const porcentTotal = (porcent2 / porcent1) * 100;
+            const porcentTotal = ((porcent1 - porcent2) / porcent2) * 100;
 
             if (porcent2 <= porcent1) {
                 comparacao_custo_mensal_anterior.style.color = '#DC2626'
@@ -58,8 +58,8 @@ function pegarCustosAWS() {
             comparacao_custo_mensal_orcamento.textContent = porcentagemTotal.toFixed(2) + "%"
             
             // inserção KPI's 1 e 3
-            valorMensal.textContent = 'R$' + porcent1.toFixed(2);
-            valorMensal2.textContent = 'R$' + porcent1.toFixed(2) + " /R$" + orcamento;
+            valorMensal.textContent = '$' + porcent1.toFixed(2);
+            valorMensal2.textContent = '$' + porcent1.toFixed(2) + " /$" + orcamento;
             
             // Custo por Serviço
             const mesesDisponiveis = Object.keys(json.resumoPorMesEServico).sort();
@@ -118,12 +118,13 @@ function pegarCustosAWSForecast() {
             const mesesForecast = Object.keys(json).sort();
             const valoresForecast = mesesForecast.map(mes => json[mes]);
 
-            const porcent1Forecast = (valoresAnteriores[2] * 30) / 5;
+            const porcent1Forecast = (valoresAnteriores[2]);
             console.log("For: " + porcent1Forecast)
             const porcent2Forecast = valoresForecast[0];
-            const porcentTotal = (porcent1Forecast / porcent2Forecast) * 100
 
-            previsaoCustoMes.textContent = "R$" + valoresForecast[0];
+            const porcentTotal = ((porcent2Forecast - porcent1Forecast) / porcent1Forecast) * 100
+
+            previsaoCustoMes.textContent = "$" + valoresForecast[0];
 
             if (porcent2Forecast <= porcent1Forecast) {
                 comparacao_custo_mes_anterior.style.color = '#00D207'
